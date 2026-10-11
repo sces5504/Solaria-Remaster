@@ -40,5 +40,6 @@ CONFIRMED：全部正式規格與總審查補齊方案。PROPOSED：無。OPEN�
 - PASS：獨立Prettier 3.9.10檢查十份文件；src、tests、scripts、package及CI與基線完全一致。
 - PASS：已整合main的d97b219／08bf730文件刪除，不恢復被刪除的舊說明；遊戲程式與main一致。
 - Git交接分支：`docs/solaria-cloud-spec`；不合併main。
-- npm check/build/browser/format（文件commit之既有骨架CI）：待執行。
+- PASS：提交c15ad66的[GitHub Actions #38127048234](https://github.com/sces5504/Solaria-Remaster/actions/runs/38127048234)已於2026-10-11完成，Node24雲端setup（npm ci、Chromium、check、build、test:browser）與format:check成功。此為既有骨架檢查。
+- 後續僅補齊普通怪參數表及本驗證紀錄，最終分支的CI以GitHub checks實際結果為準；不把上一個commit通過冒充新commit已通過。
 - 遊戲規則／平衡／實機FPS：NOT_RUN，尚無遊戲。
