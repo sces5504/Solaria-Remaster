@@ -27,8 +27,16 @@ Solaria 的全新重製專案。原作：[sces5504/Solaria](https://github.com/s
 
 ## 下一個任務
 
-先使用 grilling 釐清重製目標，再製作第一個可玩版本。原作為 Canvas / Web Audio 的像素俯視動作肉鴿，三職業、元素反應、裝備與多種 Boss；細節以原作程式為準。
+2026-10-11 已完成 grilling 與完整總審查。玩法以本儲存庫正式規格為準，原作只讀參考。下一個 Cloud 任務執行 S00 文件與環境核驗，尚不開始遊戲實作。
 
 原作參考快照：`4a07ca67a614d63c4261cec5faba060ea9c34c50`。
 
 Skill 來源：`mattpocock/skills` 的 `skills/productivity/grilling`，固定版本 `49dd158d1076134a641b33efb035946536778336`。授權見 `THIRD_PARTY_LICENSES/grilling.txt`。
+
+## 正式規格與交接
+
+- [完整玩法](GAME_SPEC.md)、[架構](ARCHITECTURE.md)、[分階段計畫](DEVELOPMENT_PLAN.md)、[決策](DECISIONS.md)
+- [介面與美術](UI_UX_SPEC.md)、[測試](TEST_PLAN.md)、[規則](AGENTS.md)、[目前狀態](PROJECT_STATUS.md)
+- [貼到Cloud的啟動Prompt](CLOUD_START_PROMPT.md)
+
+目前依然只有startup scaffold，規格完成不表示遊戲已實作／60FPS已驗收／網站已發布。第一版PixiJS／WebGL、三職業、固定全房與85張卡；原始碼及遊玩站可公開，Pages實際發布留S14。
