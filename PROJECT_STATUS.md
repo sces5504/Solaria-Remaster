@@ -60,7 +60,11 @@ Draft PR：https://github.com/sces5504/Solaria-Remaster/pull/2 ，base `docs/sol
 - 狼王HP6500→3600、山羊王6500→4000；狼94、持刀88、狼王85基礎移速，史萊姆／遠程維持較慢速度，突進及預警不變。
 - 地面裝備的稀有度光柱、亮芯、上升粒子、名稱與E拾取提示；門口E進入提示。完整橘紅裝備能力仍屬S10。
 - PASS：107項unit（新增清算飛行／中途存檔、100種子敵群、120個種子房型連通與掩體量、Boss血量、E提示）。初次與軟體WebGL同時執行時400種子卡池測試超過5秒，改用數值網格連通檢查減少生成成本後回歸通過，未放寬原測試時限。
-- PASS：check／build／format:check。10項Chromium場景：既有9項通過，新增清算／裝備測試補上匯入覆蓋確認處理後重跑通過；正式CI再完整執行。最新正式部署待本輪完成後記錄。
+- PASS：check／build／format:check。10項Chromium場景：本機既有9項通過，新增清算／裝備測試補上匯入覆蓋確認處理後重跑通過；正式CI完整10項亦全數通過。
+
+- PASS：修正版遊戲commit `83e47cab706a8d925e64f2a3d72cb947c28bad9f` 已在 GitHub Pages 發布；[Pages run 38137656597](https://github.com/sces5504/Solaria-Remaster/actions/runs/38137656597) build／deploy均success，完整107unit／10Chromium通過。
+- PASS：直接正式網址雲端Chromium驗證HTML／資源HTTP200，atlas SHA256與本輪素材一致、WebGL新局、左鍵保持右鍵技能、等比無捲動、IndexedDB重載、實際地面光柱／E提示／拾取。pageerror及HTTP失敗為零。
+- 本次記錄的遊戲版本為83e47ca；後續只更新驗證文件的提交不改玩法。
 
 ## 接續範圍
 
