@@ -1,5 +1,43 @@
 # DEVELOPMENT_HISTORY — 開發、Bug 與技術記錄
 
+## 開發檢查點驗證收束（2026-10-11 16:27:16 UTC）
+
+215unit、TypeScript check、build、format:check PASS。新版46Chromium：43PASS、3因舊房號断言FAIL；仅更新第1/2房總數5→31後，3失敗案例重跑PASS（38.2秒），本輪46案例最終全部通過。沒有藉重build改測試中的dist。此檢查點不是S06–S14階段完成，更不是完整v1；自然完整31房與人工／硬體平衡NOT_RUN。新增王、沙漠底圖與索拉里斯四柱實際畫面已目檢；其餘逐招專屬特效仍續作。
+
+後续已准备但尚未接入的独立模块：advanced-cards 70–85資料、equipment十七能力模板、events六事件路由資料、monster-details精準行為、boss-telegraph／enemy-impact招式繪製、ability-policies紅卡限制與回復上限。這些不計入遊戲已實作數量（現為69卡），不宣稱特殊裝備／事件已完成。存本檢查點後繼續接入、逐項測試並完成全部範圍。
+
+驗證入口 docs/validation/V1_ACCEPTANCE.md；永久结果 docs/validation/results。正式Pages仍旧里程碑，不将此内部检查点当正式v1发布。
+
+> 2026-10-11 16:11 UTC 驗證更正：新增 enemyElement 的 Area 型別漏宣告使最新 build 失敗；命令未啟用 errexit 而繼續以舊 dist 跑46browser，本輪結果作廢，不是新版驗收。已停止該程序，補型別並改成前置失敗立即停；重新 check/unit/build/format/browser，最新結果見後續紀錄。較早42browser確實PASS，但不得代替新版。215unit確實PASS。
+
+## 第二次任務進度：地形／王核心、主線與條件卡（2026-10-11 16:07:49 UTC）
+
+[使用者裁定] M07：四柱封印保留旋轉60°缺口，為完整圓環彈的特殊例外。已增量記入GAME_SPEC、DECISIONS與DECISION_HISTORY；不再等待此問題。
+
+[程式事實] 八新增地形、24普通怪、六程序主題各自空間語法、機關與獨立精英能力；十六新增地形王各兩階段三招／分裂／召喚／回血及專屬布局已接入。原創336怪物／地形影格、102王影格（含索拉里斯）。仍有部分普通怪細節與招式特效品質待完善，不能標記S06/S07完成。
+
+[程式事實] S08已接30+1房、六段seed分支／周目保留構築、三血條18000/22000/28000、四柱1500×周目倍率、封印12彈與60°旋轉缺口。過量不跳血／柱無吸血無殺敵獎勵／COMBAT舊草原檢查點保留模板與王。最終專屬美術、完整遊玩和平衡仍需驗收。S09目前69卡（新增60–69）；70–85尚未實作，S10/S11/S12/S13/S14未完成。
+
+[驗證] 最新核心215unit PASS，check/build PASS，format:check修復boss atlas索引及新增測試格式後PASS。上一個42Chromium（八地形+十六王+既有流程+壞檔）PASS；此結果屬主線與69卡接入前bundle。新版46Chromium正在跑，尚不可聲稱全過。較早重疊Playwright產生混合日志及輸入競態，已停止本工作程序、使用獨立log、匯入等待成功再繼續。讀畫面找到回主畫面後roomKey未失效導致底圖不重繪，已修，仍待新版目檢。
+
+[驗收界線] 正式Pages仍第一里程碑53691bf，本輪未部署。S06–S14全部尚未階段驗收。實機GPU60FPS、600密集彈、10restart記憶體、Firefox/Safari、人工正常／強構築1/2/5/10周目均NOT_RUN，不以核心／headless取代。
+
+[恢復] /workspace/Solaria-Remaster，implement/s00-s05，最新提交以git log為準；依現有修改續作，不重置。Node24，npm_config_cache=/tmp/solaria-npm-cache，PLAYWRIGHT_BROWSERS_PATH=/tmp/solaria-browsers，網路與localhost測試使用executor network capability。新版測試/tmp/solaria-current-browser.log、215unit /tmp/solaria-unit-215.log；臨時日志不是永久證據，提交前將摘要入庫。原規格與历史保留，下列較早本轮斷點均已被本節更新覆蓋。繼續逐怪精準行為、專屬特效、剩16卡／17特殊裝備／6事件／UI保存錯誤／平衡效能／Pages；不用再問逐階段繼續。
+
+## 第二次任務已正式啟動（2026-10-11 15:35:32 UTC）
+
+[使用者明示] 本 Chat 正式授權由遠端 implement/s00-s05 HEAD 接續全部 S06–S14；舊等待／只備份限制僅為歷史。已核驗 clean 工作區（原 work scaffold），安全 fetch 並建立 implement/s00-s05 checkout，HEAD 9f88061；不回退、不改 main、不推舊作。已讀交接與正式規格及尾部修訂；Draft PR #2已附到本 Chat。
+
+[驗證紀錄] 新 Cloud Node24：原遊戲 128unit、17Chromium基線 PASS。setup首次 npm 預設 cache 不可寫，改 npm_config_cache=/tmp/solaria-npm-cache 與 PLAYWRIGHT_BROWSERS_PATH=/tmp/solaria-browsers 後成功，未改 package-lock。網路命令需 executor network capability（with_additional_permissions），未繞過代理。localhost 瀏覽器 preview 同樣需要此 capability。
+
+[程式事實] M01已加交易式 previous 回退、damaged 保存、遞增 revision 與使用者提示；真 Chromium回退／再保存／profile／重載 PASS。M02刪掉條件卡42/48/49/55的無條件普攻升級外溢；M05只接受冰霜／冰凍、逐敵交替冰火；新增條件對照 PASS。
+
+[進行中，未驗收] S06八地形資料／程序空間語法、24普通怪／機關／精英能力與336原創擴充atlas影格已接入；167unit及check/build PASS，八地形與既有流程完整26Chromium正在跑。正常新局仍停五房，尚未接入S08主線；不得宣稱S06/S07或完整v1已完成。八地形美術目檢與招式細節仍要續修。
+
+[待使用者必要核心澄清] M07已透過非阻塞問題詢問：最終四柱封印12彈、60°缺口是否被後續完整圓要求覆蓋；其他獨立工作持續。S07十六王、S08最終／周目、S09後26卡、S10特殊裝備、S11六事件、S12 UI／保存完整流程、S13平衡效能、S14正式v1均未完成。既有正式Pages仍第一里程碑版本，尚未推本輪改動。
+
+NOT_RUN保持：實機GPU60FPS、600最密有效彈、10restart記憶體、Firefox/Safari、人工完整31房三職一般／強構築與1/2/5/10周目。下一步：完成八地形畫面目檢與普通怪精準行為、接入各Boss專屬布局／六招，然後依相依自動續作；不等待逐階段「繼續」。
+
 備份時間：2026-10-11 14:20:13 UTC。來源基準：`a1543a07484ef230e8d694e9c0b75e5ae2f5ede9`，分支 `implement/s00-s05`。
 
 **這是長期記憶備份，不是現在交接、結束合作、重啟專案或啟動下一個開發任務。** 初次備份只整理文件、未改遊戲；之後授權的遊戲修訂與最新工作狀態見後續增量及CURRENT_STATE，不能將初次備份限制套到新任務。

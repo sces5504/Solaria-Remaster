@@ -1,0 +1,119 @@
+// These definitions are integrated into the draw pool only with their complete runtime rules.
+export const advancedCards = [
+  {
+    id: 70,
+    name: "幽影連擊",
+    rarity: "橘",
+    description: "每第五次原始普攻施放，追加幽影斬80；不暴擊、不續觸發。",
+    classId: null,
+  },
+  {
+    id: 71,
+    name: "雙重術式",
+    rarity: "橘",
+    description: "職技後0.8秒，以60%傷害重現已學右鍵傷害招式；不複製盾或加速。",
+    classId: null,
+  },
+  {
+    id: 72,
+    name: "時空錨定",
+    rarity: "橘",
+    description: "閃避使職技剩餘冷卻減0.5秒，保留基礎冷卻20%的最早邊界。",
+    classId: null,
+  },
+  {
+    id: 73,
+    name: "守衛星冠",
+    rarity: "橘",
+    description:
+      "生命80%以上護甲+40；受傷給三秒、最大生命10%的盾，每12秒一次。",
+    classId: null,
+  },
+  {
+    id: 74,
+    name: "元素共鳴",
+    rarity: "橘",
+    description: "兩種覺醒方可取得。元素原始命中追加40；同敵每秒一次。",
+    classId: null,
+  },
+  {
+    id: 75,
+    name: "追擊回聲",
+    rarity: "橘",
+    description: "原始擊殺射出三片追蹤刃，各傷40；每秒一次，追加擊殺不再觸發。",
+    classId: null,
+  },
+  {
+    id: 76,
+    name: "遺跡儲備",
+    rarity: "橘",
+    description: "進領主房獲得五秒、最大生命25%的盾；同房一次。",
+    classId: null,
+  },
+  {
+    id: 77,
+    name: "終焉聚焦",
+    rarity: "橘",
+    description: "領主每階段首次職技命中，首段增加一份基準傷害；分裂體共用。",
+    classId: null,
+  },
+  {
+    id: 78,
+    name: "偏執狂",
+    rarity: "紅",
+    description: "職技冷卻效率+4。代價：左鍵與閃避封印。",
+    classId: null,
+  },
+  {
+    id: 79,
+    name: "吸血鬼",
+    rarity: "紅",
+    description:
+      "額外吸血6%，每秒至多回最大生命20%。代價：回復上限為最大生命40%。",
+    classId: null,
+  },
+  {
+    id: 80,
+    name: "元素使",
+    rarity: "紅",
+    description: "可持有三種覺醒，只保留最早融合。代價：裝甲封印。",
+    classId: null,
+  },
+  {
+    id: 81,
+    name: "玻璃星核",
+    rarity: "紅",
+    description: "一般全域傷+100%。代價：最終最大生命減半。",
+    classId: null,
+  },
+  {
+    id: 82,
+    name: "獻祭者",
+    rarity: "紅",
+    description:
+      "技能傷+120%。代價：主動職技扣當前生命8%，至少留1；此代價不觸發受傷能力。",
+    classId: null,
+  },
+  {
+    id: 83,
+    name: "寂靜之誓",
+    rarity: "紅",
+    description:
+      "普攻傷+120%、攻速強度+1。代價：職技與隨職技的元素招式封印；與偏執狂互斥。",
+    classId: null,
+  },
+  {
+    id: 84,
+    name: "遲暮守望",
+    rarity: "紅",
+    description: "生命基準+80%、護甲+60。代價：閃避冷卻加倍。",
+    classId: null,
+  },
+  {
+    id: 85,
+    name: "命運賭徒",
+    rarity: "紅",
+    description: "橘紅抽卡權重加倍。代價：只能穿一件裝備，取得時自選欄位。",
+    classId: null,
+  },
+] as const;

@@ -1,3 +1,4 @@
+import { cards } from "../../src/game/data/cards";
 import { test, expect } from "@playwright/test";
 test("WebGL 主選單、三職業、輸入、暫停與入口重載", async ({ page }) => {
   const errors: string[] = [];
@@ -35,8 +36,10 @@ test("WebGL 主選單、三職業、輸入、暫停與入口重載", async ({ pa
 });
 test("圖鑑完整、音效設定持續", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "卡片圖鑑 · 59" }).click();
-  await expect(page.locator(".catalog article")).toHaveCount(59);
+  await page
+    .getByRole("button", { name: `卡片圖鑑 · ${cards.length}` })
+    .click();
+  await expect(page.locator(".catalog article")).toHaveCount(cards.length);
   await page.locator("#mute").click();
   await expect(page.locator("#mute")).toHaveText("音效 關");
   await page.reload();

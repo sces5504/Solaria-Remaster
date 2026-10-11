@@ -20,6 +20,7 @@ import {
 } from "./effects";
 import { MeadowLighting, sceneLights, skillCooldownProgress } from "./lighting";
 import { cameraFeedback } from "./feedback";
+import { biomeLandscape } from "./biome-landscape";
 const names = [
   "sword",
   "bow",
@@ -85,6 +86,28 @@ export class Stage {
             frame: new Rectangle(i * 96, row * 96, 96, 96),
           }),
       );
+    for (const prefix of ["biome", "boss"]) {
+      const expansion = await Assets.load<Texture>(
+        `${import.meta.env.BASE_URL}assets/${prefix}-atlas.png`,
+      );
+      const metadata = await fetch(
+        `${import.meta.env.BASE_URL}assets/${prefix}-atlas.json`,
+      ).then(async (response) => {
+        if (!response.ok) throw new Error("無法載入圖像索引");
+        return (await response.json()) as { names: string[] };
+      });
+      expansion.source.scaleMode = "nearest";
+      metadata.names.forEach((name, row) => {
+        this.textures[name] = Array.from(
+          { length: 6 },
+          (_, i) =>
+            new Texture({
+              source: expansion.source,
+              frame: new Rectangle(i * 96, row * 96, 96, 96),
+            }),
+        );
+      });
+    }
     BitmapFont.install({
       name: "SolariaNumbers",
       style: { fontFamily: "monospace", fontSize: 18, fill: 0xffffff },
@@ -170,8 +193,12 @@ export class Stage {
   }
   private landscape(r: Run) {
     const g = this.terrain;
+    if (r.biome && r.biome !== "meadow") {
+      biomeLandscape(g, r);
+      return;
+    }
     const profile =
-      r.room === 5 ? (r.boss === 2 ? 5 : 2) : r.templates[r.room - 1];
+      r.room % 5 === 0 ? (r.boss === 2 ? 5 : 2) : r.templates[(r.room - 1) % 5];
     const palette = [
       [0x294b43, 0x91b5a0, 0xbacddd],
       [0x394943, 0xb0ae98, 0xc9c8ad],
@@ -362,10 +389,11 @@ export class Stage {
     this.lighting.sprite.visible = !!r;
     this.shadows.clear();
     if (!r) {
+      this.roomKey = "";
       this.terrain.clear().rect(0, 0, 1024, 640).fill(0x182e35);
       return;
     }
-    const key = `${r.runId}-${r.room}`;
+    const key = `${r.runId}-${r.room}-${r.biome ?? "meadow"}-${r.loop ?? 1}`;
     if (this.roomKey !== key) {
       this.roomKey = key;
       this.positions.clear();
@@ -404,7 +432,7 @@ export class Stage {
       if (o.kind === "lake")
         this.sprite(
           `ob-${o.id}`,
-          o.kind,
+          r.biome && r.biome !== "meadow" ? `${r.biome}-${o.kind}` : o.kind,
           o.x + o.w / 2,
           o.y + o.h / 2,
           o.w + 6,
@@ -416,7 +444,7 @@ export class Stage {
           for (let x = 0; x < o.w; x += 32) {
             const s = this.sprite(
               `ob-${o.id}-${x}-${y}`,
-              o.kind,
+              r.biome && r.biome !== "meadow" ? `${r.biome}-${o.kind}` : o.kind,
               o.x + x + 16,
               o.y + y + 16,
               o.kind === "tree" ? 56 : 48,
@@ -432,13 +460,80 @@ export class Stage {
                 .stroke({ color: 0x22313b, width: 2 });
             }
           }
-      if (r.room === 5 && o.kind !== "lake")
+      if (r.room % 5 === 0 && o.kind !== "lake")
         f.rect(
           o.x,
           o.y + o.h + 2,
           (o.w * o.durability) / o.maxDurability,
           2,
         ).fill(0xd8cb9c);
+    }
+    for (const h of r.hazards ?? []) {
+      const pulse = 0.6 + Math.sin(r.time * 2) * 0.15;
+      if (h.kind === "sand") {
+        for (let i = 0; i < 4; i++)
+          f.ellipse(
+            h.x,
+            h.y,
+            h.radius - i * 7,
+            (h.radius - i * 7) * 0.55,
+          ).stroke({ color: 0xd6ba7b, width: 2, alpha: 0.3 });
+      } else if (h.kind === "frost") {
+        for (let i = 0; i < 6; i++) {
+          const a = (i * Math.PI) / 3;
+          f.moveTo(h.x, h.y)
+            .lineTo(h.x + Math.cos(a) * h.radius, h.y + Math.sin(a) * h.radius)
+            .stroke({ color: 0xd3f4ff, width: 2, alpha: 0.4 });
+        }
+      } else if (h.kind === "blood") {
+        f.ellipse(h.x, h.y, h.radius, h.radius * 0.75).fill({
+          color: 0x801f42,
+          alpha: 0.55,
+        });
+        for (let i = 0; i < 3; i++)
+          f.ellipse(h.x, h.y, h.radius - i * 9, h.radius * 0.75 - i * 6).stroke(
+            { color: 0xff779c, width: 1, alpha: 0.3 },
+          );
+      } else if (h.kind === "statue") {
+        this.sprite(`hazard-${h.x}`, "castle-pillar", h.x, h.y, 58, 68);
+        this.glow(h.x, h.y - 14, 22, 0xc69aff, pulse * 0.35);
+      } else if (h.kind === "rift") {
+        f.poly([
+          h.x - 25,
+          h.y + 16,
+          h.x - 4,
+          h.y - 22,
+          h.x + 18,
+          h.y - 7,
+          h.x + 4,
+          h.y + 27,
+        ])
+          .fill({ color: 0x161326, alpha: 0.8 })
+          .stroke({ color: 0xc289ff, width: 2, alpha: pulse });
+      } else if (h.kind === "thorns") {
+        for (let i = 0; i < 5; i++) {
+          const x = h.x - 28 + i * 13;
+          f.poly([
+            x,
+            h.y + 13,
+            x + 4,
+            h.y - 14 - (i % 2) * 10,
+            x + 10,
+            h.y + 13,
+          ]).fill({ color: 0x73975d, alpha: 0.75 });
+        }
+      } else {
+        for (let i = 0; i < 5; i++) {
+          const a = (i * Math.PI * 2) / 5;
+          f.moveTo(h.x + Math.cos(a) * 16, h.y + Math.sin(a) * 16)
+            .lineTo(h.x + Math.cos(a + 2.5) * 16, h.y + Math.sin(a + 2.5) * 16)
+            .stroke({
+              color: h.kind === "vent" ? 0xffab62 : 0xb9d8ff,
+              width: 2,
+              alpha: 0.4,
+            });
+        }
+      }
     }
     const open = r.phase === "POST_CLEAR";
     this.sprite("door", "door", 928, 320, 70, 86, open ? 1 : 0).tint = open
@@ -471,6 +566,49 @@ export class Stage {
     }
     if (r.phase !== "DEAD") this.weapon(r);
     for (const e of r.enemies) {
+      if (e.sealPillar) {
+        const hp = e.hp / e.maxHP,
+          pulse = 0.7 + Math.sin(r.time * 4 + e.id) * 0.2;
+        this.glow(e.x, e.y, 70, 0xffe2a2, pulse * 0.6);
+        f.poly([
+          e.x - 23,
+          e.y + 20,
+          e.x - 17,
+          e.y - 30,
+          e.x,
+          e.y - 53,
+          e.x + 17,
+          e.y - 30,
+          e.x + 23,
+          e.y + 20,
+        ])
+          .fill(0x4b4849)
+          .stroke({ color: 0xffda91, width: 3 });
+        f.poly([
+          e.x - 8,
+          e.y - 23,
+          e.x,
+          e.y - 37,
+          e.x + 8,
+          e.y - 23,
+          e.x,
+          e.y + 9,
+        ]).fill({ color: 0xfff0bd, alpha: pulse });
+        for (let i = 0; i < 3; i++)
+          f.moveTo(e.x - 14, e.y - 15 + i * 11)
+            .lineTo(e.x + 14, e.y - 15 + i * 11)
+            .stroke({ color: 0xfbd399, width: 2, alpha: pulse });
+        f.ellipse(e.x, e.y + 22, 31, 10).stroke({
+          color: 0xffde96,
+          width: 2,
+          alpha: 0.6,
+        });
+        f.rect(e.x - 24, e.y - 62, 48, 4)
+          .fill(0x202832)
+          .rect(e.x - 24, e.y - 62, 48 * hp, 4)
+          .fill(0xffe4a1);
+        continue;
+      }
       const active = r.modes.find((m) => m.actor === e.id),
         size = e.kind > 5 ? 128 : e.elite ? 74 : 58;
       const frame =
@@ -481,7 +619,13 @@ export class Stage {
             : this.pose(`e-${e.id}`, e.x, e.y, r.time);
       const s = this.sprite(
         `enemy-${e.id}`,
-        names[e.kind + 2],
+        e.solarisBar
+          ? "boss19"
+          : e.bossId
+            ? `boss${String(e.bossId).padStart(2, "0")}`
+            : e.monsterId
+              ? `mon${String(e.monsterId).padStart(2, "0")}`
+              : names[e.kind + 2],
         e.x,
         e.y,
         size,

@@ -203,7 +203,7 @@ describe("C10–18 元素、卡池、地圖与 Boss", () => {
       drawChoices(r);
       expect(new Set(r.choices).size).toBe(3);
       expect(r.choices.every((id) => eligible(r, cards[id - 1]))).toBe(true);
-      expect(r.choices.every((id) => id < 48)).toBe(true);
+      expect(r.choices.every((id) => id < 48 || id >= 60)).toBe(true);
       const frozen = clone(r);
       expect(
         validate({ version: 1, revision: 0, current: frozen, entry: frozen })

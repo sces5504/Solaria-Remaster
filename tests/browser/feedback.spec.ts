@@ -48,9 +48,9 @@ for (const cls of ["sword", "bow", "mage"] as const)
     await page.mouse.up({ button: "left" });
     await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
     await page.waitForTimeout(200);
-    await expect(page.locator("#hud")).toContainText("第 1 / 5");
+    await expect(page.locator("#hud")).toContainText("第 1 / 31");
     await page.keyboard.press("KeyE");
-    await expect(page.locator("#hud")).toContainText("第 2 / 5");
+    await expect(page.locator("#hud")).toContainText("第 2 / 31");
     expect(errors).toEqual([]);
   });
 test("卡片整張呈現稀有度色，1920／1366／1280 視窗不需捲動", async ({

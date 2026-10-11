@@ -89,14 +89,14 @@ it("爆炸持續可見並保留元素；預告落雷有雷柱事件", () => {
   updateAreas(r);
   expect(r.visuals.some((v) => v.kind === "thunder" && v.enemy)).toBe(true);
 });
-it("未知圖鑑不洩漏卡名／能力，取得後亮起；59張均有能力圖案", () => {
+it("未知圖鑑不洩漏卡名／能力，取得後亮起；所有已實作卡均有能力圖案", () => {
   const hidden = catalog();
   for (const c of cards) expect(hidden).not.toContain(c.name);
   const unlocked = catalog([47]);
   expect(unlocked).toContain("衝鋒斬");
   expect(unlocked).not.toContain("炎龍噴射");
   const arts = cards.map((c) => cardArt(c.id));
-  expect(new Set(arts).size).toBe(59);
+  expect(new Set(arts).size).toBe(cards.length);
   expect(
     arts.every((svg) => svg.includes("<path") && !svg.includes("undefined")),
   ).toBe(true);

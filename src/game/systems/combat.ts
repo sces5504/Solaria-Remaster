@@ -1,3 +1,4 @@
+import { damageSolaris } from "./solaris";
 import type {
   Run,
   Actor,
@@ -8,6 +9,7 @@ import type {
 } from "../core/types";
 import { angle, distance, random, clamp, type Vec } from "../core/primitives";
 import { cardLevel, skillFactor } from "../data/cards";
+import { splitBoss } from "./biome-bosses";
 import { coneHit, lineBlocked, segmentDistance, beamEnd } from "./geometry";
 export const level = (r: Run, id: number) => cardLevel(r, id);
 export const factor = (r: Run, id: number, inc = 0.2) =>
@@ -142,6 +144,28 @@ export function hit(
 ) {
   if (e.hp <= 0 || e.transition > r.time) return 0;
   let conditional = 1;
+  if (level(r, 60) && r.player.hp < r.stats.maxHP * 0.5)
+    conditional += 0.2 * skillFactor(level(r, 60), 1);
+  if (level(r, 64) && e.elite)
+    conditional += 0.25 * skillFactor(level(r, 64), 1);
+  if (
+    ctx.damageKind === "skill" &&
+    level(r, 65) &&
+    r.time - (r.player.lastBasic ?? 0) >= 3
+  )
+    conditional += 0.3 * skillFactor(level(r, 65), 1);
+  if (
+    ctx.damageKind === "skill" &&
+    level(r, 68) &&
+    Math.max(e.freezeUntil ?? 0, e.stunUntil ?? 0) > r.time
+  )
+    conditional += 0.4 * skillFactor(level(r, 68), 1);
+  if (
+    ctx.damageKind === "basic" &&
+    level(r, 62) &&
+    (r.player.assaultUntil ?? 0) > r.time
+  )
+    conditional += 0.25 * skillFactor(level(r, 62), 1);
   if (ctx.basicHitProxy) {
     if (level(r, 42) && distance(r.player, e) <= 45)
       conditional += 0.3 * factor(r, 42, 0.15);
@@ -180,8 +204,15 @@ export function hit(
   )
     value *= 1.25;
   value *= (ctx.chainScale * 100) / (100 + e.armor);
+  if (e.enemyShield) {
+    const absorbed = Math.min(e.enemyShield, value);
+    e.enemyShield -= absorbed;
+    value -= absorbed;
+  }
   const prev = e.hp;
-  if (e.kind > 5 && e.phase === 1 && e.hp - value <= e.maxHP / 2) {
+  let solarisLost = 0;
+  if (e.solarisBar) solarisLost = damageSolaris(r, e, value);
+  else if (e.kind > 5 && e.phase === 1 && e.hp - value <= e.maxHP / 2) {
     e.hp = e.maxHP / 2;
     e.phase = 2;
     e.transition = r.time + 2;
@@ -189,7 +220,8 @@ export function hit(
     e.nextAttack = r.time + 2.1;
     visual(r, "phase", e, 0, 0xffb77b, 80);
   } else e.hp = Math.max(0, e.hp - value);
-  const actual = prev - e.hp;
+  const actual = e.solarisBar ? solarisLost : prev - e.hp;
+  if (e.phase === 2 && e.transition > r.time) splitBoss(r, e);
   visual(
     r,
     "damage",
@@ -215,13 +247,19 @@ export function hit(
       angle(r.player, e),
       { duration: 0.18 },
     );
-  if (ctx.lifestealEligible && actual > 0 && r.stats.lifesteal > 0) {
+  if (
+    !e.sealPillar &&
+    ctx.lifestealEligible &&
+    actual > 0 &&
+    r.stats.lifesteal > 0
+  ) {
     const gain = Math.min(
       r.stats.maxHP - r.player.hp,
       actual * r.stats.lifesteal,
     );
     r.player.hp += gain;
   }
+  if (e.sealPillar) return actual;
   if (e.hp > 0 && ctx.damageKind !== "dot") elemental(r, e, ctx, frost);
   if ((ctx.procPolicy === "root" || ctx.procPolicy === "one") && e.hp > 0) {
     const child = (id: number, elements: Element[] = []) =>
@@ -337,13 +375,25 @@ export function hurt(r: Run, base: number, element: Element | null = null) {
     }
     return false;
   }
-  let value = ((base * 100) / (100 + r.stats.armor)) * (1 - r.stats.reduction);
+  const endurance =
+    level(r, 61) && r.time - (p.lastHurt ?? 0) >= 4 && !p.enduranceUsed
+      ? Math.min(0.5, 0.2 + 0.03 * (skillFactor(level(r, 61), 1) - 1))
+      : 0;
+  let value =
+    ((base * 100) / (100 + r.stats.armor)) *
+    (1 - Math.min(0.5, r.stats.reduction + endurance));
+  if (endurance) p.enduranceUsed = true;
   for (const s of p.shields) {
     const absorbed = Math.min(s.amount, value);
     s.amount -= absorbed;
     value -= absorbed;
   }
   p.hp = Math.max(0, p.hp - value);
+  if (value > 0) {
+    p.lastHurt = r.time;
+    p.enduranceUsed = false;
+    if (level(r, 69)) p.recoveryUntil = r.time + 2;
+  }
   p.invulnerable = r.time + 0.5;
   visual(r, "damage", p, Math.round(value), 0xff797c);
   visual(r, "impact", p, 3.5, 0xff968a, 27, 0, { enemy: true, duration: 0.22 });
@@ -435,6 +485,9 @@ export function shoot(
     damage,
     context: ctx,
     enemy,
+    enemyElement: enemy
+      ? (r.enemies.find((e) => e.id === owner)?.element ?? null)
+      : undefined,
     owner,
     wave,
     hit: [],
@@ -470,6 +523,9 @@ export function area(
     next: r.time + delay,
     context: ctx,
     enemy: !ctx,
+    enemyElement: !ctx
+      ? (r.enemies.find((e) => e.id === extra.owner)?.element ?? null)
+      : undefined,
     follow: false,
     pull: false,
     frost: 15,
@@ -519,7 +575,7 @@ export function updateProjectiles(r: Run, dt: number) {
       if (p.enemy) {
         if (segmentDistance(r.player, old, p) < r.player.radius + p.radius) {
           const owner = r.enemies.find((e) => e.id === p.owner);
-          hurt(r, p.damage, owner?.element);
+          hurt(r, p.damage, p.enemyElement ?? owner?.element);
           stopped = true;
           break;
         }
@@ -635,8 +691,8 @@ export function updateAreas(r: Run) {
           : a.shape === "cone"
             ? coneHit(a, r.player, a.radius, a.angle, a.width, r.player.radius)
             : distance(a, r.player) < a.radius + r.player.radius;
-      if (affected) hurt(r, a.damage);
-      if (r.room === 5) {
+      if (affected) hurt(r, a.damage, a.enemyElement);
+      if (r.enemies.some((e) => e.id === a.owner && e.kind > 5)) {
         if (a.shape === "beam") {
           for (let d = 0; d < distance(a, end); d += 20)
             damageCover(

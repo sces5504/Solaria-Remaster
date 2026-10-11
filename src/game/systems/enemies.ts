@@ -1,8 +1,15 @@
+import { solarisAI } from "./solaris";
 import type { Run, Actor, Mode } from "../core/types";
 import { angle, distance, DT, random } from "../core/primitives";
 import { legal, lineBlocked, move, coneHit, segmentDistance } from "./geometry";
 import { shoot, area, hurt, damageCover, visual } from "./combat";
 import { actor } from "../data/world";
+import { monsters, enemyDamageScale } from "../data/biomes";
+import {
+  biomeBossAI,
+  executeBossMode,
+  updateHealingSummon,
+} from "./biome-bosses";
 export const bossAttacks = {
   6: [
     ["wolf-lunge", "wolf-claw-wave", "wolf-hunt"],
@@ -110,6 +117,10 @@ function addMode(
     angle: angle(e, target),
     target: { x: target.x, y: target.y },
     phase: e.phase,
+    shots: monsters[e.monsterId ?? 0]?.shots,
+    groups: monsters[e.monsterId ?? 0]?.groups,
+    spread: monsters[e.monsterId ?? 0]?.spread,
+    reach: monsters[e.monsterId ?? 0]?.reach,
   });
   r.attackLog.push(attackId);
   if (r.attackLog.length > 120) r.attackLog.shift();
@@ -145,14 +156,25 @@ function addMode(
       );
     }
   if (type === "laser")
-    for (let i = 0; i < 2; i++)
-      area(r, e, 1100, 24, 0.8 + i * 0.3, 1.2, 0.15, null, {
-        owner: e.id,
-        wave: id,
-        shape: "beam",
-        width: 10,
-        angle: Math.PI / 4 + (i * Math.PI) / 2,
-      });
+    for (let i = 0; i < (e.kind > 5 ? 2 : 1); i++)
+      area(
+        r,
+        e,
+        1100,
+        (e.kind > 5 ? 24 : 8) * enemyDamageScale(r),
+        0.8 + i * 0.3,
+        1.2,
+        0.15,
+        null,
+        {
+          owner: e.id,
+          wave: id,
+          shape: "beam",
+          width: 10,
+          angle:
+            e.kind > 5 ? Math.PI / 4 + (i * Math.PI) / 2 : angle(e, target),
+        },
+      );
 }
 function bossAI(r: Run, e: Actor) {
   if (e.transition > r.time || e.controlUntil > r.time) return;
@@ -249,21 +271,54 @@ export function updateEnemies(r: Run) {
   refillEnemies(r);
   for (const e of r.enemies) {
     if (e.hp <= 0) continue;
+    if (e.sealPillar) continue;
+    if (e.summonRole) {
+      updateHealingSummon(r, e);
+      continue;
+    }
     if (e.kind > 5) {
-      bossAI(r, e);
+      if (e.solarisBar) solarisAI(r, e);
+      else if (e.bossId) biomeBossAI(r, e);
+      else bossAI(r, e);
       continue;
     }
     if (e.controlUntil > r.time) continue;
+    const definition = monsters[e.monsterId ?? 0];
+    if (
+      e.elite &&
+      r.time >= (e.eliteReady ?? Infinity) &&
+      !r.modes.some((m) => m.actor === e.id)
+    ) {
+      e.eliteReady = r.time + 7;
+      if (e.eliteAbility === "rush" || e.eliteAbility === "barrage") {
+        addMode(
+          r,
+          e,
+          e.eliteAbility === "rush" ? "rush" : "ring",
+          `elite-${e.eliteAbility}`,
+          0.8,
+          0.4,
+        );
+        const mode = r.modes.at(-1)!;
+        mode.shots = 10;
+        mode.groups = 1;
+        mode.spread = 360;
+        continue;
+      }
+      if (e.eliteAbility === "shield")
+        e.enemyShield = Math.max(e.enemyShield ?? 0, e.maxHP * 0.2);
+    }
     const speed =
-      (e.kind === 1
-        ? 94
-        : e.kind === 2
-          ? 48
-          : e.kind === 3
-            ? 88
-            : e.kind === 4
-              ? 55
-              : 45) *
+      (definition?.speed ??
+        (e.kind === 1
+          ? 94
+          : e.kind === 2
+            ? 48
+            : e.kind === 3
+              ? 88
+              : e.kind === 4
+                ? 55
+                : 45)) *
       (e.iceUntil > r.time ? 0.8 : 1) *
       (r.modifiers.includes(3) ? 1.2 : 1);
     const d = distance(e, r.player);
@@ -271,19 +326,29 @@ export function updateEnemies(r: Run) {
       move(
         r,
         e,
-        Math.cos(e.moveAngle) * 240 * DT,
-        Math.sin(e.moveAngle) * 240 * DT,
+        Math.cos(e.moveAngle) *
+          (definition ? Math.min(300, definition.reach / 0.5) : 240) *
+          DT,
+        Math.sin(e.moveAngle) *
+          (definition ? Math.min(300, definition.reach / 0.5) : 240) *
+          DT,
         e.radius,
       );
       if (
         distance(e, r.player) < e.radius + r.player.radius &&
         !e.rushHits.includes(0)
       ) {
+        const previousHP = r.player.hp;
         hurt(
           r,
-          12 * (e.elite ? 1.4 : 1) * (r.modifiers.includes(2) ? 1.2 : 1),
+          12 *
+            enemyDamageScale(r) *
+            (e.elite ? 1.4 : 1) *
+            (r.modifiers.includes(2) ? 1.2 : 1),
           e.element,
         );
+        if (e.monsterId === 21)
+          e.hp = Math.min(e.maxHP, e.hp + (previousHP - r.player.hp) * 0.1);
         e.rushHits.push(0);
       }
       continue;
@@ -301,20 +366,31 @@ export function updateEnemies(r: Run) {
     if (r.time < e.nextAttack || r.modes.some((m) => m.actor === e.id))
       continue;
     if (e.kind <= 3 && d > 220) continue;
-    e.nextAttack = r.time + (e.kind === 2 ? 2.5 : e.kind === 5 ? 2.2 : 2);
+    e.nextAttack =
+      r.time +
+      (definition?.interval ?? (e.kind === 2 ? 2.5 : e.kind === 5 ? 2.2 : 2));
+    const attack =
+      definition?.attacks[e.attackOrdinal++ % definition.attacks.length];
     addMode(
       r,
       e,
-      e.kind === 1
-        ? "rush"
-        : e.kind === 2
-          ? "mark"
-          : e.kind === 3
-            ? "slash"
-            : "fan",
-      `mon-${e.kind}`,
+      attack ??
+        (e.kind === 1
+          ? "rush"
+          : e.kind === 2
+            ? "mark"
+            : e.kind === 3
+              ? "slash"
+              : "fan"),
+      `mon-${e.monsterId ?? e.kind}-${attack ?? e.kind}`,
       e.kind <= 3 ? 0.7 : 0.6,
-      e.kind <= 3 ? 0.4 : e.kind === 4 ? 0.31 : 0.01,
+      definition
+        ? Math.max(0.4, (definition.groups - 1) * 0.3 + 0.1)
+        : e.kind <= 3
+          ? 0.4
+          : e.kind === 4
+            ? 0.31
+            : 0.01,
       e.kind === 4 ? 3 : 1,
     );
   }
@@ -345,8 +421,13 @@ export function updateModes(r: Run) {
       e.controlUntil > r.time
     )
       continue;
+    if (m.bossAttack) {
+      executeBossMode(r, m, e);
+      continue;
+    }
     const boss = e.kind > 5,
       damage =
+        enemyDamageScale(r) *
         (boss ? 18 : e.kind === 4 ? 10 : 8) *
         (e.elite ? 1.4 : 1) *
         (r.modifiers.includes(2) ? 1.2 : 1),
@@ -368,14 +449,29 @@ export function updateModes(r: Run) {
     if (m.type === "slash") {
       const a = angle(e, m.target);
       move(r, e, Math.cos(a) * 70, Math.sin(a) * 70, e.radius);
-      if (coneHit(e, r.player, 60, a, Math.PI / 2, r.player.radius))
-        hurt(r, 12 * (e.elite ? 1.4 : 1), e.element);
+      const radius = e.monsterId === 12 ? 80 : 60;
+      const width = ((m.spread ?? 90) * Math.PI) / 180;
+      if (coneHit(e, r.player, radius, a, width, r.player.radius))
+        hurt(
+          r,
+          12 *
+            (e.monsterId === 12 ? 1.5 : 1) *
+            enemyDamageScale(r) *
+            (e.elite ? 1.4 : 1) *
+            (r.modifiers.includes(2) ? 1.2 : 1),
+          e.element,
+        );
       visual(r, "cast", e, 0, 0xff796e, 60, a);
       m.next = m.ends + 1;
     }
-    if (m.type === "fan" || m.type === "ring" || m.type === "spiral") {
+    if (["fan", "ring", "spiral", "cross", "rows"].includes(m.type)) {
+      if (m.groups !== undefined && m.count >= m.groups) {
+        m.next = m.ends + 1;
+        continue;
+      }
       const n =
-        m.type === "ring"
+        m.shots ??
+        (m.type === "ring"
           ? 14
           : m.type === "spiral"
             ? 6
@@ -383,7 +479,7 @@ export function updateModes(r: Run) {
               ? 1
               : boss
                 ? 6
-                : 7;
+                : 7);
       if (r.projectiles.filter((p) => p.enemy).length + n > 600) {
         m.next = r.time + DT;
         continue;
@@ -402,24 +498,54 @@ export function updateModes(r: Run) {
           if (e.kind === 5 && Math.abs(off) < 0.175) continue;
         }
         if (m.type === "ring") {
-          off = (i * Math.PI * 2) / n;
+          off =
+            (i * Math.PI * 2) / n +
+            (e.monsterId ? (m.count * Math.PI) / 12 : 0);
         }
+        if (m.spread !== undefined && m.type === "fan")
+          off = n === 1 ? 0 : ((-0.5 + i / (n - 1)) * m.spread * Math.PI) / 180;
+        if (m.type === "cross")
+          off = (Math.floor(i / 3) * Math.PI) / 2 + ((i % 3) - 1) * 0.13;
+        let origin = { x: e.x, y: e.y };
+        if (m.type === "rows")
+          origin = {
+            x: e.x + Math.cos(a + Math.PI / 2) * ((i % 4) - 1.5) * 24,
+            y: e.y + Math.sin(a + Math.PI / 2) * ((i % 4) - 1.5) * 24,
+          };
         if (m.type === "spiral")
           off = Math.floor(i / 3) * Math.PI + (i % 3) * 0.1;
-        shoot(r, e, a + off, damage, speed, 1100, null, 1, true, e.id, m.id);
+        shoot(
+          r,
+          origin,
+          a + off,
+          damage,
+          speed,
+          1100,
+          null,
+          1,
+          true,
+          e.id,
+          m.id,
+        );
       }
       m.count++;
       m.next =
         r.time +
-        (e.kind === 4
-          ? 0.15
-          : m.type === "spiral"
-            ? 0.14
-            : m.type === "ring"
-              ? 0.24
-              : boss
-                ? 0.21
-                : 0.18);
+        (e.monsterId
+          ? e.monsterId === 28 || e.monsterId === 22
+            ? 0.15
+            : e.monsterId === 13
+              ? 0.2
+              : 0.3
+          : e.kind === 4
+            ? 0.15
+            : m.type === "spiral"
+              ? 0.14
+              : m.type === "ring"
+                ? 0.24
+                : boss
+                  ? 0.21
+                  : 0.18);
     }
     if (m.type === "summon") {
       const count = r.enemies.filter((e) => e.summoned && e.hp > 0).length;
@@ -443,8 +569,28 @@ export function updateModes(r: Run) {
       m.next = m.ends + 1;
     }
     if (m.type === "mark" && !boss) {
-      area(r, m.target, 55, 18, 0, 0.01, 1, null, { owner: e.id });
-      move(r, e, m.target.x - e.x, m.target.y - e.y, e.radius);
+      area(
+        r,
+        m.target,
+        e.monsterId === 24 ? 65 : 55,
+        18 * enemyDamageScale(r),
+        0,
+        0.01,
+        1,
+        null,
+        { owner: e.id },
+      );
+      if (![8, 14, 18].includes(e.monsterId ?? 0)) {
+        const travel = distance(e, m.target),
+          scale = Math.min(1, (m.reach ?? 160) / (travel || 1));
+        move(
+          r,
+          e,
+          (m.target.x - e.x) * scale,
+          (m.target.y - e.y) * scale,
+          e.radius,
+        );
+      }
       m.next = m.ends + 1;
     }
     if (m.type === "mine" || m.type === "laser" || m.type === "mark")
@@ -453,6 +599,7 @@ export function updateModes(r: Run) {
   for (const e of r.enemies)
     if (
       e.kind > 5 &&
+      !e.bossId &&
       e.rushUntil > r.time &&
       e.controlUntil <= r.time &&
       e.transition <= r.time

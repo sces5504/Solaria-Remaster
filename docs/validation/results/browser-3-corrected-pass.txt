@@ -1,0 +1,23 @@
+
+> solaria-remaster@0.1.0 test:browser
+> playwright test --last-failed
+
+[WebServer] (node:12742) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:12755) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:12774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/feedback.spec.ts:20:3 › sword 清關後左鍵連射同時右鍵技能與 E 進門 (12.3s)
+  ✓  2 tests/browser/feedback.spec.ts:20:3 › bow 清關後左鍵連射同時右鍵技能與 E 進門 (11.8s)
+  ✓  3 tests/browser/feedback.spec.ts:20:3 › mage 清關後左鍵連射同時右鍵技能與 E 進門 (12.9s)
+
+  3 passed (38.2s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

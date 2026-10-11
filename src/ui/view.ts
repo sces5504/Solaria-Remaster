@@ -1,3 +1,6 @@
+import { isBossRoom } from "../game/data/journey";
+import { currentBiome } from "../game/data/biomes";
+import { bosses } from "../game/data/bosses";
 import type { Run, Item, ClassId } from "../game/core/types";
 import { classes } from "../game/data/world";
 import { cards } from "../game/data/cards";
@@ -22,7 +25,7 @@ export function hud(r: Run) {
     boss = r.enemies.find((e) => e.kind > 5),
     shield = p.shields.reduce((n, s) => n + s.amount, 0),
     xpNeed = 100 + 20 * (r.level - 1);
-  return `<div class="status"><strong>${zh.classes[r.classId]} <span class="muted">Lv.${r.level}</span></strong><div class="hp"><i style="width:${Math.max(0, (p.hp / r.stats.maxHP) * 100)}%"></i><span>${Math.ceil(p.hp)} / ${Math.ceil(r.stats.maxHP)}${shield > 0 ? " · 護盾 " + Math.ceil(shield) : ""}</span></div><div class="xp-track"><i style="width:${Math.min(100, (r.xp / xpNeed) * 100)}%"></i></div><small>經驗 ${Math.floor(r.xp)} / ${xpNeed}</small></div><div class="room"><strong>暮光草原</strong><small>第 ${r.room} / 5 關 · ${r.room === 5 ? "領主之境" : zh.templates[r.templates[r.room - 1]]}</small>${boss ? `<div class="boss"><span>${zh.bosses[r.boss as 1]} · ${boss.transition > r.time ? "力量覺醒・暫時無敵" : "第 " + boss.phase + " 階段"}</span><div><i style="width:${(boss.hp / boss.maxHP) * 100}%"></i></div></div>` : ""}</div><div class="score"><small>本局分數</small><strong>${(r.score || 0).toLocaleString()}</strong><small>${r.phase === "POST_CLEAR" ? "已清關 · E 拾取／進門" : r.phase === "SETTLEMENT" ? "清算 · 經驗與補給集結中" : `敵人 ${r.enemies.filter((e) => e.hp > 0).length} · 後續 ${r.reserves?.length || 0}`}</small></div>`;
+  return `<div class="status"><strong>${zh.classes[r.classId]} <span class="muted">Lv.${r.level}</span></strong><div class="hp"><i style="width:${Math.max(0, (p.hp / r.stats.maxHP) * 100)}%"></i><span>${Math.ceil(p.hp)} / ${Math.ceil(r.stats.maxHP)}${shield > 0 ? " · 護盾 " + Math.ceil(shield) : ""}</span></div><div class="xp-track"><i style="width:${Math.min(100, (r.xp / xpNeed) * 100)}%"></i></div><small>經驗 ${Math.floor(r.xp)} / ${xpNeed}</small></div><div class="room"><strong>${currentBiome(r).name}</strong><small>第 ${r.room} / 31 關 · ${isBossRoom(r) ? "領主之境" : currentBiome(r).themes[r.templates[(r.room - 1) % 5]]}</small>${boss ? `<div class="boss"><span>${r.room === 31 ? "索拉里斯神" : (bosses[r.boss]?.name ?? zh.bosses[r.boss as 1])} · ${boss.transition > r.time ? "力量覺醒・暫時無敵" : "第 " + (boss.solarisBar ?? boss.phase) + " 階段"}</span><div><i style="width:${(boss.hp / boss.maxHP) * 100}%"></i></div></div>` : ""}</div><div class="score"><small>本局分數</small><strong>${(r.score || 0).toLocaleString()}</strong><small>${r.phase === "POST_CLEAR" ? "已清關 · E 拾取／進門" : r.phase === "SETTLEMENT" ? "清算 · 經驗與補給集結中" : `敵人 ${r.enemies.filter((e) => e.hp > 0).length} · 後續 ${r.reserves?.length || 0}`}</small></div>`;
 }
 export function sidebarIntro() {
   return `<div class="side-title">旅人手札</div><h2>日光邊境</h2><p>四片草原，一位領主。<br>以選卡塑造你的戰鬥風格。</p><div class="side-divider"></div><p>WASD 移動<br>左鍵持續普攻<br>右鍵職業技能<br>空白閃避<br>E 拾取／進門</p><p class="side-note">看清蓄力方向，再橫向閃避。<br>掩體能阻擋敵我彈道。</p>`;
@@ -42,7 +45,7 @@ export function sidebar(r: Run) {
     )}</section><p class="side-note">${zh.skills[r.classId]} · ${r.player.skillReady <= r.time ? "已就緒" : "冷卻 " + Math.max(0, r.player.skillReady - r.time).toFixed(1) + " 秒"}<br>擊殺 ${r.kills || 0} · ${Math.floor(r.time / 60)}:${String(Math.floor(r.time % 60)).padStart(2, "0")}<br>C 查看卡片構築 · Esc 暫停</p>`;
 }
 export function menu(saved: boolean) {
-  return `<div class="menu"><div class="eyebrow">日蝕之後 · 旅途初章</div><h1>SOLARIA</h1><p class="tagline">在暮色之中，尋回日光。</p><div class="menu-actions">${button("開始新局", "new")}${button("繼續旅程", "continue", saved ? "" : 'disabled title="尚無存檔"')}${button("操作與製作資訊", "controls")}${button("卡片圖鑑 · 59", "catalog")}${button("匯入存檔", "import")}</div><div class="fine">三職業 · 四普通房 · 兩隻草原 Boss<br>製作者：Mori Fang</div></div>`;
+  return `<div class="menu"><div class="eyebrow">日蝕之後 · 旅途初章</div><h1>SOLARIA</h1><p class="tagline">在暮色之中，尋回日光。</p><div class="menu-actions">${button("開始新局", "new")}${button("繼續旅程", "continue", saved ? "" : 'disabled title="尚無存檔"')}${button("操作與製作資訊", "controls")}${button(`卡片圖鑑 · ${cards.length}`, "catalog")}${button("匯入存檔", "import")}</div><div class="fine">三職業 · 六重秘境 · 日光之旅<br>製作者：Mori Fang</div></div>`;
 }
 export function classSelect() {
   const desc: Record<ClassId, string> = {
@@ -85,10 +88,10 @@ export function controls() {
 }
 export function catalog(discovered: number[] = []) {
   const known = new Set(discovered);
-  return `<section class="panel wide catalog-panel"><div class="eyebrow">旅人圖鑑 · ${known.size} / 59</div><h2>光的記憶</h2><p>親手取得的力量，會留在這裡。</p><div class="catalog">${cards.map((c) => (known.has(c.id) ? `<article class="catalog-card ${c.rarity}" data-card="${c.id}">${cardArt(c.id)}<span class="rarity ${c.rarity}">#${String(c.id).padStart(2, "0")}</span><strong>${c.name}</strong><p>${cardCopy[c.id] || c.description}</p></article>` : `<article class="catalog-card locked" data-card="${c.id}">${cardArt(c.id, true)}<span class="rarity">#${String(c.id).padStart(2, "0")}</span><strong>未曾相遇</strong><p>於旅途中取得後揭曉</p></article>`)).join("")}</div>${button("返回", "back")}</section>`;
+  return `<section class="panel wide catalog-panel"><div class="eyebrow">旅人圖鑑 · ${known.size} / ${cards.length}</div><h2>光的記憶</h2><p>親手取得的力量，會留在這裡。</p><div class="catalog">${cards.map((c) => (known.has(c.id) ? `<article class="catalog-card ${c.rarity}" data-card="${c.id}">${cardArt(c.id)}<span class="rarity ${c.rarity}">#${String(c.id).padStart(2, "0")}</span><strong>${c.name}</strong><p>${cardCopy[c.id] || c.description}</p></article>` : `<article class="catalog-card locked" data-card="${c.id}">${cardArt(c.id, true)}<span class="rarity">#${String(c.id).padStart(2, "0")}</span><strong>未曾相遇</strong><p>於旅途中取得後揭曉</p></article>`)).join("")}</div>${button("返回", "back")}</section>`;
 }
 export function pauseView(r: Run) {
-  return `<section class="panel pause-panel"><div class="eyebrow">暮色之間</div><div class="pause-emblem" aria-hidden="true">✧</div><h2>日光，等你歸來</h2><p class="pause-story">風停在樹梢，旅途仍在。<br>稍作歇息，再循光而行。</p><div class="pause-record"><div><small>你的旅人</small><strong>${zh.classes[r.classId]} · Lv.${r.level}</strong></div><div><small>暮光草原</small><strong>第 ${r.room} / 5 關</strong></div><div><small>旅程分數</small><strong>${(r.score || 0).toLocaleString()}</strong></div></div><div class="pause-actions">${button("繼續旅程", "resume", 'class="primary"')}${button("旅人手札", "controls")}${button("光的記憶", "catalog")}${button("匯出存檔", "export")}${button("回主選單", "returnMenu")}</div><p class="fine">Esc 返回旅途 · 戰鬥重載回本房入口</p></section>`;
+  return `<section class="panel pause-panel"><div class="eyebrow">暮色之間</div><div class="pause-emblem" aria-hidden="true">✧</div><h2>日光，等你歸來</h2><p class="pause-story">風停在樹梢，旅途仍在。<br>稍作歇息，再循光而行。</p><div class="pause-record"><div><small>你的旅人</small><strong>${zh.classes[r.classId]} · Lv.${r.level}</strong></div><div><small>${currentBiome(r).name}</small><strong>第 ${r.room} / 31 關</strong></div><div><small>旅程分數</small><strong>${(r.score || 0).toLocaleString()}</strong></div></div><div class="pause-actions">${button("繼續旅程", "resume", 'class="primary"')}${button("旅人手札", "controls")}${button("光的記憶", "catalog")}${button("匯出存檔", "export")}${button("回主選單", "returnMenu")}</div><p class="fine">Esc 返回旅途 · 戰鬥重載回本房入口</p></section>`;
 }
 
 export function worldHints(r: Run) {

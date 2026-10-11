@@ -1,4 +1,6 @@
 import type { Vec } from "./primitives";
+import type { BiomeId } from "../data/biomes";
+import type { BossAttack } from "../data/bosses";
 export type ClassId = "sword" | "bow" | "mage";
 export type Element = "ice" | "fire" | "water" | "lightning";
 export type Phase =
@@ -46,6 +48,16 @@ export interface Stats {
 export interface Actor extends Vec {
   id: number;
   kind: number;
+  monsterId?: number;
+  bossId?: number;
+  solarisBar?: 1 | 2 | 3;
+  sealPillar?: boolean;
+  splitGroup?: number;
+  summonRole?: "totem" | "blood";
+  bossOwner?: number;
+  eliteAbility?: "rush" | "barrage" | "shield" | "element";
+  eliteReady?: number;
+  enemyShield?: number;
   hp: number;
   maxHP: number;
   armor: number;
@@ -69,6 +81,7 @@ export interface Actor extends Vec {
   hits: number;
   focusRoots?: number[];
   resonanceNext: number;
+  resonanceElement?: "ice" | "fire";
   xpReward?: number;
   activateAt?: number;
   elite: boolean;
@@ -81,6 +94,12 @@ export interface Actor extends Vec {
   rushHits: number[];
 }
 export interface Player extends Vec {
+  terrainSlow?: number;
+  lastBasic?: number;
+  lastHurt?: number;
+  enduranceUsed?: boolean;
+  assaultUntil?: number;
+  recoveryUntil?: number;
   hp: number;
   radius: number;
   shields: { amount: number; until: number }[];
@@ -131,6 +150,7 @@ export interface Projectile extends Vec {
   damage: number;
   context: DamageContext | null;
   enemy: boolean;
+  enemyElement?: Element | null;
   owner: number;
   wave: number;
   hit: number[];
@@ -141,6 +161,7 @@ export interface Projectile extends Vec {
   trail: number;
 }
 export interface Area extends Vec {
+  enemyElement?: Element | null;
   id: number;
   ability: number;
   owner: number;
@@ -170,6 +191,8 @@ export interface Mode {
   actor: number;
   attackId: string;
   type:
+    | "cross"
+    | "rows"
     | "rush"
     | "fan"
     | "ring"
@@ -190,6 +213,12 @@ export interface Mode {
   angle: number;
   target: Vec;
   phase: number;
+  shots?: number;
+  groups?: number;
+  spread?: number;
+  reach?: number;
+  bossAttack?: BossAttack;
+  origin?: Vec;
 }
 export interface Item extends Vec {
   id: string;
@@ -236,6 +265,10 @@ export interface Run {
   rng: number;
   cardRng: number;
   room: number;
+  biome?: BiomeId;
+  journey?: import("../data/journey").JourneySegment[];
+  solaris?: { sealed: boolean; wave: number; next: number };
+  loop?: number;
   templates: number[];
   boss: number;
   classId: ClassId;
@@ -274,7 +307,21 @@ export interface Run {
   settledOnce: boolean;
   dropCounter: number;
   killOrdinal: number;
+  momentum?: { stacks: number; until: number };
   modifiers: number[];
+  hazards?: (Vec & {
+    kind:
+      | "sand"
+      | "frost"
+      | "vent"
+      | "thorns"
+      | "rift"
+      | "blood"
+      | "meteor"
+      | "statue";
+    radius: number;
+    next: number;
+  })[];
   attackLog: string[];
   message: string;
 }

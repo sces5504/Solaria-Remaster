@@ -8,7 +8,7 @@ import {
 } from "../../src/game/core/run";
 import { choose } from "../../src/game/systems/progression";
 import { clone } from "../../src/game/core/primitives";
-it("四普通房、逐级选卡、Boss清算到里程碑结尾；阶段检查点可序列化", () => {
+it("四普通房、逐级选卡、Boss清算後銜接下一段秘境；阶段检查点可序列化", () => {
   const r = newRun("bow", 12);
   for (let room = 1; room <= 5; room++) {
     expect(r.phase).toBe("ROOM_INTRO");
@@ -27,8 +27,9 @@ it("四普通房、逐级选卡、Boss清算到里程碑结尾；阶段检查点
     expect(r.phase).toBe("POST_CLEAR");
     expect(enterNext(r)).toBe(true);
   }
-  expect(r.phase).toBe("RUN_END");
-  expect(r.room).toBe(5);
+  expect(r.phase).toBe("ROOM_INTRO");
+  expect(r.room).toBe(6);
+  expect(["desert", "icefield"]).toContain(r.biome);
 });
 it("清关后残留投射物仍伤、旧房危险不跟到下房", () => {
   const r = newRun("mage", 1);

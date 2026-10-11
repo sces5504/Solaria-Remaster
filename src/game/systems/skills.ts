@@ -32,6 +32,7 @@ export function basic(r: Run, c: Command, rapid = false) {
     10,
     angle(p, c.pointerWorld),
   );
+  if (!rapid) p.lastBasic = r.time;
   p.casts++;
   p.capacitor = Math.min(5, p.capacitor + 1);
   const a = angle(p, c.pointerWorld),
@@ -40,10 +41,10 @@ export function basic(r: Run, c: Command, rapid = false) {
   const category = rapid ? "skill" : "basic";
   let bonus = 0;
   for (const cid of r.classId === "sword"
-    ? [41, 42, 43]
+    ? [41, 43]
     : r.classId === "bow"
-      ? [48, 49, 50, 51, 52]
-      : [54, 55, 56, 57])
+      ? [50, 51, 52]
+      : [54, 56, 57])
     if (level(r, cid))
       bonus +=
         (level(r, cid) - 1) *
@@ -231,6 +232,8 @@ export function basic(r: Run, c: Command, rapid = false) {
 export function castSkill(r: Run, c: Command) {
   const p = r.player;
   if (r.time < p.skillReady || r.time < p.controlUntil) return false;
+  if (level(r, 67))
+    shield(r, r.stats.maxHP * (0.1 + 0.02 * (factor(r, 67, 1) - 1)), 2);
   p.skillCast = r.time;
   p.skillReady = r.time + r.stats.skillCD;
   visual(r, "cast", p, 0, 0xddd0ff, 50);
@@ -387,6 +390,7 @@ export function dodge(r: Run, c: Command) {
   const moving = Math.hypot(c.move.x, c.move.y) > 0;
   const a = moving ? Math.atan2(c.move.y, c.move.x) : angle(p, c.pointerWorld);
   p.dashReady = r.time + 3;
+  p.assaultUntil = r.time + 2;
   const end = { x: p.x + Math.cos(a) * 144, y: p.y + Math.sin(a) * 144 };
   if (!legal(r, end, p.radius) || lineBlocked(r, p, end, false)) return true;
   p.dashHits = [];
@@ -435,7 +439,7 @@ export function updateSkills(r: Run, c: Command) {
         (e) =>
           e.hp > 0 &&
           e.burn.some((b) => b.until > r.time) &&
-          (e.iceUntil > r.time || e.controlUntil > r.time),
+          (e.iceUntil > r.time || (e.freezeUntil ?? 0) > r.time),
       )
       .sort((a, b) => distance(p, a) - distance(p, b) || a.id - b.id)
       .slice(0, 12);
@@ -443,7 +447,8 @@ export function updateSkills(r: Run, c: Command) {
       if (r.time >= e.resonanceNext) {
         e.resonanceNext =
           r.time + Math.max(0.2, classes[r.classId].rate / r.stats.attackRate);
-        const el: Element = Math.floor(r.time) % 2 ? "fire" : "ice";
+        const el: Element = e.resonanceElement === "ice" ? "fire" : "ice";
+        e.resonanceElement = el;
         const strongest = e.burn.reduce((a, b) =>
           a.damage * a.scale > b.damage * b.scale ? a : b,
         );

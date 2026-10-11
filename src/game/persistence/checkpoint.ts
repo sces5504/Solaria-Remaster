@@ -1,3 +1,5 @@
+import { biomes } from "../data/biomes";
+import { restoreJourney } from "../data/journey";
 import type { Run } from "../core/types";
 import { clone } from "../core/primitives";
 import { cards, eligible } from "../data/cards";
@@ -56,12 +58,37 @@ export function validate(value: unknown): Saved {
       !Number.isInteger(r.seed) ||
       !Number.isInteger(r.room) ||
       r.room < 1 ||
-      r.room > 5 ||
+      r.room > 31 ||
       !Number.isFinite(r.player?.hp) ||
       r.player.hp < 0 ||
       !Number.isFinite(r.time)
     )
       throw new Error("存檔數值損壞");
+    if (
+      r.loop !== undefined &&
+      (!Number.isInteger(r.loop) || r.loop < 1 || r.loop > 1000000)
+    )
+      throw new Error("周目資料損壞");
+    if (r.biome !== undefined && !(r.biome in biomes))
+      throw new Error("地形資料損壞");
+    if (
+      r.journey !== undefined &&
+      (!Array.isArray(r.journey) ||
+        r.journey.length !== 6 ||
+        r.journey.some(
+          (seg) =>
+            !seg ||
+            !(seg.biome in biomes) ||
+            !Array.isArray(seg.templates) ||
+            seg.templates.length !== 4 ||
+            new Set(seg.templates).size !== 4 ||
+            seg.templates.some((t) => !Number.isInteger(t) || t < 0 || t > 5) ||
+            !Number.isInteger(seg.boss) ||
+            seg.boss < 1 ||
+            seg.boss > 18,
+        ))
+    )
+      throw new Error("秘境路線損壞");
     if (
       !Array.isArray(r.bag) ||
       r.bag.length > 12 ||
@@ -141,14 +168,17 @@ export function validate(value: unknown): Saved {
     )
       throw new Error("選卡資料損壞");
   }
+  const migrated = JSON.parse(JSON.stringify(s)) as Saved;
+  for (const r of [migrated.current, migrated.entry]) restoreJourney(r);
   // JSON roundtrip strips prototypes. Strings are never inserted as HTML by UI.
-  return JSON.parse(JSON.stringify(s)) as Saved;
+  return migrated;
 }
 export class Checkpoints {
   private db!: IDBDatabase;
   revision = 0;
   entry: Run | null = null;
   discovered: number[] = [];
+  recoveryNotice = "";
   async open() {
     this.db = await new Promise<IDBDatabase>((resolve, reject) => {
       const req = indexedDB.open("solaria-remaster", 1);
@@ -161,6 +191,7 @@ export class Checkpoints {
     });
   }
   async load(): Promise<Run | null> {
+    this.recoveryNotice = "";
     await this.remember([]);
     const saved = await this.read("latest");
     if (!saved) return null;
@@ -168,12 +199,7 @@ export class Checkpoints {
     try {
       s = validate(saved);
     } catch (error) {
-      const backup = await this.read("previous");
-      if (!backup) throw error;
-      s = validate(backup);
-      this.entry = clone(s.entry);
-      this.revision = s.revision;
-      throw new Error("最新存檔損壞；前一份仍保留。請先匯出備份後重試。");
+      s = await this.recover(error);
     }
     await this.remember([
       ...Object.keys(s.current.cards).map(Number),
@@ -183,6 +209,51 @@ export class Checkpoints {
     this.entry = clone(s.entry);
     this.revision = s.revision;
     return clone(s.current.phase === "COMBAT" ? s.entry : s.current);
+  }
+  private recover(originalError: unknown): Promise<Saved> {
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction("run", "readwrite");
+      const store = tx.objectStore("run");
+      let restored: Saved;
+      let failure = originalError;
+      const latest = store.get("latest");
+      latest.onsuccess = () => {
+        // Another tab may have repaired the save since the first read.
+        try {
+          restored = validate(latest.result);
+          return;
+        } catch {
+          const previous = store.get("previous");
+          previous.onsuccess = () => {
+            try {
+              restored = validate(previous.result);
+              const brokenRevision = (latest.result as Partial<Saved>)
+                ?.revision;
+              restored.revision =
+                Math.max(
+                  restored.revision,
+                  Number.isSafeInteger(brokenRevision) &&
+                    brokenRevision! >= 0 &&
+                    brokenRevision! < 1e12
+                    ? brokenRevision!
+                    : 0,
+                ) + 1;
+              restored.current.revision = restored.revision;
+              restored.entry.revision = restored.revision;
+              store.put(latest.result, "damaged");
+              store.put(restored, "latest");
+              this.recoveryNotice = "最新存檔損壞，已恢復上一份有效紀錄。";
+            } catch (error) {
+              failure = error;
+              tx.abort();
+            }
+          };
+        }
+      };
+      tx.oncomplete = () => resolve(restored);
+      tx.onabort = () => reject(failure);
+      tx.onerror = () => reject(new Error("無法恢復存檔，原始紀錄仍保留。"));
+    });
   }
   private async remember(ids: number[]) {
     await new Promise<void>((resolve, reject) => {

@@ -1,5 +1,5 @@
 import type { Run, Item, Slot, Stats } from "../core/types";
-import { cards, eligible } from "../data/cards";
+import { cards, eligible, skillFactor } from "../data/cards";
 import { classes } from "../data/world";
 import { random, seedFor, clamp } from "../core/primitives";
 export function derive(r: Run): Stats {
@@ -10,7 +10,11 @@ export function derive(r: Run): Stats {
     armor: c.armor + l(2) * 8,
     basic: l(3) * 0.1,
     skill: l(4) * 0.1,
-    global: l(14) * 0.08,
+    global:
+      l(14) * 0.08 +
+      (l(66) && (r.momentum?.until ?? 0) > r.time
+        ? r.momentum!.stacks * 0.03 * skillFactor(l(66), 1)
+        : 0),
     elemental: l(12) * 0.18,
     attackRate: 0,
     skillCD: 0,
@@ -25,6 +29,9 @@ export function derive(r: Run): Stats {
   };
   let A =
       l(5) * 0.12 +
+      (l(69) && (r.player.recoveryUntil ?? 0) > r.time
+        ? 0.25 * skillFactor(l(69), 1)
+        : 0) +
       (r.time < r.player.buffUntil ? 0.3 + Math.min(4, l(53) - 1) * 0.05 : 0),
     C = l(9) * 0.1,
     M = l(6) * 0.05 + (r.time < r.player.engineUntil ? 0.5 : 0);
@@ -142,7 +149,7 @@ export function choose(r: Run, id: number) {
   r.pendingLevels--;
   r.choices = [];
   if (r.pendingLevels > 0) drawChoices(r);
-  else r.phase = "POST_CLEAR";
+  else r.phase = r.room === 31 ? "RUN_END" : "POST_CLEAR";
   return true;
 }
 export function itemFor(r: Run, enemyId: number, bossIndex = -1): Item | null {

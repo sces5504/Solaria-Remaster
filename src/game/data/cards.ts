@@ -431,6 +431,76 @@ export const cards = [
       "職技後3秒自身半徑90，每秒純技能傷20；升級增傷／半徑每級+5，不附普攻效果，週期可暴擊",
     classId: "mage",
   },
+  {
+    id: 60,
+    name: "背水",
+    rarity: "藍",
+    description: "生命低於50%時一般傷害+20%",
+    classId: null,
+  },
+  {
+    id: 61,
+    name: "耐戰",
+    rarity: "藍",
+    description: "四秒未受傷，下一次一般傷害額外減20%",
+    classId: null,
+  },
+  {
+    id: 62,
+    name: "疾行突襲",
+    rarity: "紫",
+    description: "閃避後兩秒普攻傷+25%",
+    classId: null,
+  },
+  {
+    id: 63,
+    name: "清算餘輝",
+    rarity: "紫",
+    description: "清算回血後五秒盾最大生命10%",
+    classId: null,
+  },
+  {
+    id: 64,
+    name: "精英獵手",
+    rarity: "紫",
+    description: "對精英的一般傷害+25%",
+    classId: null,
+  },
+  {
+    id: 65,
+    name: "靜心施法",
+    rarity: "黃",
+    description: "三秒未使用左鍵，職技傷+30%",
+    classId: null,
+  },
+  {
+    id: 66,
+    name: "連戰餘勢",
+    rarity: "黃",
+    description: "擊殺後四秒全域傷每層3%，最多十層",
+    classId: null,
+  },
+  {
+    id: 67,
+    name: "術式護幕",
+    rarity: "黃",
+    description: "職技產生兩秒最大生命10%盾",
+    classId: null,
+  },
+  {
+    id: 68,
+    name: "破綻捕捉",
+    rarity: "黃",
+    description: "对冰凍或暈眩目標技能傷+40%",
+    classId: null,
+  },
+  {
+    id: 69,
+    name: "急速回神",
+    rarity: "紫",
+    description: "受傷後兩秒攻速強度+.25",
+    classId: null,
+  },
 ] as const;
 export type Card = (typeof cards)[number];
 export const cardLevel = (r: Run, id: number) => r.cards[id] || 0;
@@ -444,7 +514,7 @@ export function eligible(r: Run, c: Card) {
   if (c.classId && c.classId !== r.classId) return false;
   if (c.id <= 14) return c.id !== 12 || r.elements.length > 0;
   if ([15, 19, 24, 28].includes(c.id)) return !l && r.elements.length < 2;
-  if (l >= 5) return false;
+  if (l >= 5 * (r.loop ?? 1)) return false;
   if (c.id < 19) return r.elements.includes("ice");
   if (c.id < 24) return r.elements.includes("fire");
   if (c.id < 28) return r.elements.includes("water");

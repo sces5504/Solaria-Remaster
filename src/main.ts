@@ -1,3 +1,7 @@
+import { isBossRoom } from "./game/data/journey";
+import { nextLoop } from "./game/core/run";
+import { currentBiome } from "./game/data/biomes";
+import { bosses } from "./game/data/bosses";
 import "./style.css";
 import { Stage } from "./render/stage";
 import { Input } from "./input/keyboard";
@@ -110,12 +114,12 @@ function refresh(force = false) {
     html = `<section class="panel"><h2>無法載入遊戲</h2><p>此版本需要 WebGL。請使用支援 WebGL 的桌面瀏覽器；既有存檔保留。</p>${view.button("重試", "reload")}</section>`;
   else if (run) {
     if (run.phase === "ROOM_INTRO")
-      html = `<section class="panel"><div class="eyebrow">暮光草原 · 第 ${run.room} / 5 房</div><h2>${run.room === 5 ? zh.bosses[run.boss as 1] : zh.templates[run.templates[run.room - 1]]}</h2><p>${run.room === 5 ? "領主已在等你。留意預警，善用掩體。" : run.modifiers.length ? run.modifiers.map((m) => zh.modifiers[m]).join("<br>") : "一片安靜的暮色，危機藏在樹影之間。"}</p><p class="fine">${zh.controls}</p>${view.button("進入戰鬥", "start", saveBusy ? "disabled" : "")}</section>`;
+      html = `<section class="panel"><div class="eyebrow">${currentBiome(run).name} · 第 ${run.room} / 31 房</div><h2>${isBossRoom(run) ? (run.room === 31 ? "索拉里斯神" : (bosses[run.boss]?.name ?? zh.bosses[run.boss as 1])) : currentBiome(run).themes[run.templates[(run.room - 1) % 5]]}</h2><p>${isBossRoom(run) ? "領主已在等你。留意預警，善用掩體。" : run.modifiers.length ? run.modifiers.map((m) => zh.modifiers[m]).join("<br>") : "一片安靜的暮色，危機藏在樹影之間。"}</p><p class="fine">${zh.controls}</p>${view.button("進入戰鬥", "start", saveBusy ? "disabled" : "")}</section>`;
     if (run.phase === "UPGRADE_CHOICE") html = view.choiceView(run, selected);
     if (run.phase === "DEAD")
       html = `<section class="panel"><div class="eyebrow">旅程紀錄</div><h2>暮光收留了你</h2><p>${zh.classes[run.classId]} · Lv.${run.level}<br>抵達第 ${run.room} 房 · ${Math.floor(run.time / 60)} 分 ${Math.floor(run.time % 60)} 秒</p><p>這次的構築告一段落，下一次旅程仍有所有職業與卡片。</p>${view.button("再踏旅途", "new")}${view.button("主選單", "menu")}</section>`;
     if (run.phase === "RUN_END")
-      html = `<section class="panel"><div class="eyebrow">第一里程碑完成</div><h2>草原之後，日光仍在等待</h2><p>${zh.classes[run.classId]} · Lv.${run.level}<br>${Math.floor(run.time / 60)} 分 ${Math.floor(run.time % 60)} 秒 · 擊敗${zh.bosses[run.boss as 1]}</p><p>製作者：Mori Fang</p><p class="fine">此版本在草原結束。其餘秘境於第二次任務接續。</p>${view.button("完成本局", "finish")}${view.button("匯出構築", "export")}</section>`;
+      html = `<section class="panel"><div class="eyebrow">日光重臨 · 第 ${run.loop ?? 1} 周目</div><h2>旅人，謝謝你</h2><p>${zh.classes[run.classId]} · Lv.${run.level}<br>${Math.floor(run.time / 60)} 分 ${Math.floor(run.time % 60)} 秒 · 擊敗${bosses[run.boss]?.name ?? zh.bosses[run.boss as 1]}</p><p>製作者：Mori Fang</p><p class="fine">下一周目保留本局構築，秘境將重新展開。</p>${view.button("下一周目", "nextLoop")}${view.button("完成本局", "finish")}${view.button("匯出構築", "export")}</section>`;
   }
   const wasModal = !overlay.classList.contains("hidden");
   overlay.innerHTML = html;
@@ -148,6 +152,7 @@ async function action(value: string) {
       persist(true);
     } else if (act === "continue") {
       run = await saves.load();
+      if (saves.recoveryNotice) notify(saves.recoveryNotice);
       if (run) {
         screen = "game";
         audio.unlock();
@@ -196,6 +201,8 @@ async function action(value: string) {
       screen = "menu";
       run = null;
       saved = await saves.load();
+    } else if (act === "nextLoop" && run && !saveBusy) {
+      if (nextLoop(run)) persist(true);
     } else if (act === "finish" && run) {
       await saveChain;
       await saves.clear(run);
@@ -330,6 +337,7 @@ async function boot() {
       return;
     }
     screen = "menu";
+    if (saves.recoveryNotice) notify(saves.recoveryNotice);
     refresh(true);
     requestAnimationFrame(frame);
   } catch (error) {

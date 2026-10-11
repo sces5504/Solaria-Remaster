@@ -1,3 +1,4 @@
+import { journeyFor, selectSegment, isBossRoom } from "../data/journey";
 import type { Run, ClassId, Command } from "./types";
 import { DT, seedFor, random, clone, distance, angle } from "./primitives";
 import { populate, classes } from "../data/world";
@@ -8,12 +9,15 @@ import {
   hit,
   hurt,
   visual,
+  shield,
+  factor,
   updateAreas,
   updateProjectiles,
   cone,
 } from "../systems/combat";
 import { move, segmentDistance } from "../systems/geometry";
 import { updateEnemies, updateModes, refillEnemies } from "../systems/enemies";
+import { createHazards, updateHazards } from "../systems/hazards";
 export function newRun(classId: ClassId, seed: number): Run {
   const state = { rng: seedFor(seed, 999) };
   const templates = [0, 1, 2, 3, 4, 5];
@@ -29,6 +33,8 @@ export function newRun(classId: ClassId, seed: number): Run {
     rng: state.rng,
     cardRng: seedFor(seed, 777),
     room: 1,
+    loop: 1,
+    journey: journeyFor(seed),
     templates: templates.slice(0, 4),
     boss: random(state) < 0.5 ? 1 : 2,
     classId,
@@ -94,8 +100,10 @@ export function newRun(classId: ClassId, seed: number): Run {
     attackLog: [],
     message: "",
   };
+  selectSegment(r);
   r.stats = derive(r);
   populate(r);
+  createHazards(r);
   return r;
 }
 export function startRoom(r: Run) {
@@ -103,31 +111,67 @@ export function startRoom(r: Run) {
 }
 export function enterNext(r: Run) {
   if (r.phase !== "POST_CLEAR") return false;
-  if (r.room === 5) {
+  if (r.room === 31) {
     r.phase = "RUN_END";
     return true;
   }
   r.room++;
+  if (r.room % 5 === 1) selectSegment(r);
   r.phase = "ROOM_INTRO";
   populate(r);
+  createHazards(r);
+  return true;
+}
+export function nextLoop(r: Run) {
+  if (r.phase !== "RUN_END") return false;
+  r.loop = (r.loop ?? 1) + 1;
+  r.journey = journeyFor(r.seed, r.loop);
+  r.room = 1;
+  selectSegment(r);
+  r.phase = "ROOM_INTRO";
+  r.solaris = undefined;
+  populate(r);
+  createHazards(r);
   return true;
 }
 function deathRewards(r: Run) {
   const dead = r.enemies.filter((e) => e.hp <= 0);
   for (const e of dead) {
+    if (e.sealPillar) {
+      r.drops.push({
+        id: r.nextId++,
+        x: e.x,
+        y: e.y,
+        kind: "heal",
+        value: r.stats.maxHP * 0.15,
+      });
+      continue;
+    }
+    if (r.cards[66])
+      r.momentum = {
+        stacks: Math.min(
+          10,
+          (r.momentum && r.momentum.until > r.time ? r.momentum.stacks : 0) + 1,
+        ),
+        until: r.time + 4,
+      };
     r.kills = (r.kills || 0) + 1;
     r.score = (r.score || 0) + (e.kind > 5 ? 500 : e.elite ? 50 : 25);
     if (!e.summoned) {
       const value =
         (e.xpReward ?? (e.kind > 5 ? 148 : 12 * (e.elite ? 2 : 1))) *
-        r.stats.xp;
+        r.stats.xp *
+        1.3 ** ((r.loop ?? 1) - 1);
       r.drops.push({ id: r.nextId++, x: e.x, y: e.y, kind: "xp", value });
-      if (e.kind > 5) {
+      if (
+        e.kind > 5 &&
+        !r.enemies.some((other) => other.kind > 5 && other.hp > 0)
+      ) {
         for (let i = 0; i < 2; i++) {
           const item = itemFor(r, e.id, i);
           if (item) r.items.push({ ...item, x: e.x + i * 30, y: e.y });
         }
-      } else {
+      } else if (e.kind <= 5) {
         const item = itemFor(r, e.id);
         if (item) r.items.push(item);
       }
@@ -148,7 +192,8 @@ function deathRewards(r: Run) {
     } else if (!e.summoned) r.dropCounter++;
   }
   r.enemies = r.enemies.filter((e) => e.hp > 0);
-  if (dead.some((e) => e.kind > 5)) r.enemies = [];
+  if (dead.some((e) => e.kind > 5) && !r.enemies.some((e) => e.kind > 5))
+    r.enemies = [];
 }
 function consumeDrops(r: Run, all = false) {
   for (const d of r.drops)
@@ -170,14 +215,16 @@ export function settle(r: Run) {
   r.settlementEnds = r.time + 1.1;
   r.player.hp = Math.min(
     r.stats.maxHP,
-    r.player.hp + (r.room === 5 ? r.stats.maxHP : r.stats.maxHP * 0.1),
+    r.player.hp + (isBossRoom(r) ? r.stats.maxHP : r.stats.maxHP * 0.1),
   );
+  if (r.cards[63])
+    shield(r, r.stats.maxHP * (0.1 + 0.02 * (factor(r, 63, 1) - 1)), 5);
   r.modes = [];
   visual(
     r,
     "heal",
     r.player,
-    Math.round(r.room === 5 ? r.stats.maxHP : r.stats.maxHP * 0.1),
+    Math.round(isBossRoom(r) ? r.stats.maxHP : r.stats.maxHP * 0.1),
     0x9debba,
   );
 }
@@ -191,7 +238,7 @@ function finishSettlement(r: Run) {
   if (r.pendingLevels) {
     r.phase = "UPGRADE_CHOICE";
     drawChoices(r);
-  } else r.phase = "POST_CLEAR";
+  } else r.phase = r.room === 31 ? "RUN_END" : "POST_CLEAR";
 }
 
 export function step(r: Run, c: Command, paused = false) {
@@ -200,6 +247,7 @@ export function step(r: Run, c: Command, paused = false) {
   r.time += DT;
   r.tick++;
   r.stats = derive(r);
+  updateHazards(r);
   const p = r.player;
   p.aim = angle(p, c.pointerWorld);
   p.shields = p.shields.filter((s) => s.until > r.time && s.amount > 0);
@@ -241,8 +289,8 @@ export function step(r: Run, c: Command, paused = false) {
       }
     } else {
       const len = Math.hypot(c.move.x, c.move.y) || 1;
-      const nx = (c.move.x / len) * r.stats.speed * DT,
-        ny = (c.move.y / len) * r.stats.speed * DT;
+      const nx = (c.move.x / len) * r.stats.speed * (p.terrainSlow ?? 1) * DT,
+        ny = (c.move.y / len) * r.stats.speed * (p.terrainSlow ?? 1) * DT;
       const temp = { x: p.x, y: p.y };
       move(r, temp, nx, ny, p.radius);
       if (

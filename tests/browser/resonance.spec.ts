@@ -1,3 +1,4 @@
+import { cards } from "../../src/game/data/cards";
 import { test, expect, type Page } from "@playwright/test";
 import { newRun } from "../../src/game/core/run";
 import { actor, populate } from "../../src/game/data/world";
@@ -29,8 +30,10 @@ test("背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不�
       .evaluate((n) => getComputedStyle(n).backgroundImage),
   ).toContain("twilight.svg");
   await page.screenshot({ path: "test-results/dusk-menu.png" });
-  await page.getByRole("button", { name: "卡片圖鑑 · 59" }).click();
-  await expect(page.locator(".catalog-card.locked")).toHaveCount(59);
+  await page
+    .getByRole("button", { name: `卡片圖鑑 · ${cards.length}` })
+    .click();
+  await expect(page.locator(".catalog-card.locked")).toHaveCount(cards.length);
   await expect(page.locator(".catalog")).not.toContainText("衝鋒斬");
   await page.getByRole("button", { name: "返回", exact: true }).click();
   await page.getByRole("button", { name: "開始新局", exact: true }).click();
@@ -75,7 +78,9 @@ test("背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不�
   await page.getByRole("button", { name: "開始新局", exact: true }).click();
   await page.getByRole("button", { name: "確認新局", exact: true }).click();
   await page.reload();
-  await page.getByRole("button", { name: "卡片圖鑑 · 59" }).click();
+  await page
+    .getByRole("button", { name: `卡片圖鑑 · ${cards.length}` })
+    .click();
   await expect(page.locator('[data-card="47"]')).not.toHaveClass(/locked/);
 });
 test("戰鬥可 E 收裝備到背包，裝備整理仍需清關", async ({ page }) => {
@@ -172,7 +177,7 @@ test("音量左側測試面板可搜尋給卡、換職業補覺醒，保留待�
   const volumeBox = await page.locator("#volume").boundingBox();
   expect(testBox!.x + testBox!.width).toBeLessThan(volumeBox!.x);
   await page.getByRole("button", { name: "測試", exact: true }).click();
-  await expect(page.locator(".test-card")).toHaveCount(59);
+  await expect(page.locator(".test-card")).toHaveCount(cards.length);
   await page.getByRole("searchbox", { name: "搜尋測試卡片" }).fill("連鎖閃電");
   await expect(page.locator(".test-card:visible")).toHaveCount(1);
   await page.locator('[data-action="grant:29"]').click();

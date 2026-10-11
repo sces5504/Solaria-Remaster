@@ -101,25 +101,37 @@ const unique: Record<number, string> = {
     '<ellipse cx="52" cy="52" rx="38" ry="14" transform="rotate(-25 52 52)"/>' +
     star,
   59: ring + '<ellipse cx="52" cy="52" rx="38" ry="13"/>',
+  60: '<path d="M25 26v53h55M25 58q15-12 28 3 14 15 27-7M36 18v24M69 64v23"/>',
+  61: '<path d="M28 28h48v48H28ZM40 18v16M64 18v16M40 70v16M64 70v16M37 52h30M52 37v30"/>',
+  62: '<path d="M16 30h27M12 44h23M22 72h25M48 23l28 9-14 22 21 13-9 15-30-24 15-20-20-5Z"/>',
+  63: '<path d="M22 77h60M32 66l20-38 20 38M52 18v12M20 30l13 13M84 30 71 43M35 77v10M69 77v10"/>',
+  64: '<path d="m52 18 29 16v32L52 84 23 66V34ZM34 40l8 8M70 40l-8 8M38 65l28-28M61 31l12 12"/>',
+  65: '<path d="M28 29h48M30 76h44M31 29q3 16 21 23-18 6-21 24M73 29Q70 46 52 52q18 7 21 24M52 38v12M45 68h14"/>',
+  66: '<path d="M18 73l22-22 15 9 30-36M69 24h16v16M22 85V73M42 85V65M62 85V67M82 85V54"/>',
+  67: '<path d="m27 27 25-10 25 10-5 41-20 19-20-19Z M41 38h22M52 27v33M39 60l13 14 13-14"/>',
+  68: '<path d="m28 20 46 64M76 20 29 84M52 32v14M35 52h12M57 52h12M52 58v14M22 25l4 12M80 68l-4 12"/>',
+  69: '<path d="M26 31a32 32 0 1 1-1 42M26 17v20H12M52 28v24l17 12M38 74l13-16 10 12"/>',
 };
 export function cardFamily(id: number) {
-  return id <= 14
+  return id >= 60
     ? "traveler"
-    : id <= 18
-      ? "ice"
-      : id <= 23
-        ? "fire"
-        : id <= 27
-          ? "water"
-          : id <= 31
-            ? "lightning"
-            : id <= 40
-              ? "fusion"
-              : id <= 47
-                ? "sword"
-                : id <= 53
-                  ? "bow"
-                  : "mage";
+    : id <= 14
+      ? "traveler"
+      : id <= 18
+        ? "ice"
+        : id <= 23
+          ? "fire"
+          : id <= 27
+            ? "water"
+            : id <= 31
+              ? "lightning"
+              : id <= 40
+                ? "fusion"
+                : id <= 47
+                  ? "sword"
+                  : id <= 53
+                    ? "bow"
+                    : "mage";
 }
 export function cardArt(id: number, locked = false) {
   const family = locked ? "unknown" : cardFamily(id);

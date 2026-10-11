@@ -1,5 +1,9 @@
+import { placeSolaris } from "../systems/solaris";
 import type { Run, Obstacle, Actor } from "../core/types";
 import { random, seedFor } from "../core/primitives";
+import { biomeLayout, currentBiome, enemyHPScale, monsters } from "./biomes";
+import { placeBoss } from "../systems/biome-bosses";
+import { bossArena } from "./bosses";
 export const roomXPBudget = (room: number) =>
   100 + 20 * Math.min(room - 1, 4) + 10 * Math.max(0, room - 5);
 export const classes = {
@@ -251,7 +255,9 @@ export function actor(
   };
 }
 export function populate(r: Run) {
-  r.rng = seedFor(r.seed, r.room);
+  const biome = currentBiome(r);
+  const localRoom = ((r.room - 1) % 5) + 1;
+  r.rng = seedFor(r.seed, r.room + ((r.loop ?? 1) - 1) * 1000);
   r.enemies = [];
   r.reserves = [];
   r.reinforcementAt = r.time + 2;
@@ -264,16 +270,34 @@ export function populate(r: Run) {
   r.settledOnce = false;
   r.settlementEnds = undefined;
   r.route = roomRoute(
-    r.templates[r.room - 1] ?? 0,
-    r.room === 5 ? r.boss : 0,
-    r.seed + r.room,
+    r.templates[localRoom - 1] ?? 0,
+    localRoom === 5 ? r.boss : 0,
+    r.seed + r.room + ((r.loop ?? 1) - 1) * 1000,
   );
   r.killOrdinal = 0;
   r.obstacles = makeObstacles(
-    r.templates[r.room - 1] ?? 0,
-    r.room === 5 ? r.boss : 0,
-    r.seed + r.room,
+    r.templates[localRoom - 1] ?? 0,
+    localRoom === 5 ? r.boss : 0,
+    r.seed + r.room + ((r.loop ?? 1) - 1) * 1000,
   );
+  if (r.biome && r.biome !== "meadow") {
+    const layout = biomeLayout(
+      r.biome,
+      r.templates[localRoom - 1] ?? 0,
+      r.seed + r.room + ((r.loop ?? 1) - 1) * 1000,
+      localRoom === 5 ? r.boss : 0,
+    );
+    r.obstacles = layout.obstacles;
+    r.route = layout.route;
+  }
+  if (localRoom === 5 && r.boss > 2) {
+    const layout = bossArena(
+      r.boss,
+      r.seed + r.room + ((r.loop ?? 1) - 1) * 1000,
+    );
+    r.obstacles = layout.obstacles;
+    r.route = layout.route;
+  }
   r.player.x = 112;
   r.player.y = 320;
   r.player.attackNext = r.time;
@@ -282,8 +306,16 @@ export function populate(r: Run) {
   r.player.blockUntil = 0;
   r.player.counterAt = 0;
   r.modifiers = [];
-  if (r.room === 5) {
-    const e = actor(r.nextId++, r.boss + 5, 760, 320);
+  if (r.room === 31) {
+    placeSolaris(r);
+    return;
+  }
+  if (localRoom === 5) {
+    const e =
+      r.boss > 2
+        ? placeBoss(r, r.boss)
+        : actor(r.nextId++, r.boss + 5, 760, 320);
+    if (r.boss <= 2) e.hp = e.maxHP *= 1.6 ** ((r.loop ?? 1) - 1);
     e.nextAttack = r.time + 1.5;
     e.xpReward = roomXPBudget(r.room);
     r.enemies.push(e);
@@ -296,11 +328,17 @@ export function populate(r: Run) {
     while (r.modifiers.includes(m)) m = (m + 1) % 8;
     r.modifiers.push(m);
   }
-  let n = 8 + Math.floor(random(r) * 5);
+  let n = 8 + biome.tier * 2 + Math.floor(random(r) * (5 + biome.tier));
   if (r.modifiers.includes(0)) n = Math.ceil(n * 1.25);
-  const eliteIndex = random(r) < 0.25 ? Math.floor(random(r) * n) : -1;
+  const eliteIndices = new Set<number>();
+  for (let i = 0; i < (biome.tier >= 3 ? 2 : 1); i++)
+    if (random(r) < 0.25 + biome.tier * 0.05)
+      eliteIndices.add(Math.floor(random(r) * n));
   for (let i = 0; i < n; i++) {
-    const kind = 1 + ((i + Math.floor(random(r) * 2)) % 5);
+    const monsterId =
+      biome.monsters[(i + Math.floor(random(r) * 2)) % biome.monsters.length];
+    const definition = monsters[monsterId];
+    const kind = definition?.archetype ?? monsterId;
     let x = 0,
       y = 0;
     for (let retry = 0; retry < 100; retry++) {
@@ -318,7 +356,14 @@ export function populate(r: Run) {
       )
         break;
     }
-    const e = actor(r.nextId++, kind, x, y, i === eliteIndex);
+    const e = actor(r.nextId++, kind, x, y, eliteIndices.has(i));
+    if (definition) {
+      e.monsterId = monsterId;
+      e.radius = definition.radius;
+      e.element = definition.element;
+    }
+    e.hp = e.maxHP *= enemyHPScale(r);
+    if (e.elite) assignElite(r, e);
     e.nextAttack = r.time + 1.5 + i * 0.35;
     if (r.modifiers.includes(1)) e.hp = e.maxHP *= 1.3;
     if (random(r) < (r.modifiers.includes(5) ? 0.2 : 0.05))
@@ -329,6 +374,8 @@ export function populate(r: Run) {
   }
   if (r.modifiers.includes(7)) {
     const e = actor(r.nextId++, 3, 880, 320, true);
+    assignElite(r, e);
+    e.hp = e.maxHP *= enemyHPScale(r);
     e.nextAttack = r.time + 3;
     r.enemies.push(e);
   }
@@ -337,4 +384,18 @@ export function populate(r: Run) {
   for (const e of r.enemies) e.xpReward = (budget * (e.elite ? 2 : 1)) / weight;
   r.encounterCap = 4 + Math.floor(random(r) * 7);
   r.reserves = r.enemies.splice(r.encounterCap);
+}
+
+export function assignElite(r: Run, e: Actor) {
+  const choices =
+    e.kind <= 3
+      ? (["rush", "shield", "element"] as const)
+      : (["barrage", "shield", "element"] as const);
+  e.eliteAbility = choices[Math.floor(random(r) * choices.length)];
+  e.eliteReady = r.time + 3;
+  if (e.eliteAbility === "shield") e.enemyShield = e.maxHP * 0.2;
+  if (e.eliteAbility === "element")
+    e.element = (["ice", "fire", "water", "lightning"] as const)[
+      Math.floor(random(r) * 4)
+    ];
 }
