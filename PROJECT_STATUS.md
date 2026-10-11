@@ -97,3 +97,7 @@ S06–S14 未開始：八個新增地形／16 Boss、最終三血四柱、26 後
 - PASS：119unit，新增25次非整點行星爆＋回響皆爆炸且每發一次、敵方瞬間落雷與過期場、範圍與畫面一致、連鎖距離／掩體／上限、真實冰凍與麻痺／Boss免控、59卡給予与前置／換職／刷新讀檔。
 - 瀏覽器：15場景首輪通過，新增測試按鈕位置／搜尋給卡／職業與元素前置／待選刷新保留／重載、冰緩速vs冰凍vs麻痺／連鎖／雷柱／爆炸及無切圖底框實際WebGL截圖。PASS：最後柔光雷柱與彈道版本完整15場景回歸通過，最後分岔輪廓與文案再針對3個受影響場景回歸，皆通過。check／build／format:check通過；發布／線上驗證待下節記錄。
 - 實體GPU60FPS与人工完整五房構築平衡仍NOT_RUN；S06–S14未開始。
+
+- PASS：遊戲commit `061e7ee30766c2b1583aed775ff1c5f8331f221d` 已發布到 GitHub Pages；[Pages run 38143596680](https://github.com/sces5504/Solaria-Remaster/actions/runs/38143596680) build／deploy均success，正式CI完整119unit／15Chromium全數通過。
+- PASS：正式網址雲端Chromium核驗HTML／CSS／JS／所有素材HTTP200、atlas／持武器肖像SHA256一致、法師新局／保持左鍵加右鍵職技、舞台比例／無捲動、IndexedDB重載、E拾取、Pages背景、暫停／圖鑑、刷新讀檔仍已用；新增測試按鈕在音量左方，59卡搜尋／給予58行星回響與29連鎖雷及前置覺醒、重載仍保留能力。pageerror與HTTP失敗均零。
+- 本次記錄的遊戲版本為061e7ee；後續只更新驗證文件的提交不改玩法。
