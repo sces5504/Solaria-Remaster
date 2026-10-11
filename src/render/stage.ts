@@ -201,11 +201,6 @@ export class Stage {
           alpha: profile === 5 ? 0.17 : 0.12,
         });
     }
-    if (profile === 5)
-      for (const o of r.obstacles.filter((o) => o.kind === "pillar"))
-        g.rect(o.x - 8, o.y - 8, o.w + 16, o.h + 16)
-          .fill({ color: 0x91a8a0, alpha: 0.16 })
-          .stroke({ color: 0xb3b9a1, width: 1, alpha: 0.2 });
     for (let i = 0; i < 480; i++) {
       const x = 40 + hash(i, 1, r.seed + r.room) * 940,
         y = 76 + hash(i, 2, r.seed + r.room) * 515,
@@ -252,9 +247,6 @@ export class Stage {
       g.rect(24, y, 8, 17).fill(0x405c51);
       g.rect(992, y, 8, 17).fill(0x405c51);
     }
-    // Ambient pools are painted once; moving light stays on the effect layer.
-    g.ellipse(112, 320, 44, 23).fill({ color: 0xacc9a0, alpha: 0.07 });
-    g.ellipse(928, 320, 44, 25).fill({ color: 0xdfc487, alpha: 0.1 });
   }
   private weapon(r: Run) {
     const p = r.player,
@@ -479,7 +471,7 @@ export class Stage {
         s.rotation = Math.cos(e.moveAngle) < 0 ? -0.08 : 0.08;
       }
       s.tint =
-        e.controlUntil > r.time
+        (e.freezeUntil || 0) > r.time
           ? 0xbcefff
           : e.phase === 2
             ? 0xffc7a1
@@ -490,9 +482,32 @@ export class Stage {
         this.glow(e.x, e.y, e.radius + 22, 0xff8c41, 0.45);
         elementMotif(f, e.x, e.y, e.radius * 0.8, ["fire"], r.time, 0.55);
       }
+      const frozen = (e.freezeUntil || 0) > r.time;
       if (e.iceUntil > r.time) {
-        s.tint = e.controlUntil > r.time ? 0xb6f7ff : 0xc7edff;
-        elementMotif(f, e.x, e.y + 5, e.radius * 0.9, ["ice"], r.time, 0.45);
+        s.tint = frozen ? 0xb6f7ff : 0xd6edee;
+        if (frozen)
+          elementMotif(f, e.x, e.y + 5, e.radius * 0.9, ["ice"], r.time, 0.75);
+        else
+          for (const sign of [-1, 1])
+            diamond(f, e.x + sign * (e.radius + 2), e.y + 10, 3, 0xc6f7ff, 0.7);
+      }
+      if ((e.stunUntil || 0) > r.time) {
+        s.tint = 0xffefa1;
+        s.x += Math.sin(r.time * 95 + e.id) * 1.7;
+        this.glow(e.x, e.y, e.radius + 20, 0xffd357, 0.5);
+        for (let i = 0; i < 3; i++) {
+          const a = r.time * 6 + (i * Math.PI * 2) / 3;
+          bolt(
+            f,
+            e.x + Math.cos(a) * 12,
+            e.y - 18 + Math.sin(a) * 9,
+            e.x + Math.cos(a + 0.8) * 27,
+            e.y - 18 + Math.sin(a + 0.8) * 18,
+            r.time + i,
+            0xffdf68,
+            0.9,
+          );
+        }
       }
       if (e.wetUntil > r.time)
         f.ellipse(e.x, e.y + 15, e.radius + 5, 6).stroke({
@@ -533,12 +548,12 @@ export class Stage {
           .fill(0x172932)
           .rect(e.x - 18, e.y - size * 0.47, (36 * e.hp) / e.maxHP, 3)
           .fill(0xe1b199);
-      if (e.iceUntil > r.time) {
+      if (frozen) {
         this.glow(e.x, e.y, 34, 0x8fd8ff, 0.25);
         for (const sign of [-1, 1])
           diamond(f, e.x + sign * 19, e.y + 7, 10, 0xc6f7ff, 0.7);
       }
-      if (e.controlUntil > r.time)
+      if (frozen)
         f.poly([
           e.x - 20,
           e.y + 15,
@@ -708,16 +723,16 @@ export class Stage {
         a = Math.atan2(b.vy, b.vx),
         scale = b.context?.chainScale ?? 1,
         alpha = scale < 1 ? 0.55 : 1;
-      this.glow(b.x, b.y, b.enemy ? 17 : 23, color, alpha * 0.45);
+      this.glow(b.x, b.y, b.enemy ? 17 : 32, color, alpha * 0.45);
       const owner = r.enemies.find((e) => e.id === b.owner),
         arrow = b.enemy
           ? owner?.kind === 4
           : !els.length && r.classId === "bow";
-      const tx = b.x - Math.cos(a) * (arrow ? 20 : 14),
-        ty = b.y - Math.sin(a) * (arrow ? 20 : 14);
+      const tx = b.x - Math.cos(a) * (arrow ? 28 : 23),
+        ty = b.y - Math.sin(a) * (arrow ? 28 : 23);
       for (const [width, fade] of [
-        [7, 0.1],
-        [3, 0.3],
+        [b.enemy ? 7 : 12, 0.16],
+        [b.enemy ? 3 : 5, 0.45],
         [1, 0.9],
       ])
         g.moveTo(tx, ty)
@@ -743,7 +758,7 @@ export class Stage {
         bolt(g, tx, ty, b.x, b.y, r.time, color, alpha);
         diamond(g, b.x, b.y, 6, color, alpha);
       } else {
-        diamond(g, b.x, b.y, b.radius + 3, color, alpha);
+        diamond(g, b.x, b.y, b.radius + (b.enemy ? 3 : 5), color, alpha);
         g.circle(b.x, b.y, b.radius * 0.5).fill({ color: 0xfff6d9, alpha });
         if (els.includes("fire"))
           g.poly([
@@ -798,7 +813,10 @@ export class Stage {
       }
     const active = new Set<number>();
     for (const v of r.visuals) {
-      const progress = Math.max(0, (v.until - r.time) / 0.45);
+      const progress = Math.max(
+        0,
+        Math.min(1, (v.until - r.time) / (v.duration || 0.45)),
+      );
       if (v.kind === "damage" || v.kind === "heal") {
         active.add(v.id);
         let text = this.texts.get(v.id);
@@ -818,10 +836,21 @@ export class Stage {
         text.alpha = progress;
       } else {
         visualEffect(v.enemy ? d : f, r, v);
+        if (v.kind === "thunder")
+          for (let i = 1; i <= 5; i++) {
+            const y = Math.max(14, v.y - i * 42);
+            this.glow(
+              v.x + Math.sin(i * 13 + r.time * 29) * 9,
+              y,
+              24 + progress * 15,
+              v.color,
+              progress * 0.35,
+            );
+          }
         this.glow(
           v.x,
           v.y,
-          Math.min(130, v.radius + 20),
+          Math.min(220, v.radius + 45),
           v.color,
           progress * (["burst", "thunder"].includes(v.kind) ? 0.7 : 0.25),
         );

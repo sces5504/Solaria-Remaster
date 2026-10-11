@@ -219,9 +219,20 @@ export function step(r: Run, c: Command, paused = false) {
       );
       if (r.cards[47]) {
         if (c.dodge || r.tick % 3 === 0)
-          visual(r, "charge", old, 0, 0xffda83, 32, p.dashAngle);
+          visual(
+            r,
+            "charge",
+            old,
+            0,
+            0xffda83,
+            32 * r.stats.range,
+            p.dashAngle,
+          );
         for (const e of r.enemies)
-          if (segmentDistance(e, old, p) < e.radius + p.radius) {
+          if (
+            segmentDistance(e, old, p) <
+            e.radius + p.radius * r.stats.range
+          ) {
             if (!p.dashHits.includes(e.id)) {
               p.dashHits.push(e.id);
               hit(r, e, 40 * (1 + (r.cards[47] - 1) * 0.2), context(r, 47));

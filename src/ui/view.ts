@@ -128,3 +128,13 @@ export function worldHints(r: Run) {
     html += '<div class="settlement-note">清算中 · 收集經驗與補給</div>';
   return html;
 }
+
+export function testing(r: Run, query = "") {
+  return `<section class="panel wide test-panel"><div class="eyebrow">旅人試驗場 · 世界暫停</div><h2>測試構築</h2><p>直接給予已實作的卡片，不消耗升級選擇。職業卡切換職業並替換職業卡；元素自動覺醒，超過兩種時替換元素構築。</p><label class="test-search">尋找力量 <input id="test-search" type="search" value="${escape(query)}" placeholder="卡名、能力或編號" aria-label="搜尋測試卡片"></label><div class="test-summary">${zh.classes[r.classId]} · ${r.elements.map((e) => zh.elements[e]).join("／") || "尚未覺醒"} · 職技 ${r.stats.skillCD.toFixed(1)} 秒</div><div class="test-cards">${cards
+    .map((c) => {
+      const l = r.cards[c.id] || 0,
+        max = c.id <= 14 ? Infinity : [15, 19, 24, 28].includes(c.id) ? 1 : 5;
+      return `<article class="test-card ${c.rarity}" ${`${c.id} ${c.name} ${cardCopy[c.id] || c.description}`.toLowerCase().includes(query.trim().toLowerCase()) ? "" : "hidden"} data-search="${escape(`${c.id} ${c.name} ${cardCopy[c.id] || c.description}`)}">${cardArt(c.id)}<div><strong>#${c.id} ${c.name}</strong><p>${cardCopy[c.id] || c.description}</p><small>目前 ${l ? "Lv." + l : "未取得"}${c.classId ? " · " + zh.classes[c.classId] : ""}</small></div>${button(l >= max ? "已滿級" : "給予 +1", `grant:${c.id}`, l >= max ? "disabled" : "")}</article>`;
+    })
+    .join("")}</div>${button("返回", "testBack")}</section>`;
+}

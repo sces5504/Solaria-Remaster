@@ -15,7 +15,7 @@ import { classes } from "../data/world";
 import { legal, lineBlocked } from "./geometry";
 export function targetPoint(r: Run, c: Command, range = 450) {
   const d = distance(r.player, c.pointerWorld),
-    mul = Math.min(1, range / (d || 1));
+    mul = Math.min(1, (range * r.stats.range) / (d || 1));
   return {
     x: clamp(r.player.x + (c.pointerWorld.x - r.player.x) * mul, 40, 984),
     y: clamp(r.player.y + (c.pointerWorld.y - r.player.y) * mul, 72, 600),

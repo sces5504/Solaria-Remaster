@@ -55,6 +55,8 @@ export interface Actor extends Vec {
   navUntil: number;
   attackOrdinal: number;
   controlUntil: number;
+  freezeUntil?: number;
+  stunUntil?: number;
   iceUntil: number;
   frost: number;
   wetUntil: number;
@@ -100,6 +102,8 @@ export interface Player extends Vec {
   buffUntil: number;
   engineUntil: number;
   controlUntil: number;
+  freezeUntil?: number;
+  stunUntil?: number;
   ccImmune: number;
   frost: number;
   iceUntil: number;

@@ -44,28 +44,51 @@ export function bolt(
   time: number,
   color: number,
   alpha = 1,
+  weight = 1,
 ) {
   const dx = tx - x,
     dy = ty - y,
     len = Math.hypot(dx, dy) || 1;
-  g.moveTo(x, y);
-  for (let i = 1; i < 7; i++) {
-    const jitter = Math.sin(i * 13 + time * 29) * 6;
-    g.lineTo(
-      x + (dx * i) / 7 - (dy / len) * jitter,
-      y + (dy * i) / 7 + (dx / len) * jitter,
+  const points: number[] = [x, y];
+  for (let i = 1; i < 9; i++) {
+    const jitter =
+      (i % 2 ? 1 : -1) *
+      (0.65 + 0.35 * Math.sin(time * 29 + i * 2.7)) *
+      Math.min(18, len * 0.12);
+    points.push(
+      x + (dx * i) / 9 - (dy / len) * jitter,
+      y + (dy * i) / 9 + (dx / len) * jitter,
     );
   }
-  g.lineTo(tx, ty).stroke({ color, width: 4, alpha: alpha * 0.2 });
-  g.moveTo(x, y);
-  for (let i = 1; i < 7; i++) {
-    const jitter = Math.sin(i * 13 + time * 29) * 6;
-    g.lineTo(
-      x + (dx * i) / 7 - (dy / len) * jitter,
-      y + (dy * i) / 7 + (dx / len) * jitter,
-    );
+  points.push(tx, ty);
+  // Shared luminous silhouette: new electric abilities inherit the same weight.
+  for (const [width, opacity, tint] of [
+    [22, 0.12, color],
+    [10, 0.35, color],
+    [5, 0.95, color],
+    [2.5, 1, 0xfffde5],
+  ]) {
+    g.moveTo(points[0], points[1]);
+    for (let i = 2; i < points.length; i += 2)
+      g.lineTo(points[i], points[i + 1]);
+    g.stroke({ color: tint, width: width * weight, alpha: alpha * opacity });
   }
-  g.lineTo(tx, ty).stroke({ color: 0xfffae2, width: 1.5, alpha });
+  if (len > 70)
+    for (const i of [4, 10, 14]) {
+      const side = i === 10 ? -1 : 1,
+        bx = points[i],
+        by = points[i + 1];
+      g.moveTo(bx, by)
+        .lineTo(
+          bx + (dx / len) * 14 - (dy / len) * 16 * side,
+          by + (dy / len) * 14 + (dx / len) * 16 * side,
+        )
+        .lineTo(
+          bx + (dx / len) * 26 - (dy / len) * 35 * side,
+          by + (dy / len) * 26 + (dx / len) * 35 * side,
+        )
+        .stroke({ color, width: 3, alpha: alpha * 0.8 });
+    }
 }
 function arc(
   g: Graphics,
@@ -189,8 +212,8 @@ export function areaEffect(g: Graphics, r: Run, a: Area) {
     return;
   }
   g.circle(a.x, a.y, a.radius)
-    .fill({ color, alpha: warning ? 0.04 : 0.07 })
-    .stroke({ color, width: warning ? 2 : 1, alpha: 0.8 });
+    .fill({ color, alpha: warning ? 0.04 : 0.1 })
+    .stroke({ color, width: warning ? 2 : 3, alpha: 0.8 });
   if (warning) {
     if (a.effect === "thunder") {
       bolt(g, a.x, a.y - 100, a.x, a.y - 24, r.time, 0xffe7a0, 0.45);
@@ -340,10 +363,10 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
   } else if (v.kind === "burst" || v.kind === "thunder") {
     const radius = v.radius * (0.3 + age * 0.85);
     g.circle(v.x, v.y, radius)
-      .fill({ color: v.color, alpha: progress * 0.14 })
+      .fill({ color: v.color, alpha: progress * 0.08 })
       .stroke({
         color: v.color,
-        width: 6 * progress + 1,
+        width: 12 * progress + 2,
         alpha: progress * 0.8,
       });
     g.circle(v.x, v.y, radius * 0.82).stroke({
@@ -351,9 +374,9 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
       width: 2,
       alpha: progress * 0.8,
     });
-    g.circle(v.x, v.y, Math.max(3, v.radius * 0.32 * progress)).fill({
+    g.circle(v.x, v.y, Math.max(3, v.radius * 0.42 * progress)).fill({
       color: 0xfff4dc,
-      alpha: progress * 0.65,
+      alpha: progress * 0.85,
     });
     for (let i = 0; i < 16; i++) {
       const a = i * 2.39996 + v.id,
@@ -369,26 +392,52 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
           alpha: progress,
         });
     }
+    // Bloom petals, bright jets and rising embers separate the blast from a hazard ring.
+    for (let i = 0; i < 12; i++) {
+      const a = i * 2.39996 + v.id,
+        rr = radius * (0.28 + (i % 4) * 0.15);
+      const x = v.x + Math.cos(a) * rr,
+        y = v.y + Math.sin(a) * rr;
+      g.circle(
+        x,
+        y,
+        Math.max(1, v.radius * (0.12 + (i % 3) * 0.035) * progress),
+      ).fill({
+        color: i % 3 === 0 ? 0xfff6d8 : v.color,
+        alpha: progress * 0.38,
+      });
+      g.moveTo(
+        v.x + Math.cos(a) * radius * 0.18,
+        v.y + Math.sin(a) * radius * 0.18,
+      )
+        .lineTo(
+          v.x + Math.cos(a) * radius * 0.95,
+          v.y + Math.sin(a) * radius * 0.95,
+        )
+        .stroke({
+          color: i % 2 ? v.color : 0xfff9e6,
+          width: 5 * progress,
+          alpha: progress * 0.65,
+        });
+      diamond(
+        g,
+        x,
+        y - age * 45,
+        Math.max(1, 5 * progress),
+        0xffefbf,
+        progress,
+      );
+    }
     elementMotif(g, v.x, v.y, radius, v.elements || [], r.time, progress);
     if (v.kind === "thunder") {
       const top = Math.max(14, v.y - 230);
-      g.moveTo(v.x, top)
-        .lineTo(v.x, v.y)
-        .stroke({
-          color: v.color,
-          width: 24 * progress,
-          alpha: progress * 0.2,
-        });
-      bolt(g, v.x, top, v.x, v.y, r.time, v.color, progress);
-      g.moveTo(v.x, top)
-        .lineTo(v.x, v.y)
-        .stroke({ color: 0xfffbe9, width: 3 * progress, alpha: progress });
+      bolt(g, v.x, top, v.x, v.y, r.time, v.color, progress, 1.8);
       for (const sign of [-1, 1])
         bolt(
           g,
           v.x,
           v.y - 75,
-          v.x + sign * 35,
+          v.x + sign * 65,
           v.y - 30,
           r.time + sign,
           v.color,
@@ -408,8 +457,8 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
         to,
       ).stroke({
         color: i === 0 ? 0xfff9e1 : v.color,
-        width: i === 0 ? 3 : 7,
-        alpha: progress * (i === 0 ? 0.9 : 0.15),
+        width: i === 0 ? 5 : 12,
+        alpha: progress * (i === 0 ? 1 : 0.25),
       });
     const a = from + age * v.value;
     g.moveTo(v.x + Math.cos(a) * 20, v.y + Math.sin(a) * 20)

@@ -53,7 +53,7 @@ describe("C01–09 時鐘、職業與來源", () => {
     const r = arena("sword"),
       cmd = idleCommand(r);
     castSkill(r, cmd);
-    expect(r.player.skillReady).toBe(7);
+    expect(r.player.skillReady).toBe(5);
     expect(hurt(r, 30)).toBe(false);
     expect(r.player.counterAt).toBe(0.3);
     r.time = 0.31;

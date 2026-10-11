@@ -54,7 +54,7 @@ export function visual(
     (kind === "damage"
       ? 0.45
       : kind === "burst" || kind === "thunder"
-        ? 0.65
+        ? 0.8
         : 0.3);
   r.visuals.push({
     id: r.nextId++,
@@ -73,7 +73,12 @@ export function visual(
 export function shield(r: Run, amount: number, seconds: number) {
   r.player.shields.push({ amount, until: r.time + seconds });
 }
-export function control(r: Run, e: Actor, seconds: number) {
+export function control(
+  r: Run,
+  e: Actor,
+  seconds: number,
+  cause?: "freeze" | "stun",
+) {
   if (e.kind > 5) {
     if (r.time < e.ccImmune) return;
     if (r.time - e.ccLast > 5) e.ccCount = 0;
@@ -87,6 +92,10 @@ export function control(r: Run, e: Actor, seconds: number) {
     e.ccLast = r.time;
   }
   e.controlUntil = Math.max(e.controlUntil, r.time + seconds);
+  if (cause === "freeze")
+    e.freezeUntil = Math.max(e.freezeUntil || 0, r.time + seconds);
+  if (cause === "stun")
+    e.stunUntil = Math.max(e.stunUntil || 0, r.time + seconds);
 }
 export function elemental(r: Run, e: Actor, ctx: DamageContext, frost = 15) {
   for (const el of ctx.elementMask) {
@@ -96,7 +105,7 @@ export function elemental(r: Run, e: Actor, ctx: DamageContext, frost = 15) {
       e.frost += frost;
       if (e.frost >= 100) {
         e.frost -= 100;
-        control(r, e, e.kind > 5 ? 0.75 : 3);
+        control(r, e, e.kind > 5 ? 0.75 : 3, "freeze");
       }
     }
     if (el === "fire")
@@ -120,7 +129,7 @@ export function elemental(r: Run, e: Actor, ctx: DamageContext, frost = 15) {
           ),
         );
       }
-      if (random(r) < 0.15) control(r, e, e.kind > 5 ? 0.2 : 0.4);
+      if (random(r) < 0.15) control(r, e, e.kind > 5 ? 0.2 : 0.4, "stun");
     }
   }
 }
@@ -247,7 +256,7 @@ export function hit(
             (t) =>
               t.hp > 0 &&
               !visited.includes(t.id) &&
-              distance(from, t) <= 120 &&
+              distance(from, t) <= 180 * r.stats.range &&
               !lineBlocked(r, from, t),
           )
           .sort(
@@ -259,8 +268,8 @@ export function hit(
           "arc",
           from,
           distance(from, target),
-          0xc7b8ff,
-          3,
+          0xffde72,
+          8,
           angle(from, target),
         );
         hit(r, target, 18 * factor(r, 29), child(29, ["lightning"]));
@@ -402,7 +411,7 @@ export function shoot(
     vx: Math.cos(a) * speed * mul,
     vy: Math.sin(a) * speed * mul,
     radius: enemy ? 5 : ctx?.sourceAbilityId === 50 ? 3 : 4,
-    distanceLeft: range,
+    distanceLeft: range * (enemy ? 1 : r.stats.range),
     damage,
     context: ctx,
     enemy,
@@ -433,7 +442,7 @@ export function area(
     owner: 0,
     x: p.x,
     y: p.y,
-    radius,
+    radius: radius * (ctx ? r.stats.range : 1),
     damage,
     starts: r.time + delay,
     ends: r.time + delay + duration,
@@ -577,7 +586,15 @@ export function updateAreas(r: Run) {
       a.next = r.time;
       a.ends = r.time + 0.01;
     }
-    if (r.time < a.starts || r.time < a.next || r.time > a.ends) continue;
+    // A one-shot may begin AND expire between fixed ticks. Resolve its first
+    // scheduled strike once, rather than silently discarding the entire event.
+    const pendingInstant = a.ends - a.starts < 1 / 60 && a.next === a.starts;
+    if (
+      r.time < a.starts ||
+      r.time < a.next ||
+      (r.time > a.ends && !pendingInstant)
+    )
+      continue;
     a.next += a.interval;
     if (a.enemy) {
       if (a.shape === "circle")
@@ -621,7 +638,7 @@ export function updateAreas(r: Run) {
           coneHit(
             a,
             e,
-            a.radius * r.stats.range,
+            a.radius,
             a.angle,
             a.shape === "cone" ? a.width : Math.PI * 2,
             e.radius,
@@ -641,13 +658,13 @@ export function updateAreas(r: Run) {
         a.context.elementMask.includes("fire")
           ? 0xff9d69
           : a.context.elementMask.includes("lightning")
-            ? 0xc3aeff
+            ? 0xffde72
             : 0x83d9ef,
-        a.radius * r.stats.range,
+        a.radius,
         0,
         {
           elements: a.context.elementMask,
-          duration: a.ends - a.starts > 0.1 ? 0.28 : 0.65,
+          duration: a.ends - a.starts > 0.1 ? 0.28 : 0.8,
         },
       );
     }

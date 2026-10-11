@@ -3,9 +3,9 @@ import { random, seedFor } from "../core/primitives";
 export const roomXPBudget = (room: number) =>
   100 + 20 * Math.min(room - 1, 4) + 10 * Math.max(0, room - 5);
 export const classes = {
-  sword: { hp: 150, armor: 25, damage: 30, rate: 2, cd: 7 },
-  bow: { hp: 100, armor: 10, damage: 18, rate: 3, cd: 8 },
-  mage: { hp: 90, armor: 5, damage: 24, rate: 2, cd: 5 },
+  sword: { hp: 150, armor: 25, damage: 30, rate: 2, cd: 5 },
+  bow: { hp: 100, armor: 10, damage: 18, rate: 3, cd: 6 },
+  mage: { hp: 90, armor: 5, damage: 24, rate: 2, cd: 3 },
 };
 // Deterministic procedural meadow. Profiles affect density/material, never fixed coordinates.
 export function roomRoute(profile: number, boss = 0, seed = 1) {

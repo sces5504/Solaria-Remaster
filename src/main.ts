@@ -5,13 +5,19 @@ import { AudioMixer } from "./audio/mixer";
 import { Checkpoints } from "./game/persistence/checkpoint";
 import { FixedClock, clone } from "./game/core/primitives";
 import { newRun, startRoom, step } from "./game/core/run";
-import { choose, equip, discard, reroll } from "./game/systems/progression";
+import {
+  choose,
+  equip,
+  discard,
+  reroll,
+  grantTestCard,
+} from "./game/systems/progression";
 import type { Run, ClassId } from "./game/core/types";
 import { zh } from "./i18n/zh-TW";
 import * as view from "./ui/view";
 const root = document.querySelector<HTMLDivElement>("#app")!;
 root.innerHTML =
-  '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>旅途初章 · 暮光草原</span><div class="sound"><label for="volume">音量</label><input id="volume" type="range" min="0" max="1" step="0.05" aria-label="音效音量"><button id="mute">音效</button></div></header><main><div class="game-layout"><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="world-hints" aria-live="polite"></div><div id="overlay"></div><div id="toast" role="status"></div></div><aside id="sidebar" aria-label="角色屬性與裝備"></aside></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · E 拾取／進門 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
+  '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>旅途初章 · 暮光草原</span><div class="sound"><button id="testing">測試</button><label for="volume">音量</label><input id="volume" type="range" min="0" max="1" step="0.05" aria-label="音效音量"><button id="mute">音效</button></div></header><main><div class="game-layout"><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="world-hints" aria-live="polite"></div><div id="overlay"></div><div id="toast" role="status"></div></div><aside id="sidebar" aria-label="角色屬性與裝備"></aside></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · E 拾取／進門 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
 const stage = new Stage(),
   saves = new Checkpoints(),
   audio = new AudioMixer(),
@@ -28,6 +34,8 @@ let run: Run | null = null,
   saveBusy = false,
   saveChain = Promise.resolve(),
   menuBack = "menu",
+  testBack = "game",
+  testQuery = "",
   soundId = 0,
   lastTime = 0,
   lastHud = 0;
@@ -93,6 +101,7 @@ function refresh(force = false) {
   else if (screen === "controls") html = view.controls();
   else if (screen === "catalog") html = view.catalog(saves.discovered);
   else if (screen === "inventory" && run) html = view.inventory(run);
+  else if (screen === "test" && run) html = view.testing(run, testQuery);
   else if (screen === "stats" && run) html = view.stats(run);
   else if (screen === "pause" && run) html = view.pauseView(run);
   else if (screen === "saveError")
@@ -159,6 +168,16 @@ async function action(value: string) {
         selected = 0;
         persist();
       }
+    } else if (act === "grant" && screen === "test" && run && !saveBusy) {
+      if (grantTestCard(run, Number(arg))) {
+        selected = 0;
+        persist(true);
+        notify("已給予卡片 · 測試構築已保存");
+      }
+    } else if (act === "testBack") {
+      screen = testBack;
+      input.clear();
+      clock.reset();
     } else if (act === "resume") {
       screen = "game";
       input.clear();
@@ -227,6 +246,26 @@ document
     }
     (event.target as HTMLInputElement).value = "";
   });
+document.querySelector<HTMLButtonElement>("#testing")!.onclick = () => {
+  if (!run || ["DEAD", "RUN_END"].includes(run.phase)) {
+    notify("先選擇旅人、開始旅程，再開啟測試構築。");
+    return;
+  }
+  if (screen === "test") return;
+  testBack = screen;
+  screen = "test";
+  input.clear();
+  clock.reset();
+  refresh(true);
+};
+overlay.addEventListener("input", (event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.id !== "test-search") return;
+  testQuery = target.value;
+  const query = testQuery.trim().toLowerCase();
+  for (const n of overlay.querySelectorAll<HTMLElement>(".test-card"))
+    n.hidden = !n.dataset.search!.toLowerCase().includes(query);
+});
 const mute = document.querySelector<HTMLButtonElement>("#mute")!;
 function muteLabel() {
   mute.textContent = audio.volume ? "音效 開" : "音效 關";
@@ -246,7 +285,9 @@ volume.addEventListener("input", () => {
 });
 function key(code: string) {
   if (code === "Escape") {
-    if (screen === "game") pause();
+    if (screen === "test") {
+      void action("testBack");
+    } else if (screen === "game") pause();
     else if (["pause", "inventory", "stats"].includes(screen)) {
       screen = "game";
       clock.reset();
@@ -261,6 +302,7 @@ function key(code: string) {
     refresh();
     return;
   }
+  if (screen === "test") return;
   if (code === "Enter" && run?.phase === "ROOM_INTRO") void action("start");
   if (code === "KeyI" && run) {
     if (run.phase === "POST_CLEAR") {

@@ -1209,3 +1209,76 @@ button {
     padding: 12px 0;
   }
 }
+
+.test-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+.test-search input {
+  flex: 1;
+  padding: 10px 14px;
+  color: #e5efdc;
+  background: #10272a;
+  border: 1px solid #8b9774;
+  border-radius: 4px;
+}
+.test-summary {
+  color: #edd5a1;
+  margin: 8px 0 12px;
+}
+.test-cards {
+  max-height: 45vh;
+  overflow: auto;
+  display: grid;
+  gap: 8px;
+  text-align: left;
+}
+.test-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: #152d30;
+  border-left: 3px solid var(--card-accent, #80c8e3);
+}
+.test-card[hidden] {
+  display: none;
+}
+.test-card .card-art {
+  width: 62px;
+  height: 70px;
+  flex-shrink: 0;
+}
+.test-card > div {
+  flex: 1;
+}
+.test-card p {
+  margin: 5px 0;
+  font-size: 12px;
+}
+.test-card small {
+  color: #a7bdac;
+}
+.test-card button {
+  flex-shrink: 0;
+}
+.saving button[data-action^="grant"] {
+  pointer-events: none;
+  opacity: 0.5;
+}
+#testing {
+  border-color: #bfa56b;
+  color: #f1ddad;
+}
+
+.test-card.紫 {
+  border-left-color: #cda0ff;
+}
+.test-card.青 {
+  border-left-color: #6eedd2;
+}
+.test-card.黃 {
+  border-left-color: #f0cf73;
+}

@@ -16,7 +16,7 @@ export function derive(r: Run): Stats {
     skillCD: 0,
     speed: 0,
     projectile: 1 + l(7) * 0.1,
-    range: 1 + l(13) * 0.1,
+    range: 1.15 + l(13) * 0.1,
     crit: 0.15 * (1 + l(10) * 0.2),
     critMult: 1.5 + l(11) * 0.15,
     xp: 1 + l(8) * 0.08,
@@ -117,14 +117,13 @@ export function reroll(r: Run) {
   r.rerollUsed = true;
   return true;
 }
-export function choose(r: Run, id: number) {
-  if (r.phase !== "UPGRADE_CHOICE" || !r.choices.includes(id)) return false;
+function acquire(r: Run, id: number) {
   const old = r.stats.maxHP;
   r.cards[id] = (r.cards[id] || 0) + 1;
   const el = ({ 15: "ice", 19: "fire", 24: "water", 28: "lightning" } as const)[
     id as 15
   ];
-  if (el) r.elements.push(el);
+  if (el && !r.elements.includes(el)) r.elements.push(el);
   if (r.elements.includes("water") && r.elements.includes("fire"))
     r.fusion = "steam";
   if (r.elements.includes("water") && r.elements.includes("lightning"))
@@ -136,6 +135,10 @@ export function choose(r: Run, id: number) {
     r.stats.maxHP,
     r.player.hp + Math.max(0, r.stats.maxHP - old),
   );
+}
+export function choose(r: Run, id: number) {
+  if (r.phase !== "UPGRADE_CHOICE" || !r.choices.includes(id)) return false;
+  acquire(r, id);
   r.pendingLevels--;
   r.choices = [];
   if (r.pendingLevels > 0) drawChoices(r);
@@ -274,5 +277,65 @@ export function discard(r: Run, id: string) {
   r.items.push({ ...item, x: r.player.x, y: r.player.y });
   r.stats = derive(r);
   r.player.hp = Math.min(r.player.hp, r.stats.maxHP);
+  return true;
+}
+
+/** Testing grants retain normal class and two-element rules; no level/choice is consumed. */
+export function grantTestCard(r: Run, id: number) {
+  const card = cards.find((c) => c.id === id);
+  if (!card || ["DEAD", "RUN_END"].includes(r.phase)) return false;
+  if (id > 14 && (r.cards[id] || 0) >= ([15, 19, 24, 28].includes(id) ? 1 : 5))
+    return false;
+  if (card.classId && card.classId !== r.classId) {
+    for (const c of cards) if (c.classId) delete r.cards[c.id];
+    r.classId = card.classId;
+    r.areas = r.areas.filter((a) => a.enemy);
+    r.projectiles = r.projectiles.filter((p) => p.enemy);
+    r.player.rapid.remaining = 0;
+    r.player.counterAt = 0;
+    r.player.skillReady = r.time;
+    r.player.blockUntil = r.player.buffUntil = r.player.engineUntil = 0;
+  }
+  const required =
+    id >= 15 && id <= 18
+      ? [15]
+      : id <= 23 && id >= 19
+        ? [19]
+        : id >= 24 && id <= 27
+          ? [24]
+          : id >= 28 && id <= 31
+            ? [28]
+            : id >= 32 && id <= 34
+              ? [24, 19]
+              : id >= 35 && id <= 37
+                ? [24, 28]
+                : id >= 38 && id <= 40
+                  ? [15, 19]
+                  : id === 12 && !r.elements.length
+                    ? [19]
+                    : [];
+  const awakenings = [15, 19, 24, 28];
+  const union = new Set([...awakenings.filter((n) => r.cards[n]), ...required]);
+  if (union.size > 2) {
+    for (const c of cards) if (c.id >= 15 && c.id <= 40) delete r.cards[c.id];
+    r.elements = [];
+    r.fusion = null;
+    // Clear old fields/projectiles so replaced element builds cannot persist as attacks.
+    r.areas = r.areas.filter((a) => a.enemy);
+    r.projectiles = r.projectiles.filter((p) => p.enemy);
+  }
+  for (const n of required) if (n !== id && !r.cards[n]) acquire(r, n);
+  acquire(r, id);
+  if (
+    r.phase === "UPGRADE_CHOICE" &&
+    r.choices.some(
+      (n) =>
+        !eligible(
+          r,
+          cards.find((c) => c.id === n)!,
+        ),
+    )
+  )
+    drawChoices(r, false);
   return true;
 }
