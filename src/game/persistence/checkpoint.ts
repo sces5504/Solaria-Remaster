@@ -37,6 +37,7 @@ export function validate(value: unknown): Saved {
       ![
         "ROOM_INTRO",
         "COMBAT",
+        "SETTLEMENT",
         "UPGRADE_CHOICE",
         "POST_CLEAR",
         "RUN_END",

@@ -21,7 +21,7 @@ export function hud(r: Run) {
     boss = r.enemies.find((e) => e.kind > 5),
     shield = p.shields.reduce((n, s) => n + s.amount, 0),
     xpNeed = 100 + 20 * (r.level - 1);
-  return `<div class="status"><strong>${zh.classes[r.classId]} <span class="muted">Lv.${r.level}</span></strong><div class="hp"><i style="width:${Math.max(0, (p.hp / r.stats.maxHP) * 100)}%"></i><span>${Math.ceil(p.hp)} / ${Math.ceil(r.stats.maxHP)}${shield > 0 ? " · 護盾 " + Math.ceil(shield) : ""}</span></div><div class="xp-track"><i style="width:${Math.min(100, (r.xp / xpNeed) * 100)}%"></i></div><small>經驗 ${Math.floor(r.xp)} / ${xpNeed}</small></div><div class="room"><strong>暮光草原</strong><small>第 ${r.room} / 5 關 · ${r.room === 5 ? "領主之境" : zh.templates[r.templates[r.room - 1]]}</small>${boss ? `<div class="boss"><span>${zh.bosses[r.boss as 1]} · ${boss.transition > r.time ? "力量覺醒・暫時無敵" : "第 " + boss.phase + " 階段"}</span><div><i style="width:${(boss.hp / boss.maxHP) * 100}%"></i></div></div>` : ""}</div><div class="score"><small>本局分數</small><strong>${(r.score || 0).toLocaleString()}</strong><small>${r.phase === "POST_CLEAR" ? "已清關 · E 拾取／進門" : `敵人 ${r.enemies.filter((e) => e.hp > 0).length} · 後續 ${r.reserves?.length || 0}`}</small></div>`;
+  return `<div class="status"><strong>${zh.classes[r.classId]} <span class="muted">Lv.${r.level}</span></strong><div class="hp"><i style="width:${Math.max(0, (p.hp / r.stats.maxHP) * 100)}%"></i><span>${Math.ceil(p.hp)} / ${Math.ceil(r.stats.maxHP)}${shield > 0 ? " · 護盾 " + Math.ceil(shield) : ""}</span></div><div class="xp-track"><i style="width:${Math.min(100, (r.xp / xpNeed) * 100)}%"></i></div><small>經驗 ${Math.floor(r.xp)} / ${xpNeed}</small></div><div class="room"><strong>暮光草原</strong><small>第 ${r.room} / 5 關 · ${r.room === 5 ? "領主之境" : zh.templates[r.templates[r.room - 1]]}</small>${boss ? `<div class="boss"><span>${zh.bosses[r.boss as 1]} · ${boss.transition > r.time ? "力量覺醒・暫時無敵" : "第 " + boss.phase + " 階段"}</span><div><i style="width:${(boss.hp / boss.maxHP) * 100}%"></i></div></div>` : ""}</div><div class="score"><small>本局分數</small><strong>${(r.score || 0).toLocaleString()}</strong><small>${r.phase === "POST_CLEAR" ? "已清關 · E 拾取／進門" : r.phase === "SETTLEMENT" ? "清算 · 經驗與補給集結中" : `敵人 ${r.enemies.filter((e) => e.hp > 0).length} · 後續 ${r.reserves?.length || 0}`}</small></div>`;
 }
 export function sidebarIntro() {
   return `<div class="side-title">旅人手札</div><h2>日光邊境</h2><p>四片草原，一位領主。<br>以選卡塑造你的戰鬥風格。</p><div class="side-divider"></div><p>WASD 移動<br>左鍵持續普攻<br>右鍵職業技能<br>空白閃避<br>E 拾取／進門</p><p class="side-note">看清蓄力方向，再橫向閃避。<br>掩體能阻擋敵我彈道。</p>`;
@@ -84,4 +84,37 @@ export function controls() {
 }
 export function catalog() {
   return `<section class="panel wide"><h2>里程碑卡片圖鑑 · 59</h2><div class="catalog">${cards.map((c) => `<article><span class="rarity ${c.rarity}">#${c.id}</span><strong>${c.name}</strong><p>${cardCopy[c.id] || c.description}</p></article>`).join("")}</div>${button("返回", "back")}</section>`;
+}
+
+export function worldHints(r: Run) {
+  if (["ROOM_INTRO", "UPGRADE_CHOICE", "DEAD", "RUN_END"].includes(r.phase))
+    return "";
+  const label = (x: number, y: number, text: string, classes: string) =>
+    `<span class="world-label ${classes}" style="left:${(x / 1024) * 100}%;top:${(y / 640) * 100}%">${text}</span>`;
+  const nearDoor = r.player.x > 872 && Math.abs(r.player.y - 320) < 55;
+  let html = r.items
+    .map((item) => {
+      const close = Math.hypot(item.x - r.player.x, item.y - r.player.y) <= 64;
+      return label(
+        item.x,
+        item.y + 24,
+        (r.phase === "POST_CLEAR" && close && !nearDoor
+          ? "<kbd>E</kbd> 檢取 · "
+          : "") + escape(zh.slots[item.slot]),
+        "item-label " + item.rarity + (close ? " nearby" : ""),
+      );
+    })
+    .join("");
+  if (r.phase === "POST_CLEAR") {
+    const near = nearDoor;
+    html += label(
+      928,
+      270,
+      near ? "<kbd>E</kbd> 進入" : "出口 · 靠近按 E",
+      "door-label" + (near ? " nearby" : ""),
+    );
+  }
+  if (r.phase === "SETTLEMENT")
+    html += '<div class="settlement-note">清算中 · 收集經驗與補給</div>';
+  return html;
 }

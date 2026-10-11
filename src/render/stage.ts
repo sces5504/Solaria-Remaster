@@ -174,14 +174,16 @@ export class Stage {
             alpha: 0.15,
           });
       }
-    const pathY = (x: number) =>
-      320 + Math.sin(x * 0.012 + r.templates[0]) * 15;
-    for (let x = 48; x < 980; x += 16) {
-      const y = pathY(x),
-        next = pathY(x + 16);
-      g.poly([x, y - 26, x + 16, next - 26, x + 16, next + 26, x, y + 26]).fill(
-        { color: 0x99a981, alpha: 0.12 },
-      );
+    const route = r.route || [
+      { x: 48, y: 320 },
+      { x: 980, y: 320 },
+    ];
+    for (let i = 1; i < route.length; i++) {
+      const a = route[i - 1],
+        b = route[i];
+      g.moveTo(a.x, a.y)
+        .lineTo(b.x, b.y)
+        .stroke({ color: 0x99a981, width: 48, alpha: 0.12 });
     }
     for (let i = 0; i < 480; i++) {
       const x = 40 + hash(i, 1, r.seed + r.room) * 940,
@@ -574,19 +576,69 @@ export class Stage {
       }
     for (const item of r.items) {
       const color =
-        item.rarity === "黃"
-          ? 0xffdc80
-          : item.rarity === "紫"
-            ? 0xc9a2ff
-            : 0x8acbff;
-      this.glow(item.x, item.y, 28, color, 0.5);
+        (
+          {
+            藍: 0x8acbff,
+            紫: 0xc9a2ff,
+            黃: 0xffdc80,
+            橘: 0xffaa50,
+            紅: 0xff7f9e,
+          } as Record<string, number>
+        )[item.rarity] || 0xffdc80;
+      const high = ["黃", "橘", "紅"].includes(item.rarity),
+        height = high ? 105 : item.rarity === "紫" ? 75 : 50;
+      const pulse = 0.7 + Math.sin(r.time * 3 + item.x) * 0.15;
+      this.glow(item.x, item.y, high ? 48 : 34, color, 0.7);
+      // Tapered shaft with bright core, animated ascending motes and a ground halo.
+      f.poly([
+        item.x - 13,
+        item.y,
+        item.x - 3,
+        item.y - height,
+        item.x + 3,
+        item.y - height,
+        item.x + 13,
+        item.y,
+      ]).fill({ color, alpha: 0.15 * pulse });
+      f.moveTo(item.x, item.y)
+        .lineTo(item.x, item.y - height)
+        .stroke({ color, width: 3, alpha: 0.5 * pulse });
+      f.moveTo(item.x, item.y)
+        .lineTo(item.x, item.y - height * 0.65)
+        .stroke({ color: 0xfff5d7, width: 1, alpha: 0.9 });
+      for (let i = 0; i < 4; i++) {
+        const y = item.y - ((r.time * 32 + i * 23) % height);
+        diamond(f, item.x + Math.sin(i * 3 + r.time) * 7, y, 2, color, 0.7);
+      }
       const y = item.y + Math.sin(r.time * 3) * 2;
-      diamond(f, item.x, y, 10, color);
-      diamond(f, item.x, y, 4, 0xfff9db);
-      f.ellipse(item.x, item.y + 13, 11, 4).stroke({
+      if (item.slot === "ring") {
+        f.circle(item.x, y, 7).stroke({ color, width: 3 });
+        diamond(f, item.x, y - 7, 3, 0xfff7d9);
+      } else if (item.slot === "armor")
+        f.poly([
+          item.x - 8,
+          y - 7,
+          item.x - 4,
+          y - 10,
+          item.x + 4,
+          y - 10,
+          item.x + 8,
+          y - 7,
+          item.x + 6,
+          y + 8,
+          item.x - 6,
+          y + 8,
+        ])
+          .fill(color)
+          .stroke({ color: 0xffefd1, width: 1 });
+      else {
+        diamond(f, item.x, y, 10, color);
+        diamond(f, item.x, y, 4, 0xfff9db);
+      }
+      f.ellipse(item.x, item.y + 13, 15, 5).stroke({
         color,
-        width: 1,
-        alpha: 0.5,
+        width: 2,
+        alpha: 0.75,
       });
     }
     for (const drop of r.drops) {

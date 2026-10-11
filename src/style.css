@@ -876,3 +876,69 @@ footer {
     font-size: 21px;
   }
 }
+
+#world-hints {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  font-size: clamp(10px, 1vw, 14px);
+}
+.world-label {
+  position: absolute;
+  transform: translate(-50%, 0);
+  white-space: nowrap;
+  padding: 3px 7px;
+  border: 1px solid #68887688;
+  background: #0d2029de;
+  border-radius: 4px;
+  text-shadow: 0 1px 2px #000;
+  box-shadow: 0 2px 8px #0006;
+}
+.world-label kbd {
+  display: inline-block;
+  background: #e9d79d;
+  color: #142b30;
+  border-radius: 2px;
+  padding: 0 4px;
+  font-weight: 700;
+  margin-right: 3px;
+}
+.world-label.藍 {
+  color: #acd9ff;
+  border-color: #8acbff80;
+}
+.world-label.紫 {
+  color: #e0c3ff;
+  border-color: #c9a2ff80;
+}
+.world-label.黃 {
+  color: #ffe4a3;
+  border-color: #ffdc8090;
+}
+.world-label.橘 {
+  color: #ffc282;
+  border-color: #ffab5080;
+}
+.world-label.紅 {
+  color: #ffaec3;
+  border-color: #ff7f9e80;
+}
+.world-label.nearby {
+  border-color: #fff3ba;
+  box-shadow: 0 0 12px #f2d59245;
+}
+.door-label {
+  color: #d0f7da;
+}
+.settlement-note {
+  position: absolute;
+  left: 50%;
+  top: 14%;
+  transform: translateX(-50%);
+  background: #183632dd;
+  border: 1px solid #e7cf8a66;
+  color: #f5e3b0;
+  border-radius: 5px;
+  padding: 7px 14px;
+}

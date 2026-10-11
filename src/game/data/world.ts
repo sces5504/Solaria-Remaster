@@ -7,86 +7,109 @@ export const classes = {
   bow: { hp: 100, armor: 10, damage: 18, rate: 3, cd: 8 },
   mage: { hp: 90, armor: 5, damage: 24, rate: 2, cd: 5 },
 };
-// All six templates leave both the upper and lower routes connected.
-const layouts = [
-  [
-    [13, 7, 6, 5, 0],
-    [8, 5, 1, 1, 1],
-    [23, 14, 1, 1, 2],
-  ],
-  [
-    [8, 5, 2, 2, 1],
-    [8, 13, 2, 2, 1],
-    [22, 5, 2, 2, 2],
-    [22, 13, 2, 2, 2],
-  ],
-  [
-    [10, 5, 2, 4, 2],
-    [16, 11, 2, 4, 2],
-    [23, 5, 2, 4, 2],
-  ],
-  [
-    [10, 3, 1, 5, 1],
-    [10, 12, 1, 5, 1],
-    [21, 3, 1, 5, 2],
-    [21, 12, 1, 5, 2],
-  ],
-  [
-    [9, 3, 2, 9, 1],
-    [16, 9, 2, 8, 2],
-    [23, 3, 2, 9, 1],
-  ],
-  [
-    [12, 6, 1, 1, 1],
-    [21, 13, 1, 1, 2],
-    [17, 4, 3, 2, 0],
-  ],
-];
-export function makeObstacles(
-  template: number,
-  boss = 0,
-  seed = 1,
-): Obstacle[] {
-  const entries =
-    boss === 1
-      ? [
-          [10, 5, 1, 1, 1],
-          [10, 14, 1, 1, 1],
-          [21, 5, 2, 1, 2],
-          [21, 14, 2, 1, 2],
-        ]
-      : boss === 2
-        ? [
-            [11, 5, 1, 2, 3],
-            [11, 13, 1, 2, 3],
-            [21, 5, 1, 2, 3],
-            [21, 13, 1, 2, 3],
-          ]
-        : layouts[template];
-  const variation = { rng: seedFor(seed, template + 500) };
-  const base = entries.map((v) => [...v]);
-  if (!boss) {
-    // Small, non-overlapping clusters; a broad centre trail and a vertical branch stay open.
-    for (let i = 0; i < 11; i++) {
-      const x = 6 + Math.floor(random(variation) * 21);
-      const y = 3 + Math.floor(random(variation) * 14);
-      const w = random(variation) < 0.25 ? 2 : 1;
-      const h = random(variation) < 0.2 ? 2 : 1;
-      if ((y + h >= 8 && y <= 12) || (x + w >= 15 && x <= 17)) continue;
-      if (
-        base.some(
-          (v) =>
-            x < v[0] + v[2] + 1 &&
-            x + w + 1 > v[0] &&
-            y < v[1] + v[3] + 1 &&
-            y + h + 1 > v[1],
-        )
-      )
-        continue;
-      base.push([x, y, w, h, random(variation) < 0.7 ? 1 : 2]);
-    }
+// Deterministic procedural meadow. Profiles affect density/material, never fixed coordinates.
+export function roomRoute(profile: number, boss = 0, seed = 1) {
+  const rng = { rng: seedFor(seed, profile + boss * 33 + 500) };
+  const route = [{ x: 112, y: 320 }];
+  for (let x = 192; x <= 832; x += 64) {
+    route.push({
+      x,
+      y: boss ? 320 : 320 + (Math.floor(random(rng) * 3) - 1) * 32,
+    });
   }
-  return base.map((v, i) => ({
+  route.push({ x: 928, y: 320 });
+  return route;
+}
+export function makeObstacles(profile: number, boss = 0, seed = 1): Obstacle[] {
+  const rng = { rng: seedFor(seed, profile + boss * 37 + 800) };
+  const route = roomRoute(profile, boss, seed);
+  const occupied: number[][] = [];
+  const reserved = (x: number, y: number) => {
+    if (x < 5 || x > 27) return true;
+    // Carve a generous winding through-route and a central north/south branch.
+    const px = x * 32 + 16,
+      py = y * 32 + 16;
+    const nearest = route.reduce(
+      (best, p) => (Math.abs(p.x - px) < Math.abs(best.x - px) ? p : best),
+      route[0],
+    );
+    return Math.abs(py - nearest.y) < 64 || (x >= 15 && x <= 17);
+  };
+  const connected = (entries: number[][]) => {
+    const passable = new Uint8Array(32 * 20);
+    let total = 0;
+    for (let y = 3; y <= 17; y++)
+      for (let x = 2; x <= 29; x++) {
+        const px = x * 32 + 16,
+          py = y * 32 + 16;
+        if (
+          entries.every(
+            (v) =>
+              px <= v[0] * 32 - 18 ||
+              px >= (v[0] + v[2]) * 32 + 18 ||
+              py <= v[1] * 32 - 18 ||
+              py >= (v[1] + v[3]) * 32 + 18,
+          )
+        ) {
+          passable[y * 32 + x] = 1;
+          total++;
+        }
+      }
+    const queue = new Uint16Array(32 * 20);
+    const start = 10 * 32 + 3,
+      exit = 10 * 32 + 28;
+    if (!passable[start] || !passable[exit]) return false;
+    queue[0] = start;
+    passable[start] = 2;
+    let end = 1;
+    for (let i = 0; i < end; i++) {
+      const at = queue[i];
+      for (const next of [at - 1, at + 1, at - 32, at + 32]) {
+        if (passable[next] === 1) {
+          passable[next] = 2;
+          queue[end++] = next;
+        }
+      }
+    }
+    return end === total && passable[exit] === 2;
+  };
+  const wanted = boss ? 12 : 20 + profile;
+  for (let attempt = 0; attempt < 700 && occupied.length < wanted; attempt++) {
+    const x = 5 + Math.floor(random(rng) * 23),
+      y = 3 + Math.floor(random(rng) * 14);
+    const w = random(rng) < 0.24 ? 2 : 1,
+      h = random(rng) < 0.2 ? 2 : 1;
+    let blocked = false;
+    for (let dy = 0; dy < h; dy++)
+      for (let dx = 0; dx < w; dx++)
+        if (reserved(x + dx, y + dy)) blocked = true;
+    if (blocked || x + w > 28 || y + h > 18) continue;
+    if (
+      occupied.some(
+        (v) =>
+          x < v[0] + v[2] + 1 &&
+          x + w + 1 > v[0] &&
+          y < v[1] + v[3] + 1 &&
+          y + h + 1 > v[1],
+      )
+    )
+      continue;
+    const water =
+      !boss &&
+      profile === 0 &&
+      occupied.filter((v) => v[4] === 0).length < 2 &&
+      random(rng) < 0.18;
+    const kind = water
+      ? 0
+      : boss === 2 && random(rng) < 0.4
+        ? 3
+        : random(rng) < 0.62
+          ? 1
+          : 2;
+    const candidate = [x, y, w, h, kind];
+    if (connected([...occupied, candidate])) occupied.push(candidate);
+  }
+  return occupied.map((v, i) => ({
     id: i + 1,
     x: v[0] * 32,
     y: v[1] * 32,
@@ -108,7 +131,9 @@ export function actor(
 ): Actor {
   const boss = kind > 5;
   const maxHP = boss
-    ? 6500
+    ? kind === 6
+      ? 3600
+      : 4000
     : [0, 120, 120, 120, 90, 110][kind] * (elite ? 2.5 : 1);
   return {
     id,
@@ -157,6 +182,12 @@ export function populate(r: Run) {
   r.items = [];
   r.drops = [];
   r.settledOnce = false;
+  r.settlementEnds = undefined;
+  r.route = roomRoute(
+    r.templates[r.room - 1] ?? 0,
+    r.room === 5 ? r.boss : 0,
+    r.seed + r.room,
+  );
   r.killOrdinal = 0;
   r.obstacles = makeObstacles(
     r.templates[r.room - 1] ?? 0,
@@ -224,5 +255,6 @@ export function populate(r: Run) {
   const budget = roomXPBudget(r.room);
   const weight = r.enemies.reduce((sum, e) => sum + (e.elite ? 2 : 1), 0);
   for (const e of r.enemies) e.xpReward = (budget * (e.elite ? 2 : 1)) / weight;
-  r.reserves = r.enemies.splice(r.room <= 2 ? 4 : 5);
+  r.encounterCap = 4 + Math.floor(random(r) * 7);
+  r.reserves = r.enemies.splice(r.encounterCap);
 }

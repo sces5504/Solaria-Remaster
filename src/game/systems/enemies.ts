@@ -191,10 +191,10 @@ function bossAI(r: Run, e: Actor) {
     e.nextAttack = r.time + 2.4;
   }
   if (!active.some((m) => m.type === "rush"))
-    navigate(r, e, 50 * (e.iceUntil > r.time ? 0.8 : 1));
+    navigate(r, e, (e.kind === 6 ? 85 : 48) * (e.iceUntil > r.time ? 0.8 : 1));
 }
 export function updateEnemies(r: Run) {
-  const cap = r.room <= 2 ? 4 : 5;
+  const cap = Math.max(4, Math.min(10, r.encounterCap ?? 6));
   if (
     r.reserves?.length &&
     r.enemies.filter((e) => e.hp > 0 && !e.summoned).length < cap &&
@@ -222,11 +222,11 @@ export function updateEnemies(r: Run) {
     if (e.controlUntil > r.time) continue;
     const speed =
       (e.kind === 1
-        ? 74
+        ? 94
         : e.kind === 2
           ? 48
           : e.kind === 3
-            ? 65
+            ? 88
             : e.kind === 4
               ? 55
               : 45) *

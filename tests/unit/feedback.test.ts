@@ -65,20 +65,22 @@ describe("第一里程碑試玩回饋", () => {
     expect(r.room).toBe(2);
     expect(r.phase).toBe("ROOM_INTRO");
   });
-  it("前兩房同時至多四個原生怪，增援不越過上限，尚有增援時不提前清關", () => {
+  it("每房原生怪初始 4–10，增援不越過上限，尚有增援時不提前清關", () => {
     for (let seed = 1; seed <= 30; seed++) {
       const r = newRun("mage", seed);
       startRoom(r);
-      expect(r.enemies.length).toBeLessThanOrEqual(4);
+      expect(r.enemies.length).toBeGreaterThanOrEqual(4);
+      expect(r.enemies.length).toBeLessThanOrEqual(10);
       expect(
         r.enemies.length + (r.reserves?.length || 0),
       ).toBeGreaterThanOrEqual(8);
+      if (!r.reserves?.length) r.reserves = [r.enemies.pop()!];
       r.enemies = [];
       step(r, idleCommand(r));
       expect(r.phase).toBe("COMBAT");
       r.time = 3;
       updateEnemies(r);
-      expect(r.enemies.length).toBeLessThanOrEqual(4);
+      expect(r.enemies.length).toBeLessThanOrEqual(10);
     }
   });
   it("前四房逐房升級，第五房結算到 Lv.6；清算不重複給分", () => {
@@ -89,6 +91,7 @@ describe("第一里程碑試玩回饋", () => {
       r.reserves = [];
       for (const e of r.enemies) e.hp = 0;
       step(r, idleCommand(r));
+      while (r.phase === "SETTLEMENT") step(r, idleCommand(r));
       expect(r.phase).toBe("UPGRADE_CHOICE");
       while (r.phase === "UPGRADE_CHOICE") choose(r, r.choices[0]);
       expect(r.level).toBeGreaterThanOrEqual(room + 1);

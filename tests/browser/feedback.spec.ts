@@ -1,5 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
-import { newRun } from "../../src/game/core/run";
+import { newRun, settle } from "../../src/game/core/run";
 import type { Run } from "../../src/game/core/types";
 import { actor } from "../../src/game/data/world";
 async function loadFixture(page: Page, r: Run) {
@@ -120,3 +120,37 @@ for (const kind of [6, 7])
     );
     expect(errors).toEqual([]);
   });
+
+test("清算先吸附再選卡，地面裝備與出口提示可互動", async ({ page }) => {
+  const r = newRun("sword", 531);
+  r.phase = "COMBAT";
+  r.enemies = [];
+  r.reserves = [];
+  r.obstacles = [];
+  r.drops = [{ id: 100, kind: "xp", value: 100, x: 820, y: 320 }];
+  settle(r);
+  // Extend only the presentation window so software-rendered CI can capture it.
+  r.settlementEnds = r.time + 3;
+  await loadFixture(page, r);
+  await expect(page.locator(".settlement-note")).toBeVisible();
+  await expect(page.locator(".card")).toHaveCount(0);
+  await page.screenshot({ path: "test-results/settlement-flight.png" });
+  await expect(page.locator(".card")).toHaveCount(3);
+  await page.locator(".card").first().click();
+  await expect(page.locator("#hud")).toContainText("清關");
+
+  const loot = newRun("bow", 532);
+  loot.phase = "POST_CLEAR";
+  loot.enemies = [];
+  loot.reserves = [];
+  loot.items = [
+    { id: "beam", slot: "ring", rarity: "黃", affixes: [], x: 130, y: 320 },
+  ];
+  page.once("dialog", (dialog) => dialog.accept());
+  await loadFixture(page, loot);
+  await expect(page.locator(".item-label")).toContainText("E 檢取");
+  await page.screenshot({ path: "test-results/gear-beam.png" });
+  await page.keyboard.press("KeyE");
+  await expect(page.locator(".item-label")).toHaveCount(0);
+  await expect(page.locator(".door-label")).toContainText("靠近按 E");
+});

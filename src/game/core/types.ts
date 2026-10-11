@@ -4,6 +4,7 @@ export type Element = "ice" | "fire" | "water" | "lightning";
 export type Phase =
   | "ROOM_INTRO"
   | "COMBAT"
+  | "SETTLEMENT"
   | "UPGRADE_CHOICE"
   | "POST_CLEAR"
   | "RUN_END"
@@ -239,6 +240,9 @@ export interface Run {
   enemies: Actor[];
   reserves?: Actor[];
   reinforcementAt?: number;
+  encounterCap?: number;
+  route?: Vec[];
+  settlementEnds?: number;
   obstacles: Obstacle[];
   projectiles: Projectile[];
   areas: Area[];

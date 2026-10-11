@@ -118,7 +118,7 @@ describe("C01–09 時鐘、職業與來源", () => {
     r.player.hp = 0;
     r.enemies[0].hp = 0;
     step(r, idleCommand(r));
-    expect(r.phase).toBe("POST_CLEAR");
+    expect(r.phase).toBe("SETTLEMENT");
     expect(r.player.hp).toBe(9);
     const xp = r.xp;
     step(r, idleCommand(r));
@@ -252,12 +252,12 @@ describe("C10–18 元素、卡池、地圖与 Boss", () => {
     basic(r, idleCommand(r));
     const n = r.projectiles.length;
     hit(r, e, 10000, context(r, 1));
-    expect(e.hp).toBe(3250);
+    expect(e.hp).toBe(e.maxHP / 2);
     expect(e.phase).toBe(2);
     expect(e.transition).toBe(2);
     expect(r.projectiles).toHaveLength(n);
     hit(r, e, 10000, context(r, 1));
-    expect(e.hp).toBe(3250);
+    expect(e.hp).toBe(e.maxHP / 2);
   });
   it("掩体同波最多扣一次，重击扣3，碎裂同步", () => {
     const r = arena();

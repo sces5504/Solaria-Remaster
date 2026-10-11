@@ -166,21 +166,13 @@ export function settle(r: Run) {
   if (r.settledOnce) return;
   r.settledOnce = true;
   r.score = (r.score || 0) + 100;
-  consumeDrops(r, true);
+  r.phase = "SETTLEMENT";
+  r.settlementEnds = r.time + 1.1;
   r.player.hp = Math.min(
     r.stats.maxHP,
     r.player.hp + (r.room === 5 ? r.stats.maxHP : r.stats.maxHP * 0.1),
   );
-  while (r.xp + 1e-7 >= 100 + 20 * (r.level - 1)) {
-    r.xp = Math.max(0, r.xp - (100 + 20 * (r.level - 1)));
-    r.level++;
-    r.pendingLevels++;
-  }
   r.modes = [];
-  if (r.pendingLevels) {
-    r.phase = "UPGRADE_CHOICE";
-    drawChoices(r);
-  } else r.phase = "POST_CLEAR";
   visual(
     r,
     "heal",
@@ -189,8 +181,22 @@ export function settle(r: Run) {
     0x9debba,
   );
 }
+function finishSettlement(r: Run) {
+  consumeDrops(r, true);
+  while (r.xp + 1e-7 >= 100 + 20 * (r.level - 1)) {
+    r.xp = Math.max(0, r.xp - (100 + 20 * (r.level - 1)));
+    r.level++;
+    r.pendingLevels++;
+  }
+  if (r.pendingLevels) {
+    r.phase = "UPGRADE_CHOICE";
+    drawChoices(r);
+  } else r.phase = "POST_CLEAR";
+}
+
 export function step(r: Run, c: Command, paused = false) {
-  if (paused || !["COMBAT", "POST_CLEAR"].includes(r.phase)) return;
+  if (paused || !["COMBAT", "SETTLEMENT", "POST_CLEAR"].includes(r.phase))
+    return;
   r.time += DT;
   r.tick++;
   r.stats = derive(r);
@@ -269,7 +275,18 @@ export function step(r: Run, c: Command, paused = false) {
   }
   if (p.iceUntil <= r.time) p.frost = 0;
   deathRewards(r);
-  consumeDrops(r);
+  if (r.phase === "SETTLEMENT") {
+    const ends = r.settlementEnds ?? r.time + 1.1;
+    r.settlementEnds = ends;
+    // A deterministic eased flight reaches the moving player before choices open.
+    const t = Math.min(1, DT / Math.max(DT, ends - r.time));
+    for (const d of r.drops) {
+      d.x += (p.x - d.x) * t;
+      d.y += (p.y - d.y) * t;
+    }
+    consumeDrops(r);
+    if (r.time + 1e-7 >= ends) finishSettlement(r);
+  } else consumeDrops(r);
   if (r.phase === "COMBAT" && r.enemies.length === 0 && !r.reserves?.length)
     settle(r);
   if (p.hp <= 0) {

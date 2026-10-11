@@ -62,6 +62,7 @@ for (const cls of ["sword", "bow", "mage"] as const)
         dodge: false,
       });
     }
+    while (r.phase === "SETTLEMENT") step(r, idleCommand(r));
     expect(
       r.phase,
       `${cls}: ${r.kills} kills, ${r.enemies.length} active/${r.reserves?.length} reserves, hp ${r.player.hp}`,

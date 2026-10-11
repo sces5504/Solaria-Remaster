@@ -201,6 +201,8 @@ describe("CARD-01..59 每卡實際條件／無条件对照", () => {
     const r = setup(47),
       cmd = idleCommand(r);
     r.enemies = [actor(9, 1, 140, 320)];
+    // Isolate the per-dash hit count from map generation random draws.
+    r.rng = 123456789;
     dodge(r, cmd);
     for (let i = 0; i < 8; i++) step(r, cmd);
     expect(r.enemies[0].hp).toBe(80);

@@ -17,6 +17,7 @@ it("四普通房、逐级选卡、Boss清算到里程碑结尾；阶段检查点
     r.reserves = [];
     for (const e of r.enemies) e.hp = 0;
     step(r, idleCommand(r));
+    while (r.phase === "SETTLEMENT") step(r, idleCommand(r));
     while (r.phase === "UPGRADE_CHOICE") {
       const saved = clone(r);
       const id = r.choices[0];
@@ -65,6 +66,7 @@ it("清关后残留投射物仍伤、旧房危险不跟到下房", () => {
   const hp = r.player.hp;
   for (let i = 0; i < 10; i++) step(r, idleCommand(r));
   expect(r.player.hp).toBeLessThan(hp);
+  while (r.phase === "SETTLEMENT") step(r, idleCommand(r));
   while (r.phase === "UPGRADE_CHOICE") choose(r, r.choices[0]);
   enterNext(r);
   expect(r.projectiles).toHaveLength(0);
