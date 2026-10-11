@@ -1,0 +1,382 @@
+import type { Run, Actor, Mode } from "../core/types";
+import { angle, distance, DT, random } from "../core/primitives";
+import { legal, lineBlocked, move, coneHit, segmentDistance } from "./geometry";
+import { shoot, area, hurt, damageCover, visual } from "./combat";
+import { actor } from "../data/world";
+export const bossAttacks = {
+  6: [
+    ["wolf-lunge", "wolf-claw-wave", "wolf-hunt"],
+    ["wolf-triple-lunge", "wolf-spiral", "wolf-pack"],
+  ],
+  7: [
+    ["goat-charge", "goat-horn-ring", "goat-mines"],
+    ["goat-chain-charge", "goat-cross-laser", "goat-salvo"],
+  ],
+} as const;
+function navigate(r: Run, e: Actor, speed: number) {
+  let a = angle(e, r.player);
+  if (e.navUntil > r.time && e.navTarget && distance(e, e.navTarget) > 8) {
+    a = angle(e, e.navTarget);
+  } else if (lineBlocked(r, e, r.player, true)) {
+    const start = Math.floor(e.y / 32) * 32 + Math.floor(e.x / 32),
+      goal = Math.floor(r.player.y / 32) * 32 + Math.floor(r.player.x / 32);
+    const queue = [start],
+      prev = new Map<number, number>([[start, -1]]);
+    let found = false;
+    for (let qi = 0; qi < queue.length && qi < 640; qi++) {
+      const n = queue[qi];
+      if (n === goal) {
+        found = true;
+        break;
+      }
+      for (const next of [n - 32, n + 32, n - 1, n + 1]) {
+        const x = next % 32,
+          y = Math.floor(next / 32);
+        if (
+          x < 1 ||
+          x > 30 ||
+          y < 2 ||
+          y > 18 ||
+          prev.has(next) ||
+          !legal(r, { x: x * 32 + 16, y: y * 32 + 16 }, e.radius)
+        )
+          continue;
+        prev.set(next, n);
+        queue.push(next);
+      }
+    }
+    if (found) {
+      let n = goal;
+      for (let hops = 0; hops < 640; hops++) {
+        const parent = prev.get(n);
+        if (parent === undefined || parent === -1 || parent === start) break;
+        n = parent;
+      }
+      e.navTarget = { x: (n % 32) * 32 + 16, y: Math.floor(n / 32) * 32 + 16 };
+      e.navUntil = r.time + 0.4;
+      a = angle(e, e.navTarget);
+    }
+  }
+  e.moveAngle = a;
+  move(r, e, Math.cos(a) * speed * DT, Math.sin(a) * speed * DT, e.radius);
+}
+function addMode(
+  r: Run,
+  e: Actor,
+  type: Mode["type"],
+  attackId: string,
+  warning: number,
+  duration: number,
+  count = 1,
+  target = r.player,
+) {
+  const id = r.nextId++;
+  r.modes.push({
+    id,
+    actor: e.id,
+    type,
+    attackId,
+    starts: r.time + warning,
+    ends: r.time + warning + duration,
+    next: r.time + warning,
+    count,
+    angle: angle(e, target),
+    target: { x: target.x, y: target.y },
+    phase: e.phase,
+  });
+  r.attackLog.push(attackId);
+  if (r.attackLog.length > 120) r.attackLog.shift();
+  if (type === "mark" && e.kind > 5)
+    for (let i = 0; i < 3; i++)
+      area(
+        r,
+        {
+          x: target.x + Math.cos(i * 2.1) * i * 25,
+          y: target.y + Math.sin(i * 2.1) * i * 25,
+        },
+        65,
+        36,
+        0.6 + i * 0.25,
+        0.01,
+        1,
+        null,
+        { owner: e.id, wave: id, heavy: true },
+      );
+  if (type === "mine")
+    for (let i = 0; i < 4; i++) {
+      const a = (i * Math.PI) / 2;
+      area(
+        r,
+        { x: e.x + Math.cos(a) * 130, y: e.y + Math.sin(a) * 130 },
+        65,
+        36,
+        1.3 + i * 0.4,
+        0.01,
+        1,
+        null,
+        { owner: e.id, wave: id, heavy: true },
+      );
+    }
+  if (type === "laser")
+    for (let i = 0; i < 2; i++)
+      area(r, e, 1100, 24, 0.8 + i * 0.3, 1.2, 0.15, null, {
+        owner: e.id,
+        wave: id,
+        shape: "beam",
+        width: 10,
+        angle: Math.PI / 4 + (i * Math.PI) / 2,
+      });
+}
+function bossAI(r: Run, e: Actor) {
+  if (e.transition > r.time || e.controlUntil > r.time) return;
+  const active = r.modes.filter((m) => m.actor === e.id && m.ends > r.time);
+  if (r.time >= e.nextAttack && active.length < 2) {
+    const index = Math.floor(e.attackOrdinal++ % 3),
+      attack = bossAttacks[e.kind as 6][e.phase - 1][index];
+    const types: Mode["type"][] =
+      e.kind === 6
+        ? e.phase === 1
+          ? ["rush", "fan", "mark"]
+          : ["rush", "spiral", "summon"]
+        : e.phase === 1
+          ? ["rush", "ring", "mine"]
+          : ["rush", "laser", "fan"];
+    const type = types[index];
+    addMode(
+      r,
+      e,
+      type,
+      attack,
+      type === "rush" ? 0.35 : type === "laser" ? 0.8 : 0.6,
+      type === "rush"
+        ? e.phase === 2
+          ? 2.5
+          : 0.65
+        : type === "spiral"
+          ? 1.8
+          : type === "fan"
+            ? 1.2
+            : type === "ring"
+              ? 1.4
+              : 1.5,
+      type === "rush" && e.phase === 2 ? 3 : 1,
+    );
+    e.nextAttack = r.time + 1.7;
+  }
+  if (!active.some((m) => m.type === "rush"))
+    navigate(r, e, 50 * (e.iceUntil > r.time ? 0.8 : 1));
+}
+export function updateEnemies(r: Run) {
+  for (const e of r.enemies) {
+    if (e.hp <= 0) continue;
+    if (e.kind > 5) {
+      bossAI(r, e);
+      continue;
+    }
+    if (e.controlUntil > r.time) continue;
+    const speed =
+      (e.kind <= 3 ? 110 : e.kind === 4 ? 90 : 80) *
+      (e.iceUntil > r.time ? 0.8 : 1) *
+      (r.modifiers.includes(3) ? 1.2 : 1);
+    const d = distance(e, r.player);
+    if (e.rushUntil > r.time) {
+      move(
+        r,
+        e,
+        Math.cos(e.moveAngle) * 450 * DT,
+        Math.sin(e.moveAngle) * 450 * DT,
+        e.radius,
+      );
+      if (
+        distance(e, r.player) < e.radius + r.player.radius &&
+        !e.rushHits.includes(0)
+      ) {
+        hurt(
+          r,
+          12 * (e.elite ? 1.4 : 1) * (r.modifiers.includes(2) ? 1.2 : 1),
+          e.element,
+        );
+        e.rushHits.push(0);
+      }
+      continue;
+    }
+    if (
+      (e.kind <= 3 && d > 55) ||
+      (e.kind > 3 && (d > 240 || lineBlocked(r, e, r.player)))
+    )
+      navigate(r, e, speed);
+    if (e.kind > 3 && d < 150) {
+      const a = angle(r.player, e);
+      move(r, e, Math.cos(a) * speed * DT, Math.sin(a) * speed * DT, e.radius);
+    }
+    if (r.time < e.nextAttack || r.modes.some((m) => m.actor === e.id))
+      continue;
+    if (e.kind <= 3 && d > 220) continue;
+    e.nextAttack = r.time + (e.kind === 2 ? 2.5 : e.kind === 5 ? 2.2 : 2);
+    addMode(
+      r,
+      e,
+      e.kind === 1
+        ? "rush"
+        : e.kind === 2
+          ? "mark"
+          : e.kind === 3
+            ? "slash"
+            : "fan",
+      `mon-${e.kind}`,
+      e.kind === 2 ? 0.6 : e.kind <= 3 ? 0.35 : 0.4,
+      e.kind <= 3 ? 0.4 : e.kind === 4 ? 0.31 : 0.01,
+      e.kind === 4 ? 3 : 1,
+    );
+  }
+  // Soft separation prevents enemies piling into one unreadable target.
+  for (let i = 0; i < r.enemies.length; i++)
+    for (let j = i + 1; j < r.enemies.length; j++) {
+      const a = r.enemies[i],
+        b = r.enemies[j],
+        d = distance(a, b);
+      if (a.hp > 0 && b.hp > 0 && d > 0 && d < a.radius + b.radius) {
+        const mul = (0.2 * (a.radius + b.radius - d)) / d;
+        const dx = (a.x - b.x) * mul,
+          dy = (a.y - b.y) * mul;
+        move(r, a, dx, dy, a.radius);
+        move(r, b, -dx, -dy, b.radius);
+      }
+    }
+}
+export function updateModes(r: Run) {
+  for (const m of r.modes) {
+    const e = r.enemies.find((e) => e.id === m.actor);
+    if (
+      !e ||
+      e.hp <= 0 ||
+      r.time < m.starts ||
+      r.time < m.next ||
+      e.transition > r.time ||
+      e.controlUntil > r.time
+    )
+      continue;
+    const boss = e.kind > 5,
+      damage =
+        (boss ? 18 : e.kind === 4 ? 10 : 8) *
+        (e.elite ? 1.4 : 1) *
+        (r.modifiers.includes(2) ? 1.2 : 1),
+      speed = (boss ? 270 : 260) * (r.modifiers.includes(4) ? 1.2 : 1);
+    if (m.type === "rush") {
+      if (m.count > 0) {
+        e.moveAngle = angle(e, m.target);
+        e.rushUntil = r.time + (boss ? 0.6 : 0.4);
+        e.rushHits = [];
+        m.count--;
+        m.next = r.time + (boss ? 0.95 : 1);
+        if (m.count) {
+          m.target = { x: r.player.x, y: r.player.y };
+          m.starts = m.next - 0.35;
+        }
+      }
+    }
+    if (m.type === "slash") {
+      const a = angle(e, m.target);
+      move(r, e, Math.cos(a) * 70, Math.sin(a) * 70, e.radius);
+      if (coneHit(e, r.player, 60, a, Math.PI / 2, r.player.radius))
+        hurt(r, 12 * (e.elite ? 1.4 : 1), e.element);
+      visual(r, "cast", e, 0, 0xff796e, 60, a);
+      m.next = m.ends + 1;
+    }
+    if (m.type === "fan" || m.type === "ring" || m.type === "spiral") {
+      const n =
+        m.type === "ring" ? 16 : m.type === "spiral" ? 6 : e.kind === 4 ? 1 : 7;
+      if (r.projectiles.filter((p) => p.enemy).length + n > 600) {
+        m.next = r.time + DT;
+        continue;
+      }
+      const a =
+        e.kind === 4
+          ? angle(e, r.player)
+          : m.type === "spiral"
+            ? m.angle + m.count * 0.314
+            : angle(e, r.player);
+      for (let i = 0; i < n; i++) {
+        let off = 0;
+        if (m.type === "fan") {
+          off = e.kind === 4 ? 0 : -Math.PI / 3 + (i * Math.PI) / 9;
+          if (e.kind === 5 && Math.abs(off) < 0.175) continue;
+        }
+        if (m.type === "ring") {
+          off = (i * Math.PI * 2) / n;
+          if (Math.abs(Math.atan2(Math.sin(off), Math.cos(off))) < Math.PI / 6)
+            continue;
+        }
+        if (m.type === "spiral")
+          off = Math.floor(i / 3) * Math.PI + (i % 3) * 0.1;
+        shoot(r, e, a + off, damage, speed, 1100, null, 1, true, e.id, m.id);
+      }
+      m.count++;
+      m.next =
+        r.time +
+        (e.kind === 4
+          ? 0.15
+          : m.type === "spiral"
+            ? 0.12
+            : m.type === "ring"
+              ? 0.2
+              : 0.18);
+    }
+    if (m.type === "summon") {
+      const count = r.enemies.filter((e) => e.summoned && e.hp > 0).length;
+      if (count < 3)
+        for (let i = count; i < 3; i++) {
+          const summoned = actor(
+            r.nextId++,
+            1,
+            e.x + (i - 1) * 55,
+            e.y + 70,
+            false,
+            true,
+          );
+          if (!legal(r, summoned, summoned.radius)) {
+            summoned.x = 800;
+            summoned.y = 300 + i * 40;
+          }
+          summoned.nextAttack = r.time + 1;
+          r.enemies.push(summoned);
+        }
+      m.next = m.ends + 1;
+    }
+    if (m.type === "mark" && !boss) {
+      area(r, m.target, 55, 18, 0, 0.01, 1, null, { owner: e.id });
+      move(r, e, m.target.x - e.x, m.target.y - e.y, e.radius);
+      m.next = m.ends + 1;
+    }
+    if (m.type === "mine" || m.type === "laser" || m.type === "mark")
+      m.next = m.ends + 1;
+  }
+  for (const e of r.enemies)
+    if (
+      e.kind > 5 &&
+      e.rushUntil > r.time &&
+      e.controlUntil <= r.time &&
+      e.transition <= r.time
+    ) {
+      move(
+        r,
+        e,
+        Math.cos(e.moveAngle) * 600 * DT,
+        Math.sin(e.moveAngle) * 600 * DT,
+        e.radius,
+      );
+      if (
+        distance(e, r.player) < e.radius + r.player.radius &&
+        !e.rushHits.includes(0)
+      ) {
+        hurt(r, 30, e.element);
+        e.rushHits.push(0);
+      }
+      const m = r.modes.find((m) => m.actor === e.id && m.type === "rush");
+      if (m) damageCover(r, e, e.radius, m.id, true);
+    }
+  r.modes = r.modes.filter(
+    (m) =>
+      m.ends >= r.time && r.enemies.some((e) => e.id === m.actor && e.hp > 0),
+  );
+}
