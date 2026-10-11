@@ -1,0 +1,395 @@
+# DEVELOPMENT_HISTORY — 開發、Bug 與技術記錄
+
+備份時間：2026-10-11 14:20:13 UTC。來源基準：`a1543a07484ef230e8d694e9c0b75e5ae2f5ede9`，分支 `implement/s00-s05`。
+
+**這是長期記憶備份，不是現在交接、結束合作、重啟專案或啟動下一個開發任務。** 本次只整理檔案，沒有變更遊戲程式、玩法或數值。
+
+可信度標籤：**[使用者明示]**＝目前仍可取得的使用者原話／需求；**[正式規格]**＝根目錄確認檔案；**[程式事實]**＝此基準版本的實作；**[驗證紀錄]**＝已有測試或部署證據；**[待確認]**＝衝突／未決；**[歷史資訊不足]**＝不能還原，禁止補造。程式與 AI 撰寫的驗證檔案不能單獨證明使用者曾確認某項設計。
+
+權威順序：後續使用者明確指示優先於被取代的舊條文；玩法／數值看 GAME_SPEC，呈現看 UI_UX_SPEC，模組看 ARCHITECTURE。記憶檔案是恢復上下文的索引與歷史記錄，**不取代正式規格**。根檔案中的舊條文及本次附錄應按時間／覆蓋範圍解讀；不因儲存舊文而恢復舊設計。
+
+## 1. 可追溯里程碑
+
+初始scaffold與正式規格在docs/solaria-cloud-spec建立，基準6399276授權兩次交付。implement/s00-s05接續S00–S05：檢查Cloud→Pixi與純core→三class戰鬥→草原與王→清算儲存→59卡與美術音效UI。S00–S05提交具有相同git時間，不能據此猜開發只用一秒或精確階段時長。63980aa修多鍵、地雷時序、根ID計數；隨後四輪使用者反饋對應6776b7c、83e47ca、f3689fb、061e7ee，每輪再有文件驗證提交。
+
+當前不是重構完全部v1，也不是隻有啟動骨架。rootAGENTS／TEST_PLAN的scaffold措辭保留歷史，但已被程式碼與後續PROJECT_STATUS覆蓋。初期private部署屬於過去，正式釋出改GitHubPages；完整歷史PROJECT_STATUS附錄保留各輪數字，不能把舊88/102/107/113測試數當最新119。
+
+## 2. Bug／失敗經歷與修復方法
+
+| 現象／問題                   | 可確認原因                                                           | 修復／經驗與證據                                                                                                                     |
+| ---------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| 左held右職技失效             | PointerEvents多滑鼠鍵只有初次pointerdown；render幀提前吃edge會丟tick | canvas mousedown/up各鍵；edge在實際fixedtick消耗，held持續；真實瀏覽器雙鍵／三class檢查                                              |
+| 清算後不能攻                 | 原狀態分支只處理COMBAT                                               | POST_CLEAR/清算允許命令，overlay仍暫停；測試attack+E下一房                                                                           |
+| 第一boss2級                  | 原單位5XP不足早期每房升級期望                                        | 房XP預算、精英權重；Lv6首段與31Lv26數值驗證，尚非全v1實戰                                                                            |
+| mobs擠群太快／首房難         | 初速度與同屏量不合早構築，directchase隊形                            | 先cap4/5後4–10有限增援、BFS快取/分離/站位、慢且鎖向警示rush；正常HP控制器三classseed23只證明首房                                     |
+| 王太硬                       | 草原初6500且玩家早期弱                                               | 3600狼/4000羊，保留兩階段各三招，bossunit回歸                                                                                        |
+| 同時兩武器／選角空手         | 身體固定weapon與aimweapon疊；移除身體後portrait共用                  | gameplaybody空手+動態武器；後來另作三持械portrait                                                                                    |
+| 清算瞬間跳卡                 | 原即時吸入而沒有展示                                                 | deterministic1.1秒飛行，先救命/計分，checkpointsettled標防重領                                                                       |
+| 無主題預製／隨機太亂         | 固定配置變體不足；均勻亂放缺語法                                     | 六seed主題群落、wide通路/連通檢查/掩體密度與120圖測試                                                                                |
+| 雷弧跨場連線                 | 圖形路徑沿用上一段                                                   | 新段明確起點，WebGL截圖檢查，不用unit斷言代替美術目檢                                                                                |
+| 地雷時序不對                 | proximity/armed/trigger混合                                          | 武裝1.3秒、觸發延遲.25、到期4秒，pending trigger與時序測試                                                                           |
+| 副箭／focus按每hit多計施放   | 每子彈獨立root或按命中計cast                                         | 一次cast共享rootAttackId，每敵focusRoots有界去重；副鏈scale傳遞                                                                      |
+| 行星爆後續不爆               | .01瞬間視窗短於DT1/60，非整tick施放後整段被跨過                      | duration<DT、next==starts的pendingInstant跨due仍首擊一次，過期週期場不補；25連續非整點主/echo共50爆，零暴擊每次144總傷；敵瞬時雷同修 |
+| range視覺與傷害不一致        | 判傷再乘range、render存基礎半徑可能錯配                              | 建立area儲存實際半徑且不二次乘；shoot/targetPoint/cone沿用helper，實際範圍與圖回歸                                                   |
+| stun像freeze／slow過量冰     | controlUntil混同且iceUntil慢直接畫大殼                               | acceptedfreezeUntil/stunUntil分離，slow小霜、freeze大殼、stun金電顫，Boss拒絕control不顯示成功                                       |
+| 門底橢圓／柱外方框像摳壞     | stage額外裝飾，不是PNG背景                                           | 移除flatellipse/boxedplinth；96框alpha四角檢查，僅四角不是完整alpha審計                                                              |
+| FX仍太弱／平雷柱方底         | 使用者仍嫌.65與細線含蓄，試作wideflat雷柱有矩形視覺                  | .8多層炸光/火舌/碎片、粗分岔22/10/5/2.5鏈雷層、雷權重1.8與柔光而非矩形；最終WebGL回歸                                                |
+| 測試給卡不應只加記錄         | 必須真實acquire並保持選擇流程                                        | sharedacquire、auto前置/class替換、合法offers、testQuery儲存、persist(true)測試入口快照；59卡與reload測試                            |
+| 新profile讀檔/穿戴測試race   | IndexedDB非同步，menu存在不代表HUDready/save完成                     | 等#hud就緒與無overlay.saving再reload；不是隨便提高timeout                                                                            |
+| 瀏覽器中途首頁404            | Playwrightpreview讀取dist時同時重build先刪除dist                     | build完成後固定bundle再測試；不併發改dist；非正式線上故障                                                                            |
+| 400seed卡池測試>5秒          | 多次地圖生成與軟體WebGL爭CPU                                         | 改數值網格連通、降低生成成本，不放寬原測試時限；整組回歸                                                                             |
+| 匯入測試新case失敗           | 覆蓋已有存檔確認dialog未處理                                         | Playwrightfixture接受預期確認，再跑；不刪產品確認功能掩蓋測試                                                                        |
+| 正式URL Node API ENETUNREACH | 獨立Node請求未走Cloud代理                                            | 同源browserfetch驗證HTTP/hash；不禁TLS、不把網路誤作權限需重開                                                                       |
+| gh pr edit失敗               | 舊GraphQL Projects介面退役                                           | REST PATCH結構化JSON/bodyfile，避免shell引號/newline問題                                                                             |
+| Pages environment修改403     | 當時憑證不能改保護分支                                               | 使用者settings加implement/s00-s05允許，回覆已新增；已解決，無當前權限阻塞                                                            |
+
+根原因欄只有能由修訂／git／code確認的內容；使用者抱怨但未還原機制不能編成已知原因。後續如果發現上述根因說明需修正，保留原結論並寫「已取代／新證據」，不要直接抹歷史。
+
+## 3. 當前模組地圖（程式碼事實，不等於每項設計確認）
+
+| 路徑                                                 | 用途與擴充套件注意                                                                                                             |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| src/main.ts                                          | 啟動、stage/input/audio/checkpoint與DOM UI協調，saveChain排隊，saveBusy防操作，overlay signature；避免把遊戲規則不斷塞回此處   |
+| src/game/core/types.ts                               | serializable Run/Player/Enemy/Projectile/Area/Context/Command；stableID與新增optional舊檔相容                                  |
+| src/game/core/primitives.ts                          | DT、fixedClock、xorshift RNG/seedFor/clone/距離，暫停清accumulator，realDelta上限.1                                            |
+| src/game/core/run.ts                                 | newRun/enter/step/清算XP/狀態流、救命順序/獎勵、分數、dash地形                                                                 |
+| src/game/data/world.ts                               | 三class數值、五普通+兩Boss資料、四不重複route與六主題種子圖、障礙合法／連通／spawn                                             |
+| src/game/data/cards.ts                               | 01–59 registry、資格/稀有、levels/因子；後26需正式加入不是虛擬授予                                                             |
+| src/game/systems/geometry.ts                         | 牆/掩體/邊界、移動子步、線段阻擋、cone/beam幾何；尚非完整排序swept系統                                                         |
+| src/game/systems/combat.ts                           | DamageContext、armor/shield/crit/actualHP吸血、狀態、副鏈、shoot/cone/area、投射子步與瞬間跨tick                               |
+| src/game/systems/skills.ts                           | 三class/basic/counter/rapid/planet、19class、元素追加/fields/resonance/根計數                                                  |
+| src/game/systems/enemies.ts                          | 快取BFS導航、個體接近/分離、敵移動預警、Boss六招輪轉/兩模式/transition/召喚/attackLog                                          |
+| src/game/systems/progression.ts                      | derive/rarity/choices/reroll/acquire、XP、固定enemyID gear、bag/equip/discard、testgrant                                       |
+| src/game/persistence/checkpoint.ts                   | IndexedDBlatest/previous/entry/profile、revision交易、validate/export/import；損壞回退缺口待修                                 |
+| src/input/keyboard.ts                                | mousebuttonedges/held、canvas座標、鍵盤edge/失焦、輸入框不吃遊戲鍵                                                             |
+| src/render/stage.ts                                  | Pixi terrain/object/light/projectile/danger/visual/text層，atlasframes、glow複用；讀state不改核心                              |
+| src/render/effects.ts                                | 共用爆炸/電弧/beam/impact圖形語法，新技能繼續用並驗證清晰度                                                                    |
+| src/render/feedback.ts                               | 純rendercameraoffset，最大3.5px，暫停不帶未播震動，不修改物理                                                                  |
+| src/ui/view.ts                                       | menu/class/pause/build/equip/catalog/choice/test對話方塊與HUD HTML、escape、E提示                                              |
+| src/ui/card-art.ts                                   | 59張原創SVG＋家族邊框，不能以共圖代替所有能力圖                                                                                |
+| src/i18n/zh-TW.ts、card-copy.ts                      | 繁中與玩家能力短句；尚有main/view寫死字串，非完整i18n已遷移                                                                    |
+| src/audio/mixer.ts                                   | WebAudio合成事件、音量gain，localStorage solaria-volume預設.25；無完整BGM系統                                                  |
+| src/style.css                                        | responsive8:5、sidebar與rarity/pause/dialog/theme；無需滾動是關鍵回歸                                                          |
+| public/assets/                                       | 原創atlas/metadata、三持械portrait、twilight.svg、manifest(CC0來源)，非舊作移植                                                |
+| tools/create-atlas.py、create-scene.py               | Python/PIL生成原創sprite/背景，供再生成；不是執行時依賴                                                                        |
+| tests/unit/                                          | 11個檔案119用例，規則/59cards/source/seed/path/boss/settle/grant/FX時序                                                        |
+| tests/browser/                                       | 三檔案15Chromium場景，真滑鼠/DOM/8:5/save/catalog/reroll/test/WebGL截圖                                                        |
+| .github/workflows/pages.yml                          | implement或mainpush，check/unit/format→Chromium→Pagesbasebuild→artifact/deploy，github-pages環境                               |
+| .github/workflows/checks.yml、scripts/cloud-setup.sh | Node24Cloud安裝與原基本CI，失敗儲存test-results7天                                                                             |
+| vite.config.ts、playwright.config.ts                 | 通常相對base，SOLARIA_PAGES子路徑；browserpreviewdist4173，CI一worker（非CI預設並行數未固定），headless實際GPU模式要依環境確認 |
+
+## 4. 技術債、架構尚未達成與後續升級
+
+完整效能架構尚非全部實裝：陣列掃描與子步碰撞，未完整穩定ID/碰撞時間排序的sweep空間索引；部分sprite/glow複用，不是所有projectile/particle/獨立傷字都已嚴格物件池；600整組延遲在敵模式前檢查但shoot也有逐彈上限返回，應完整壓力核驗是否任何路徑丟半組。沒有獨立GPU60FPS、600最密、2000裝飾預算、10重啟增長資料。不要以提效能為由偷刪有效傷害／字。
+
+schema1限定room1–5與當前rarities/cards，需要S06–S14相容遷移後續route/loop/event/boss/save欄位；測試grant入口快照有意與普通戰鬥進度回入口不同。新score/kills、discovered、rerollUsed、freezeUntil/stunUntil是相容補欄位，不當完全無遷移風險保證。不同版本繼續舊種子會保留舊layout與XP，應建議新局體驗新平衡，不強刪舊檔。
+
+其他技術債：主協調main很大；部分中文直寫；Mode union含impact/block/charge/thunder視效詞屬於待整理型別債；音效原型無BGM；profile只圖鑑未達成就外觀；測試工具生命週期未定；spawn100嘗試後是否始終安全、Boss36半徑可達，需更多證明。靜態發現不當已發生線上bug；CURRENT_STATE列確切衝突與優先順序。
+
+## 5. 驗證歷史與重現經驗
+
+最近遊戲版本061e7ee：check/build/format透過，119unit與15Chromium最終CI全透過，Cloud全15回歸與最後3個受影響場景回歸紀錄。正式URL瀏覽器驗證HTTP200與素材SHA、WebGL正常新局、雙鍵、舞臺無滾動、存檔重新載入、E裝備、選單背景／pause／catalog、reroll重新載入與測試位置/59搜尋/58迴響+29鏈/前置覺醒/reload能力；pageerror與HTTP失敗0。詳細各輪證據下文原PROJECT_STATUS，不靠此摘要把所有未來需求判透過。
+
+命令：Node24 `npm ci`；`npm run check`、`npm run build`、`npm test`、`npm run test:browser`、`npm run format:check`。Playwright使用現有dist，必須build完再跑；同時修改dist會404。Pages `SOLARIA_PAGES=1 npm run build` 輸出子路徑，正式驗證用公開實際URL而非開發根路徑。不能用headless啟動／CIbuild代替實機FPS。測試截圖test-results被忽略、下一次可能覆蓋；線上驗證臨時指令碼在/tmp，不保證下個環境有，不能以路徑存在作長期證據。保留CIURL/commit/測試原始碼才可追蹤。
+
+## 6. 歷史缺口與安全
+
+未取得早期訪談逐字、舊專案全部演變、所有玩家試玩資料、硬體量測與失敗時原始截圖；原附圖在聊天可見但未持久化為repo素材，已用描述記錄不虛稱原圖備份。現有早期原始檔與git能恢復當前確認規格，不能恢復當時所有意圖。只記錄公開repo/PR/CI/Pages與原始碼，不寫憑證、session代理認證或完整環境變數。舊作只讀參考路徑/workspace/Solaria-reference不是永遠存在保證，參考倉庫可安全只讀取得，禁止push/reset。
+
+## 完整Git提交索引（備份時可取得）
+
+保留原時區，不能從重複timestamp推測開發時長；只包含備份前提交，不假造之後memory的hash。
+
+```text
+a1543a0 2026-10-11T13:39:19Z docs: record radiant test-build Pages verification
+061e7ee 2026-10-11T13:32:15Z fix: radiant abilities, reliable instant blasts and test card grants
+5cf714f 2026-10-11T12:40:06Z Record verified combat polish and discovery release
+f3689fb 2026-10-11T12:34:23Z Add combat impact, illustrated discoveries and themed meadow encounters
+43d5c29 2026-10-11T12:05:01Z Record verified polish release on GitHub Pages
+83e47ca 2026-10-11T12:00:25Z Polish meadow generation, settlement flow and loot readability
+17b21fa 2026-10-11T11:21:53Z Record verified GitHub Pages release and online gameplay checks
+6776b7c 2026-10-11T11:16:57Z Repair milestone controls, rebalance grass encounters, redraw art and deploy Pages
+a5e8f71 2026-10-11T09:57:46Z Record verified private milestone deployment and review handoff
+63980aa 2026-10-11T09:55:10Z Fix simultaneous input, proximity mines and per-cast source tracking; record milestone validation
+71cdff5 2026-10-11T09:51:07Z S05: integrate 59 cards, original pixel art, audio and playable milestone UI
+2fb9663 2026-10-11T09:51:07Z S04: add transactional checkpoints and settlement progression
+c5769f4 2026-10-11T09:51:07Z S03: implement seeded grassland rooms and both two-phase bosses
+72612b0 2026-10-11T09:51:07Z S02: implement three classes, collision and damage-source rules
+940da46 2026-10-11T09:51:07Z S01: add Pixi v8 and serializable fixed-step simulation foundation
+2427793 2026-10-11T09:51:07Z S00: verify cloud specification baseline and non-root browser setup
+6399276 2026-10-11T17:17:12+08:00 docs: authorize two Cloud deliveries through first playable and full v1
+2cc2e06 2026-10-11T17:06:13+08:00 docs: complete enemy parameters and record handoff validation
+c15ad66 2026-10-11T17:04:02+08:00 docs: preserve current main documentation updates
+f1318e5 2026-10-11T17:03:26+08:00 docs: finalize Solaria specifications and Cloud handoff
+d97b219 2026-10-11T17:01:46+08:00 Update README.md
+08bf730 2026-10-11T17:00:50+08:00 Update AGENTS.md
+f0a1254 2026-10-11T11:34:35+08:00 Prepare clean remaster scaffold, cloud checks, and Matt Pocock grilling skill
+eb77e19 2026-10-11T11:31:40+08:00 Initial commit
+```
+
+## 全部已追蹤檔案清單（備份前）
+
+檔案會變化，以git ls-files實時核對；不包含ignored臨時截圖或認證資料。
+
+```text
+.agents/skills/grilling/SKILL.md
+.agents/skills/grilling/agents/openai.yaml
+.devcontainer/devcontainer.json
+.github/workflows/checks.yml
+.github/workflows/pages.yml
+.gitignore
+.nvmrc
+.prettierignore
+AGENTS.md
+ARCHITECTURE.md
+CLOUD_START_PROMPT.md
+DECISIONS.md
+DEVELOPMENT_PLAN.md
+GAME_SPEC.md
+PROJECT_STATUS.md
+README.md
+TEST_PLAN.md
+THIRD_PARTY_LICENSES/grilling.txt
+UI_UX_SPEC.md
+index.html
+package-lock.json
+package.json
+playwright.config.ts
+public/assets/atlas.json
+public/assets/bow.png
+public/assets/mage.png
+public/assets/manifest.json
+public/assets/solaria-atlas.png
+public/assets/sword.png
+public/assets/twilight.svg
+scripts/cloud-setup.sh
+src/audio/mixer.ts
+src/game/core/primitives.ts
+src/game/core/run.ts
+src/game/core/types.ts
+src/game/data/cards.ts
+src/game/data/world.ts
+src/game/persistence/checkpoint.ts
+src/game/systems/combat.ts
+src/game/systems/enemies.ts
+src/game/systems/geometry.ts
+src/game/systems/progression.ts
+src/game/systems/skills.ts
+src/i18n/card-copy.ts
+src/i18n/zh-TW.ts
+src/input/keyboard.ts
+src/main.ts
+src/render/effects.ts
+src/render/feedback.ts
+src/render/stage.ts
+src/style.css
+src/ui/card-art.ts
+src/ui/view.ts
+src/vite-env.d.ts
+tests/browser/feedback.spec.ts
+tests/browser/resonance.spec.ts
+tests/browser/startup.spec.ts
+tests/unit/bosses.test.ts
+tests/unit/cards.test.ts
+tests/unit/clock.test.ts
+tests/unit/feedback.test.ts
+tests/unit/milestone.test.ts
+tests/unit/pathing.test.ts
+tests/unit/playability.test.ts
+tests/unit/polish.test.ts
+tests/unit/radiance.test.ts
+tests/unit/resonance.test.ts
+tests/unit/simulation.test.ts
+tools/create-atlas.py
+tools/create-scene.py
+tsconfig.json
+vite.config.ts
+vitest.config.ts
+```
+
+## 完整來源快照附錄
+
+以下保留來源原文，包含舊敘述與後續修訂。它們不是全部同時有效；先讀本文的取代／衝突註記，再按原文件末尾修訂與最新使用者指示判讀。複本只用於防止未來遺失，日後編輯正式規格應更新原文件，不只改這份快照。來源 SHA256 是備份前原檔內容，不是本文件排版後的雜湊。
+
+### 來源 PROJECT_STATUS.md
+
+原文件：[../../PROJECT_STATUS.md](../../PROJECT_STATUS.md)；來源提交 `a1543a07484ef230e8d694e9c0b75e5ae2f5ede9`；SHA256 `59775dee829ad84aaff662a4bab588c0ed6f425a087614fcccb69690e34ae88c`。
+
+<!-- SOURCE_SNAPSHOT_BEGIN: PROJECT_STATUS.md -->
+
+# PROJECT_STATUS — 第一里程碑試玩修正版
+
+更新：2026-10-11。起點 `6399276`（`docs/solaria-cloud-spec`），實作分支 `implement/s00-s05`；原版 `sces5504/Solaria` 僅唯讀參考（HEAD `4a07ca6`）。S06–S14 尚未開始。本次依使用者 16 項回饋改善 S00–S05，不以擴充完整 v1 取代修正第一版。
+
+## 第一里程碑內容
+
+三職業、草原五怪與六個模板，每局四個不重複普通房＋隨機狼王／邪惡山羊王。兩 Boss 各兩階段三招、交錯／2 秒轉場／掩體耐久；59 張卡、兩元素容量及三融合；藍紫黃裝備、三裝備欄／12 背包；IndexedDB 清算、選卡與裝備 checkpoint、匯出匯入與 revision 衝突保護。PixiJS 8.22.0 WebGL，1024×640、獨立 60Hz 核心。製作者：Mori Fang。
+
+## 本次 16 項修正
+
+1. 滑鼠改用 mousedown／mouseup 接收每個按鍵：左鍵已按住時的右鍵不會被 Pointer Events 的多鍵語意漏掉。技能／閃避／互動按下事件只在實際 fixed tick 消耗，避免高更新率渲染先吃掉；保存刷新不清連續輸入。
+2. 三選一卡片整張背景／邊框／圖示／光暈依藍紫青黃顯色，移除以顏色名稱取代呈現的標籤。
+3. POST_CLEAR 保留普攻與職業技能，暫停／選卡仍凍結。
+4. 普通房總數保留 8–12（詞條另加），有限分批增援，前兩房同屏 4、後兩房 5。草原行走 74／48／65／55／45，加入個體接近角度、預先分離和不同站位距離。
+5. 全新原創 96px atlas：三職業、五怪、兩領主、樹／岩／柱／水／門、補包與經驗晶體；層次輪廓、盔甲、鬃毛、彎角、衣袍與陰影。獨立重繪，未複製原作 sprites；manifest CC0。
+6. 瀏覽器可用高度放大舞台，保留 8:5，不需捲動頁面；桌面側欄取代大量留白。
+7. 扇形揮砍／反擊、弓弦放箭／快射、法杖蓄光／行星爆、閃避殘影、技能領域與命中／爆炸粒子。
+8. 59 卡另有玩家用語描述，移除「第 5 節」「依規格」等開發文字；操作／狀態／融合名稱與關卡提示修訂。
+9. E 拾取裝備／靠近右門按 E 換關；站在門口不自動離場。
+10. 保留六種模板骨架，再按種子添加樹岩群、保留寬路與分支；草地花草、碎石、蜿蜒步道和岩岸，不再只用平鋪方格。敵人分散且避開掩體生成。
+11. 本局分數／擊殺／XP 進度，側欄常駐實際屬性、元素與裝備。
+12. 小怪預警 .7 秒、遠程 .6 秒，Boss 初次衝刺 .8 秒、連續 .45 秒；蓄力停下、鎖定方向，普通衝刺 240、Boss 310；衝撞期間不被行走 AI 改向。
+13. 山羊王環彈完整 360°／16 方向，無人工缺口。普通持杖哥布林扇射缺口保留其定位。
+14. 狼王／山羊王各自重新繪製，放大輪廓，附蓄力壓身／衝撞傾斜／階段光環與轉場動畫。
+15. 房 XP 配額 100＋20×min(room−1,4)＋10×max(room−5,0)。前四房各升級、第五房後 Lv.6；31 房無經驗加成配額驗算為 Lv.26。召喚不給經驗，精英權重為雙份；仍用正式升級需求。
+16. 可回收加色光暈、冰晶／凍結晶殼、火星／焰環／火徑、水紋／泡沫／漩渦、閃電鏈／電場、蒸氣與冰火交替效果；主副投射物透明度區分。預警與敵彈保持高層。
+
+詳細調參前後值與最新操作覆蓋在 GAME_SPEC「第一里程碑試玩修訂」。
+
+## 驗證
+
+雲端 Node24，正式 Vite build、Playwright Chromium WebGL。
+
+- PASS：check／build／format:check。
+- PASS：102 項 unit（原 88 項＋14 項新增），CARD01–59、兩 Boss 各階段三招、完整環彈方向、左右鍵同施放、fixed tick 事件保持、清關攻擊、E 進門、有限增援、逐房升級／31 房配額、50 種子 AI、存檔／來源／控制等回歸。
+- PASS：三職業固定 seed 23 首房正常 HP／攻擊／技能可清關，不修改敵人 HP、不開免傷；控制器用正常命令，這不等於人類完整五房平衡驗收。
+- PASS：9 項 Chromium（既有 3＋新增 6），三職業真左右鍵並按並匯出狀態核驗、清關攻擊與 E 換關、整張卡片配色、1920×1080／1366×768／1280×720 舞台等比及無頁面捲動、兩 Boss 與元素場景、IndexedDB checkpoint／穿戴保存／重載。
+- 實際 WebGL 截圖用於檢查光效與輪廓，並修復弧線渲染沿用前一段路徑造成跨場連線。測試截圖輸出 test-results（不提交暫存檔）。
+- NOT_RUN：實體 GPU 60FPS／最密 600 彈／10 次重啟記憶體分布、Firefox／Safari、人工三職業完整一般及強構築五房／全 v1 平衡。headless 不冒充上述項目。
+
+## GitHub Pages
+
+使用者已將儲存庫設為 public、Pages Source = GitHub Actions，並允許 `implement/s00-s05` 部署到 `github-pages` 環境（另保留 main）。Pages 工作流程先 check／unit／format／Chromium，通過後以 `SOLARIA_PAGES=1` 建置 `/Solaria-Remaster/` 子路徑，upload-pages-artifact＋deploy-pages。
+
+正式試玩網址：https://sces5504.github.io/Solaria-Remaster/ 。
+
+- PASS：遊戲修正版 `6776b7c7b279bc15ffec75f1205c6fc29fc5a2f3` 已發布。Pages run [38134987440](https://github.com/sces5504/Solaria-Remaster/actions/runs/38134987440)，build／deploy 均 success；deployment `6994765136`。
+- PASS：同版本 Development checks runs `38134987410`／`38134990147` 均 success。
+- PASS：直接使用正式 Pages 網址的雲端 Chromium 驗證：HTML、CSS／JS、atlas／三職業肖像／manifest 均 HTTP 200；WebGL 法師新局、真實左鍵保持＋右鍵施技、舞台比例／無頁面捲動、IndexedDB 保存及重載回房間入口；pageerror 與 HTTP 失敗均為零。
+- 線上檢查使用瀏覽器 fetch 驗證素材；Node 的獨立 API request 不走環境代理，首次驗證在該請求階段遇連線限制，改用瀏覽器同源請求後完整通過。
+- 此文件記錄的是已驗證遊戲 commit；後續文件提交不代表新玩法版本。
+
+Draft PR：https://github.com/sces5504/Solaria-Remaster/pull/2 ，base `docs/solaria-cloud-spec`；保留 main，沒有合併主分支。先前 Sites 部署不是本次交付，不再更新。
+
+## 第二輪八項微調（2026-10-11）
+
+- 主角sprite移除固定武器，只保留瞄準武器與動畫。
+- 清算立即回血／計分，XP與補包吸附1.1秒後才選卡；中途checkpoint可恢復且不重複獎勵，殘留傷害保留。
+- 草原與Boss房改成種子式程序生成，保留環境材質風格，增加掩體，檢查全可走格連通；普通房4–10隻初始／同屏上限。
+- 狼王HP6500→3600、山羊王6500→4000；狼94、持刀88、狼王85基礎移速，史萊姆／遠程維持較慢速度，突進及預警不變。
+- 地面裝備的稀有度光柱、亮芯、上升粒子、名稱與E拾取提示；門口E進入提示。完整橘紅裝備能力仍屬S10。
+- PASS：107項unit（新增清算飛行／中途存檔、100種子敵群、120個種子房型連通與掩體量、Boss血量、E提示）。初次與軟體WebGL同時執行時400種子卡池測試超過5秒，改用數值網格連通檢查減少生成成本後回歸通過，未放寬原測試時限。
+- PASS：check／build／format:check。10項Chromium場景：本機既有9項通過，新增清算／裝備測試補上匯入覆蓋確認處理後重跑通過；正式CI完整10項亦全數通過。
+
+- PASS：修正版遊戲commit `83e47cab706a8d925e64f2a3d72cb947c28bad9f` 已在 GitHub Pages 發布；[Pages run 38137656597](https://github.com/sces5504/Solaria-Remaster/actions/runs/38137656597) build／deploy均success，完整107unit／10Chromium通過。
+- PASS：直接正式網址雲端Chromium驗證HTML／資源HTTP200，atlas SHA256與本輪素材一致、WebGL新局、左鍵保持右鍵技能、等比無捲動、IndexedDB重載、實際地面光柱／E提示／拾取。pageerror及HTTP失敗為零。
+- 本次記錄的遊戲版本為83e47ca；後續只更新驗證文件的提交不改玩法。
+
+## 第三輪12項質感修訂（2026-10-11）
+
+- 暴擊／重攻擊／玩家受傷／格擋及爆炸有渲染專用輕微震動，限3.5px，不改戰鬥時間或碰撞。格擋成功一次盾徽火星，衝鋒斬独立金色拖尾／前弧，普通閃避區分。
+- 爆炸持續.65秒視覺事件，亮芯／衝擊波／碎片；Boss點名有預告電弧及實際雷柱，火冰水電、敵人燃燒／冰凍外觀增強。友方特效在敵方危險下方。
+- 原創暮色湖岸／遺跡背景、持武器選角肖像、留白金框暫停面板、世界觀短句；59卡能力線繪圖案與家族邊框（CC0 manifest）。
+- 圖鑑未知暗色不顯示卡片內容，取得後亮起；IndexedDB profile跨死亡／完成／新局保存，從舊存檔已持有卡遷移，支援匯出匯入，不增永久數值。
+- 每次三選一免費刷新一次，使用狀態／抽牌保存，下一次升級重置；不改資格或稀有度抽池。
+- 戰鬥也可E撿裝備入背包，穿戴仍清關。Boss彈速235、完整環彈14方向，小幅調低密度；地圖以林群／岩岸／林廊／水岸／樹庭／遺跡主題組織，仍種子生成和連通檢查。
+- PASS：113unit；新增刷新限次／重載、格擋和純渲染震動、衝鋒斬、爆炸與預告雷柱、未知圖鑑／59張圖案、20種子各地圖主題，既有連通／掩體／正常HP首房／全部卡片回歸。
+- 本機初次瀏覽器測試發現新profile讀取需要等待界面就緒；已加狀態等待。測試執行中重新建置曾短暫刪除dist造成首頁404，已固定建置並重跑，不視作正式部署故障。
+- PASS：check／build／format:check；13項Chromium場景（完整重跑12項通過，既有穿戴存檔測試補上非同步讀取／保存等待後重跑通過）。新增背景／肖像、圖鑑跨新局、刷新讀檔限次、戰鬥拾取、爆炸／雷柱／冰火／衝鋒拖尾實際WebGL截圖；正式CI完整13項亦全數通過。實體GPU60FPS及人工完整五房構築平衡仍NOT_RUN。
+
+- PASS：遊戲commit `f3689fbe524d39a8d2c147e23e29c0ee5f895b46` 已發布；[Pages run 38139794223](https://github.com/sces5504/Solaria-Remaster/actions/runs/38139794223) build／deploy均success，113unit／13Chromium全數通過。
+- PASS：正式Pages雲端Chromium實測HTML／CSS／JS／素材HTTP200，atlas與持武器肖像SHA256一致、法師新局／左鍵保持右技能、舞台／存檔重載、E拾取、Pages子路徑背景、新暫停、刷新後讀檔維持已用、取得卡圖鑑解鎖；pageerror及HTTP失敗均零。
+- 本次記錄的遊戲版本為f3689fb；後續只更新驗證文件的提交不改玩法。
+
+## 接續範圍
+
+S06–S14 未開始：八個新增地形／16 Boss、最終三血四柱、26 後續卡、橘紅裝備／事件／成就、周目及完整 v1 平衡。從本分支接續，保留 59 卡與草原回歸。舊存檔可讀；建議新局體驗修正版敵群與 XP 曲線。
+
+## 第四輪七項試玩修訂（2026-10-11）
+
+- 全職技基礎CD各減2秒：劍士5、弓箭手6、法師3。範圍基準1→1.15，連鎖雷基距120→180（未取卡實距207），不增加Boss危險範圍或改動連鎖上限／阻擋規則；場域保存實際半徑，畫面與命中範圍一致，未來內容沿用helper。
+- 厚多層分岔電弧、爆炸光瓣／放射火舌／亮核／碎屑、.8秒留影，粗落雷白芯与漸層雷柱光暈；普攻斬線／友方彈道／光環加強。截圖檢查發現平直寬雷柱有矩形底色，改用沿分岔雷光的透明柔光，未保留方柱。
+- 冰緩速僅輕霜，成功冰凍才冰殼；電暈金色跳電／短顫，外觀期限由實際控制接受結果決定，尊重Boss免控／遞減。新增可選欄位不使舊存檔失效。
+- 音量左方「測試」，可搜尋與直接給予59張已實作卡。實際套用能力／前置覺醒，跨職業替換職業構築，元素不足容量時替換元素構築，面板明示；待選／本次刷新狀態保留。保存本房測試快照，讀檔仍保留能力。
+- 行星爆失效主因：.01秒窗口短於1/60固定tick，非整點施放可能整段被跳過。瞬間場第一擊跨窗口仍結算一次，長效過期場不補傷；回響／敵方瞬間落雷亦修復。
+- 移除柱外矩形地坪与門／入口平塗橢圓底色；PIL檢查96個atlas影格四角均透明，門與柱原圖無矩形底圖，未重製來源PNG。
+- PASS：119unit，新增25次非整點行星爆＋回響皆爆炸且每發一次、敵方瞬間落雷與過期場、範圍與畫面一致、連鎖距離／掩體／上限、真實冰凍與麻痺／Boss免控、59卡給予与前置／換職／刷新讀檔。
+- 瀏覽器：15場景首輪通過，新增測試按鈕位置／搜尋給卡／職業與元素前置／待選刷新保留／重載、冰緩速vs冰凍vs麻痺／連鎖／雷柱／爆炸及無切圖底框實際WebGL截圖。PASS：最後柔光雷柱與彈道版本完整15場景回歸通過，最後分岔輪廓與文案再針對3個受影響場景回歸，皆通過。check／build／format:check通過；發布／線上驗證待下節記錄。
+- 實體GPU60FPS与人工完整五房構築平衡仍NOT_RUN；S06–S14未開始。
+
+- PASS：遊戲commit `061e7ee30766c2b1583aed775ff1c5f8331f221d` 已發布到 GitHub Pages；[Pages run 38143596680](https://github.com/sces5504/Solaria-Remaster/actions/runs/38143596680) build／deploy均success，正式CI完整119unit／15Chromium全數通過。
+- PASS：正式網址雲端Chromium核驗HTML／CSS／JS／所有素材HTTP200、atlas／持武器肖像SHA256一致、法師新局／保持左鍵加右鍵職技、舞台比例／無捲動、IndexedDB重載、E拾取、Pages背景、暫停／圖鑑、刷新讀檔仍已用；新增測試按鈕在音量左方，59卡搜尋／給予58行星回響與29連鎖雷及前置覺醒、重載仍保留能力。pageerror與HTTP失敗均零。
+- 本次記錄的遊戲版本為061e7ee；後續只更新驗證文件的提交不改玩法。
+
+<!-- SOURCE_SNAPSHOT_END: PROJECT_STATUS.md -->
+
+### 來源 TEST_PLAN.md
+
+原文件：[../../TEST_PLAN.md](../../TEST_PLAN.md)；來源提交 `a1543a07484ef230e8d694e9c0b75e5ae2f5ede9`；SHA256 `f3f7697ed5e2dec92d7ca0acaf113278923b40885cc18b2296efab1438304219`。
+
+<!-- SOURCE_SNAPSHOT_BEGIN: TEST_PLAN.md -->
+
+# TEST_PLAN — 品質、回歸與驗收
+
+2026-10-11，CONFIRMED。此文件是測試要求，不是已運行記錄。當前遊戲仍只有startup scaffold，玩法／平衡／FPS全部未執行。
+
+## 環境與命令
+
+Cloud／CI使用Node24，bash scripts/cloud-setup.sh、npm run check、npm run build、npm run test:browser、npm run format:check；有有意義的核心測試後npm test。測試不用本機常開。pure simulation使用固定seed與命令trace，browser使用正式build與Chromium。renderer實際FPS另需記錄硬體GPU與瀏覽器；headless功能測試不冒充實體性能。
+
+## 核心矩陣
+
+| ID  | 測試行為                           | 明確通過條件                                                         |
+| --- | ---------------------------------- | -------------------------------------------------------------------- |
+| C01 | 按住普攻／WASD／aim／動作並行      | 無補射誤選，施放次數符定義、同敵每箭一次                             |
+| C02 | dash牆／敵／湖／lava／不足落點     | 牆擋、敵穿、足夠跨、否則留原岸耗CD、無無敵                           |
+| C03 | 格擋早／晚／空／多彈               | .6最短；成功後.3反擊、後.1保護；單次只一反擊，CD施放即起             |
+| C04 | 快射5及升級8–10、側箭／左元素      | 每主箭推一次AA counter，副不推，右元素整次一次                       |
+| C05 | 甲／盾／溢傷／受傷無敵             | 100/(100+A)，先盾，溢傷扣HP；只扣盾也開.5；DOT與雷射不能瞬疊         |
+| C06 | 最後怪同幀死亡／玩家0HP            | clear只一次、先回血救回再判死，殘留彈幕持續，無免費重復獎            |
+| C07 | pause／失焦／resume                | simulation／CD／status／數字／復活全部凍結，resume需新輸入           |
+| C08 | 暴擊分類與100%測試                 | direct／週期暴擊，燃燒／冰矛／追加／百分比不暴擊，敵不暴擊           |
+| C09 | sourceScale／鏈／代理              | 副20/.175/.15全鏈僅一次，no滿傷復原、no遞歸；星核命中不計施放        |
+| C10 | ice／burn／wet／electro／Boss CC   | 15累積、刷新／不疊、wet25%；Boss共享減半／第三拒絕／2秒免疫          |
+| C11 | 2元素／融合／第三元素／雙融合      | 無騰slot、舊卡仍池；最早融合／同時玩家選一次、armor正確卸下          |
+| C12 | 三選一多級／稀有度／資格           | 先色再池、同組不同、選後重算、singleton不再、數值可重復              |
+| C13 | 每周目cap／機制／邊際              | 5→10→15；職業機制按表，後傷1/2、1/3…非復利                           |
+| C14 | 普通補包與Boss召喚                 | 2→…15、掉才重置、跨房周目、召喚15不改counter、15%回血                |
+| C15 | 詞條／精英／loot                   | 無事件Boss詞、25%高色權重加算、無數量獎勵，精英生命傷及能力符合定位  |
+| C16 | map／projection／beam／explosion   | 32×20連通，實體擋／低地不擋，範圍不遮蔽，高速不穿牆                  |
+| C17 | Boss三招／交錯／phase              | 各階段≥3獨立attackId，2／短時3模式、預警達標、無溢傷、舊攻還在       |
+| C18 | 掩體／回血召喚／眼球               | 每模式同掩體一次扣、四態；限召／noXP裝備；雙體總HP不增、皆死才清     |
+| C19 | 最終封印／3血／通關                | 一二之間4柱、封印彈幕例外、字幕Mori Fang、暫停選擇／繼承             |
+| C20 | ghost／友軍／lifesteal             | 3×HP／.5保護／10sec或clear復活；不擋友彈；實際HP傷吸血排盾與過量     |
+| C21 | blood／禮物／星核                  | 20/10%甲無效先盾、門檻1.35繼承；gift不自爆鏈；星核AA proxy不計cast   |
+| C22 | bag／equip／禁用                   | 3欄12格、F最近、滿包留地、戰鬥不開、禁armor自動卸包或地              |
+| C23 | 事件計數／once／guarantee          | 0→…20每普通房推、boss不推，reset，跨周目seen不清、無詞條、clear保紅  |
+| C24 | checkpoint／seeds／loss／migration | 戰鬥回入口、clear不重獎、選卡不能reroll、同ID不複製、失敗不清profile |
+| C25 | HUD／字／cards／音效               | 每傷獨立、敵預警可見、CD角色旁醒目、card資訊完整，靜音保存           |
+| C26 | death／profile／all-content        | 無永久數值，三職業與玩法全開，死亡只清run，newrun覆蓋確認            |
+| C27 | source與asset license              | 原作只讀，無搬舊HTML／版權素材；原創atlas與license manifest可核驗    |
+| C28 | Pages／base／加載／refresh         | 子路徑資源全部200，正式build能新局／保存／reload，真實部署URL有效    |
+
+## 卡片與內容逐項覆蓋
+
+CARD-01..85以GAME_SPEC穩定ID作為參數化案例，而非僅檢查數組長度：每卡給定合法state→取得／升級→執行其條件→斷言對應命中、數量、傷害來源、限制與無條件對照。每個案例注明關聯Cxx：數值01–14 C12/13；元素15–40 C08–13；職業41–59 C01/03/04/09/13；通用60–69 C05/08/12；橘70–77 C09/12/17；紅78–85 C11/12/22/26。紅卡測試禁用與代價、偏執與靜誓互斥，數值不只照抄函數公式。
+
+MON-01..29覆蓋草原5＋其他8×3原生怪，測試招式／尋路／射擊／屍體掉落。BOSS-01..18每個2階段3招各獨立觀察；FINAL-01..03每條血＋SEAL4柱；EVENT-01..06每事件三波與其精英／Boss、6專紅。ROOM-TEMPLATE每地形6個、總54，驗證路和合法落點。EQUIP8橘＋3普通紅＋6事件紅分別觸發和卸下效果，不能僅寫一條總測試覆蓋所有。
+
+分布驗收用固定大量seed統計置信區間，檢查基礎色權重、fallback正規化、稀有候選計數；不要求有限樣本精確等於百分比。查找變化的卡池時不能把有限去重樣本當成獨立概率。
+
+## 平衡與效能
+
+首周目三職業各至少一個一般構築和一個強構築跑30＋最終，記錄時間（排暫停）、等級、各房擊殺耗時、承傷與回血。目標40–60分鐘、20–25級，檢查不是僅最高DPS達標。第1/2/5/10周目觀察血／甲／傷曲線、最長Boss耗時、卡機制封頂；修改參數須同場景前後對照，不降低固定規則。
+
+FPS參考設備Apple M1級或同等集顯／16GB，Chrome／Edge正式WebGL、1920×1080viewport內固定8:5、邏輯1024×640。普通房和最密Boss連續60秒，平均≥59FPS、95%幀≤20ms、不連續低55超過1秒。記錄CPU/GPU／OS／browser／resolution／render backend／scenario seed／entity與particle count／frame distribution。不寫未測達標。
+
+壓力case包括600敵彈、12共振目標、等級5分裂＋鏈＋禮物、多個右鍵場、鬼甲與復活、最終三模式、每傷獨立數字。檢查記憶體經過10次restart不持續增長，切tab後恢復無burst。只能優化批次／池／shader／裝飾預算，不能刪有效傷害或把傷字合併。
+
+Firefox／Safari桌面功能煙測，viewport縮放與fullscreen檢查指針準確。觸控、120FPS、多人／music／英語不作為v1必驗。
+
+## 記錄格式
+
+每次記錄commit、階段ID、環境、命令、結果、退出碼、失敗case、未運行項目。狀態必須區分PASS／FAIL／NOT_RUN／BLOCKED；CI綠色僅代表該workflow包含的檢查，不代表完整玩法、GPUFPS或Cloud環境已Publish。更改核心輸入／來源／存檔／掉落必跑關聯case及既有回歸。
+
+<!-- SOURCE_SNAPSHOT_END: TEST_PLAN.md -->
