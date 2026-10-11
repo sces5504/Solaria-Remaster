@@ -1,5 +1,19 @@
 # DEVELOPMENT_HISTORY — 開發、Bug 與技術記錄
 
+## v1內容發布與驗收界線（2026-10-11 21:39:23 UTC）
+
+版本1.0.0已發布正式[GitHub Pages](https://sces5504.github.io/Solaria-Remaster/)。部署來源cc6f32eff2ba1484e2f2b94bdf2e2565f74333bc、implement/s00-s05，原9f88061／53691bf成果接續，未force／回退／merge main。PR2仍Draft，base docs/solaria-cloud-spec。此後僅追加文件／驗證證據，最新文件commit以git log核對，不改已部署遊戲。
+
+PASS：check／307unit／build／format；最新來源完整77Chromium三輪均成功，push 38175125184（28.5分鐘）、PR 38175128180（14.2分鐘）、[Pages 38175125134](https://github.com/sces5504/Solaria-Remaster/actions/runs/38175125134)（17.6分鐘）及deploy成功，均無flaky。正式URL兩項PASS23.7秒：新局、左右鍵同時普攻／職技、8:5、保存reload；53691bf舊IndexedDB直接繼續、構築保留、再保存reload。JS／四atlas及manifest SHA256与本地Pages bundle一致，資源無錯誤。補充舊檔實戰PASS：bow保存构築不變，W移動y320→150、普攻0→2、WebGL活躍34精靈、無pageerror，實際圖與JSON保存。
+
+內容接入完成：九地形／29普通怪／54主題程序房型與危害／詞條／精英，18地形王各2×3招、索拉里斯三血四柱與30＋1／周目，85卡，8橘／3普通紅／6事件紅，六事件／兩事件王，收藏UI／教學／圖鑑／七成就／三外觀／音效／存檔恢復及錯誤流程。四柱60°旋轉缺口為主人明示例外；第五輪Steam、炎龍、燼火、範圍与CD全部保留。逐項核對見TERRAIN／BOSS／CARD／EQUIPMENT／EVENT_MATRIX与RELEASE_CHECKLIST；資料與回歸不代表全部逐幀人工批准。
+
+S13尚未全驗收，不能稱本次S06–S14任務全部完成：Cloud600彈／逐傷字功能與10＋30 UI重啟JS記憶體PASS；SwiftShader密集場景平均1.3–1.5秒／幀、60FPS為FAIL。真正GPU60FPS／600彈60秒／GPU記憶體、Firefox／Safari、三職自然构築完整30＋1與人工周目平衡、人工聆聽与全部短FX逐幀核對NOT_RUN。24＋8合法預算單王探測保留一般劍1／2周目死亡，不冒稱自然全程通關。確切剩餘與恢復見REMAINING_ACCEPTANCE，平衡／硬體證據見BALANCE_PERFORMANCE。
+
+正式站測試環境修復紀錄：首兩輪CA錯誤（未進遊戲）保留；NSS資料庫在sandbox唯讀導致Chromium無法開啟信任庫，給測試程序資料庫寫入權限後TLS正常。系統openssl驗證亦0(ok)，沒有ignoreHTTPS／停用TLS。随后1PASS／1FAIL是Node APIRequestContext不繼承HTTP_PROXY、直接Internet連線拒絕；docs/validation/tools/pages-cloud.config.ts明確使用受管policy代理，NODE_EXTRA_CA_CERTS指系統CA，完整兩項PASS。Cloud需NSS資料庫寫入權限、Node CA與代理；一般環境用原pages.config。補充舊檔工具首輪讀錯player.classId、改根層classId後PASS。保留所有失敗，未改遊戲以掩蓋。
+
+證據results/v1-final-_-ci.log／json、v1-pages-production-pass.log／requests.json、v1-published-bundle-sha256.json、v1-pages-legacy-playing._；工具pages-cloud.config.ts／live-legacy-play.mjs。所有最新發布檢查已成功，接續只補硬體／人工與必要實測修復，勿重開第一里程碑或把剩餘驗收抹除。
+
 ## S14事件王測試時鐘修正（2026-10-11 21:07:53 UTC）
 
 7716push的Development77全PASS，但同來源PR checks另輪75PASS／2FAIL（聖誕、萬聖三招斷言收到2），重試仍FAIL；完整log保存，不能只選成功輪。前一Pages發布取消避免部署已被取代來源，其browser log也75PASS／2FAIL。386c1d5 setup修复已推；其Pages也取消，准备包含事件測試修復的新來源。

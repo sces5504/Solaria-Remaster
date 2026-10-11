@@ -306,3 +306,9 @@ S06／S07的地形ID明確為B02a沙漠、B02b冰原、B03a火山、B03b叢林�
 [程式事實] 全彈真接觸時間序、局部SpatialGrid、WeakMap彈池、Sprite／BitmapText退休池已正式接入。快取上限只限退休物件，沒有刪傷害、傷字或有效FX。高視窗比例1.38確認是側欄撐高flex造成，改absolute側欄讓場景aspect-ratio決定高度；四桌面尺寸加入回歸。
 
 [驗證界線] CloudSwiftShader密集場景平均1464ms／幀不是PASS60FPS；功能PASS与硬體NOT_RUN分開。JS重啟30次後半段heap穩定，不能推論真GPU記憶體。一般劍fixture死亡與初版高周目偏攻逾時完整保留；改善合法構築分配後強構築24比較的12場通關，不稱自然完整旅程。未還原人工歷史不補造。
+
+## v1發布及未全驗收（2026-10-11 21:39:23 UTC）
+
+[程式與驗證事實] 1.0.0／cc6f32e已在既有implement分支完成三輪77 Chromium、307unit與Pages部署；正式網址新局及53691bf舊IndexedDB兩項、補充舊檔實戰PASS。四柱60°缺口沿主人明示例外，不推論所有王環彈亦有缺口。setup去除rg依賴、事件王測試改等實際核心時間，未改核心數值。
+
+[驗收限制] S13真GPU與人工項未完成、Cloud密集60FPS FAIL；不將完整內容發布寫成全項驗收完成。舊卡／格擋fixture資格錯誤和死亡均保留，資料生成合法仍不是自然取得全程。剩餘恢復步驟REMAINING_ACCEPTANCE／最新CURRENT_STATE。PR2仍Draft、base原規格分支、main未合併。

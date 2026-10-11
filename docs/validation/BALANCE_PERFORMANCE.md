@@ -52,3 +52,19 @@ Stage採Sprite／BitmapText退休池，最多80／256是閒置快取上限，活
 同一合法預算一般劍士，再用可見彈道／招式預警決定右鍵格擋與Space，職技真正就緒或格擋中才避免閃避；沒有修改HP／無敵。1周目105秒死亡、王剩約6%；2周目112秒死亡、王剩不足1%；5周目125秒、10周目161秒擊殺。強構築四周目皆擊殺。初版格擋時機探測及一般构築不含44／46的資料另留s13-block-timing-initial.json，未混成最新資料。命令策略改善可解釋部分差異，仍不足代替完整人工平衡。
 
 重現格擋對照：`./node_modules/.bin/vitest run --config docs/validation/tools/block.config.ts`。最新記錄s13-class-block-timing.json／log。
+
+## 驗收分類
+
+| 驗證                                         | 狀態                       | 實際界線                                           |
+| -------------------------------------------- | -------------------------- | -------------------------------------------------- |
+| 600敵彈、連鎖、場域、每傷獨立文字            | PASS                       | Cloud SwiftShader功能，保護觀測角色fixture，非平衡 |
+| Cloud 10＋30真正UI restart JS heap／渲染退休 | PASS                       | 不是GPU記憶體驗收                                  |
+| Cloud SwiftShader密集場景60FPS               | FAIL                       | 約1.3–1.5秒／幀，沒有達標                          |
+| Apple M1級真GPU一般場景／600彈60秒           | NOT_RUN                    | 此Cloud沒有真硬體GPU                               |
+| 真設備10restart GPU記憶體                    | NOT_RUN                    | Cloud JS heap不能替代                              |
+| 三職一般／強構築1／2／5／10周目單王fixture   | PASS量測，不是全面平衡PASS | 24＋8場保留所有死亡；一般劍1／2周目未擊殺          |
+| 自然三選一完整30＋1人工試玩及多周目          | NOT_RUN                    | bot只到5–8房／逾時，不能冒稱完整通關               |
+| Firefox／Safari                              | NOT_RUN                    | 沒有真跨瀏覽器完整回歸                             |
+| 人工聆聽、全部短FX逐幀人工確認               | NOT_RUN                    | 波形／核心／截圖只驗證各自範圍                     |
+
+S13程式與自動探測已接入，硬體及人工要求仍未全驗收；不得將此表改寫成S06–S14全項驗收完成。

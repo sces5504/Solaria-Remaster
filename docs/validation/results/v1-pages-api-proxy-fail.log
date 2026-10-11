@@ -1,0 +1,50 @@
+
+Running 2 tests using 1 worker
+
+(node:50401) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tools/validation/pages.spec.ts:7:1 › 正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續 (2.2s)
+(node:50477) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tools/validation/pages.spec.ts:99:1 › 正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存 (8.3s)
+
+
+  1) tools/validation/pages.spec.ts:7:1 › 正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續 ──────────────────────────
+
+    AggregateError: apiRequestContext.get: connect ENETUNREACH 2606:50c0:8002::153:443 - Local (:::0)
+    connect ECONNREFUSED 185.199.110.153:443
+    connect ENETUNREACH 2606:50c0:8003::153:443 - Local (:::0)
+    connect ECONNREFUSED 185.199.111.153:443
+    connect ENETUNREACH 2606:50c0:8000::153:443 - Local (:::0)
+    connect ECONNREFUSED 185.199.108.153:443
+    connect ENETUNREACH 2606:50c0:8001::153:443 - Local (:::0)
+    connect ECONNREFUSED 185.199.109.153:443
+    Call log:
+      - → GET https://sces5504.github.io/Solaria-Remaster/assets/solaria-atlas.png
+        - user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36
+        - accept: */*
+        - accept-encoding: gzip,deflate,br
+
+
+      28 |     "manifest.json",
+      29 |   ]) {
+    > 30 |     const q = await page.request.get(`./assets/${path}`);
+         |                                  ^
+      31 |     expect(q.status()).toBe(200);
+      32 |     const local = readFileSync(`public/assets/${path}`);
+      33 |     expect(
+        at /workspace/Solaria-Remaster/tools/validation/pages.spec.ts:30:34
+
+    Error Context: ../../tmp/solaria-pages-results/pages-正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/solaria-pages-results/pages-正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/solaria-pages-results/pages-正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tools/validation/pages.spec.ts:7:1 › 正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續 ───────────────────────────
+  1 passed (11.8s)
