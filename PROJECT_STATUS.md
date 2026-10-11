@@ -43,3 +43,10 @@ CONFIRMED：全部正式規格與總審查補齊方案。PROPOSED：無。OPEN�
 - PASS：提交c15ad66的[GitHub Actions #38127048234](https://github.com/sces5504/Solaria-Remaster/actions/runs/38127048234)已於2026-10-11完成，Node24雲端setup（npm ci、Chromium、check、build、test:browser）與format:check成功。此為既有骨架檢查。
 - 後續僅補齊普通怪參數表及本驗證紀錄，最終分支的CI以GitHub checks實際結果為準；不把上一個commit通過冒充新commit已通過。
 - 遊戲規則／平衡／實機FPS：NOT_RUN，尚無遊戲。
+
+## 2026-10-11 Cloud 第一次任務紀錄
+
+- 起點：`6399276`，已安全 fetch `docs/solaria-cloud-spec`，建立 `implement/s00-s05`；原工作區乾淨，未改原作與 main。
+- S00：九文件讀取 PASS；Node 24.19.0；npm ci PASS；原 scaffold check、build 與原 Chromium 啟動測試 PASS。最初 `--with-deps` 因無 root 失敗，改用雲端已備系統庫與 Chromium 安裝，並修正 setup 避免互動式 su。後續遊戲的 format/check/build/browser 結果另記，沒有用骨架結果冒充。
+- S01–S05：實作與驗證進行中；提交將分別保存核心、職業、草原、檢查點和里程碑畫面。最終驗證與託管狀態在完成後更新。
+- GitHub Pages 管理 API：BLOCKED（GitHub App 403 `Resource not accessible by integration`）；使用 Sites 提供第一里程碑試玩託管，保留 Pages base 設定供有權限時部署。
