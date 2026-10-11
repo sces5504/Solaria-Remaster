@@ -5,14 +5,14 @@ export const elementColors: Record<Element, number> = {
   ice: 0xa9f2ff,
   fire: 0xffaa57,
   water: 0x70d3ff,
-  lightning: 0xffe996,
+  lightning: 0x49baff,
 };
 export function elementColor(elements: Element[] = [], fallback = 0xd1baff) {
   return elements.length > 1
     ? elements.includes("fire") && elements.includes("ice")
       ? 0xffc8e5
       : elements.includes("lightning")
-        ? 0x99f3d7
+        ? 0x70cfff
         : 0xe5ead6
     : elementColors[elements[0]] || fallback;
 }
@@ -66,7 +66,7 @@ export function bolt(
     [22, 0.12, color],
     [10, 0.35, color],
     [5, 0.95, color],
-    [2.5, 1, 0xfffde5],
+    [2.5, 1, 0xedfcff],
   ]) {
     g.moveTo(points[0], points[1]);
     for (let i = 2; i < points.length; i += 2)
@@ -173,6 +173,7 @@ export function areaEffect(g: Graphics, r: Run, a: Area) {
   const warning = r.time < a.starts,
     els = a.context?.elementMask || [],
     color = a.enemy ? (warning ? 0xffc795 : 0xff8877) : elementColor(els);
+  if (a.effect === "steam") return;
   if (a.shape === "beam") {
     const end = beamEnd(r, a, a.angle);
     for (const [width, alpha] of warning
@@ -197,17 +198,43 @@ export function areaEffect(g: Graphics, r: Run, a: Area) {
       .fill({ color, alpha: warning ? 0.04 : 0.12 })
       .stroke({ color, width: 2, alpha: 0.8 });
     if (!warning)
-      for (let i = 0; i < 14; i++) {
-        const angle = a.angle - a.width / 2 + (i / 13) * a.width + sweep,
-          d = 20 + ((r.time * 90 + i * 37) % Math.max(1, a.radius - 20));
-        diamond(
-          g,
-          a.x + Math.cos(angle) * d,
-          a.y + Math.sin(angle) * d,
-          2 + (i % 3),
-          color,
-          0.8,
-        );
+      for (let i = 0; i < 32; i++) {
+        const phase = ((r.time - a.starts) * 2.6 + i * 0.137) % 1;
+        const angle = a.angle + Math.sin(i * 2.4) * a.width * 0.46 + sweep;
+        const d = 10 + phase * (a.radius - 16);
+        const x = a.x + Math.cos(angle) * d,
+          y = a.y + Math.sin(angle) * d;
+        const length = 18 + phase * 23,
+          spread = 3 + phase * 6;
+        const dx = Math.cos(angle),
+          dy = Math.sin(angle);
+        g.moveTo(x - dx * length, y - dy * length)
+          .bezierCurveTo(
+            x - dx * length * 0.2 - dy * spread * 1.7,
+            y - dy * length * 0.2 + dx * spread * 1.7,
+            x + dx * length * 0.25 + dy * spread * 0.7,
+            y + dy * length * 0.25 - dx * spread * 0.7,
+            x + dx * length * 0.85,
+            y + dy * length * 0.85,
+          )
+          .quadraticCurveTo(
+            x - dy * spread * 0.25,
+            y + dx * spread * 0.25,
+            x - dx * length * 0.35 + dy * spread,
+            y - dy * length * 0.35 - dx * spread,
+          )
+          .closePath()
+          .fill({
+            color: i % 3 ? 0xff8732 : 0xffc14f,
+            alpha: (1 - phase * 0.6) * 0.85,
+          });
+        g.moveTo(x - dx * length * 0.6, y - dy * length * 0.6)
+          .lineTo(x + dx * length * 0.25, y + dy * length * 0.25)
+          .stroke({
+            color: 0xfff1b5,
+            width: 2 + phase * 2,
+            alpha: 1 - phase * 0.8,
+          });
       }
     return;
   }
@@ -216,7 +243,7 @@ export function areaEffect(g: Graphics, r: Run, a: Area) {
     .stroke({ color, width: warning ? 2 : 3, alpha: 0.8 });
   if (warning) {
     if (a.effect === "thunder") {
-      bolt(g, a.x, a.y - 100, a.x, a.y - 24, r.time, 0xffe7a0, 0.45);
+      bolt(g, a.x, a.y - 100, a.x, a.y - 24, r.time, 0x49baff, 0.45);
       g.circle(
         a.x,
         a.y,
@@ -306,13 +333,57 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
       Math.min(1, (v.until - r.time) / (v.duration || 0.3)),
     ),
     age = 1 - progress;
+  const tint =
+    v.kind === "thunder" || v.kind === "arc"
+      ? elementColors.lightning
+      : v.color;
+  if (v.kind === "steam") {
+    const wave = v.radius * (0.55 + age * 0.45);
+    for (let i = 0; i < 16; i++) {
+      const a = (i * Math.PI * 2) / 16;
+      const x = v.x + Math.cos(a) * wave,
+        y = v.y + Math.sin(a) * wave * 0.85;
+      const rise = Math.sin(Math.min(1, age * 2) * Math.PI * 0.8) * 65;
+      g.moveTo(x, y)
+        .lineTo(x - Math.sin(a) * 4, y - rise)
+        .stroke({
+          color: 0x7ce4ff,
+          width: 8 * progress + 1,
+          alpha: progress * 0.85,
+        });
+      g.moveTo(x, y)
+        .lineTo(x - Math.sin(a) * 3, y - rise * 0.9)
+        .stroke({ color: 0xedffff, width: 3, alpha: progress });
+      for (let n = 0; n < 3; n++)
+        g.ellipse(
+          x + Math.sin(i * 3 + n + age * 4) * (5 + age * 10),
+          y - rise - n * 10,
+          8 + n * 4 + age * 8,
+          6 + age * 7,
+        ).fill({ color: 0xe5fbff, alpha: progress * (0.36 - n * 0.06) });
+      diamond(
+        g,
+        x + Math.sin(i) * 8,
+        y - rise * 0.6 - age * 18,
+        3 * progress,
+        0xccf8ff,
+        progress,
+      );
+    }
+    g.ellipse(v.x, v.y, wave, wave * 0.85).stroke({
+      color: 0x95efff,
+      width: 5 * progress + 1,
+      alpha: progress * 0.75,
+    });
+    return;
+  }
   if (v.kind === "impact") {
     const length = v.radius * (0.6 + age);
     for (let i = 0; i < 4; i++) {
       const a = v.angle + Math.PI / 4 + (i * Math.PI) / 2;
       g.moveTo(v.x + Math.cos(a) * 3, v.y + Math.sin(a) * 3)
         .lineTo(v.x + Math.cos(a) * length, v.y + Math.sin(a) * length)
-        .stroke({ color: v.color, width: 2.5 * progress, alpha: progress });
+        .stroke({ color: tint, width: 2.5 * progress, alpha: progress });
     }
     g.circle(v.x, v.y, 4 * progress).fill({ color: 0xfffde5, alpha: progress });
   } else if (v.kind === "block") {
@@ -330,7 +401,7 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
       v.x - 20,
       v.y + 6,
     ])
-      .fill({ color: v.color, alpha: progress * 0.16 })
+      .fill({ color: tint, alpha: progress * 0.16 })
       .stroke({ color: 0xe0fff1, width: 3, alpha: progress });
     for (let i = 0; i < 12; i++) {
       const a = (i * Math.PI) / 6,
@@ -347,7 +418,7 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
       g.moveTo(v.x - dx * 40 - dy * side, v.y - dy * 40 + dx * side)
         .lineTo(v.x + dx * 35 - dy * side, v.y + dy * 35 + dx * side)
         .stroke({
-          color: i === 1 ? 0xfffbe2 : v.color,
+          color: i === 1 ? 0xfffbe2 : tint,
           width: i === 1 ? 4 : 2,
           alpha: progress * 0.65,
         });
@@ -359,13 +430,13 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
       v.radius,
       v.angle - 1.2,
       v.angle + 1.2,
-    ).stroke({ color: v.color, width: 7, alpha: progress * 0.5 });
+    ).stroke({ color: tint, width: 7, alpha: progress * 0.5 });
   } else if (v.kind === "burst" || v.kind === "thunder") {
     const radius = v.radius * (0.3 + age * 0.85);
     g.circle(v.x, v.y, radius)
-      .fill({ color: v.color, alpha: progress * 0.08 })
+      .fill({ color: tint, alpha: progress * 0.08 })
       .stroke({
-        color: v.color,
+        color: tint,
         width: 12 * progress + 2,
         alpha: progress * 0.8,
       });
@@ -387,7 +458,7 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
           v.y + Math.sin(a) * (rr + 16 * progress),
         )
         .stroke({
-          color: i % 3 === 0 ? 0xfff8db : v.color,
+          color: i % 3 === 0 ? 0xfff8db : tint,
           width: 2,
           alpha: progress,
         });
@@ -403,7 +474,7 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
         y,
         Math.max(1, v.radius * (0.12 + (i % 3) * 0.035) * progress),
       ).fill({
-        color: i % 3 === 0 ? 0xfff6d8 : v.color,
+        color: i % 3 === 0 ? 0xfff6d8 : tint,
         alpha: progress * 0.38,
       });
       g.moveTo(
@@ -415,7 +486,7 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
           v.y + Math.sin(a) * radius * 0.95,
         )
         .stroke({
-          color: i % 2 ? v.color : 0xfff9e6,
+          color: i % 2 ? tint : 0xfff9e6,
           width: 5 * progress,
           alpha: progress * 0.65,
         });
@@ -431,7 +502,7 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
     elementMotif(g, v.x, v.y, radius, v.elements || [], r.time, progress);
     if (v.kind === "thunder") {
       const top = Math.max(14, v.y - 230);
-      bolt(g, v.x, top, v.x, v.y, r.time, v.color, progress, 1.8);
+      bolt(g, v.x, top, v.x, v.y, r.time, tint, progress, 1.8);
       for (const sign of [-1, 1])
         bolt(
           g,
@@ -440,7 +511,7 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
           v.x + sign * 65,
           v.y - 30,
           r.time + sign,
-          v.color,
+          tint,
           progress * 0.65,
         );
     }
@@ -456,7 +527,7 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
         from + age * v.value * 0.22,
         to,
       ).stroke({
-        color: i === 0 ? 0xfff9e1 : v.color,
+        color: i === 0 ? 0xfff9e1 : tint,
         width: i === 0 ? 5 : 12,
         alpha: progress * (i === 0 ? 1 : 0.25),
       });
@@ -472,13 +543,13 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
       v.x + Math.cos(v.angle) * v.value,
       v.y + Math.sin(v.angle) * v.value,
       r.time,
-      v.color,
+      tint,
       progress,
     );
   else {
     for (let i = 0; i < 2; i++)
       g.circle(v.x, v.y, v.radius * (0.4 + age * 0.8 + i * 0.15)).stroke({
-        color: v.color,
+        color: tint,
         width: 2 - i,
         alpha: progress * 0.75,
       });
@@ -490,7 +561,7 @@ export function visualEffect(g: Graphics, r: Run, v: Visual) {
         v.x + Math.cos(a) * d,
         v.y + Math.sin(a) * d,
         Math.max(1, 3 * progress),
-        v.color,
+        tint,
         progress,
       );
     }

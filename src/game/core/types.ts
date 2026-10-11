@@ -163,7 +163,7 @@ export interface Area extends Vec {
   heavy: boolean;
   mine?: boolean;
   triggerAt?: number;
-  effect?: "thunder";
+  effect?: "thunder" | "steam";
 }
 export interface Mode {
   id: number;
@@ -220,7 +220,8 @@ export interface Visual extends Vec {
     | "impact"
     | "block"
     | "charge"
-    | "thunder";
+    | "thunder"
+    | "steam";
   value: number;
   color: number;
   until: number;

@@ -268,7 +268,7 @@ export function hit(
           "arc",
           from,
           distance(from, target),
-          0xffde72,
+          0x49baff,
           8,
           angle(from, target),
         );
@@ -284,14 +284,8 @@ export function hit(
     ) {
       e.fireStacks++;
       if (e.fireStacks >= 5) {
-        e.fireStacks = 0;
-        burst(
-          r,
-          e,
-          70 + Math.min(4, level(r, 23) - 1) * 8,
-          40 * factor(r, 23),
-          child(23, ["fire"]),
-        );
+        e.fireStacks -= 5;
+        detonateEmbers(r, e, child(23, ["fire"]));
       }
     }
     if (level(r, 56) && ctx.basicHitProxy && !ctx.ancestry.includes(56))
@@ -304,6 +298,32 @@ export function hit(
       );
   }
   return actual;
+}
+// A finite cascade: each enemy may detonate once in this root explosion.
+// Spread retains source scaling and never enables generic recursive procs.
+function detonateEmbers(r: Run, origin: Actor, ctx: DamageContext) {
+  const queue = [origin],
+    queued = new Set([origin.id]);
+  const radius = 70 + Math.min(4, level(r, 23) - 1) * 8;
+  for (let i = 0; i < queue.length; i++) {
+    const source = queue[i];
+    burst(r, source, radius, 40 * factor(r, 23), ctx);
+    for (const target of r.enemies) {
+      if (
+        target.id === source.id ||
+        target.hp <= 0 ||
+        target.transition > r.time ||
+        distance(source, target) > radius * r.stats.range + target.radius
+      )
+        continue;
+      target.fireStacks += 3;
+      if (target.fireStacks >= 5 && !queued.has(target.id)) {
+        target.fireStacks -= 5;
+        queued.add(target.id);
+        queue.push(target);
+      }
+    }
+  }
 }
 export function hurt(r: Run, base: number, element: Element | null = null) {
   const p = r.player;
@@ -603,7 +623,7 @@ export function updateAreas(r: Run) {
           a.effect === "thunder" ? "thunder" : "burst",
           a,
           0,
-          a.effect === "thunder" ? 0xffdba5 : 0xffb08a,
+          a.effect === "thunder" ? 0x49baff : 0xffb08a,
           a.radius,
           0,
           { enemy: true },
@@ -650,21 +670,24 @@ export function updateAreas(r: Run) {
             e.y += (a.y - e.y) * 0.08;
           }
         }
+      // Flame breath is rendered as a directional jet, not a circular blast per tick.
+      if (a.shape === "cone" && a.ability === 20) continue;
       visual(
         r,
-        "burst",
+        a.effect === "steam" ? "steam" : "burst",
         a,
         0,
         a.context.elementMask.includes("fire")
           ? 0xff9d69
           : a.context.elementMask.includes("lightning")
-            ? 0xffde72
+            ? 0x49baff
             : 0x83d9ef,
         a.radius,
         0,
         {
           elements: a.context.elementMask,
-          duration: a.ends - a.starts > 0.1 ? 0.28 : 0.8,
+          duration:
+            a.effect === "steam" ? 0.7 : a.ends - a.starts > 0.1 ? 0.28 : 0.8,
         },
       );
     }

@@ -13,7 +13,7 @@ import {
   cone,
 } from "../systems/combat";
 import { move, segmentDistance } from "../systems/geometry";
-import { updateEnemies, updateModes } from "../systems/enemies";
+import { updateEnemies, updateModes, refillEnemies } from "../systems/enemies";
 export function newRun(classId: ClassId, seed: number): Run {
   const state = { rng: seedFor(seed, 999) };
   const templates = [0, 1, 2, 3, 4, 5];
@@ -289,6 +289,7 @@ export function step(r: Run, c: Command, paused = false) {
   }
   if (p.iceUntil <= r.time) p.frost = 0;
   deathRewards(r);
+  if (r.phase === "COMBAT") refillEnemies(r);
   if (r.phase === "SETTLEMENT") {
     const ends = r.settlementEnds ?? r.time + 1.1;
     r.settlementEnds = ends;

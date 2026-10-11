@@ -117,7 +117,7 @@ export const cards = [
     id: 17,
     name: "冰雹",
     rarity: "青",
-    description: "右鍵，落點半徑100、4秒、每.5秒傷12並累積冰霜",
+    description: "右鍵，落點半徑85、4秒、每.5秒傷12並累積冰霜",
     classId: null,
   },
   {
@@ -162,7 +162,7 @@ export const cards = [
     name: "燼火引爆",
     rarity: "青",
     description:
-      "合格火直接打擊每次1層、5層消耗爆炸傷40／半徑70；不自行加層，可一層追加；燃燒結束清剩層",
+      "合格火直接打擊每次1層、5層消耗爆炸傷40／半徑70；爆炸為其他存活敵人加3層，可接續引爆，同次連鎖每敵最多引爆一次；燃燒結束清剩層",
     classId: null,
   },
   {
@@ -183,7 +183,7 @@ export const cards = [
     id: 26,
     name: "漩渦",
     rarity: "青",
-    description: "右鍵、落點半徑110／4秒／每.5秒傷10／拉普通怪，Boss不位移",
+    description: "右鍵、落點半徑94／4秒／每.5秒傷10／拉普通怪，Boss不位移",
     classId: null,
   },
   {
@@ -234,7 +234,7 @@ export const cards = [
     name: "蒸氣爆炸",
     rarity: "青",
     description:
-      "右鍵，自身三道錯峰外擴波，半徑60／110／160，時間0／.25／.5，每波傷24；每敵每波一次",
+      "右鍵，自身三道錯峰外擴波，半徑60／110／160，時間0／.2／.4，每波傷24；每敵每波一次，附普攻命中代理，不另計施放",
     classId: null,
   },
   {
@@ -278,7 +278,7 @@ export const cards = [
     id: 39,
     name: "冰火裂域",
     rarity: "青",
-    description: "右鍵、落點首爆50／半徑130，4秒每.5秒16，冰火／快速冰霜30",
+    description: "右鍵、落點首爆50／半徑110，4秒每.5秒16，冰火／快速冰霜30",
     classId: null,
   },
   {

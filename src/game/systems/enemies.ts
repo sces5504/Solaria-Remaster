@@ -193,26 +193,60 @@ function bossAI(r: Run, e: Actor) {
   if (!active.some((m) => m.type === "rush"))
     navigate(r, e, (e.kind === 6 ? 85 : 48) * (e.iceUntil > r.time ? 0.8 : 1));
 }
-export function updateEnemies(r: Run) {
+export function refillEnemies(r: Run) {
   const cap = Math.max(4, Math.min(10, r.encounterCap ?? 6));
+  let alive = r.enemies.filter((e) => e.hp > 0 && !e.summoned).length;
   if (
-    r.reserves?.length &&
-    r.enemies.filter((e) => e.hp > 0 && !e.summoned).length < cap &&
-    r.time >= (r.reinforcementAt || 0)
-  ) {
+    !r.reserves?.length ||
+    alive >= cap ||
+    (alive >= 4 && r.time < (r.reinforcementAt || 0))
+  )
+    return;
+  const target = Math.min(cap, Math.max(4, alive + 1));
+  while (alive < target && r.reserves.length) {
     const next = r.reserves[0];
-    // Do not pop a reinforcement into melee range.
-    if (distance(next, r.player) > 150) {
-      r.reserves.shift();
-      next.nextAttack = r.time + 1.2;
-      r.enemies.push(next);
-      visual(r, "phase", next, 0, 0xe7c58e, 35);
-      r.reinforcementAt = r.time + 2;
-    } else {
-      r.reserves.push(r.reserves.shift()!);
-      r.reinforcementAt = r.time + 0.3;
+    // Keep the reserved identity/XP/loot and use deterministic legal landing points.
+    // A reserve near the player must not stall the entire finite wave queue.
+    if (
+      distance(next, r.player) <= 150 ||
+      !legal(r, next, next.radius) ||
+      r.enemies.some(
+        (e) => e.hp > 0 && distance(next, e) < next.radius + e.radius + 8,
+      )
+    ) {
+      let point: { x: number; y: number } | undefined;
+      let best = Infinity;
+      for (let y = 112; y <= 560; y += 32)
+        for (let x = 80; x <= 944; x += 32) {
+          const candidate = { x, y };
+          if (
+            distance(candidate, r.player) <= 170 ||
+            !legal(r, candidate, next.radius) ||
+            r.enemies.some(
+              (e) =>
+                e.hp > 0 && distance(candidate, e) < next.radius + e.radius + 8,
+            )
+          )
+            continue;
+          const d = distance(candidate, next);
+          if (d < best) {
+            best = d;
+            point = candidate;
+          }
+        }
+      if (!point) break;
+      Object.assign(next, point);
     }
+    r.reserves.shift();
+    next.nextAttack = r.time + 1.2;
+    r.enemies.push(next);
+    visual(r, "phase", next, 0, 0xe7c58e, 35);
+    alive++;
   }
+  r.reinforcementAt = r.time + 2;
+}
+export function updateEnemies(r: Run) {
+  refillEnemies(r);
   for (const e of r.enemies) {
     if (e.hp <= 0) continue;
     if (e.kind > 5) {

@@ -18,6 +18,7 @@ import {
   elementMotif,
   visualEffect,
 } from "./effects";
+import { MeadowLighting, sceneLights, skillCooldownProgress } from "./lighting";
 import { cameraFeedback } from "./feedback";
 const names = [
   "sword",
@@ -46,6 +47,8 @@ export class Stage {
   app = new Application();
   private terrain = new Graphics();
   private objects = new Container();
+  private shadows = new Graphics();
+  private lighting!: MeadowLighting;
   private lights = new Container();
   private friendly = new Graphics();
   private danger = new Graphics();
@@ -98,10 +101,13 @@ export class Stage {
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 128, 128);
     this.glowTexture = Texture.from(canvas);
+    this.lighting = new MeadowLighting();
     this.objects.sortableChildren = true;
     this.app.stage.addChild(
       this.terrain,
+      this.shadows,
       this.objects,
+      this.lighting.sprite,
       this.lights,
       this.friendly,
       this.danger,
@@ -353,6 +359,8 @@ export class Stage {
     for (const s of this.sprites.values()) s.visible = false;
     for (const s of this.glows) s.visible = false;
     this.glowCount = 0;
+    this.lighting.sprite.visible = !!r;
+    this.shadows.clear();
     if (!r) {
       this.terrain.clear().rect(0, 0, 1024, 640).fill(0x182e35);
       return;
@@ -364,6 +372,23 @@ export class Stage {
       this.landscape(r);
     }
     for (const o of r.obstacles) {
+      if (o.durability > 0 && o.kind !== "lake") {
+        const sx = o.x + o.w / 2,
+          sy = o.y + o.h * 0.7;
+        const length = o.kind === "tree" ? 42 : 24;
+        this.shadows
+          .poly([
+            sx - 16,
+            sy,
+            sx + 16,
+            sy,
+            sx + 16 + length,
+            sy + length * 0.55,
+            sx - 10 + length,
+            sy + length * 0.55,
+          ])
+          .fill({ color: 0x071922, alpha: 0.19 });
+      }
       if (o.durability <= 0) {
         for (let i = 0; i < 6; i++)
           f.poly([
@@ -492,9 +517,9 @@ export class Stage {
             diamond(f, e.x + sign * (e.radius + 2), e.y + 10, 3, 0xc6f7ff, 0.7);
       }
       if ((e.stunUntil || 0) > r.time) {
-        s.tint = 0xffefa1;
+        s.tint = 0xa9eaff;
         s.x += Math.sin(r.time * 95 + e.id) * 1.7;
-        this.glow(e.x, e.y, e.radius + 20, 0xffd357, 0.5);
+        this.glow(e.x, e.y, e.radius + 20, 0x49baff, 0.5);
         for (let i = 0; i < 3; i++) {
           const a = r.time * 6 + (i * Math.PI * 2) / 3;
           bolt(
@@ -504,7 +529,7 @@ export class Stage {
             e.x + Math.cos(a + 0.8) * 27,
             e.y - 18 + Math.sin(a + 0.8) * 18,
             r.time + i,
-            0xffdf68,
+            0x49baff,
             0.9,
           );
         }
@@ -598,12 +623,7 @@ export class Stage {
     }
     f.rect(p.x - 21, p.y + 27, 42, 6)
       .fill(0x0c2029)
-      .rect(
-        p.x - 20,
-        p.y + 28,
-        40 * Math.max(0, 1 - (p.skillReady - r.time) / r.stats.skillCD),
-        4,
-      )
+      .rect(p.x - 20, p.y + 28, 40 * skillCooldownProgress(r), 4)
       .fill(p.skillReady <= r.time ? 0xffe4a2 : 0x9fb9dd);
     if (p.blockUntil > r.time) {
       this.glow(p.x, p.y, 46, 0xffe1a0, 0.45);
@@ -775,7 +795,7 @@ export class Stage {
     }
     for (const a of r.areas) {
       areaEffect(a.enemy ? d : f, r, a);
-      if (r.time >= a.starts)
+      if (r.time >= a.starts && a.shape !== "cone")
         this.glow(
           a.x,
           a.y,
@@ -811,6 +831,16 @@ export class Stage {
           });
         this.glow(e.x, e.y, e.radius + 20, 0xffb180, 0.3);
       }
+    const emission = sceneLights(r);
+    this.lighting.draw(r, emission);
+    for (const light of emission)
+      this.glow(
+        light.x,
+        light.y,
+        light.radius * 0.8,
+        light.color,
+        light.strength * 0.19,
+      );
     const active = new Set<number>();
     for (const v of r.visuals) {
       const progress = Math.max(

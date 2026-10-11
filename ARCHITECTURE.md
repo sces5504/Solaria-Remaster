@@ -73,3 +73,7 @@ Vite build到dist，專案Pages base為/Solaria-Remaster/，資源不硬寫根�
 ## 雲端與測試
 
 環境執行bash scripts/cloud-setup.sh，Node24、npm ci、Chromium及檢查命令沿用。檢查結果不能由本機套件狀態推斷。新資料先做schema／invariant測試，核心直接用seed+command trace測試，瀏覽器只測交互與資源／視覺。完整品質門檻見TEST_PLAN。
+
+## 第一里程碑第五輪渲染增量
+
+`src/render/lighting.ts` 提供只讀state的發光源清單、腳下冷卻顯示夾限與重用512×320暗部／光照texture。地形／投影／actors之後套暗部，後續柔光、友方FX、敵方危險與HUD不被蓋住。樹岩附近柔暗，發光源以radial destination-out照亮世界，色光add混合；裝飾光源上限64，不删攻擊或變更RNG。暫停相同光源不重建上傳。這是2D藝術光影，不承諾精確3D遮蔽或全v1效能已驗收。技能steam視覺事件與Area可選steam effect向後相容；一般來源／序列化邊界保持。

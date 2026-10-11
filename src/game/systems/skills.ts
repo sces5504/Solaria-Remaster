@@ -293,10 +293,10 @@ export function castSkill(r: Run, c: Command) {
         { follow, pull, frost },
       );
   };
-  ring(17, 100, 12, ["ice"]);
+  ring(17, 85, 12, ["ice"]);
   ring(18, 100, 10, ["ice"], true, false, 30);
   ring(22, 110, 14, ["fire"], true);
-  ring(26, 110, 10, ["water"], false, true);
+  ring(26, 94, 10, ["water"], false, true);
   ring(30, 110, 12, ["lightning"], true);
   ring(36, 130, 18, ["water", "lightning"], false, true);
   if (level(r, 21))
@@ -340,10 +340,11 @@ export function castSkill(r: Run, c: Command) {
         p,
         [60, 110, 160][i],
         24 * factor(r, 33),
-        i * 0.25,
+        i * 0.2,
         0.01,
         1,
-        context(r, 33, "skill", ["water", "fire"]),
+        context(r, 33, "skill", ["water", "fire"], true),
+        { effect: "steam" },
       );
   if (level(r, 34)) {
     p.engineUntil = r.time + 3;
@@ -372,11 +373,11 @@ export function castSkill(r: Run, c: Command) {
     burst(
       r,
       at,
-      130,
+      110,
       50 * factor(r, 39),
       context(r, 39, "skill", ["ice", "fire"]),
     );
-    ring(39, 130, 16, ["ice", "fire"], false, false, 30);
+    ring(39, 110, 16, ["ice", "fire"], false, false, 30);
   }
   return true;
 }
