@@ -1,0 +1,88 @@
+import { test, expect, type Page } from "@playwright/test";
+import { newRun } from "../../src/game/core/run";
+import { choose, grantTestCard } from "../../src/game/systems/progression";
+import type { Run } from "../../src/game/core/types";
+async function load(page: Page, r: Run) {
+  await page.goto("/");
+  await page.getByRole("button", { name: "匯入存檔", exact: true }).click();
+  await page.locator("#import-file").setInputFiles({
+    name: "choice.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(
+      JSON.stringify({ version: 1, revision: 0, current: r, entry: r }),
+    ),
+  });
+  await expect(page.getByRole("status")).toContainText("匯入成功");
+  await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+}
+test("元素使三元素的強制融合選擇重載後仍保留、卡片圖鑑85張", async ({
+  page,
+}) => {
+  const r = newRun("mage", 181);
+  grantTestCard(r, 80);
+  grantTestCard(r, 15);
+  grantTestCard(r, 24);
+  r.phase = "UPGRADE_CHOICE";
+  r.pendingLevels = 1;
+  r.choices = [19, 1, 2];
+  r.settledOnce = true;
+  r.enemies = [];
+  choose(r, 19);
+  await load(page, r);
+  await expect(
+    page.getByRole("heading", { name: "定下你的共鳴" }),
+  ).toBeVisible();
+  await page.reload();
+  await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+  await page.locator('[data-action="fusion:frostfire"]').click();
+  await expect(page.locator("#sidebar")).toContainText("冰火奧術");
+  await page.reload();
+  await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+  await expect(page.locator("#sidebar")).toContainText("冰火奧術");
+  await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "回主選單", exact: true }).click();
+  await page.getByRole("button", { name: "卡片圖鑑 · 85" }).click();
+  await expect(page.locator(".catalog article")).toHaveCount(85);
+});
+test("命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴", async ({
+  page,
+}) => {
+  const r = newRun("mage", 182);
+  r.phase = "UPGRADE_CHOICE";
+  r.pendingLevels = 1;
+  r.choices = [85, 1, 2];
+  r.settledOnce = true;
+  r.enemies = [];
+  for (const slot of ["armor", "ring", "amulet"] as const)
+    r.equipment[slot] = {
+      id: slot,
+      slot,
+      rarity: "藍",
+      affixes: [{ stat: "armor", value: 2 }],
+      x: 100,
+      y: 100,
+    };
+  choose(r, 85);
+  await load(page, r);
+  await expect(
+    page.getByRole("heading", { name: "留下一件信物" }),
+  ).toBeVisible();
+  await page.locator('[data-action="slot:ring"]').click();
+  await expect(page.locator(".red-traits")).toContainText("僅留一裝備欄");
+  await expect(page.locator("#hud .status")).toBeVisible();
+  await page.keyboard.press("KeyI");
+  await expect(
+    page.getByRole("heading", { name: "背包 2 / 12" }),
+  ).toBeVisible();
+  await expect(page.locator('button[data-action^="equip:"]')).toHaveCount(2);
+  for (const btn of await page.locator('button[data-action^="equip:"]').all())
+    await expect(btn).toBeDisabled();
+  await page.reload();
+  await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+  await expect(page.locator("#hud .status")).toBeVisible();
+  await page.keyboard.press("KeyI");
+  await expect(
+    page.getByRole("heading", { name: "背包 2 / 12" }),
+  ).toBeVisible();
+  await expect(page.getByRole("button", { name: "卸下至地面" })).toHaveCount(1);
+});

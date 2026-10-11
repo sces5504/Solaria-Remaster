@@ -1,3 +1,8 @@
+import {
+  applyEquipmentRestrictions,
+  recoverHP,
+  slotRestriction,
+} from "./ability-policies";
 import type { Run, Item, Slot, Stats } from "../core/types";
 import { cards, eligible, skillFactor } from "../data/cards";
 import { classes } from "../data/world";
@@ -6,12 +11,17 @@ export function derive(r: Run): Stats {
   const c = classes[r.classId],
     l = (id: number) => r.cards[id] || 0;
   const s: Stats = {
-    maxHP: c.hp * (1 + l(1) * 0.1),
-    armor: c.armor + l(2) * 8,
-    basic: l(3) * 0.1,
-    skill: l(4) * 0.1,
+    maxHP: c.hp * (1 + l(1) * 0.1 + (l(84) ? 0.8 : 0)),
+    armor:
+      c.armor +
+      l(2) * 8 +
+      (l(84) ? 60 : 0) +
+      (l(73) && r.player.hp >= r.stats?.maxHP * 0.8 ? 40 : 0),
+    basic: l(3) * 0.1 + (l(83) ? 1.2 : 0),
+    skill: l(4) * 0.1 + (l(82) ? 1.2 : 0),
     global:
       l(14) * 0.08 +
+      (l(81) ? 1 : 0) +
       (l(66) && (r.momentum?.until ?? 0) > r.time
         ? r.momentum!.stacks * 0.03 * skillFactor(l(66), 1)
         : 0),
@@ -24,16 +34,19 @@ export function derive(r: Run): Stats {
     crit: 0.15 * (1 + l(10) * 0.2),
     critMult: 1.5 + l(11) * 0.15,
     xp: 1 + l(8) * 0.08,
-    lifesteal: 0,
-    reduction: l(27) ? Math.min(0.5, 0.08 + (l(27) - 1) * 0.02) : 0,
+    lifesteal: l(79) ? 0.06 : 0,
+    reduction: l(27)
+      ? Math.min(0.5, 0.08 + (skillFactor(l(27), 1) - 1) * 0.02)
+      : 0,
   };
   let A =
       l(5) * 0.12 +
+      (l(83) ? 1 : 0) +
       (l(69) && (r.player.recoveryUntil ?? 0) > r.time
         ? 0.25 * skillFactor(l(69), 1)
         : 0) +
       (r.time < r.player.buffUntil ? 0.3 + Math.min(4, l(53) - 1) * 0.05 : 0),
-    C = l(9) * 0.1,
+    C = l(9) * 0.1 + (l(78) ? 4 : 0),
     M = l(6) * 0.05 + (r.time < r.player.engineUntil ? 0.5 : 0);
   for (const item of Object.values(r.equipment))
     if (item)
@@ -74,6 +87,7 @@ export function derive(r: Run): Stats {
               (s as unknown as Record<string, number>)[aff.stat] += aff.value;
         }
       }
+  if (l(81)) s.maxHP *= 0.5;
   s.attackRate = c.rate * (1 + (4 * A) / (1 + A));
   s.skillCD = c.cd * (0.2 + 0.8 / (1 + C));
   s.speed = 200 * (1 + M / (1 + M));
@@ -86,10 +100,14 @@ export function drawChoices(r: Run, fresh = true) {
   const picked: number[] = [];
   for (let i = 0; i < 3; i++) {
     const pool = cards.filter((c) => eligible(r, c) && !picked.includes(c.id));
-    const colors = ["藍", "紫", "青", "黃"];
-    const base = r.elements.length ? [40, 25, 18, 12] : [29, 18, 40, 9];
+    const colors = ["藍", "紫", "青", "黃", "橘", "紅"];
+    const base = r.elements.length
+      ? [40, 25, 18, 12, 4, 1]
+      : [29, 18, 40, 9, 3, 1];
     const weights = colors.map((color, j) =>
-      pool.some((c) => c.rarity === color) ? base[j] : 0,
+      pool.some((c) => c.rarity === color)
+        ? base[j] * (r.cards[85] && j >= 4 ? 2 : 1)
+        : 0,
     );
     let roll = random(state) * weights.reduce((a, b) => a + b, 0),
       color = "藍";
@@ -131,24 +149,40 @@ function acquire(r: Run, id: number) {
     id as 15
   ];
   if (el && !r.elements.includes(el)) r.elements.push(el);
-  if (r.elements.includes("water") && r.elements.includes("fire"))
-    r.fusion = "steam";
-  if (r.elements.includes("water") && r.elements.includes("lightning"))
-    r.fusion = "storm";
-  if (r.elements.includes("ice") && r.elements.includes("fire"))
-    r.fusion = "frostfire";
+  if (!r.fusion) {
+    const options: NonNullable<Run["fusion"]>[] = [];
+    if (r.elements.includes("water") && r.elements.includes("fire"))
+      options.push("steam");
+    if (r.elements.includes("water") && r.elements.includes("lightning"))
+      options.push("storm");
+    if (r.elements.includes("ice") && r.elements.includes("fire"))
+      options.push("frostfire");
+    if (options.length === 1) r.fusion = options[0];
+    else if (options.length > 1) r.fusionChoices = options;
+  }
+  if (id === 80 || (id === 85 && r.selectedEquipmentSlot))
+    applyEquipmentRestrictions(r);
+  if (id === 83) {
+    r.player.rapid.remaining = 0;
+    r.player.counterAt = 0;
+    r.player.pendingEcho = undefined;
+    r.player.echoRapid = undefined;
+    r.player.buffUntil = 0;
+    r.player.engineUntil = 0;
+  }
   r.stats = derive(r);
-  r.player.hp = Math.min(
-    r.stats.maxHP,
-    r.player.hp + Math.max(0, r.stats.maxHP - old),
-  );
+  r.player.hp = Math.min(r.player.hp, r.stats.maxHP);
+  recoverHP(r, Math.max(0, r.stats.maxHP - old));
 }
 export function choose(r: Run, id: number) {
   if (r.phase !== "UPGRADE_CHOICE" || !r.choices.includes(id)) return false;
   acquire(r, id);
   r.pendingLevels--;
   r.choices = [];
-  if (r.pendingLevels > 0) drawChoices(r);
+  if (r.fusionChoices?.length) r.phase = "FUSION_CHOICE";
+  else if (id === 85 && !r.selectedEquipmentSlot)
+    r.phase = "EQUIPMENT_SLOT_CHOICE";
+  else if (r.pendingLevels > 0) drawChoices(r);
   else r.phase = r.room === 31 ? "RUN_END" : "POST_CLEAR";
   return true;
 }
@@ -261,6 +295,7 @@ export function equip(r: Run, id: string) {
   if (r.phase !== "POST_CLEAR") return false;
   const index = r.bag.findIndex((i) => i.id === id);
   if (index < 0) return false;
+  if (slotRestriction(r, r.bag[index].slot)) return false;
   const item = r.bag[index],
     previous = r.equipment[item.slot];
   r.bag.splice(index, 1);
@@ -289,9 +324,15 @@ export function discard(r: Run, id: string) {
 
 /** Testing grants retain normal class and two-element rules; no level/choice is consumed. */
 export function grantTestCard(r: Run, id: number) {
+  const priorPhase = r.phase;
   const card = cards.find((c) => c.id === id);
+  if ((id === 78 && r.cards[83]) || (id === 83 && r.cards[78])) return false;
   if (!card || ["DEAD", "RUN_END"].includes(r.phase)) return false;
-  if (id > 14 && (r.cards[id] || 0) >= ([15, 19, 24, 28].includes(id) ? 1 : 5))
+  if (
+    id > 14 &&
+    (r.cards[id] || 0) >=
+      ([15, 19, 24, 28].includes(id) || id >= 70 ? 1 : 5 * (r.loop ?? 1))
+  )
     return false;
   if (card.classId && card.classId !== r.classId) {
     for (const c of cards) if (c.classId) delete r.cards[c.id];
@@ -320,10 +361,12 @@ export function grantTestCard(r: Run, id: number) {
                   ? [15, 19]
                   : id === 12 && !r.elements.length
                     ? [19]
-                    : [];
+                    : id === 74 && r.elements.length < 2
+                      ? [15, 19]
+                      : [];
   const awakenings = [15, 19, 24, 28];
   const union = new Set([...awakenings.filter((n) => r.cards[n]), ...required]);
-  if (union.size > 2) {
+  if (union.size > (r.cards[80] ? 3 : 2)) {
     for (const c of cards) if (c.id >= 15 && c.id <= 40) delete r.cards[c.id];
     r.elements = [];
     r.fusion = null;
@@ -333,6 +376,13 @@ export function grantTestCard(r: Run, id: number) {
   }
   for (const n of required) if (n !== id && !r.cards[n]) acquire(r, n);
   acquire(r, id);
+  if (r.fusionChoices?.length) {
+    r.specialResumePhase = priorPhase;
+    r.phase = "FUSION_CHOICE";
+  } else if (id === 85 && !r.selectedEquipmentSlot) {
+    r.specialResumePhase = priorPhase;
+    r.phase = "EQUIPMENT_SLOT_CHOICE";
+  }
   if (
     r.phase === "UPGRADE_CHOICE" &&
     r.choices.some(
@@ -344,5 +394,39 @@ export function grantTestCard(r: Run, id: number) {
     )
   )
     drawChoices(r, false);
+  return true;
+}
+
+export function finishSpecialChoice(r: Run) {
+  if (r.specialResumePhase) {
+    r.phase = r.specialResumePhase;
+    r.specialResumePhase = undefined;
+    if (r.phase === "UPGRADE_CHOICE") drawChoices(r, false);
+    return;
+  }
+  if (r.pendingLevels > 0) {
+    r.phase = "UPGRADE_CHOICE";
+    drawChoices(r);
+  } else r.phase = r.room === 31 ? "RUN_END" : "POST_CLEAR";
+}
+export function chooseFusion(r: Run, fusion: NonNullable<Run["fusion"]>) {
+  if (r.phase !== "FUSION_CHOICE" || !r.fusionChoices?.includes(fusion))
+    return false;
+  r.fusion = fusion;
+  r.fusionChoices = [];
+  finishSpecialChoice(r);
+  return true;
+}
+export function chooseEquipmentSlot(r: Run, slot: Slot) {
+  if (
+    r.phase !== "EQUIPMENT_SLOT_CHOICE" ||
+    !["armor", "ring", "amulet"].includes(slot)
+  )
+    return false;
+  r.selectedEquipmentSlot = slot;
+  applyEquipmentRestrictions(r);
+  r.stats = derive(r);
+  r.player.hp = Math.min(r.player.hp, r.stats.maxHP);
+  finishSpecialChoice(r);
   return true;
 }

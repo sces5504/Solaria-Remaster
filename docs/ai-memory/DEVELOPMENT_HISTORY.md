@@ -474,3 +474,21 @@ Firefox／Safari桌面功能煙測，viewport縮放與fullscreen檢查指針準�
 每次記錄commit、階段ID、環境、命令、結果、退出碼、失敗case、未運行項目。狀態必須區分PASS／FAIL／NOT_RUN／BLOCKED；CI綠色僅代表該workflow包含的檢查，不代表完整玩法、GPUFPS或Cloud環境已Publish。更改核心輸入／來源／存檔／掉落必跑關聯case及既有回歸。
 
 <!-- SOURCE_SNAPSHOT_END: TEST_PLAN.md -->
+
+## 85 卡與精準怪物行為接入（2026-10-11 17:10:38 UTC）
+
+[程式事實] 85 張卡全部進入合格抽取池，70–85 一次性、紅卡互斥／代價／裝備限制／三元素融合選擇、雙重術式獨立副本、首段聚焦、來源吸血及封印後失效標示已接入。普通怪實際發彈數、側移、波形彈、原生＋詞條雙元素、600 全批延後與封印柱不拉扯已修，boss-telegraph／enemy-impact 分類繪製已接入。248unit PASS，check/build PASS；format:check 修正新增案例後 PASS。逐卡入口新增 docs/validation/CARD_MATRIX.md，人工逐卡／構築平衡仍 NOT_RUN。
+
+[驗證中] 48 Chromium 正在執行，新增兩案例先因測試錯誤 FAIL：回主選單按鈕名稱誤寫、提前用尚未接入存檔格式的橘裝及徽記文案誤寫。已修案例，待完整既有回歸結束後針對兩失敗案例重跑；不重 build 改動測試中的 dist。測試 /tmp/solaria-85-browser-full.log；248unit /tmp/solaria-85-unit-final.log。未確認瀏覽器全過之前不宣稱通過。
+
+[後續準備，尚未接入] equipment-abilities／companion 能力模組、event-content 六事件族群與兩Boss資料、create-event-atlas.py 原創13造型78影格（含禮盒、雪怪、血蝠、狂化血徒、幽魂、南瓜、外星三兵種、星塵／幼獸、霜鈴老人、南瓜災主）。不計為完整 S10/S11。血月百分比傷、南瓜吸火碰撞、卸裝、掉落品質及事件三波仍要整合。
+
+[提交／發布] 已驗證內部檢查點 d4f54ec 在本地 implement/s00-s05；備份遠端 backup/v1-progress-2026-10-11 已推送，不觸發 Pages。正式實作遠端仍9f88061、遊戲仍53691bf。此處未發布完整v1，也未結束任務；繼續S10/S11、完整UI／音效／保存／S13／S14，勿為配合雜湊回退。實機GPU60FPS／Firefox／Safari／人工周目平衡仍NOT_RUN。
+
+## 第二個內部檢查點：85卡回歸（2026-10-11 17:20 UTC）
+
+256unit PASS（248實作回歸＋8未接入裝備／南瓜模組單測），check/build/format:check PASS。48Chromium先46PASS／2測試資料FAIL，修正後融合案例PASS，賭徒案例因重載後未等遊戲畫面就按I再FAIL；加入畫面就緒等待後該案例PASS12.1秒。48個案例最後全通過，不能將首次48全過當作事實。新增未引用模組後再build，全部JS檔SHA256與完整回歸bundle相同；未在任何瀏覽器測試執行中重build。永久結果見docs/validation/results。
+
+85卡已接入，但S09仍需裝備聯動與正常／強構築平衡。已查實新缺口：GAME_SPEC第4節將扣盾定為有效受傷，當前hurt以溢出HP>0判定61/69/73，盾全擋時不觸發；下一個裝備整合修正並加實測，不把本次綠色測試當該缺口已解決。S10/S11仍未接入遊戲，獨立裝備／南瓜測試不能替代完整戰鬥驗收。
+
+正式Pages仍原里程碑，持續完成剩餘範圍；不等待逐階段指示。源碼備份分支不觸發部署。

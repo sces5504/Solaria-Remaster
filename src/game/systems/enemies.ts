@@ -1,3 +1,13 @@
+import {
+  normalWarning,
+  normalShotInterval,
+  preferredRange,
+  normalSideMovement,
+  attachSine,
+  ringWithGap,
+  limitedMark,
+  enemyElements,
+} from "./monster-details";
 import { solarisAI } from "./solaris";
 import type { Run, Actor, Mode } from "../core/types";
 import { angle, distance, DT, random } from "../core/primitives";
@@ -22,7 +32,14 @@ export const bossAttacks = {
 } as const;
 function navigate(r: Run, e: Actor, speed: number) {
   const orbit = (e.id * 2.399963) % (Math.PI * 2);
-  const radius = e.kind > 3 ? 185 : e.kind === 2 ? 60 : 32;
+  const radius =
+    e.kind > 3
+      ? e.monsterId
+        ? preferredRange(e.monsterId)
+        : 185
+      : e.kind === 2
+        ? 60
+        : 32;
   const target = {
     x: r.player.x + Math.cos(orbit) * radius,
     y: r.player.y + Math.sin(orbit) * radius,
@@ -113,7 +130,7 @@ function addMode(
     starts: r.time + warning,
     ends: r.time + warning + duration,
     next: r.time + warning,
-    count,
+    count: type === "rush" || !e.monsterId ? count : 0,
     angle: angle(e, target),
     target: { x: target.x, y: target.y },
     phase: e.phase,
@@ -163,14 +180,14 @@ function addMode(
         1100,
         (e.kind > 5 ? 24 : 8) * enemyDamageScale(r),
         0.8 + i * 0.3,
-        1.2,
+        e.monsterId === 29 ? 0.6 : 1.2,
         0.15,
         null,
         {
           owner: e.id,
           wave: id,
           shape: "beam",
-          width: 10,
+          width: e.monsterId === 29 ? 8 : 10,
           angle:
             e.kind > 5 ? Math.PI / 4 + (i * Math.PI) / 2 : angle(e, target),
         },
@@ -302,6 +319,7 @@ export function updateEnemies(r: Run) {
         const mode = r.modes.at(-1)!;
         mode.shots = 10;
         mode.groups = 1;
+        mode.count = 0;
         mode.spread = 360;
         continue;
       }
@@ -327,10 +345,10 @@ export function updateEnemies(r: Run) {
         r,
         e,
         Math.cos(e.moveAngle) *
-          (definition ? Math.min(300, definition.reach / 0.5) : 240) *
+          (definition ? Math.min(600, definition.reach / 0.4) : 240) *
           DT,
         Math.sin(e.moveAngle) *
-          (definition ? Math.min(300, definition.reach / 0.5) : 240) *
+          (definition ? Math.min(600, definition.reach / 0.4) : 240) *
           DT,
         e.radius,
       );
@@ -345,7 +363,7 @@ export function updateEnemies(r: Run) {
             enemyDamageScale(r) *
             (e.elite ? 1.4 : 1) *
             (r.modifiers.includes(2) ? 1.2 : 1),
-          e.element,
+          enemyElements(e),
         );
         if (e.monsterId === 21)
           e.hp = Math.min(e.maxHP, e.hp + (previousHP - r.player.hp) * 0.1);
@@ -354,12 +372,15 @@ export function updateEnemies(r: Run) {
       continue;
     }
     if (r.modes.some((m) => m.actor === e.id && m.starts > r.time)) continue;
+    const sided = definition && normalSideMovement(r, e, speed);
+    const preferred = e.monsterId ? preferredRange(e.monsterId) : 195;
     if (
-      (e.kind <= 3 && d > 55) ||
-      (e.kind > 3 && (d > 240 || lineBlocked(r, e, r.player)))
+      !sided &&
+      ((e.kind <= 3 && d > 55) ||
+        (e.kind > 3 && (d > preferred + 25 || lineBlocked(r, e, r.player))))
     )
       navigate(r, e, speed);
-    if (e.kind > 3 && d < 150) {
+    if (e.kind > 3 && d < preferred - 25) {
       const a = angle(r.player, e);
       move(r, e, Math.cos(a) * speed * DT, Math.sin(a) * speed * DT, e.radius);
     }
@@ -383,7 +404,7 @@ export function updateEnemies(r: Run) {
               ? "slash"
               : "fan"),
       `mon-${e.monsterId ?? e.kind}-${attack ?? e.kind}`,
-      e.kind <= 3 ? 0.7 : 0.6,
+      normalWarning(e, attack ?? (e.kind <= 3 ? "rush" : "fan")),
       definition
         ? Math.max(0.4, (definition.groups - 1) * 0.3 + 0.1)
         : e.kind <= 3
@@ -393,6 +414,8 @@ export function updateEnemies(r: Run) {
             : 0.01,
       e.kind === 4 ? 3 : 1,
     );
+    if (e.monsterId === 24)
+      r.modes.at(-1)!.target = limitedMark(e, r.player, 200);
   }
   // Soft separation prevents enemies piling into one unreadable target.
   for (let i = 0; i < r.enemies.length; i++)
@@ -438,6 +461,13 @@ export function updateModes(r: Run) {
         e.rushUntil = r.time + (boss ? 0.6 : 0.4);
         e.rushHits = [];
         m.count--;
+        if (e.monsterId === 6) {
+          addMode(r, e, "slash", "mon-6-followslash", 0.4, 0.1);
+          const follow = r.modes.at(-1)!;
+          follow.angle = m.angle;
+          follow.target = { ...m.target };
+          follow.spread = 90;
+        }
         m.next = r.time + (boss ? 1.05 : 1);
         if (m.count) {
           m.target = { x: r.player.x, y: r.player.y };
@@ -448,7 +478,8 @@ export function updateModes(r: Run) {
     }
     if (m.type === "slash") {
       const a = angle(e, m.target);
-      move(r, e, Math.cos(a) * 70, Math.sin(a) * 70, e.radius);
+      if (![6, 12].includes(e.monsterId ?? 0))
+        move(r, e, Math.cos(a) * 70, Math.sin(a) * 70, e.radius);
       const radius = e.monsterId === 12 ? 80 : 60;
       const width = ((m.spread ?? 90) * Math.PI) / 180;
       if (coneHit(e, r.player, radius, a, width, r.player.radius))
@@ -459,7 +490,7 @@ export function updateModes(r: Run) {
             enemyDamageScale(r) *
             (e.elite ? 1.4 : 1) *
             (r.modifiers.includes(2) ? 1.2 : 1),
-          e.element,
+          enemyElements(e),
         );
       visual(r, "cast", e, 0, 0xff796e, 60, a);
       m.next = m.ends + 1;
@@ -482,6 +513,7 @@ export function updateModes(r: Run) {
                 : 7);
       if (r.projectiles.filter((p) => p.enemy).length + n > 600) {
         m.next = r.time + DT;
+        m.ends += DT;
         continue;
       }
       const a =
@@ -495,15 +527,16 @@ export function updateModes(r: Run) {
         if (m.type === "fan") {
           off =
             e.kind === 4 ? 0 : -Math.PI / 3 + (i * Math.PI * 2) / (3 * (n - 1));
-          if (e.kind === 5 && Math.abs(off) < 0.175) continue;
+          if (!e.monsterId && e.kind === 5 && Math.abs(off) < 0.175) continue;
         }
         if (m.type === "ring") {
-          off =
-            (i * Math.PI * 2) / n +
-            (e.monsterId ? (m.count * Math.PI) / 12 : 0);
+          off = e.monsterId
+            ? ringWithGap(i, n, (m.count * Math.PI) / 12)
+            : (i * Math.PI * 2) / n;
         }
         if (m.spread !== undefined && m.type === "fan")
           off = n === 1 ? 0 : ((-0.5 + i / (n - 1)) * m.spread * Math.PI) / 180;
+        if (e.monsterId === 20) off += (m.count * Math.PI) / 12;
         if (m.type === "cross")
           off = (Math.floor(i / 3) * Math.PI) / 2 + ((i % 3) - 1) * 0.13;
         let origin = { x: e.x, y: e.y };
@@ -527,16 +560,14 @@ export function updateModes(r: Run) {
           e.id,
           m.id,
         );
+        if (e.monsterId === 19)
+          attachSine(r.projectiles.at(-1)!, (i * Math.PI * 2) / 3);
       }
       m.count++;
       m.next =
         r.time +
         (e.monsterId
-          ? e.monsterId === 28 || e.monsterId === 22
-            ? 0.15
-            : e.monsterId === 13
-              ? 0.2
-              : 0.3
+          ? normalShotInterval(e.monsterId)
           : e.kind === 4
             ? 0.15
             : m.type === "spiral"
@@ -580,7 +611,7 @@ export function updateModes(r: Run) {
         null,
         { owner: e.id },
       );
-      if (![8, 14, 18].includes(e.monsterId ?? 0)) {
+      if (![8, 14].includes(e.monsterId ?? 0)) {
         const travel = distance(e, m.target),
           scale = Math.min(1, (m.reach ?? 160) / (travel || 1));
         move(
@@ -615,7 +646,7 @@ export function updateModes(r: Run) {
         distance(e, r.player) < e.radius + r.player.radius &&
         !e.rushHits.includes(0)
       ) {
-        hurt(r, 30, e.element);
+        hurt(r, 30, enemyElements(e));
         e.rushHits.push(0);
       }
       const m = r.modes.find((m) => m.actor === e.id && m.type === "rush");

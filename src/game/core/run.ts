@@ -1,3 +1,5 @@
+import { rootKillAbilities } from "../systems/advanced-abilities";
+import { recoverHP, actionRestriction } from "../systems/ability-policies";
 import { journeyFor, selectSegment, isBossRoom } from "../data/journey";
 import type { Run, ClassId, Command } from "./types";
 import { DT, seedFor, random, clone, distance, angle } from "./primitives";
@@ -147,6 +149,7 @@ function deathRewards(r: Run) {
       });
       continue;
     }
+    rootKillAbilities(r, e);
     if (r.cards[66])
       r.momentum = {
         stacks: Math.min(
@@ -156,7 +159,9 @@ function deathRewards(r: Run) {
         until: r.time + 4,
       };
     r.kills = (r.kills || 0) + 1;
-    r.score = (r.score || 0) + (e.kind > 5 ? 500 : e.elite ? 50 : 25);
+    r.score =
+      (r.score || 0) +
+      (e.kind > 5 ? (e.splitGroup ? 250 : 500) : e.elite ? 50 : 25);
     if (!e.summoned) {
       const value =
         (e.xpReward ?? (e.kind > 5 ? 148 : 12 * (e.elite ? 2 : 1))) *
@@ -200,8 +205,8 @@ function consumeDrops(r: Run, all = false) {
     if (all || distance(r.player, d) < 32) {
       if (d.kind === "xp") r.xp += d.value;
       else {
-        r.player.hp = Math.min(r.stats.maxHP, r.player.hp + d.value);
-        visual(r, "heal", r.player, Math.round(d.value), 0x9debba);
+        const healed = recoverHP(r, d.value);
+        visual(r, "heal", r.player, Math.round(healed), 0x9debba);
       }
       d.value = 0;
     }
@@ -213,20 +218,14 @@ export function settle(r: Run) {
   r.score = (r.score || 0) + 100;
   r.phase = "SETTLEMENT";
   r.settlementEnds = r.time + 1.1;
-  r.player.hp = Math.min(
-    r.stats.maxHP,
-    r.player.hp + (isBossRoom(r) ? r.stats.maxHP : r.stats.maxHP * 0.1),
+  const healed = recoverHP(
+    r,
+    isBossRoom(r) ? r.stats.maxHP : r.stats.maxHP * 0.1,
   );
   if (r.cards[63])
     shield(r, r.stats.maxHP * (0.1 + 0.02 * (factor(r, 63, 1) - 1)), 5);
   r.modes = [];
-  visual(
-    r,
-    "heal",
-    r.player,
-    Math.round(isBossRoom(r) ? r.stats.maxHP : r.stats.maxHP * 0.1),
-    0x9debba,
-  );
+  visual(r, "heal", r.player, Math.round(healed), 0x9debba);
 }
 function finishSettlement(r: Run) {
   consumeDrops(r, true);
@@ -283,7 +282,7 @@ export function step(r: Run, c: Command, paused = false) {
           ) {
             if (!p.dashHits.includes(e.id)) {
               p.dashHits.push(e.id);
-              hit(r, e, 40 * (1 + (r.cards[47] - 1) * 0.2), context(r, 47));
+              hit(r, e, 40 * factor(r, 47), context(r, 47));
             }
           }
       }
@@ -302,7 +301,7 @@ export function step(r: Run, c: Command, paused = false) {
       )
         Object.assign(p, temp);
     }
-    if (c.attack && r.time >= p.attackNext) {
+    if (c.attack && !actionRestriction(r, "basic") && r.time >= p.attackNext) {
       basic(r, c);
       p.attackNext = r.time + 1 / r.stats.attackRate;
     }

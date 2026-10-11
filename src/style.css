@@ -1282,3 +1282,56 @@ button {
 .test-card.黃 {
   border-left-color: #f0cf73;
 }
+
+.red-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.red-traits > span {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 5px;
+  color: #ffb7bd;
+  border: 1px solid #9e5664;
+  background: #392a35;
+  border-radius: 5px;
+}
+.red-traits .card-art {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+.red-traits small {
+  font-size: 10px;
+}
+.card.橘,
+.catalog-card.橘 {
+  background: linear-gradient(145deg, #a56a36, #623c25 58%, #442e26);
+  border-color: #e9ae69;
+  color: #fff1cf;
+}
+.card.紅,
+.catalog-card.紅 {
+  background: linear-gradient(145deg, #963e54, #5e2d42 58%, #3b2436);
+  border-color: #ef8799;
+  color: #fff0df;
+}
+.card.橘 .gold,
+.card.紅 .gold {
+  color: #fff0ba;
+}
+.catalog-card.藍 {
+  background: linear-gradient(145deg, #345a72, #213c50);
+}
+.catalog-card.紫 {
+  background: linear-gradient(145deg, #5b4b75, #383249);
+}
+.catalog-card.黃 {
+  background: linear-gradient(145deg, #776842, #4d442d);
+}
+.catalog-card.青 {
+  background: linear-gradient(145deg, #366c65, #204b4c);
+}

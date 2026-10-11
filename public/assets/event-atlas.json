@@ -1,0 +1,21 @@
+{
+  "tileSize": 96,
+  "frames": 6,
+  "names": [
+    "gift-goblin",
+    "snow-brute",
+    "blood-bat",
+    "blood-berserker",
+    "grave-ghost",
+    "pumpkin-knight",
+    "alien-ranger",
+    "alien-saucer",
+    "landing-mech",
+    "star-dust",
+    "comet-whelp",
+    "frost-santa",
+    "pumpkin-lord"
+  ],
+  "license": "CC0-1.0",
+  "source": "tools/create-event-atlas.py"
+}

@@ -1,3 +1,4 @@
+import { monsters } from "../data/biomes";
 import type { Actor, Mode, Projectile, Run } from "../core/types";
 import { angle, distance, DT, type Vec } from "../core/primitives";
 import { move } from "./geometry";
@@ -91,4 +92,12 @@ export function limitedMark(origin: Vec, target: Vec, reach: number) {
     x: origin.x + (target.x - origin.x) * fraction,
     y: origin.y + (target.y - origin.y) * fraction,
   };
+}
+
+export function enemyElements(e?: Actor): import("../core/types").Element[] {
+  return [
+    ...new Set(
+      [e?.element, monsters[e?.monsterId ?? 0]?.element].filter(Boolean),
+    ),
+  ] as import("../core/types").Element[];
 }

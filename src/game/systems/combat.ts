@@ -1,3 +1,9 @@
+import {
+  skillOpeningBonus,
+  elementResonance,
+  lifesteal,
+} from "./advanced-abilities";
+import { sineVelocity, enemyElements } from "./monster-details";
 import { damageSolaris } from "./solaris";
 import type {
   Run,
@@ -31,14 +37,14 @@ export function context(
     rootAttackId: r.nextId++,
     damageKind: kind,
     elementMask: elements,
-    canCrit: crit,
+    canCrit: r.echoing ? false : crit,
     lifestealEligible: kind !== "dot",
-    basicEffectMask: proxy,
-    basicHitProxy: proxy,
+    basicEffectMask: r.echoing ? false : proxy,
+    basicHitProxy: r.echoing ? false : proxy,
     basicCastProxy: false,
-    procPolicy: proc,
-    ancestry: [...ancestry, id],
-    chainScale: scale,
+    procPolicy: r.echoing ? "none" : proc,
+    ancestry: [...ancestry, id, ...(r.echoing ? [171] : [])],
+    chainScale: scale * (r.echoing ? 0.6 : 1),
   };
 }
 export function visual(
@@ -49,7 +55,12 @@ export function visual(
   color = 0xffd891,
   radius = 20,
   a = 0,
-  options: { elements?: Element[]; enemy?: boolean; duration?: number } = {},
+  options: {
+    elements?: Element[];
+    enemy?: boolean;
+    duration?: number;
+    enemyTheme?: Run["visuals"][number]["enemyTheme"];
+  } = {},
 ) {
   const duration =
     options.duration ??
@@ -197,6 +208,7 @@ export function hit(
     (1 + category) *
     (1 + (ctx.elementMask.length ? r.stats.elemental : 0)) *
     conditional;
+  value *= skillOpeningBonus(r, e, ctx);
   if (crit) value *= r.stats.critMult;
   if (
     e.wetUntil > r.time &&
@@ -221,6 +233,11 @@ export function hit(
     visual(r, "phase", e, 0, 0xffb77b, 80);
   } else e.hp = Math.max(0, e.hp - value);
   const actual = e.solarisBar ? solarisLost : prev - e.hp;
+  if (e.hp <= 0)
+    e.killedByRoot =
+      ctx.procPolicy === "root" &&
+      ctx.damageKind !== "additional" &&
+      ctx.damageKind !== "dot";
   if (e.phase === 2 && e.transition > r.time) splitBoss(r, e);
   visual(
     r,
@@ -247,19 +264,9 @@ export function hit(
       angle(r.player, e),
       { duration: 0.18 },
     );
-  if (
-    !e.sealPillar &&
-    ctx.lifestealEligible &&
-    actual > 0 &&
-    r.stats.lifesteal > 0
-  ) {
-    const gain = Math.min(
-      r.stats.maxHP - r.player.hp,
-      actual * r.stats.lifesteal,
-    );
-    r.player.hp += gain;
-  }
+  if (!e.sealPillar) lifesteal(r, actual, ctx);
   if (e.sealPillar) return actual;
+  elementResonance(r, e, ctx, actual);
   if (e.hp > 0 && ctx.damageKind !== "dot") elemental(r, e, ctx, frost);
   if ((ctx.procPolicy === "root" || ctx.procPolicy === "one") && e.hp > 0) {
     const child = (id: number, elements: Element[] = []) =>
@@ -363,7 +370,12 @@ function detonateEmbers(r: Run, origin: Actor, ctx: DamageContext) {
     }
   }
 }
-export function hurt(r: Run, base: number, element: Element | null = null) {
+export function hurt(
+  r: Run,
+  base: number,
+  element: Element | Element[] | null = null,
+) {
+  const mask = typeof element === "string" ? [element] : (element ?? []);
   const p = r.player;
   if (p.hp <= 0 || p.invulnerable > r.time) return false;
   if (p.blockUntil > r.time) {
@@ -382,6 +394,11 @@ export function hurt(r: Run, base: number, element: Element | null = null) {
   let value =
     ((base * 100) / (100 + r.stats.armor)) *
     (1 - Math.min(0.5, r.stats.reduction + endurance));
+  if (
+    p.wetUntil > r.time &&
+    mask.some((el) => el === "ice" || el === "lightning")
+  )
+    value *= 1.25;
   if (endurance) p.enduranceUsed = true;
   for (const s of p.shields) {
     const absorbed = Math.min(s.amount, value);
@@ -393,25 +410,32 @@ export function hurt(r: Run, base: number, element: Element | null = null) {
     p.lastHurt = r.time;
     p.enduranceUsed = false;
     if (level(r, 69)) p.recoveryUntil = r.time + 2;
+    if (level(r, 73) && (r.cooldowns[73] ?? 0) <= r.time) {
+      r.cooldowns[73] = r.time + 12;
+      shield(r, r.stats.maxHP * 0.1, 3);
+      visual(r, "relic", p, 0, 0xffe2a5, 40, 0, { duration: 0.5 });
+    }
   }
   p.invulnerable = r.time + 0.5;
   visual(r, "damage", p, Math.round(value), 0xff797c);
   visual(r, "impact", p, 3.5, 0xff968a, 27, 0, { enemy: true, duration: 0.22 });
-  if (element === "water") p.wetUntil = r.time + 3;
-  if (element === "fire") p.burnUntil = r.time + 3;
-  if (element === "ice") {
+  if (mask.includes("water")) p.wetUntil = r.time + 3;
+  if (mask.includes("fire")) p.burnUntil = r.time + 3;
+  if (mask.includes("ice")) {
     p.frost += 15;
     p.iceUntil = r.time + 3;
     if (p.frost >= 100) {
       p.frost = 0;
       if (r.time >= p.ccImmune) {
         p.controlUntil = r.time + 0.6;
+        p.freezeUntil = p.controlUntil;
         p.ccImmune = r.time + 1.6;
       }
     }
   }
-  if (element === "lightning" && random(r) < 0.15 && r.time >= p.ccImmune) {
+  if (mask.includes("lightning") && random(r) < 0.15 && r.time >= p.ccImmune) {
     p.controlUntil = r.time + 0.25;
+    p.stunUntil = p.controlUntil;
     p.ccImmune = r.time + 1.25;
   }
   return true;
@@ -485,6 +509,10 @@ export function shoot(
     damage,
     context: ctx,
     enemy,
+    enemyElements: enemy
+      ? enemyElements(r.enemies.find((e) => e.id === owner))
+      : undefined,
+    enemyTheme: enemy ? (r.room === 31 ? "sun" : r.biome) : undefined,
     enemyElement: enemy
       ? (r.enemies.find((e) => e.id === owner)?.element ?? null)
       : undefined,
@@ -523,6 +551,10 @@ export function area(
     next: r.time + delay,
     context: ctx,
     enemy: !ctx,
+    enemyElements: !ctx
+      ? enemyElements(r.enemies.find((e) => e.id === extra.owner))
+      : undefined,
+    enemyTheme: !ctx ? (r.room === 31 ? "sun" : r.biome) : undefined,
     enemyElement: !ctx
       ? (r.enemies.find((e) => e.id === extra.owner)?.element ?? null)
       : undefined,
@@ -561,6 +593,19 @@ export function damageCover(
 }
 export function updateProjectiles(r: Run, dt: number) {
   for (const p of r.projectiles) {
+    if (p.homingTarget && !p.enemy) {
+      const target =
+        r.enemies.find((e) => e.id === p.homingTarget && e.hp > 0) ??
+        r.enemies.find((e) => e.hp > 0 && !e.sealPillar);
+      if (target) {
+        p.homingTarget = target.id;
+        const a = angle(p, target),
+          speed = Math.hypot(p.vx, p.vy);
+        p.vx = Math.cos(a) * speed;
+        p.vy = Math.sin(a) * speed;
+      }
+    }
+    sineVelocity(p, dt);
     const old = { x: p.x, y: p.y };
     const dist = Math.hypot(p.vx, p.vy) * dt;
     let stopped = false;
@@ -575,7 +620,11 @@ export function updateProjectiles(r: Run, dt: number) {
       if (p.enemy) {
         if (segmentDistance(r.player, old, p) < r.player.radius + p.radius) {
           const owner = r.enemies.find((e) => e.id === p.owner);
-          hurt(r, p.damage, p.enemyElement ?? owner?.element);
+          hurt(
+            r,
+            p.damage,
+            p.enemyElements ?? p.enemyElement ?? owner?.element,
+          );
           stopped = true;
           break;
         }
@@ -682,7 +731,7 @@ export function updateAreas(r: Run) {
           a.effect === "thunder" ? 0x49baff : 0xffb08a,
           a.radius,
           0,
-          { enemy: true },
+          { enemy: true, enemyTheme: a.enemyTheme, duration: 0.65 },
         );
       const end = beamEnd(r, a, a.angle);
       const affected =
@@ -691,7 +740,7 @@ export function updateAreas(r: Run) {
           : a.shape === "cone"
             ? coneHit(a, r.player, a.radius, a.angle, a.width, r.player.radius)
             : distance(a, r.player) < a.radius + r.player.radius;
-      if (affected) hurt(r, a.damage, a.enemyElement);
+      if (affected) hurt(r, a.damage, a.enemyElements ?? a.enemyElement);
       if (r.enemies.some((e) => e.id === a.owner && e.kind > 5)) {
         if (a.shape === "beam") {
           for (let d = 0; d < distance(a, end); d += 20)
@@ -721,7 +770,7 @@ export function updateAreas(r: Run) {
           )
         ) {
           hit(r, e, a.damage, a.context, a.frost);
-          if (a.pull && e.kind <= 5) {
+          if (a.pull && e.kind <= 5 && !e.sealPillar) {
             e.x += (a.x - e.x) * 0.08;
             e.y += (a.y - e.y) * 0.08;
           }

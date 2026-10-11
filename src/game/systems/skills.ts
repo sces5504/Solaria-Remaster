@@ -1,3 +1,5 @@
+import { originalBasicAbilities } from "./advanced-abilities";
+import { actionRestriction } from "./ability-policies";
 import type { Run, Command, Element } from "../core/types";
 import { angle, distance, clamp } from "../core/primitives";
 import {
@@ -23,6 +25,7 @@ export function targetPoint(r: Run, c: Command, range = 450) {
 }
 export function basic(r: Run, c: Command, rapid = false) {
   const p = r.player;
+  if (!rapid && actionRestriction(r, "basic")) return false;
   visual(
     r,
     "cast",
@@ -33,8 +36,10 @@ export function basic(r: Run, c: Command, rapid = false) {
     angle(p, c.pointerWorld),
   );
   if (!rapid) p.lastBasic = r.time;
-  p.casts++;
-  p.capacitor = Math.min(5, p.capacitor + 1);
+  if (!r.echoing) {
+    p.casts++;
+    p.capacitor = Math.min(5, p.capacitor + 1);
+  }
   const a = angle(p, c.pointerWorld),
     cls = classes[r.classId];
   const id = r.classId === "sword" ? 41 : r.classId === "bow" ? 50 : 54;
@@ -47,13 +52,16 @@ export function basic(r: Run, c: Command, rapid = false) {
       : [54, 56, 57])
     if (level(r, cid))
       bonus +=
-        (level(r, cid) - 1) *
-        ([41, 42, 48, 49, 54, 55].includes(cid)
-          ? 0.15
-          : cid === 52
-            ? 0.25
-            : 0.2);
-  if (p.buffUntil > r.time && level(r, 53)) bonus += 0.25 * (level(r, 53) - 1);
+        factor(
+          r,
+          cid,
+          [41, 42, 48, 49, 54, 55].includes(cid)
+            ? 0.15
+            : cid === 52
+              ? 0.25
+              : 0.2,
+        ) - 1;
+  if (p.buffUntil > r.time && level(r, 53)) bonus += factor(r, 53, 0.25) - 1;
   const damage = cls.damage * (1 + bonus);
   const ctx = context(r, id, category, [...r.elements], true);
   const side = (source: number, scale: number) => ({
@@ -138,6 +146,8 @@ export function basic(r: Run, c: Command, rapid = false) {
         bounce,
       );
   }
+  if (!rapid) originalBasicAbilities(r, angle(p, c.pointerWorld));
+  if (r.echoing) return true;
   if (level(r, 16) && p.casts % 3 === 0)
     shoot(
       r,
@@ -229,24 +239,41 @@ export function basic(r: Run, c: Command, rapid = false) {
     );
   }
 }
-export function castSkill(r: Run, c: Command) {
+export function castSkill(r: Run, c: Command, echo = false) {
   const p = r.player;
-  if (r.time < p.skillReady || r.time < p.controlUntil) return false;
-  if (level(r, 67))
+  if (!echo && actionRestriction(r, "skill")) return false;
+  if (!echo && (r.time < p.skillReady || r.time < p.controlUntil)) return false;
+  if (!echo && level(r, 67))
     shield(r, r.stats.maxHP * (0.1 + 0.02 * (factor(r, 67, 1) - 1)), 2);
-  p.skillCast = r.time;
-  p.skillReady = r.time + r.stats.skillCD;
+  if (!echo) {
+    r.echoCapacitor = 0;
+    if (level(r, 82)) p.hp = Math.max(1, p.hp * 0.92);
+    p.skillCast = r.time;
+    p.skillReady = r.time + r.stats.skillCD;
+    if (level(r, 71))
+      p.pendingEcho = { at: r.time + 0.8, pointer: { ...c.pointerWorld } };
+  }
   visual(r, "cast", p, 0, 0xddd0ff, 50);
   const at = targetPoint(r, c),
     a = angle(p, c.pointerWorld);
-  if (r.classId === "sword") {
+  if (!echo && r.classId === "sword") {
     p.blockUntil = r.time + 0.6;
     p.blockHit = false;
   }
-  if (r.classId === "bow") {
+  if (!echo && r.classId === "bow") {
     const l = level(r, 52),
       n = l ? [8, 8, 9, 9, 10][Math.min(4, l - 1)] : 5;
     p.rapid = { at: r.time, remaining: n, interval: 1 / (n - 1) };
+  }
+  if (echo && r.classId === "bow") {
+    const l = level(r, 52),
+      n = l ? [8, 8, 9, 9, 10][Math.min(4, l - 1)] : 5;
+    p.echoRapid = {
+      at: r.time,
+      remaining: n,
+      interval: 1 / (n - 1),
+      pointer: { ...c.pointerWorld },
+    };
   }
   if (r.classId === "mage") {
     area(r, at, 96, 96, 0.3, 0.01, 1, context(r, 158));
@@ -349,16 +376,16 @@ export function castSkill(r: Run, c: Command) {
         context(r, 33, "skill", ["water", "fire"], true),
         { effect: "steam" },
       );
-  if (level(r, 34)) {
+  if (!echo && level(r, 34)) {
     p.engineUntil = r.time + 3;
     shield(r, r.stats.maxHP * (0.2 + Math.min(4, level(r, 34) - 1) * 0.02), 3);
   }
-  if (level(r, 37) && p.capacitor) {
+  if (level(r, 37) && (p.capacitor || (echo && r.echoCapacitor))) {
     burst(
       r,
       p,
       130,
-      p.capacitor * 12 * factor(r, 37),
+      (echo ? (r.echoCapacitor ?? 0) : p.capacitor) * 12 * factor(r, 37),
       context(
         r,
         37,
@@ -370,7 +397,10 @@ export function castSkill(r: Run, c: Command) {
         "none",
       ),
     );
-    p.capacitor = 0;
+    if (!echo) {
+      r.echoCapacitor = p.capacitor;
+      p.capacitor = 0;
+    }
   }
   if (level(r, 39)) {
     burst(
@@ -386,10 +416,16 @@ export function castSkill(r: Run, c: Command) {
 }
 export function dodge(r: Run, c: Command) {
   const p = r.player;
+  if (actionRestriction(r, "dodge")) return false;
   if (r.time < p.dashReady || r.time < p.controlUntil) return false;
   const moving = Math.hypot(c.move.x, c.move.y) > 0;
   const a = moving ? Math.atan2(c.move.y, c.move.x) : angle(p, c.pointerWorld);
-  p.dashReady = r.time + 3;
+  p.dashReady = r.time + (level(r, 84) ? 6 : 3);
+  if (level(r, 72))
+    p.skillReady = Math.max(
+      p.skillCast + classes[r.classId].cd * 0.2,
+      p.skillReady - 0.5,
+    );
   p.assaultUntil = r.time + 2;
   const end = { x: p.x + Math.cos(a) * 144, y: p.y + Math.sin(a) * 144 };
   if (!legal(r, end, p.radius) || lineBlocked(r, p, end, false)) return true;
@@ -400,15 +436,27 @@ export function dodge(r: Run, c: Command) {
 }
 export function updateSkills(r: Run, c: Command) {
   const p = r.player;
+  if (p.pendingEcho && r.time >= p.pendingEcho.at) {
+    const pointer = p.pendingEcho.pointer;
+    p.pendingEcho = undefined;
+    if (!actionRestriction(r, "skill")) {
+      r.echoing = true;
+      try {
+        castSkill(r, { ...c, pointerWorld: pointer }, true);
+      } finally {
+        r.echoing = false;
+      }
+    }
+  }
   if (p.counterAt && r.time >= p.counterAt) {
     p.counterAt = 0;
     const l = level(r, 44),
       width = l ? 220 + Math.min(4, l - 1) * 10 : 160;
     const ctx = context(r, 144, "skill", [...r.elements], true);
     const bonus =
-      l * 0.2 +
-      (level(r, 45) ? (level(r, 45) - 1) * 0.25 : 0) +
-      (level(r, 46) ? (level(r, 46) - 1) * 0.25 : 0);
+      (l ? 0.2 + factor(r, 44, 0.2) - 1 : 0) +
+      (level(r, 45) ? factor(r, 45, 0.25) - 1 : 0) +
+      (level(r, 46) ? factor(r, 46, 0.25) - 1 : 0);
     if (
       cone(
         r,
@@ -432,6 +480,17 @@ export function updateSkills(r: Run, c: Command) {
     p.rapid.remaining--;
     p.rapid.at += p.rapid.interval;
     if (!p.rapid.remaining && level(r, 53)) p.buffUntil = r.time + 3;
+  }
+  if (p.echoRapid && p.echoRapid.remaining && r.time + 1e-8 >= p.echoRapid.at) {
+    r.echoing = true;
+    try {
+      basic(r, { ...c, pointerWorld: p.echoRapid.pointer }, true);
+    } finally {
+      r.echoing = false;
+    }
+    p.echoRapid.remaining--;
+    p.echoRapid.at += p.echoRapid.interval;
+    if (!p.echoRapid.remaining) p.echoRapid = undefined;
   }
   if (level(r, 40)) {
     const targets = r.enemies

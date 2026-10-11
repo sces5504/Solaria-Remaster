@@ -1,3 +1,5 @@
+import { advancedCards } from "./advanced-cards";
+import { cardRestriction } from "../systems/ability-policies";
 import type { Run } from "../core/types";
 export const cards = [
   {
@@ -501,6 +503,7 @@ export const cards = [
     description: "受傷後兩秒攻速強度+.25",
     classId: null,
   },
+  ...advancedCards,
 ] as const;
 export type Card = (typeof cards)[number];
 export const cardLevel = (r: Run, id: number) => r.cards[id] || 0;
@@ -511,9 +514,12 @@ export function skillFactor(level: number, increment = 0.2) {
 }
 export function eligible(r: Run, c: Card) {
   const l = cardLevel(r, c.id);
+  if (cardRestriction(r, c.id)) return false;
+  if (c.id >= 70) return !l && (c.id !== 74 || r.elements.length >= 2);
   if (c.classId && c.classId !== r.classId) return false;
   if (c.id <= 14) return c.id !== 12 || r.elements.length > 0;
-  if ([15, 19, 24, 28].includes(c.id)) return !l && r.elements.length < 2;
+  if ([15, 19, 24, 28].includes(c.id))
+    return !l && r.elements.length < (r.cards[80] ? 3 : 2);
   if (l >= 5 * (r.loop ?? 1)) return false;
   if (c.id < 19) return r.elements.includes("ice");
   if (c.id < 24) return r.elements.includes("fire");

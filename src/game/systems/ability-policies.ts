@@ -30,7 +30,7 @@ const rightOnly = new Set([
 const leftOnly: Record<ClassId, Set<number>> = {
   sword: new Set([41, 43]),
   bow: new Set(), // Rapid shots retain their real basic-hit/cast proxies and learned bow upgrades.
-  mage: new Set([54, 55, 56, 57]),
+  mage: new Set([54, 57]),
 };
 export function cardRestriction(r: Run, id: number) {
   if (r.cards[83] && rightOnly.has(id)) return "職技已封印，這項升級暫時失效";
@@ -44,6 +44,16 @@ export function cardRestriction(r: Run, id: number) {
       id === 70)
   )
     return "觸發動作已封印，這項升級暫時失效";
+  if (
+    r.cards[78] &&
+    r.classId === "mage" &&
+    [55, 56].includes(id) &&
+    !r.cards[33] &&
+    !Object.values(r.equipment).some(
+      (i) => (i as unknown as { ability?: string })?.ability === "fallingStar",
+    )
+  )
+    return "目前沒有可觸發的普攻命中來源";
   if ((id === 78 && r.cards[83]) || (id === 83 && r.cards[78]))
     return "偏執狂與寂靜之誓互斥";
   return "";

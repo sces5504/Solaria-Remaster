@@ -48,6 +48,8 @@ export function validate(value: unknown): Saved {
         "COMBAT",
         "SETTLEMENT",
         "UPGRADE_CHOICE",
+        "FUSION_CHOICE",
+        "EQUIPMENT_SLOT_CHOICE",
         "POST_CLEAR",
         "RUN_END",
         "DEAD",
@@ -94,7 +96,7 @@ export function validate(value: unknown): Saved {
       r.bag.length > 12 ||
       !Array.isArray(r.items) ||
       !Array.isArray(r.elements) ||
-      r.elements.length > 2
+      r.elements.length > (r.cards[80] ? 3 : 2)
     )
       throw new Error("背包或元素數量損壞");
     for (const field of [
@@ -148,11 +150,29 @@ export function validate(value: unknown): Saved {
     if (new Set(ids).size !== ids.length) throw new Error("存檔含重複物品");
     if (r.rerollUsed !== undefined && typeof r.rerollUsed !== "boolean")
       throw new Error("刷新資料損壞");
+    if (r.cards[78] && r.cards[83]) throw new Error("互斥卡片資料損壞");
+    if (
+      r.selectedEquipmentSlot !== undefined &&
+      !["armor", "ring", "amulet"].includes(r.selectedEquipmentSlot)
+    )
+      throw new Error("裝備欄選擇損壞");
+    if (
+      r.phase === "FUSION_CHOICE" &&
+      (!Array.isArray(r.fusionChoices) ||
+        r.fusionChoices.length < 2 ||
+        r.fusionChoices.some(
+          (f) => !["steam", "storm", "frostfire"].includes(f),
+        ))
+    )
+      throw new Error("融合選擇損壞");
+    if (r.phase === "EQUIPMENT_SLOT_CHOICE" && !r.cards[85])
+      throw new Error("裝備選擇損壞");
     for (const [id, l] of Object.entries(r.cards)) {
       if (
         !cards.some((c) => c.id === Number(id)) ||
         !Number.isInteger(l) ||
-        l < 1
+        l < 1 ||
+        (Number(id) >= 70 && l !== 1)
       )
         throw new Error("卡片資料損壞");
     }

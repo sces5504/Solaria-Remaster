@@ -1,0 +1,58 @@
+
+> solaria-remaster@0.1.0 test:browser
+> playwright test --last-failed --workers=1
+
+[WebServer] (node:18677) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:18690) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:18710) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/advanced-cards.spec.ts:18:1 › 元素使三元素的強制融合選擇重載後仍保留、卡片圖鑑85張 (10.2s)
+  ✘  2 tests/browser/advanced-cards.spec.ts:47:1 › 命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴 (13.6s)
+
+
+  1) tests/browser/advanced-cards.spec.ts:47:1 › 命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴 ────────────────────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: '背包 2 / 12' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: '背包 2 / 12' }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: '背包 2 / 12' })
+
+
+      82 |   await expect(
+      83 |     page.getByRole("heading", { name: "背包 2 / 12" }),
+    > 84 |   ).toBeVisible();
+         |     ^
+      85 |   await expect(page.getByRole("button", { name: "卸下至地面" })).toHaveCount(1);
+      86 | });
+      87 |
+        at /workspace/Solaria-Remaster/tests/browser/advanced-cards.spec.ts:84:5
+
+    Error Context: test-results/advanced-cards-命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/advanced-cards-命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/advanced-cards-命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/browser/advanced-cards.spec.ts:47:1 › 命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴 ─────────────────────────
+  1 passed (25.9s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

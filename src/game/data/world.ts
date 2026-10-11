@@ -1,3 +1,4 @@
+import { bossEntryAbility } from "../systems/advanced-abilities";
 import { placeSolaris } from "../systems/solaris";
 import type { Run, Obstacle, Actor } from "../core/types";
 import { random, seedFor } from "../core/primitives";
@@ -303,11 +304,15 @@ export function populate(r: Run) {
   r.player.attackNext = r.time;
   r.player.dashUntil = 0;
   r.player.rapid.remaining = 0;
+  r.player.pendingEcho = undefined;
+  r.player.echoRapid = undefined;
+  r.echoCapacitor = 0;
   r.player.blockUntil = 0;
   r.player.counterAt = 0;
   r.modifiers = [];
   if (r.room === 31) {
     placeSolaris(r);
+    bossEntryAbility(r);
     return;
   }
   if (localRoom === 5) {
@@ -319,6 +324,7 @@ export function populate(r: Run) {
     e.nextAttack = r.time + 1.5;
     e.xpReward = roomXPBudget(r.room);
     r.enemies.push(e);
+    bossEntryAbility(r);
     return;
   }
   const countRoll = random(r),

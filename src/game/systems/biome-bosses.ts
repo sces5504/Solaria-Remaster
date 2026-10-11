@@ -1,3 +1,4 @@
+import { enemyElements } from "./monster-details";
 import type { Actor, Mode, Run } from "../core/types";
 import { angle, distance, DT, type Vec } from "../core/primitives";
 import { bosses, type BossAttack } from "../data/bosses";
@@ -112,7 +113,7 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
         0.01,
         1,
         null,
-        { owner: e.id, wave: id, heavy: true, effect: "thunder" },
+        { owner: e.id, wave: id, heavy: true },
       );
     }
   if (attack.pattern === "mine")
@@ -197,7 +198,7 @@ export function biomeBossAI(r: Run, e: Actor) {
       !e.rushHits.includes(0)
     ) {
       const hp = r.player.hp;
-      hurt(r, 30 * enemyDamageScale(r), e.element);
+      hurt(r, 30 * enemyDamageScale(r), enemyElements(e));
       e.rushHits.push(0);
       if (e.bossId === 14)
         e.hp = Math.min(e.maxHP, e.hp + (hp - r.player.hp) * 0.1);
@@ -268,7 +269,7 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
         r.player.radius,
       )
     )
-      hurt(r, damage, e.element);
+      hurt(r, damage, a.id === "solaris-flare" ? "fire" : enemyElements(e));
     damageCover(r, e, a.radius, m.id, a.damage >= 36);
     visual(
       r,

@@ -8,6 +8,8 @@ export type Phase =
   | "COMBAT"
   | "SETTLEMENT"
   | "UPGRADE_CHOICE"
+  | "FUSION_CHOICE"
+  | "EQUIPMENT_SLOT_CHOICE"
   | "POST_CLEAR"
   | "RUN_END"
   | "DEAD";
@@ -50,6 +52,8 @@ export interface Actor extends Vec {
   kind: number;
   monsterId?: number;
   bossId?: number;
+  killedByRoot?: boolean;
+  advancedResonanceNext?: number;
   solarisBar?: 1 | 2 | 3;
   sealPillar?: boolean;
   splitGroup?: number;
@@ -96,6 +100,9 @@ export interface Actor extends Vec {
 export interface Player extends Vec {
   terrainSlow?: number;
   lastBasic?: number;
+  originalBasics?: number;
+  pendingEcho?: { at: number; pointer: Vec };
+  echoRapid?: { at: number; remaining: number; interval: number; pointer: Vec };
   lastHurt?: number;
   enduranceUsed?: boolean;
   assaultUntil?: number;
@@ -143,6 +150,7 @@ export interface Obstacle {
 }
 export interface Projectile extends Vec {
   id: number;
+  homingTarget?: number;
   vx: number;
   vy: number;
   radius: number;
@@ -151,6 +159,8 @@ export interface Projectile extends Vec {
   context: DamageContext | null;
   enemy: boolean;
   enemyElement?: Element | null;
+  enemyElements?: Element[];
+  enemyTheme?: BiomeId | "sun";
   owner: number;
   wave: number;
   hit: number[];
@@ -162,6 +172,8 @@ export interface Projectile extends Vec {
 }
 export interface Area extends Vec {
   enemyElement?: Element | null;
+  enemyElements?: Element[];
+  enemyTheme?: BiomeId | "sun";
   id: number;
   ability: number;
   owner: number;
@@ -232,11 +244,15 @@ export interface Drop extends Vec {
   value: number;
 }
 export interface Visual extends Vec {
+  enemyTheme?: BiomeId | "sun";
   duration?: number;
   elements?: Element[];
   enemy?: boolean;
   id: number;
   kind:
+    | "ghost"
+    | "relic"
+    | "resonance"
     | "hit"
     | "heal"
     | "cast"
@@ -269,6 +285,14 @@ export interface Run {
   journey?: import("../data/journey").JourneySegment[];
   solaris?: { sealed: boolean; wave: number; next: number };
   loop?: number;
+  echoing?: boolean;
+  echoCapacitor?: number;
+  relicEntryKey?: string;
+  focusedPhases?: string[];
+  vampireRecent?: { time: number; amount: number }[];
+  selectedEquipmentSlot?: Slot;
+  specialResumePhase?: Phase;
+  fusionChoices?: ("steam" | "storm" | "frostfire")[];
   templates: number[];
   boss: number;
   classId: ClassId;

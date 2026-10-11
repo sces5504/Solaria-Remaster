@@ -220,7 +220,7 @@ const mon = (
 });
 export const monsters: Record<number, MonsterDefinition> = Object.fromEntries(
   [
-    mon(6, "沙刃刺客", 3, 106, 2, ["rush", "slash"], 1, 1, 90, null, 140),
+    mon(6, "沙刃刺客", 3, 106, 2, ["rush"], 1, 1, 90, null, 140),
     mon(7, "沙棘蠍", 4, 62, 2.2, ["fan"], 3, 1, 30, null, 180, 18),
     mon(8, "古砂祭司", 5, 48, 2.5, ["mark", "ring"], 6),
     mon(9, "霜牙狼", 1, 104, 2, ["rush"], 1, 1, 90, "ice", 180),
@@ -239,7 +239,7 @@ export const monsters: Record<number, MonsterDefinition> = Object.fromEntries(
     mon(22, "血矛侍從", 4, 73, 2, ["fan"], 1, 3, 0),
     mon(23, "猩紅眼魔", 5, 57, 2.5, ["cross"], 12, 2, 360),
     mon(24, "隕星掠食者", 2, 100, 2.2, ["mark"], 1, 1, 90, null, 200, 18),
-    mon(25, "星輝巡弋者", 4, 85, 2, ["rows"], 8, 2, 0),
+    mon(25, "星輝巡弋者", 4, 85, 2, ["rows"], 4, 2, 0),
     mon(26, "軌道水母", 5, 63, 2.5, ["ring"], 8, 2, 360, null, 160, 18),
     mon(27, "白骨騎士", 3, 106, 2, ["slash", "rush"], 1, 1, 120, null, 140, 18),
     mon(28, "魔城弩手", 4, 76, 2, ["fan"], 1, 5, 0),

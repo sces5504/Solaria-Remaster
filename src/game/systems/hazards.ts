@@ -6,6 +6,7 @@ import { legal } from "./geometry";
 
 export function createHazards(r: Run) {
   r.hazards = [];
+  if (r.room === 31) return;
   const definition = currentBiome(r);
   if (!definition.hazard) return;
   const rng = { rng: seedFor(r.seed, r.room * 331) };

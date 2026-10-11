@@ -12,11 +12,14 @@
     "biome-atlas.png",
     "biome-atlas.json",
     "boss-atlas.png",
-    "boss-atlas.json"
+    "boss-atlas.json",
+    "event-atlas.png",
+    "event-atlas.json"
   ],
   "reference": "Original Solaria observed for visual direction only; sprites independently drawn, no assets copied.",
   "audio": "Original Web Audio synthesis in src/audio/mixer.ts",
-  "illustrations": "Original 59 ability line illustrations in src/ui/card-art.ts; original menu landscape in tools/create-scene.py, CC0-1.0",
+  "illustrations": "Original 85 ability illustrations in src/ui/card-art.ts; original menu landscape, CC0-1.0",
   "expansion": "Original 24 monster and 32 terrain sprite rows, 336 frames, independently drawn in tools/create-biome-atlas.py; CC0-1.0",
-  "bosses": "Original 16 boss silhouette rows, 96 frames, tools/create-boss-atlas.py; CC0-1.0"
+  "bosses": "Original 17 boss silhouette rows, 102 frames, tools/create-boss-atlas.py; CC0-1.0",
+  "events": "Original 13 event creature and lord silhouettes, 78 frames, tools/create-event-atlas.py; CC0-1.0"
 }

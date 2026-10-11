@@ -1,3 +1,6 @@
+import { advancedEffect } from "./advanced-effects";
+import { enemyImpact } from "./enemy-impact";
+import { bossTelegraph } from "./boss-telegraph";
 import {
   Application,
   Assets,
@@ -952,6 +955,7 @@ export class Stage {
       if (m.starts > r.time) {
         const e = r.enemies.find((e) => e.id === m.actor);
         if (!e) continue;
+        if (bossTelegraph(d, r, e, m)) continue;
         if (m.type === "rush" || m.type === "slash") {
           const length = m.type === "rush" ? (e.kind > 5 ? 186 : 96) : 70,
             x = e.x + Math.cos(m.angle) * length,
@@ -1009,7 +1013,10 @@ export class Stage {
         text.position.set(v.x + 6, v.y - 16 - (1 - progress) * 22);
         text.alpha = progress;
       } else {
-        visualEffect(v.enemy ? d : f, r, v);
+        if (advancedEffect(v.enemy ? d : f, v, r.time)) {
+        } else if (v.enemyTheme && v.kind === "burst")
+          enemyImpact(d, v, r.time, v.enemyTheme);
+        else visualEffect(v.enemy ? d : f, r, v);
         if (v.kind === "thunder")
           for (let i = 1; i <= 5; i++) {
             const y = Math.max(14, v.y - i * 42);
@@ -1040,6 +1047,7 @@ export class Stage {
         !s.visible &&
         (key.startsWith("enemy") ||
           key.startsWith("drop") ||
+          key.startsWith("hazard-") ||
           key.startsWith("ob-"))
       ) {
         s.destroy();

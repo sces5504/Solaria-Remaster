@@ -1,0 +1,37 @@
+{
+  "scope": "85 cards integrated; equipment and events preparation only; full v1 incomplete",
+  "unit": {
+    "pass": 256,
+    "integrated": 248,
+    "standalonePreparation": 8
+  },
+  "browser": {
+    "cases": 48,
+    "initialPass": 46,
+    "initialFail": 2,
+    "correctedFusion": "PASS",
+    "correctedSlot": "PASS after readiness fix"
+  },
+  "checks": ["check PASS", "build PASS", "format:check PASS"],
+  "testedJS": {
+    "CanvasPool-CTz6W2rm.js": "0dbc5a71c65dd8ae8cdc3dde6ae0e11f85f55cd0fbaa9064baffc2c21b01523d",
+    "index-BxzddW9_.js": "ad5d6000b6f7304717774a9ded0a3a1dcf6c55c97e1558d454ee66ec7c3acc77",
+    "canvasUtils-B5KrsTsU.js": "572546d1625d86d938f6c61bcd56c0be058707169c3894f0dca30db132e3375c",
+    "GraphicsContext-BdlONEsd.js": "87b48df0f3f5782128537acbdec82399c3c364cf4b5844843d1f3abdedaad6f5",
+    "RenderTargetSystem-LneVKNDZ.js": "403b27f6c5294b3037f561935f21dc2e31d854b6cd896f78d2333f39e25968e0",
+    "Filter-xcuLdGR1.js": "2744bd41d015cd1d2ba49ee74aeac574feee34aa4143a62c96233668e7cc6d7b",
+    "getTextureBatchBindGroup-BOmbyaNZ.js": "06c699beb10ceb7fed76cd38e7c4ecf35d1f046e006409337e7282d0e1c766e3",
+    "Cache-D0EC7riK.js": "dbabb6e1f43eb6d837201109d732bf3f67f19aa71687bb63cdb6a7fd721640ad",
+    "getTexelRangeRects-CpZ5iCZB.js": "6b59b3c7636917f10b57587993be4e2d64ae59a54978f8406585ba01788759f6",
+    "browserAll-ifOivv8T.js": "e17cf0aa18c2882b54331990d8905ef72af608de31dc3554f75824fae85741f4",
+    "init-CmGhBQvh.js": "8411f0dc41921179884f82af28b815ac3adef4a164c0c6725caf1098a8f9e64f",
+    "webworkerAll-IxTAZnOU.js": "0b558380dbea57bf9f87fdf1c7247cee454e915d5921e22ba808eb85235dd851",
+    "GCManagedHash-Ap6rl--7.js": "90f7d33c480d46b42fcc058be236f3a7503ca6c9d3f58d181def37afcf6a738f"
+  },
+  "notRun": [
+    "hardware GPU60FPS",
+    "Firefox",
+    "Safari",
+    "manual class/loop balance"
+  ]
+}
