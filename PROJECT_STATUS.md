@@ -76,7 +76,11 @@ Draft PR：https://github.com/sces5504/Solaria-Remaster/pull/2 ，base `docs/sol
 - 戰鬥也可E撿裝備入背包，穿戴仍清關。Boss彈速235、完整環彈14方向，小幅調低密度；地圖以林群／岩岸／林廊／水岸／樹庭／遺跡主題組織，仍種子生成和連通檢查。
 - PASS：113unit；新增刷新限次／重載、格擋和純渲染震動、衝鋒斬、爆炸與預告雷柱、未知圖鑑／59張圖案、20種子各地圖主題，既有連通／掩體／正常HP首房／全部卡片回歸。
 - 本機初次瀏覽器測試發現新profile讀取需要等待界面就緒；已加狀態等待。測試執行中重新建置曾短暫刪除dist造成首頁404，已固定建置並重跑，不視作正式部署故障。
-- PASS：check／build／format:check；13項Chromium場景（完整重跑12項通過，既有穿戴存檔測試補上非同步讀取／保存等待後重跑通過）。新增背景／肖像、圖鑑跨新局、刷新讀檔限次、戰鬥拾取、爆炸／雷柱／冰火／衝鋒拖尾實際WebGL截圖；最新Pages與完整CI結果待發布後記錄。實體GPU60FPS及人工完整五房構築平衡仍NOT_RUN。
+- PASS：check／build／format:check；13項Chromium場景（完整重跑12項通過，既有穿戴存檔測試補上非同步讀取／保存等待後重跑通過）。新增背景／肖像、圖鑑跨新局、刷新讀檔限次、戰鬥拾取、爆炸／雷柱／冰火／衝鋒拖尾實際WebGL截圖；正式CI完整13項亦全數通過。實體GPU60FPS及人工完整五房構築平衡仍NOT_RUN。
+
+- PASS：遊戲commit `f3689fbe524d39a8d2c147e23e29c0ee5f895b46` 已發布；[Pages run 38139794223](https://github.com/sces5504/Solaria-Remaster/actions/runs/38139794223) build／deploy均success，113unit／13Chromium全數通過。
+- PASS：正式Pages雲端Chromium實測HTML／CSS／JS／素材HTTP200，atlas與持武器肖像SHA256一致、法師新局／左鍵保持右技能、舞台／存檔重載、E拾取、Pages子路徑背景、新暫停、刷新後讀檔維持已用、取得卡圖鑑解鎖；pageerror及HTTP失敗均零。
+- 本次記錄的遊戲版本為f3689fb；後續只更新驗證文件的提交不改玩法。
 
 ## 接續範圍
 
