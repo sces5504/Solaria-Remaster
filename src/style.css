@@ -1,25 +1,450 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap");
 :root {
   color-scheme: dark;
-  font-family: system-ui, sans-serif;
-  background: #0b1417;
-  color: #e8eee5;
+  font-family: "Noto Sans TC", system-ui, sans-serif;
+  color: #e4e5dc;
+  background: #101d25;
+  font-synthesis: none;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% 0, #293e46, transparent 70%), #101d25;
+}
+header {
+  height: 72px;
+  padding: 0 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #73857a30;
+  color: #899b9b;
+  font-size: 12px;
+}
+.brand {
+  font:
+    600 21px Georgia,
+    serif;
+  letter-spacing: 6px;
+  text-decoration: none;
+  color: #e2c995;
+}
+.brand span {
+  font: 9px system-ui;
+  letter-spacing: 4px;
+  display: block;
+  margin-top: 4px;
 }
 main {
-  max-width: 960px;
-  margin: 3rem auto;
-  padding: 1rem;
+  padding: 24px 16px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
-h1 {
-  color: #efce86;
-  font-family: Georgia, serif;
+#viewport {
+  position: relative;
+  width: min(1024px, calc((100vh - 155px) * 1.6), 100%);
+  aspect-ratio: 8/5;
+  box-shadow: 0 20px 70px #0008;
+  border: 1px solid #91a29b35;
+  overflow: hidden;
 }
-p {
-  color: #91aaa4;
-}
+#stage,
 canvas {
   display: block;
   width: 100%;
-  height: auto;
-  border: 1px solid #2b4243;
-  border-radius: 8px;
+  height: 100%;
+}
+#stage {
+  position: absolute;
+  inset: 0;
+}
+#hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: 25% 46% 29%;
+  align-items: start;
+  padding: 1.2%;
+  font-size: clamp(9px, 1.2vw, 14px);
+  text-shadow: 0 1px 2px #000;
+}
+.status,
+.room,
+.elements {
+  background: #10202ace;
+  padding: 7px 10px;
+  border-radius: 3px;
+}
+.status small,
+.room small,
+.elements small {
+  display: block;
+  font-size: 0.8em;
+  color: #b5c7c3;
+}
+.room {
+  text-align: center;
+  background: transparent;
+}
+.elements {
+  text-align: right;
+}
+.hp {
+  height: 16px;
+  position: relative;
+  background: #452e37;
+  margin: 4px 0;
+}
+.hp i {
+  display: block;
+  height: 100%;
+  background: #88ad93;
+  transition: width 0.1s;
+}
+.hp span {
+  position: absolute;
+  inset: 0;
+  text-align: center;
+  font: 11px monospace;
+}
+.boss {
+  margin-top: 6px;
+  font-size: 11px;
+}
+.boss > div {
+  height: 6px;
+  background: #282b34;
+}
+.boss i {
+  display: block;
+  height: 100%;
+  background: #d3917e;
+}
+.muted {
+  color: #a4b2b0;
+}
+.gold {
+  color: #dfc996;
+}
+.menu {
+  text-align: center;
+  width: 100%;
+  padding: 4%;
+  background: radial-gradient(ellipse, #152b32e8, #10212aee);
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.eyebrow {
+  color: #bdc7af;
+  font-size: 11px;
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+}
+h1 {
+  font:
+    normal clamp(40px, 8vw, 90px) Georgia,
+    serif;
+  letter-spacing: 12px;
+  margin: 0;
+  color: #eed9a8;
+  text-shadow: 0 4px 25px #d6b67535;
+}
+.tagline {
+  font-size: 14px;
+  letter-spacing: 5px;
+  color: #bccdc5;
+  margin: 18px 0 30px;
+}
+.menu-actions {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  gap: 8px;
+}
+button {
+  font: inherit;
+  color: #e7e4d5;
+  background: #253943;
+  border: 1px solid #829b9145;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+  border-radius: 3px;
+}
+button:hover,
+button:focus-visible {
+  background: #405650;
+  border-color: #d8bf89;
+  outline: none;
+}
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.menu-actions button:first-child {
+  background: #bca277;
+  color: #17242b;
+  font-weight: 700;
+}
+.fine {
+  font-size: 11px;
+  color: #8fa7a5;
+  line-height: 1.8;
+  margin-top: 24px;
+}
+#overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0b1824a6;
+  padding: 20px;
+  overflow: auto;
+}
+#overlay.hidden {
+  display: none;
+}
+.panel {
+  width: min(540px, 95%);
+  max-height: 100%;
+  overflow: auto;
+  background: #162a34f5;
+  border: 1px solid #9eb2a24d;
+  border-top: 2px solid #c7ad7a;
+  padding: 28px;
+  box-shadow: 0 20px 50px #0006;
+  line-height: 1.8;
+}
+.panel.wide {
+  width: 950px;
+  padding: 22px;
+}
+.panel h2 {
+  font-size: 24px;
+  color: #e7d5ad;
+  margin: 0 0 10px;
+}
+.panel p {
+  font-size: 13px;
+  color: #b9c8c5;
+}
+.panel > button {
+  margin: 4px;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 20px 0;
+}
+.card,
+.class-card {
+  padding: 22px 18px;
+  text-align: left;
+  min-height: 240px;
+  position: relative;
+  background: linear-gradient(#29434a, #1c303a);
+  border-top: 3px solid #829fb4;
+}
+.class-card img {
+  display: none;
+}
+.crest {
+  font-size: 38px;
+  color: #e2c995;
+  display: block;
+}
+.card h3,
+.class-card h3 {
+  margin: 14px 0 10px;
+  color: #ece1c6;
+  font-size: 22px;
+}
+.card p,
+.class-card p {
+  line-height: 1.8;
+}
+.card.selected {
+  outline: 2px solid #e2c791;
+  outline-offset: 3px;
+}
+.card.青 {
+  border-top-color: #8bc9c9;
+}
+.card.黃 {
+  border-top-color: #d6ba72;
+}
+.card.紫 {
+  border-top-color: #aa96c6;
+}
+.rarity {
+  font-size: 11px;
+  color: #99c6db;
+}
+.rarity.紫 {
+  color: #c3a9de;
+}
+.rarity.黃 {
+  color: #ead084;
+}
+.rarity.青 {
+  color: #93d8da;
+}
+.equipment {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.bag {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.item {
+  border: 1px solid #809a9144;
+  padding: 10px;
+  font-size: 12px;
+  background: #223740;
+}
+.item.empty {
+  color: #6c868a;
+  min-height: 85px;
+}
+.item button {
+  font-size: 11px;
+  padding: 4px 8px;
+  margin: 4px 3px 0 0;
+}
+.owned {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  max-height: 180px;
+  overflow: auto;
+  margin-bottom: 16px;
+}
+.owned span {
+  padding: 4px 8px;
+  border: 1px solid #698880;
+  font-size: 12px;
+}
+.catalog {
+  max-height: 350px;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.catalog article {
+  background: #223942;
+  padding: 12px;
+}
+.catalog strong {
+  display: block;
+}
+.catalog p {
+  font-size: 11px;
+}
+.saving button[data-action^="choose"],
+.saving button[data-action^="equip"],
+.saving button[data-action^="discard"] {
+  pointer-events: none;
+  opacity: 0.65;
+}
+#toast {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #132431ee;
+  border: 1px solid #c9a66d;
+  padding: 10px 18px;
+  font-size: 13px;
+  text-align: center;
+  pointer-events: none;
+  max-width: 90%;
+}
+#toast:empty {
+  display: none;
+}
+footer {
+  margin: 18px 0;
+  color: #859f9f;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+@media (max-width: 700px) {
+  header {
+    height: 50px;
+  }
+  header > span {
+    display: none;
+  }
+  main {
+    padding: 12px 4px;
+  }
+  .panel {
+    padding: 14px;
+  }
+  .cards {
+    gap: 7px;
+    margin: 10px 0;
+  }
+  .card,
+  .class-card {
+    padding: 10px;
+    min-height: 180px;
+  }
+  .card h3,
+  .class-card h3 {
+    font-size: 16px;
+  }
+  .panel p {
+    font-size: 11px;
+  }
+  .eyebrow {
+    letter-spacing: 1px;
+    font-size: 9px;
+  }
+  .tagline {
+    margin: 10px;
+  }
+  .menu-actions {
+    gap: 4px;
+  }
+  button {
+    padding: 6px 12px;
+  }
+  .fine {
+    margin-top: 10px;
+  }
+  .catalog {
+    grid-template-columns: 1fr 1fr;
+  }
+  .bag {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  footer {
+    font-size: 9px;
+    letter-spacing: 0;
+  }
+}
+@media (pointer: coarse) {
+  footer:after {
+    content: " · 此版本需桌面鍵盤滑鼠，尚未支援觸控";
+    color: #e5bf8c;
+    display: block;
+  }
 }

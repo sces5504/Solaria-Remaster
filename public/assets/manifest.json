@@ -1,0 +1,7 @@
+{
+  "author": "Solaria Remaster procedural artwork",
+  "license": "CC0-1.0",
+  "source": "tools/create-atlas.py",
+  "assets": ["solaria-atlas.png", "atlas.json"],
+  "audio": "Original Web Audio oscillator synthesis in src/audio/mixer.ts; no third-party samples"
+}
