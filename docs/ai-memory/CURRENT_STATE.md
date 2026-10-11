@@ -1,5 +1,17 @@
 # CURRENT_STATE — 最新工作斷點
 
+## S14事件王測試時鐘修正（2026-10-11 21:07:53 UTC）
+
+7716push的Development77全PASS，但同來源PR checks另輪75PASS／2FAIL（聖誕、萬聖三招斷言收到2），重試仍FAIL；完整log保存，不能只選成功輪。前一Pages發布取消避免部署已被取代來源，其browser log也75PASS／2FAIL。386c1d5 setup修复已推；其Pages也取消，准备包含事件測試修復的新來源。
+
+事件測試原先等9.5秒牆鐘；固定核心與渲染分離、慢WebGL有追趕上限，牆鐘不保證模擬已到同一時刻。改等唯讀solariaDiagnostics的核心時間達原fixture+9.5秒；仍由正式RAF／AI執行，匯出attackLog每階段3種斷言保持，不改AI、不跳核心tick、不取消招式。等待上限60秒、每兩階段case180秒。首次本地誤用Pages子路徑dist搭root preview，啟動未完成而中止，不記PASS；停止瀏覽器後正常build再重測。
+
+## M01–M09本輪核對索引
+
+M01：IndexedDB previous交易式回退／保留damaged／提示與再保存，recovery browser PASS。M02：42／48／49／55條件加成移除無條件外溢，handoff-regressions unit PASS。M03：九地形危害与詞條機關週期實際接入；M04：rush／barrage／shield／element按角色獨立精英能力，biomes／monster-details回歸。M05：只接受burn＋ice/freeze，電暈不算冰，逐敵交替與資格回歸PASS。M06：SpatialGrid／真碰撞時間序／彈池／渲染退休池已接入，功能／Cloud JS記憶體PASS；真GPU NOT_RUN，SwiftShader密集場景不達60FPS。M07：主人明示四柱60°缺口特殊例外，GAME_SPEC和DECISIONS已記錄。
+
+M08仍按候選分開：GAME_SPEC第358行禁止「新的主動操作」，已施放快射／延遲反擊屬原施放排程；沒有證據將其繼續判成確診Bug，保留歷史候選。凍結／麻痺欄位與不同畫面回饋已實作，地圖連通／合法出生960seed及王房100seed×4周目有回歸；這不宣稱每種極端seed皆人工走位驗收。M09旧scaffold／F／旧CD／XP等屬歷史，尾部新條文与此次授權優先；不回復舊設定，不補造批准紀錄。
+
 ## S14 CI腳本修復（2026-10-11 20:58:37 UTC）
 
 7716版本Development Checks完整77 Chromium PASS（21.4分鐘），但log顯示runner沒有rg，cloud-setup的unit條件因此被略過；該流程不能記307unit PASS。Pages流程獨立npm test已307 PASS，目前瀏覽器／部署仍執行中。已將setup改成find的非空結果判斷，不依賴rg；無rg的stub PATH確認確實呼叫npm test，bash語法、真實check／307unit再次PASS。保存此修復後推既有implement分支，重新跑完整發布CI與正式站核驗。

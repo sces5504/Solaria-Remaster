@@ -1,5 +1,11 @@
 # PROJECT_STATUS — v1接續開發與發布驗證
 
+## S14事件王測試時鐘修正（2026-10-11 21:07:53 UTC）
+
+7716push的Development77全PASS，但同來源PR checks另輪75PASS／2FAIL（聖誕、萬聖三招斷言收到2），重試仍FAIL；完整log保存，不能只選成功輪。前一Pages發布取消避免部署已被取代來源，其browser log也75PASS／2FAIL。386c1d5 setup修复已推；其Pages也取消，准备包含事件測試修復的新來源。
+
+事件測試原先等9.5秒牆鐘；固定核心與渲染分離、慢WebGL有追趕上限，牆鐘不保證模擬已到同一時刻。改等唯讀solariaDiagnostics的核心時間達原fixture+9.5秒；仍由正式RAF／AI執行，匯出attackLog每階段3種斷言保持，不改AI、不跳核心tick、不取消招式。等待上限60秒、每兩階段case180秒。首次本地誤用Pages子路徑dist搭root preview，啟動未完成而中止，不記PASS；停止瀏覽器後正常build再重測。
+
 ## S14 CI腳本修復（2026-10-11 20:58:37 UTC）
 
 7716版本Development Checks完整77 Chromium PASS（21.4分鐘），但log顯示runner沒有rg，cloud-setup的unit條件因此被略過；該流程不能記307unit PASS。Pages流程獨立npm test已307 PASS，目前瀏覽器／部署仍執行中。已將setup改成find的非空結果判斷，不依賴rg；無rg的stub PATH確認確實呼叫npm test，bash語法、真實check／307unit再次PASS。保存此修復後推既有implement分支，重新跑完整發布CI與正式站核驗。

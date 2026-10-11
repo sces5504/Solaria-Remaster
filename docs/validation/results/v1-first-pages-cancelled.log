@@ -1,0 +1,662 @@
+build	Set up job	﻿2026-10-11T20:31:23.8614958Z Current runner version: '2.337.0'
+build	Set up job	2026-10-11T20:31:23.8641701Z ##[group]Runner Image Provisioner
+build	Set up job	2026-10-11T20:31:23.8642667Z Hosted Compute Agent
+build	Set up job	2026-10-11T20:31:23.8643282Z Version: 20261002.596
+build	Set up job	2026-10-11T20:31:23.8644290Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+build	Set up job	2026-10-11T20:31:23.8645416Z Build Date: 2026-10-02T22:28:27Z
+build	Set up job	2026-10-11T20:31:23.8646161Z Worker ID: {743974c6-5159-44a5-89f4-11a337da858f}
+build	Set up job	2026-10-11T20:31:23.8646968Z Region: westus2
+build	Set up job	2026-10-11T20:31:23.8647506Z Cloud: Azure
+build	Set up job	2026-10-11T20:31:23.8648051Z ##[endgroup]
+build	Set up job	2026-10-11T20:31:23.8649723Z ##[group]Operating System
+build	Set up job	2026-10-11T20:31:23.8650453Z Ubuntu
+build	Set up job	2026-10-11T20:31:23.8651044Z 24.04.5
+build	Set up job	2026-10-11T20:31:23.8651568Z LTS
+build	Set up job	2026-10-11T20:31:23.8652151Z ##[endgroup]
+build	Set up job	2026-10-11T20:31:23.8652750Z ##[group]Runner Image
+build	Set up job	2026-10-11T20:31:23.8653359Z Image: ubuntu-24.04
+build	Set up job	2026-10-11T20:31:23.8653998Z Version: 20261004.327.1
+build	Set up job	2026-10-11T20:31:23.8655332Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+build	Set up job	2026-10-11T20:31:23.8657141Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+build	Set up job	2026-10-11T20:31:23.8658156Z ##[endgroup]
+build	Set up job	2026-10-11T20:31:23.8659308Z ##[group]GITHUB_TOKEN Permissions
+build	Set up job	2026-10-11T20:31:23.8661474Z Contents: read
+build	Set up job	2026-10-11T20:31:23.8662166Z Metadata: read
+build	Set up job	2026-10-11T20:31:23.8662755Z ##[endgroup]
+build	Set up job	2026-10-11T20:31:23.8665245Z Secret source: Actions
+build	Set up job	2026-10-11T20:31:23.8666359Z Cache mode: write
+build	Set up job	2026-10-11T20:31:23.8667274Z Prepare workflow directory
+build	Set up job	2026-10-11T20:31:23.9036313Z Prepare all required actions
+build	Set up job	2026-10-11T20:31:23.9108172Z Getting action download info
+build	Set up job	2026-10-11T20:31:24.2630071Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+build	Set up job	2026-10-11T20:31:24.3723377Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+build	Set up job	2026-10-11T20:31:24.4619189Z Download action repository 'actions/upload-pages-artifact@v3' (SHA:56afc609e74202658d3ffba0e8f6dda462b719fa)
+build	Set up job	2026-10-11T20:31:24.6327783Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+build	Set up job	2026-10-11T20:31:24.8432365Z Getting action download info
+build	Set up job	2026-10-11T20:31:25.0028174Z Complete job name: build
+build	Run actions/checkout@v4	﻿2026-10-11T20:31:25.0835332Z ##[group]Run actions/checkout@v4
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0836385Z with:
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0836850Z   repository: sces5504/Solaria-Remaster
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0840597Z   token: ***
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0841025Z   ssh-strict: true
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0841474Z   ssh-user: git
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0841913Z   persist-credentials: true
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0842399Z   clean: true
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0842837Z   sparse-checkout-cone-mode: true
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0843347Z   fetch-depth: 1
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0843762Z   fetch-tags: false
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0844201Z   show-progress: true
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0844846Z   lfs: false
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0845260Z   submodules: false
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0845707Z   set-safe-directory: true
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0846229Z   allow-unsafe-pr-checkout: false
+build	Run actions/checkout@v4	2026-10-11T20:31:25.0847058Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-11T20:31:25.1886413Z Syncing repository: sces5504/Solaria-Remaster
+build	Run actions/checkout@v4	2026-10-11T20:31:25.1888997Z ##[group]Getting Git version info
+build	Run actions/checkout@v4	2026-10-11T20:31:25.1890271Z Working directory is '/home/runner/work/Solaria-Remaster/Solaria-Remaster'
+build	Run actions/checkout@v4	2026-10-11T20:31:25.1892110Z [command]/usr/bin/git version
+build	Run actions/checkout@v4	2026-10-11T20:31:25.1973830Z git version 2.55.0
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2010658Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2019352Z Temporarily overriding HOME='/home/runner/work/_temp/f0e479be-99c4-4415-92b0-8e19ced998c8' before making global git config changes
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2021760Z Adding repository directory to the temporary git global config as a safe directory
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2026842Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Solaria-Remaster/Solaria-Remaster
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2089102Z Deleting the contents of '/home/runner/work/Solaria-Remaster/Solaria-Remaster'
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2096708Z ##[group]Initializing the repository
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2098027Z [command]/usr/bin/git init /home/runner/work/Solaria-Remaster/Solaria-Remaster
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2241645Z hint: Using 'master' as the name for the initial branch. This default branch name
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2243732Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2245494Z hint: to use in all of your new repositories, which will suppress this warning,
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2247035Z hint: call:
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2247770Z hint:
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2248647Z hint: 	git config --global init.defaultBranch <name>
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2249671Z hint:
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2250866Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2252425Z hint: 'development'. The just-created branch can be renamed via this command:
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2253790Z hint:
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2254654Z hint: 	git branch -m <name>
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2255417Z hint:
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2256431Z hint: Disable this message with "git config set advice.defaultBranchName false"
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2258321Z Initialized empty Git repository in /home/runner/work/Solaria-Remaster/Solaria-Remaster/.git/
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2267739Z [command]/usr/bin/git remote add origin https://github.com/sces5504/Solaria-Remaster
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2319117Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2320524Z ##[group]Disabling automatic garbage collection
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2323230Z [command]/usr/bin/git config --local gc.auto 0
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2364096Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2365593Z ##[group]Setting up auth
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2372888Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2410103Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2923334Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build	Run actions/checkout@v4	2026-10-11T20:31:25.2963784Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build	Run actions/checkout@v4	2026-10-11T20:31:25.3189837Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build	Run actions/checkout@v4	2026-10-11T20:31:25.3227453Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build	Run actions/checkout@v4	2026-10-11T20:31:25.3452339Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+build	Run actions/checkout@v4	2026-10-11T20:31:25.3530154Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-11T20:31:25.3530998Z ##[group]Fetching the repository
+build	Run actions/checkout@v4	2026-10-11T20:31:25.3532976Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +7716ae0d927870205002f862b8921cfd3aafc048:refs/remotes/origin/implement/s00-s05
+build	Run actions/checkout@v4	2026-10-11T20:31:25.8306819Z From https://github.com/sces5504/Solaria-Remaster
+build	Run actions/checkout@v4	2026-10-11T20:31:25.8309315Z  * [new ref]         7716ae0d927870205002f862b8921cfd3aafc048 -> origin/implement/s00-s05
+build	Run actions/checkout@v4	2026-10-11T20:31:25.8314945Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-11T20:31:25.8317133Z ##[group]Determining the checkout info
+build	Run actions/checkout@v4	2026-10-11T20:31:25.8319802Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-11T20:31:25.8321660Z [command]/usr/bin/git sparse-checkout disable
+build	Run actions/checkout@v4	2026-10-11T20:31:25.8383111Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+build	Run actions/checkout@v4	2026-10-11T20:31:25.8416450Z ##[group]Checking out the ref
+build	Run actions/checkout@v4	2026-10-11T20:31:25.8429445Z [command]/usr/bin/git checkout --progress --force -B implement/s00-s05 refs/remotes/origin/implement/s00-s05
+build	Run actions/checkout@v4	2026-10-11T20:31:25.8696421Z Switched to a new branch 'implement/s00-s05'
+build	Run actions/checkout@v4	2026-10-11T20:31:25.8705065Z branch 'implement/s00-s05' set up to track 'origin/implement/s00-s05'.
+build	Run actions/checkout@v4	2026-10-11T20:31:25.8711965Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-11T20:31:25.8756636Z [command]/usr/bin/git log -1 --format=%H
+build	Run actions/checkout@v4	2026-10-11T20:31:25.8783296Z 7716ae0d927870205002f862b8921cfd3aafc048
+build	Run actions/setup-node@v4	﻿2026-10-11T20:31:25.9083105Z ##[group]Run actions/setup-node@v4
+build	Run actions/setup-node@v4	2026-10-11T20:31:25.9083773Z with:
+build	Run actions/setup-node@v4	2026-10-11T20:31:25.9084219Z   node-version: 24
+build	Run actions/setup-node@v4	2026-10-11T20:31:25.9084977Z   cache: npm
+build	Run actions/setup-node@v4	2026-10-11T20:31:25.9085467Z   always-auth: false
+build	Run actions/setup-node@v4	2026-10-11T20:31:25.9085960Z   check-latest: false
+build	Run actions/setup-node@v4	2026-10-11T20:31:25.9089797Z   token: ***
+build	Run actions/setup-node@v4	2026-10-11T20:31:25.9090255Z ##[endgroup]
+build	Run actions/setup-node@v4	2026-10-11T20:31:26.0531909Z Found in cache @ /opt/hostedtoolcache/node/24.21.0/x64
+build	Run actions/setup-node@v4	2026-10-11T20:31:26.0536365Z (node:2322) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build	Run actions/setup-node@v4	2026-10-11T20:31:26.0538545Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build	Run actions/setup-node@v4	2026-10-11T20:31:26.0540467Z ##[group]Environment details
+build	Run actions/setup-node@v4	2026-10-11T20:31:26.5116483Z node: v24.21.0
+build	Run actions/setup-node@v4	2026-10-11T20:31:26.5118477Z npm: 11.19.0
+build	Run actions/setup-node@v4	2026-10-11T20:31:26.5119847Z yarn: 1.22.22
+build	Run actions/setup-node@v4	2026-10-11T20:31:26.5122225Z ##[endgroup]
+build	Run actions/setup-node@v4	2026-10-11T20:31:26.5141697Z [command]/opt/hostedtoolcache/node/24.21.0/x64/bin/npm config get cache
+build	Run actions/setup-node@v4	2026-10-11T20:31:26.6378132Z /home/runner/.npm
+build	Run actions/setup-node@v4	2026-10-11T20:31:26.8910069Z npm cache is not found
+build	Run npm ci	﻿2026-10-11T20:31:26.9095232Z ##[group]Run npm ci
+build	Run npm ci	2026-10-11T20:31:26.9096387Z [36;1mnpm ci[0m
+build	Run npm ci	2026-10-11T20:31:26.9397599Z shell: /usr/bin/bash -e {0}
+build	Run npm ci	2026-10-11T20:31:26.9398877Z ##[endgroup]
+build	Run npm ci	2026-10-11T20:31:32.2126042Z 
+build	Run npm ci	2026-10-11T20:31:32.2133879Z added 57 packages, and audited 58 packages in 5s
+build	Run npm ci	2026-10-11T20:31:32.2134969Z 
+build	Run npm ci	2026-10-11T20:31:32.2135668Z 15 packages are looking for funding
+build	Run npm ci	2026-10-11T20:31:32.2138016Z   run `npm fund` for details
+build	Run npm ci	2026-10-11T20:31:32.2138319Z 
+build	Run npm ci	2026-10-11T20:31:32.2138543Z found 0 vulnerabilities
+build	Run npm run check && npm test && npm run format:check	﻿2026-10-11T20:31:32.2736623Z ##[group]Run npm run check && npm test && npm run format:check
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:32.2737427Z [36;1mnpm run check && npm test && npm run format:check[0m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:32.2825293Z shell: /usr/bin/bash -e {0}
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:32.2825727Z ##[endgroup]
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:32.3931567Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:32.3932673Z > solaria-remaster@1.0.0 check
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:32.3933298Z > tsc --noEmit
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:32.3933549Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:33.1889522Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:33.1889999Z > solaria-remaster@1.0.0 test
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:33.1890369Z > vitest run
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:33.1890514Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:33.4752963Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:33.4766106Z [1m[30m[46m RUN [49m[39m[22m [36mv5.0.3 [39m[90m/home/runner/work/Solaria-Remaster/Solaria-Remaster[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:33.4766617Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:34.0915401Z  [32m✓[39m tests/unit/cards.test.ts [2m([22m[2m61 tests[22m[2m)[22m[32m 139[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:34.1888441Z  [32m✓[39m tests/unit/advanced-cards.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 207[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:34.8326686Z  [32m✓[39m tests/unit/events.test.ts [2m([22m[2m19 tests[22m[2m)[22m[33m 377[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:35.0317541Z  [32m✓[39m tests/unit/simulation.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 1044[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:35.0357459Z    [32m✓[39m C10–18 元素、卡池、地圖与 Boss [2m(9)[22m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:35.0358417Z      [33m[2m✓[22m[39m 三選一先色後池、不同卡、職業與資格，持續卡不重抽[33m 784[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:35.3152624Z  [32m✓[39m tests/unit/equipment-abilities.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 68[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:35.5882304Z  [32m✓[39m tests/unit/last-polish.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 147[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:36.0456696Z  [32m✓[39m tests/unit/radiance.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 223[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:36.0706240Z  [32m✓[39m tests/unit/feedback.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 505[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:36.0775817Z    [32m✓[39m 第一里程碑試玩回饋 [2m(10)[22m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:36.0790657Z      [33m[2m✓[22m[39m 相同模板不同 seed 有不同植被／掩體，不改動出生和門口[33m 332[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:36.5004256Z  [32m✓[39m tests/unit/journey.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 242[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:36.5136911Z  [32m✓[39m tests/unit/resonance.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 146[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:36.8261156Z  [32m✓[39m tests/unit/monster-details.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 116[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:39.1608016Z  [32m✓[39m tests/unit/equipment-integration.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 4834[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:39.1632084Z    [33m[2m✓[22m[39m 一般掉落含8橘／3普通紅、紅兩詞橘三詞，事件不入池，地形與周目成長不放大吸血[33m 4752[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:39.5016886Z  [32m✓[39m tests/unit/biome-bosses.test.ts [2m([22m[2m35 tests[22m[2m)[22m[33m 2438[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:39.5065663Z    [33m[2m✓[22m[39m BOSS-18 蝕星大法師 兩階段各三獨立招式持續可觀察[33m 310[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:39.8086353Z  [32m✓[39m tests/unit/profile.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 61[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:40.0520638Z  [32m✓[39m tests/unit/conditional-cards.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:40.1513832Z  [32m✓[39m tests/unit/polish.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 758[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:40.1535940Z    [33m[2m✓[22m[39m 程序生成全部可走格連通、種子可重現，普通房及王房有足夠實體掩體[33m 595[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:40.3226361Z  [32m✓[39m tests/unit/contact-timeline.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 45[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:40.4112689Z  [32m✓[39m tests/unit/handoff-regressions.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:40.7127013Z  [32m✓[39m tests/unit/stress.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 84[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:41.0296323Z  [32m✓[39m tests/unit/milestone.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 97[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:41.2190144Z  [32m✓[39m tests/unit/collision-time.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:41.4149606Z  [32m✓[39m tests/unit/playability.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 888[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:41.4196167Z    [33m[2m✓[22m[39m sword 固定種子首房可用普通攻擊與職技清關，無免傷／改敵血[33m 309[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:41.4221376Z    [33m[2m✓[22m[39m bow 固定種子首房可用普通攻擊與職技清關，無免傷／改敵血[33m 430[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:41.4277743Z  [32m✓[39m tests/unit/projectile-pool.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 17[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:41.9529067Z  [32m✓[39m tests/unit/bosses.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 335[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:42.1537030Z  [32m✓[39m tests/unit/solar-arena.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 503[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:42.1545703Z    [33m[2m✓[22m[39m 日輪王房跨100seed各周目保有中央通路、四封印位置與可破壞掩體[33m 501[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:42.3271270Z  [32m✓[39m tests/unit/clock.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 4[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:42.8616480Z  [32m✓[39m tests/unit/biomes.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 6152[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:42.8625739Z    [33m[2m✓[22m[39m desert 六程序房型保留通路、掩體及合法原生怪[33m 784[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:42.8635991Z    [33m[2m✓[22m[39m icefield 六程序房型保留通路、掩體及合法原生怪[33m 789[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:42.8637136Z    [33m[2m✓[22m[39m volcano 六程序房型保留通路、掩體及合法原生怪[33m 740[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:42.8638302Z    [33m[2m✓[22m[39m jungle 六程序房型保留通路、掩體及合法原生怪[33m 733[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:42.8639371Z    [33m[2m✓[22m[39m corruption 六程序房型保留通路、掩體及合法原生怪[33m 752[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:42.8662063Z    [33m[2m✓[22m[39m crimson 六程序房型保留通路、掩體及合法原生怪[33m 652[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:42.8663263Z    [33m[2m✓[22m[39m stars 六程序房型保留通路、掩體及合法原生怪[33m 639[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:42.8665152Z    [33m[2m✓[22m[39m castle 六程序房型保留通路、掩體及合法原生怪[33m 627[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.3815516Z  [32m✓[39m tests/unit/pathing.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 1204[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.3817732Z    [33m[2m✓[22m[39m 50 seeded ordinary rooms progress without AI pathing stalls[33m 1202[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.3860346Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.3867076Z [2m Test Files [22m [1m[32m28 passed[39m[22m[90m (28)[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.3875617Z [2m      Tests [22m [1m[32m307 passed[39m[22m[90m (307)[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.3876593Z [2m   Start at [22m 20:31:33
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.3877888Z [2m   Duration [22m 9.90s[2m (tests 87%, import 8%, transform 5%, worker 1%)[22m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.3896311Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.3897457Z [2m    Isolate [22m [33m28 workers spawned[39m[2m · ~137ms startup each (spawn + environment, per file)[22m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.3899525Z [2m            [22m [2mat least ~1.14s faster with [22m[33misolate: false[39m[2m — reuses workers across files instead of one per file[22m
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.3900482Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.5154829Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.5155560Z > solaria-remaster@1.0.0 format:check
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.5156269Z > prettier --check .
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.5156477Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:43.6008325Z Checking formatting...
+build	Run npm run check && npm test && npm run format:check	2026-10-11T20:31:47.9982160Z All matched files use Prettier code style!
+build	Run npx playwright install --with-deps chromium	﻿2026-10-11T20:31:48.0473641Z ##[group]Run npx playwright install --with-deps chromium
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:48.0474105Z [36;1mnpx playwright install --with-deps chromium[0m
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:48.0537974Z shell: /usr/bin/bash -e {0}
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:48.0538260Z ##[endgroup]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:48.8442723Z Installing dependencies...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:48.8529283Z Switching to root user to install dependencies...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:48.9634906Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.0053891Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.0055777Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.0070395Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.0145445Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.0185423Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.1573298Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [492 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.1696862Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main all Packages [640 B]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.1716425Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [548 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.1765654Z Get:10 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.3 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.2100605Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1375 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.2195694Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [306 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.2197106Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1702 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.2287473Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [342 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.2309897Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1761 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.2396704Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [401 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.2427147Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [55.0 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.2430616Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.3 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.3256350Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1121 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.3312664Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [228 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.3736854Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1220 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.3800840Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [245 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.3822157Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1669 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.3918592Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [383 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.3941161Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [49.8 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:49.3953095Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse Translation-en [12.4 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:52.4314916Z Fetched 12.3 MB in 1s (9530 kB/s)
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.2927683Z Reading package lists...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.3175611Z Reading package lists...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.5127262Z Building dependency tree...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.5134455Z Reading state information...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6772843Z libasound2t64 is already the newest version (1.2.11-1ubuntu0.3).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6773718Z libasound2t64 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6775018Z libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6776042Z libatk-bridge2.0-0t64 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6776690Z libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6777783Z libatk1.0-0t64 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6778348Z libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6778900Z libatspi2.0-0t64 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6779723Z libcairo2 is already the newest version (1.18.0-3build1).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6780515Z libcairo2 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6781225Z libcups2t64 is already the newest version (2.4.7-1.2ubuntu7.14).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6781758Z libcups2t64 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6782294Z libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6782817Z libdbus-1-3 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6783587Z libdrm2 is already the newest version (2.4.125-1ubuntu0.1~24.04.2).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6784142Z libdrm2 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6784916Z libgbm1 is already the newest version (25.2.8-0ubuntu0.24.04.4).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6785438Z libgbm1 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6785981Z libglib2.0-0t64 is already the newest version (2.80.0-6ubuntu3.9).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6786605Z libglib2.0-0t64 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6787036Z libnspr4 is already the newest version (2:4.35-1.1build1).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6787425Z libnspr4 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6787831Z libnss3 is already the newest version (2:3.98-1ubuntu0.2).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6788214Z libnss3 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6788635Z libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6789054Z libpango-1.0-0 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6789535Z libx11-6 is already the newest version (2:1.8.7-1build1).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6812485Z libx11-6 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6813120Z libxcb1 is already the newest version (1.15-1ubuntu2).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6813735Z libxcb1 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6814704Z libxcomposite1 is already the newest version (1:0.4.5-1build3).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6815445Z libxcomposite1 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6816248Z libxdamage1 is already the newest version (1:1.1.6-1build1).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6816982Z libxdamage1 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6817684Z libxext6 is already the newest version (2:1.3.4-1build2).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6818340Z libxext6 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6819038Z libxfixes3 is already the newest version (1:6.0.0-2build1).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6819760Z libxfixes3 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6820499Z libxkbcommon0 is already the newest version (1.6.0-1build1).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6821230Z libxkbcommon0 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6821976Z libxrandr2 is already the newest version (2:1.5.2-2build1).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6823043Z libxrandr2 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6823803Z xvfb is already the newest version (2:21.1.12-1ubuntu1.8).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6825135Z fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6826177Z libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6826955Z libfontconfig1 set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6827728Z fonts-liberation is already the newest version (1:2.1.5-3).
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6828433Z fonts-liberation set to manually installed.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6829189Z The following additional packages will be installed:
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6829897Z   xfonts-encodings xfonts-utils
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6830219Z Recommended packages:
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.6830517Z   fonts-ipafont-mincho fonts-tlwg-loma
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.7014807Z The following NEW packages will be installed:
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.7015515Z   fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.7024168Z   fonts-wqy-zenhei xfonts-cyrillic xfonts-encodings xfonts-scalable
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.7025315Z   xfonts-utils
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.7030254Z The following packages will be upgraded:
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.7036540Z   libfreetype6
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.7219375Z 1 upgraded, 9 newly installed, 0 to remove and 22 not upgraded.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.7219891Z Need to get 21.5 MB of archives.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.7220344Z After this operation, 79.5 MB of additional disk space will be used.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.7220864Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:53.8993457Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:54.2389427Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:54.6877060Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:54.8519437Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:55.1625564Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:55.6979020Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libfreetype6 amd64 2.13.2+dfsg-1ubuntu0.2 [403 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:55.8716611Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.0540801Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.2134884Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.3866387Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.6569829Z Fetched 21.5 MB in 3s (7992 kB/s)
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.6828008Z Selecting previously unselected package fonts-ipafont-gothic.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.7177972Z (Reading database ... 
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.7178907Z (Reading database ... 5%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.7179427Z (Reading database ... 10%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.7179781Z (Reading database ... 15%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.7180214Z (Reading database ... 20%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.7180684Z (Reading database ... 25%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.7181133Z (Reading database ... 30%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.7181565Z (Reading database ... 35%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.7182061Z (Reading database ... 40%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.7182522Z (Reading database ... 45%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.7182858Z (Reading database ... 50%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.7321877Z (Reading database ... 55%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:56.8248789Z (Reading database ... 60%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:57.0325586Z (Reading database ... 65%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:57.2232634Z (Reading database ... 70%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:57.4198121Z (Reading database ... 75%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:57.5283101Z (Reading database ... 80%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:57.6971806Z (Reading database ... 85%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:57.8765575Z (Reading database ... 90%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:57.9897158Z (Reading database ... 95%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:57.9897985Z (Reading database ... 100%
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:57.9898961Z (Reading database ... 203191 files and directories currently installed.)
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:57.9942231Z Preparing to unpack .../0-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.0035691Z Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.2295900Z Selecting previously unselected package fonts-freefont-ttf.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.2423441Z Preparing to unpack .../1-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.2431275Z Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.3243076Z Selecting previously unselected package fonts-tlwg-loma-otf.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.3370367Z Preparing to unpack .../2-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.3378988Z Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.3592499Z Selecting previously unselected package fonts-unifont.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.3722580Z Preparing to unpack .../3-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.3732304Z Unpacking fonts-unifont (1:15.1.01-1build1) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.4796302Z Selecting previously unselected package fonts-wqy-zenhei.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.4927219Z Preparing to unpack .../4-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.5068027Z Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.9901255Z Preparing to unpack .../5-libfreetype6_2.13.2+dfsg-1ubuntu0.2_amd64.deb ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:58.9936134Z Unpacking libfreetype6:amd64 (2.13.2+dfsg-1ubuntu0.2) over (2.13.2+dfsg-1ubuntu0.1) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.0193858Z Selecting previously unselected package xfonts-encodings.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.0322228Z Preparing to unpack .../6-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.0330921Z Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.0651796Z Selecting previously unselected package xfonts-utils.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.0782768Z Preparing to unpack .../7-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.0791047Z Unpacking xfonts-utils (1:7.7+6build3) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.1202450Z Selecting previously unselected package xfonts-cyrillic.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.1330428Z Preparing to unpack .../8-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.1339401Z Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.1683138Z Selecting previously unselected package xfonts-scalable.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.1810315Z Preparing to unpack .../9-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.1819980Z Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.2253520Z Setting up fonts-wqy-zenhei (0.9.45-8) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.2373706Z Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.2394070Z Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.2414093Z Setting up libfreetype6:amd64 (2.13.2+dfsg-1ubuntu0.2) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.2434831Z Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.2453848Z Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.2520840Z update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.2538688Z Setting up fonts-unifont (1:15.1.01-1build1) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.2558435Z Setting up xfonts-utils (1:7.7+6build3) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.2600199Z Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.2931490Z Setting up xfonts-scalable (1:1.0.3-1.3) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.3203095Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.3571847Z Processing triggers for man-db (2.12.0-4build2) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.3595265Z Not building database; man-db/auto-update is not 'true'.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:31:59.3608863Z Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:00.2078503Z 
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:00.2079196Z Running kernel seems to be up-to-date.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:00.2079595Z 
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:00.2079756Z Restarting services...
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:00.2163380Z  systemctl restart php8.3-fpm.service
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:00.3249745Z 
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:00.3251235Z No containers need to be restarted.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:00.3251643Z 
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:00.3251993Z No user sessions are running outdated binaries.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:00.3252385Z 
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:00.3252916Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:01.3191655Z Downloading Chrome for Testing 156.0.8078.4 (playwright chromium v1248) from https://cdn.playwright.dev/builds/cft/156.0.8078.4/linux64/chrome-linux64.zip
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:01.7291294Z |                                                                                |   0% of 191.1 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:01.9529118Z |■■■■■■■■                                                                        |  10% of 191.1 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:02.0479059Z |■■■■■■■■■■■■■■■■                                                                |  20% of 191.1 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:02.1514705Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 191.1 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:02.2312461Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 191.1 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:02.3204890Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 191.1 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:02.4132203Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 191.1 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:02.4859669Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 191.1 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:02.5946530Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 191.1 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:02.6801912Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 191.1 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:02.8003672Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 191.1 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.0535102Z Chrome for Testing 156.0.8078.4 (playwright chromium v1248) downloaded to /home/runner/.cache/ms-playwright/chromium-1248
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.0539665Z Downloading FFmpeg (playwright ffmpeg v1013) from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1013/ffmpeg-linux.zip
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.4325956Z |                                                                                |   0% of 2.2 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.4438979Z |■■■■■■■■                                                                        |  10% of 2.2 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.4499437Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.2 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.4550863Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.2 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.4588084Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.2 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.4607716Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.2 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.4638910Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.2 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.4652228Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.2 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.4677993Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.2 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.4701090Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.2 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.4710673Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.2 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.5353471Z FFmpeg (playwright ffmpeg v1013) downloaded to /home/runner/.cache/ms-playwright/ffmpeg-1013
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.5357564Z Downloading Chrome Headless Shell 156.0.8078.4 (playwright chromium-headless-shell v1248) from https://cdn.playwright.dev/builds/cft/156.0.8078.4/linux64/chrome-headless-shell-linux64.zip
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:06.9336528Z |                                                                                |   0% of 120 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:07.0577334Z |■■■■■■■■                                                                        |  10% of 120 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:07.1404193Z |■■■■■■■■■■■■■■■■                                                                |  20% of 120 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:07.2103718Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 120 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:07.2993541Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 120 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:07.3612206Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 120 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:07.4323528Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 120 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:07.5106059Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 120 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:07.5653192Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 120 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:07.6383632Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 120 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:07.7077681Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 120 MiB
+build	Run npx playwright install --with-deps chromium	2026-10-11T20:32:10.1213179Z Chrome Headless Shell 156.0.8078.4 (playwright chromium-headless-shell v1248) downloaded to /home/runner/.cache/ms-playwright/chromium_headless_shell-1248
+build	Run npm run build && npm run test:browser	﻿2026-10-11T20:32:10.1566766Z ##[group]Run npm run build && npm run test:browser
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:10.1567181Z [36;1mnpm run build && npm run test:browser[0m
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:10.1630978Z shell: /usr/bin/bash -e {0}
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:10.1631261Z ##[endgroup]
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:10.2637793Z 
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:10.2638438Z > solaria-remaster@1.0.0 build
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:10.2638910Z > tsc --noEmit && vite build
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:10.2639149Z 
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.0577740Z [36mvite v8.3.4 [32mbuilding client environment for production...[36m[39m
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.0677268Z transforming...
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.2425681Z ✓ 784 modules transformed.
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.2951399Z rendering chunks...
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3665583Z computing gzip size...
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3739491Z dist/index.html                                     1.17 kB │ gzip:   0.45 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3741478Z dist/assets/index-DVzu8Ybk.css                     19.81 kB │ gzip:   5.98 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3743465Z dist/assets/webworkerAll-jIRtB56O.js                0.05 kB │ gzip:   0.06 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3745741Z dist/assets/getTextureBatchBindGroup-BOmbyaNZ.js    0.34 kB │ gzip:   0.26 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3747491Z dist/assets/Cache-D0EC7riK.js                       1.10 kB │ gzip:   0.56 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3749003Z dist/assets/canvasUtils-B5KrsTsU.js                 6.01 kB │ gzip:   2.04 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3750355Z dist/assets/getTexelRangeRects-CpZ5iCZB.js         11.35 kB │ gzip:   2.99 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3751630Z dist/assets/init-CmGhBQvh.js                       15.20 kB │ gzip:   4.73 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3752905Z dist/assets/GCManagedHash-Ap6rl--7.js              19.33 kB │ gzip:   6.28 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3754064Z dist/assets/Filter-xcuLdGR1.js                     41.95 kB │ gzip:  12.02 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3755375Z dist/assets/browserAll-CtT2IWa2.js                 43.51 kB │ gzip:  11.25 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3756529Z dist/assets/RenderTargetSystem-LneVKNDZ.js         58.80 kB │ gzip:  16.47 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3757692Z dist/assets/GraphicsContext-BdlONEsd.js            61.68 kB │ gzip:  20.62 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3758793Z dist/assets/CanvasPool-CTz6W2rm.js                 71.18 kB │ gzip:  23.30 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3759839Z dist/assets/index-C1eSlw0f.js                     496.78 kB │ gzip: 163.88 kB
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3760323Z 
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.3760574Z [32m✓ built in 316ms[39m
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.4974160Z 
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.4975018Z > solaria-remaster@1.0.0 test:browser
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.4975551Z > playwright test
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:11.4975735Z 
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:13.4312839Z 
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:13.4313549Z Running 77 tests using 1 worker
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:50.4669150Z (node:3441) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+build	Run npm run build && npm run test:browser	2026-10-11T20:32:50.4670573Z (Use `node --trace-warnings ...` to show where the warning was created)
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:22.8402297Z ·······································××F××F···································
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1621944Z ·
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1630943Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1642937Z   1) tests/browser/events.spec.ts:62:3 › christmas 事件王兩階段各三招實際場景 ───────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1644180Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1646424Z     Error: expect(received).toBe(expected) // Object.is equality
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1646876Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1647035Z     Expected: 3
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1647433Z     Received: 2
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1647648Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1648163Z       83 |           saved.current.attackLog.filter((v: string) => v.startsWith(prefix)),
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1648891Z       84 |         ).size,
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1649279Z     > 85 |       ).toBe(3);
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1649660Z          |         ^
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1650013Z       86 |       await page
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1650366Z       87 |         .locator("#overlay")
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1651115Z       88 |         .evaluate((el) => (el.style.visibility = "hidden"));
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1651935Z         at /home/runner/work/Solaria-Remaster/Solaria-Remaster/tests/browser/events.spec.ts:85:9
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1653023Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1653690Z     Error Context: test-results/events-christmas-事件王兩階段各三招實際場景/error-context.md
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1654118Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1654863Z     attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1655557Z     test-results/events-christmas-事件王兩階段各三招實際場景/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1655933Z     Usage:
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1656053Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1656459Z         npx playwright show-trace test-results/events-christmas-事件王兩階段各三招實際場景/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1656856Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1657241Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1657572Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1657969Z     Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1658297Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1658526Z     Error: expect(received).toBe(expected) // Object.is equality
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1658841Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1658932Z     Expected: 3
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1659153Z     Received: 2
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1659294Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1659604Z       83 |           saved.current.attackLog.filter((v: string) => v.startsWith(prefix)),
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1660066Z       84 |         ).size,
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1660321Z     > 85 |       ).toBe(3);
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1660571Z          |         ^
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1660801Z       86 |       await page
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1661068Z       87 |         .locator("#overlay")
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1661455Z       88 |         .evaluate((el) => (el.style.visibility = "hidden"));
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1662355Z         at /home/runner/work/Solaria-Remaster/Solaria-Remaster/tests/browser/events.spec.ts:85:9
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1663123Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1663852Z     Error Context: test-results/events-christmas-事件王兩階段各三招實際場景-retry1/error-context.md
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1664692Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1665539Z     attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1666620Z     test-results/events-christmas-事件王兩階段各三招實際場景-retry1/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1667397Z     Usage:
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1667530Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1668149Z         npx playwright show-trace test-results/events-christmas-事件王兩階段各三招實際場景-retry1/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1668526Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1668884Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1669169Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1669519Z     Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1669803Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1670010Z     Error: expect(received).toBe(expected) // Object.is equality
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1670279Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1670364Z     Expected: 3
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1670565Z     Received: 2
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1670682Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1670954Z       83 |           saved.current.attackLog.filter((v: string) => v.startsWith(prefix)),
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1671538Z       84 |         ).size,
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1671773Z     > 85 |       ).toBe(3);
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1671992Z          |         ^
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1672200Z       86 |       await page
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1672456Z       87 |         .locator("#overlay")
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1672820Z       88 |         .evaluate((el) => (el.style.visibility = "hidden"));
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1673375Z         at /home/runner/work/Solaria-Remaster/Solaria-Remaster/tests/browser/events.spec.ts:85:9
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1673734Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1674107Z     Error Context: test-results/events-christmas-事件王兩階段各三招實際場景-retry2/error-context.md
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1675090Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1675805Z     attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1676586Z     test-results/events-christmas-事件王兩階段各三招實際場景-retry2/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1676932Z     Usage:
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1677049Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1677445Z         npx playwright show-trace test-results/events-christmas-事件王兩階段各三招實際場景-retry2/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1677822Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1678162Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1678446Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1678854Z   2) tests/browser/events.spec.ts:62:3 › halloween 事件王兩階段各三招實際場景 ───────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1679202Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1679406Z     Error: expect(received).toBe(expected) // Object.is equality
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1679657Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1679742Z     Expected: 3
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1679936Z     Received: 2
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1680051Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1680318Z       83 |           saved.current.attackLog.filter((v: string) => v.startsWith(prefix)),
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1680725Z       84 |         ).size,
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1680943Z     > 85 |       ).toBe(3);
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1681160Z          |         ^
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1681376Z       86 |       await page
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1681643Z       87 |         .locator("#overlay")
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1682200Z       88 |         .evaluate((el) => (el.style.visibility = "hidden"));
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1683122Z         at /home/runner/work/Solaria-Remaster/Solaria-Remaster/tests/browser/events.spec.ts:85:9
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1683789Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1684582Z     Error Context: test-results/events-halloween-事件王兩階段各三招實際場景/error-context.md
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1685151Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1685875Z     attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1686895Z     test-results/events-halloween-事件王兩階段各三招實際場景/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1687432Z     Usage:
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1687617Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1688243Z         npx playwright show-trace test-results/events-halloween-事件王兩階段各三招實際場景/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1688846Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1689469Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1689999Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1690641Z     Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1691181Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1691536Z     Error: expect(received).toBe(expected) // Object.is equality
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1691993Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1692131Z     Expected: 3
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1692459Z     Received: 2
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1692661Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1693139Z       83 |           saved.current.attackLog.filter((v: string) => v.startsWith(prefix)),
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1693885Z       84 |         ).size,
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1694451Z     > 85 |       ).toBe(3);
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1694867Z          |         ^
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1695233Z       86 |       await page
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1695683Z       87 |         .locator("#overlay")
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1696317Z       88 |         .evaluate((el) => (el.style.visibility = "hidden"));
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1697520Z         at /home/runner/work/Solaria-Remaster/Solaria-Remaster/tests/browser/events.spec.ts:85:9
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1698138Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1698773Z     Error Context: test-results/events-halloween-事件王兩階段各三招實際場景-retry1/error-context.md
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1699347Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1700001Z     attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1700996Z     test-results/events-halloween-事件王兩階段各三招實際場景-retry1/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1701548Z     Usage:
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1701710Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1702346Z         npx playwright show-trace test-results/events-halloween-事件王兩階段各三招實際場景-retry1/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1702936Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1703523Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1703990Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1704767Z     Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1705266Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1705584Z     Error: expect(received).toBe(expected) // Object.is equality
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1706170Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1706306Z     Expected: 3
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1706620Z     Received: 2
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1706805Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1707233Z       83 |           saved.current.attackLog.filter((v: string) => v.startsWith(prefix)),
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1707888Z       84 |         ).size,
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1708237Z     > 85 |       ).toBe(3);
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1708578Z          |         ^
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1708897Z       86 |       await page
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1709312Z       87 |         .locator("#overlay")
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1709886Z       88 |         .evaluate((el) => (el.style.visibility = "hidden"));
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1710813Z         at /home/runner/work/Solaria-Remaster/Solaria-Remaster/tests/browser/events.spec.ts:85:9
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1711415Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1712026Z     Error Context: test-results/events-halloween-事件王兩階段各三招實際場景-retry2/error-context.md
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1712595Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1713239Z     attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1714511Z     test-results/events-halloween-事件王兩階段各三招實際場景-retry2/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1715105Z     Usage:
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1715280Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1715942Z         npx playwright show-trace test-results/events-halloween-事件王兩階段各三招實際場景-retry2/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1716534Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1717116Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1717587Z 
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1717892Z   Slow test file: tests/browser/biome-bosses.spec.ts (8.5m)
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1718929Z   Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1719739Z   2 failed
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1720596Z     tests/browser/events.spec.ts:62:3 › christmas 事件王兩階段各三招實際場景 ────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1722033Z     tests/browser/events.spec.ts:62:3 › halloween 事件王兩階段各三招實際場景 ────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1722778Z   75 passed (31.2m)
+build	Run npm run build && npm run test:browser	2026-10-11T21:03:23.1978869Z ##[error]The operation was canceled.
+build	Post Run actions/checkout@v4	﻿2026-10-11T21:03:23.2136411Z Post job cleanup.
+build	Post Run actions/checkout@v4	2026-10-11T21:03:23.3030284Z [command]/usr/bin/git version
+build	Post Run actions/checkout@v4	2026-10-11T21:03:23.3074197Z git version 2.55.0
+build	Post Run actions/checkout@v4	2026-10-11T21:03:23.3119235Z Temporarily overriding HOME='/home/runner/work/_temp/e656e66e-49d9-4458-a6ef-a2628babf487' before making global git config changes
+build	Post Run actions/checkout@v4	2026-10-11T21:03:23.3120951Z Adding repository directory to the temporary git global config as a safe directory
+build	Post Run actions/checkout@v4	2026-10-11T21:03:23.3124075Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Solaria-Remaster/Solaria-Remaster
+build	Post Run actions/checkout@v4	2026-10-11T21:03:23.3167795Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build	Post Run actions/checkout@v4	2026-10-11T21:03:23.3214210Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build	Post Run actions/checkout@v4	2026-10-11T21:03:23.3460162Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build	Post Run actions/checkout@v4	2026-10-11T21:03:23.3492192Z http.https://github.com/.extraheader
+build	Post Run actions/checkout@v4	2026-10-11T21:03:23.3503722Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+build	Post Run actions/checkout@v4	2026-10-11T21:03:23.3549863Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build	Post Run actions/checkout@v4	2026-10-11T21:03:23.3809027Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build	Post Run actions/checkout@v4	2026-10-11T21:03:23.3848697Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build	Complete job	﻿2026-10-11T21:03:23.4250861Z Cleaning up orphan processes
+build	Complete job	2026-10-11T21:03:23.4543531Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

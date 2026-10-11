@@ -62,6 +62,7 @@ for (const id of ["christmas", "halloween"] as EventId[])
   test(`${id} 事件王兩階段各三招實際場景`, async ({ page }, info) => {
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
+    test.setTimeout(180000);
     for (const phase of [1, 2] as const) {
       const r = fixture(id);
       r.event!.wave = 3;
@@ -70,7 +71,23 @@ for (const id of ["christmas", "halloween"] as EventId[])
       if (phase === 2) r.enemies[0].hp = r.enemies[0].maxHP * 0.49;
       await load(page, r);
       await page.getByRole("button", { name: "進入戰鬥", exact: true }).click();
-      await page.waitForTimeout(9500);
+      // A slow software renderer can spend 9.5s wall time advancing fewer
+      // simulation ticks. Wait for the actual core clock, keeping all three
+      // real AI attack assertions and the normal render loop intact.
+      await expect
+        .poll(
+          () =>
+            page.evaluate(
+              () =>
+                (
+                  window as unknown as {
+                    solariaDiagnostics: () => { core: { time: number } };
+                  }
+                ).solariaDiagnostics().core.time,
+            ),
+          { timeout: 60000 },
+        )
+        .toBeGreaterThanOrEqual(r.time + 9.5);
       await page.keyboard.press("Escape");
       const download = page.waitForEvent("download");
       await page.getByRole("button", { name: "匯出存檔", exact: true }).click();

@@ -16,7 +16,7 @@
 
 必跑check／unit／build／browser／format，browser期间不改dist。GitHub Pages Actions在既有允許分支上build、全部CI回歸成功才deploy。正式網址驗證子路徑資源200及本地來源SHA256、正常新局／同時左普攻右職技／保存reload、直接繼續53691bf原始核心生成的旧IndexedDB格式並再次保存。
 
-工具：PLAYWRIGHT_BROWSERS_PATH設定後，`./node_modules/.bin/playwright test --config tools/validation/pages.config.ts`。預檢以SOLARIA_VERIFY_URL=http://127.0.0.1:4173/，發布後預設正式網址。這是實際URL測試，不代替人工通關。
+工具：PLAYWRIGHT_BROWSERS_PATH設定後，`./node_modules/.bin/playwright test --config tools/validation/pages.config.ts`。子路徑預檢先SOLARIA_PAGES=1 build，再以相同環境啟動4174 preview並設SOLARIA_VERIFY_URL=http://127.0.0.1:4174/Solaria-Remaster/；發布後預設正式網址。這是實際URL測試，不代替人工通關。
 
 ## 明示未驗收
 

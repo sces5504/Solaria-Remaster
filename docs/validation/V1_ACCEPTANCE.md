@@ -1,5 +1,26 @@
 # v1內容與實際驗收矩陣
 
+## S14事件王測試時鐘修正（2026-10-11 21:07:53 UTC）
+
+7716push的Development77全PASS，但同來源PR checks另輪75PASS／2FAIL（聖誕、萬聖三招斷言收到2），重試仍FAIL；完整log保存，不能只選成功輪。前一Pages發布取消避免部署已被取代來源，其browser log也75PASS／2FAIL。386c1d5 setup修复已推；其Pages也取消，准备包含事件測試修復的新來源。
+
+事件測試原先等9.5秒牆鐘；固定核心與渲染分離、慢WebGL有追趕上限，牆鐘不保證模擬已到同一時刻。改等唯讀solariaDiagnostics的核心時間達原fixture+9.5秒；仍由正式RAF／AI執行，匯出attackLog每階段3種斷言保持，不改AI、不跳核心tick、不取消招式。等待上限60秒、每兩階段case180秒。首次本地誤用Pages子路徑dist搭root preview，啟動未完成而中止，不記PASS；停止瀏覽器後正常build再重測。
+
+## 最終內容覆蓋索引（發布結果另見最新首節）
+
+| 項目    | 接入內容                                                                         | 核驗入口                                                                                 |
+| ------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| S06–S07 | 9地形、29普通怪、54主題程序房型、機關／詞條／精英、18地形Boss各2×3招             | TERRAIN_MATRIX、BOSS_MATRIX、biomes／monster-details unit、biomes／biome-bosses browser  |
+| S08     | 30＋1、索拉里斯3血／4柱／字幕、60°封印例外、構築繼承及周目成長                   | journey／solar-arena unit、solaris browser                                               |
+| S09     | 85卡抽取／升級／代價／失效與來源                                                 | CARD_MATRIX、cards／advanced-cards／source／handoff-regressions unit及browser            |
+| S10     | 8橘、3普通紅、6事件紅、夥伴／吸血／卸裝                                          | EQUIPMENT_MATRIX、equipment-integration unit、equipment browser                          |
+| S11     | 六事件三有限波、2事件Boss、保證獎勵、整局一次                                    | EVENT_MATRIX、events unit及browser                                                       |
+| S12     | 8:5 UI、手冊／教學／星典／成就／外觀／音效、舊檔遷移與保存錯誤／revision         | journal／profile／sound／persistence unit、journal／recovery／persistence-errors browser |
+| S13     | 真碰撞時間序／SpatialGrid／彈池／渲染池、24＋8構築探測、密集功能、10＋30 restart | BALANCE_PERFORMANCE及原始results；硬體／人工項仍NOT_RUN                                  |
+| S14     | Pages建置／CI／正式新局及53691bf舊檔直接繼續                                     | 最新發布首節及v1-pages結果；未完成前不寫PASS                                             |
+
+這是內容與可重現回歸索引；不把資料存在等同逐幀人工美術驗收，也不把單王fixture當完整30＋1自然取得構築通關。以下較早檢查點保留當時的缺口与失敗，均以最新首節為準。
+
 ## S14 CI腳本修復（2026-10-11 20:58:37 UTC）
 
 7716版本Development Checks完整77 Chromium PASS（21.4分鐘），但log顯示runner沒有rg，cloud-setup的unit條件因此被略過；該流程不能記307unit PASS。Pages流程獨立npm test已307 PASS，目前瀏覽器／部署仍執行中。已將setup改成find的非空結果判斷，不依賴rg；無rg的stub PATH確認確實呼叫npm test，bash語法、真實check／307unit再次PASS。保存此修復後推既有implement分支，重新跑完整發布CI與正式站核驗。
