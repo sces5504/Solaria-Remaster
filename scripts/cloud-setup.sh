@@ -12,5 +12,5 @@ fi
 npm run check
 npm run build
 npm run test:browser
-if find tests/unit -name "*.test.ts" -print -quit 2>/dev/null | rg -q .; then npm test; fi
+if [ -n "$(find tests/unit -name '*.test.ts' -print -quit 2>/dev/null)" ]; then npm test; fi
 test -s .agents/skills/grilling/SKILL.md

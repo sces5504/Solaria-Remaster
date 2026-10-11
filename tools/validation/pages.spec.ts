@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 const legacy = JSON.parse(
   readFileSync("docs/validation/fixtures/53691bf-checkpoint.json", "utf8"),
@@ -86,8 +86,13 @@ test("正式Pages：子路徑資源、正常新局、同時普攻職技、保存
   expect(errors).toEqual([]);
   expect(failures).toEqual([]);
   await page.screenshot({ path: info.outputPath("pages-newgame.png") });
+  const requestsPath = info.outputPath("requests.json");
+  writeFileSync(
+    requestsPath,
+    JSON.stringify({ resources, errors, failures, snapshot }, null, 2),
+  );
   await info.attach("requests", {
-    body: JSON.stringify({ resources, errors, failures, snapshot }, null, 2),
+    path: requestsPath,
     contentType: "application/json",
   });
 });

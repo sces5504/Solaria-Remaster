@@ -1169,5 +1169,7 @@
       "mechanismAt50": 0,
       "marginalFactorAt50": 3.7289682539682527
     }
-  ]
+  ],
+  "supersededBy": "s13-authoritative-curves.json",
+  "fixtureLimitations": "歷史強裝繼承舊倍率及ring重複global詞綴；最終文件工具修正品質倍率、唯一詞綴與範圍斷言。不得把此檔當正式生成合法構築。"
 }

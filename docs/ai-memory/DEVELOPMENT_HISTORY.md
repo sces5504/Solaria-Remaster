@@ -1,5 +1,19 @@
 # DEVELOPMENT_HISTORY — 開發、Bug 與技術記錄
 
+## S14 CI腳本修復（2026-10-11 20:58:37 UTC）
+
+7716版本Development Checks完整77 Chromium PASS（21.4分鐘），但log顯示runner沒有rg，cloud-setup的unit條件因此被略過；該流程不能記307unit PASS。Pages流程獨立npm test已307 PASS，目前瀏覽器／部署仍執行中。已將setup改成find的非空結果判斷，不依賴rg；無rg的stub PATH確認確實呼叫npm test，bash語法、真實check／307unit再次PASS。保存此修復後推既有implement分支，重新跑完整發布CI與正式站核驗。
+
+遊戲內容／數值未再變更。新增合法詞綴／品質的24王戰與8格擋對照、歷史工具資格註記，見BALANCE_PERFORMANCE。人工完整旅程、真正GPU、其他瀏覽器仍NOT_RUN；不把bot fixture結果冒稱人工通關。
+
+## S14發布進度（2026-10-11 20:37:40 UTC）
+
+遊戲版本1.0.0／來源7716ae0d927870205002f862b8921cfd3aafc048已推implement/s00-s05；原9f88061為遠端祖先，沒有回退、force或merge main。PR2已更新完整v1內容與限制，仍Draft，base docs/solaria-cloud-spec。[發布Actions38172556955](https://github.com/sces5504/Solaria-Remaster/actions/runs/38172556955)目前完整77 Chromium回歸中，CI check／307unit／format已成功，尚未部署新站。
+
+Pages子路徑本地新局／左右鍵／保存reload與53691bf舊IndexedDB直接繼續2PASS；追加JS SHA256與各atlas／manifest本地相同的版本核對亦2PASS。固定Pages build與SOLARIA_PAGES=1的4174 preview，舊4173相對base服務不用作子路徑驗證。正式站仍舊遊戲直到發布job成功；接著立即正式URL兩項驗證，保存結果並更新此首節，不提前稱成功。
+
+完整內容與逐項索引見RELEASE_CHECKLIST／五矩陣。硬體／人工NOT_RUN與SwiftShader壓力不達60FPS仍有效，M06架構接入不等於FPS驗收。此次CI仍在跑，勿將本地75＋修正5的聚合冒稱最新全77PASS。
+
 ## v1發布前收束（2026-10-11 20:26:13 UTC）
 
 內容全部接入：九地形／29普通怪／18地形王、索拉里斯三血四柱／30＋1／周目、85卡、八橘／三普通紅／六事件紅裝、六事件／兩事件王、完整收藏UI／音效／保存錯誤與遷移。逐項入口見docs/validation/RELEASE_CHECKLIST與五份矩陣。
