@@ -14,6 +14,7 @@ async function loadFixture(page: Page, r: Run) {
   });
   await expect(page.getByRole("status")).toContainText("匯入成功");
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+  await expect(page.locator("#hud .status")).toBeVisible();
 }
 for (const cls of ["sword", "bow", "mage"] as const)
   test(`${cls} 清關後左鍵連射同時右鍵技能與 E 進門`, async ({ page }) => {

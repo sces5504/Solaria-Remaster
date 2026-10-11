@@ -942,3 +942,270 @@ footer {
   border-radius: 5px;
   padding: 7px 14px;
 }
+
+/* Quiet dusk, thin gold inlays and breathing room, inspired by Solaria's UI. */
+#overlay {
+  z-index: 2;
+  background: #08151bb8;
+  backdrop-filter: blur(3px);
+}
+#overlay[data-screen="menu"] {
+  padding: 0;
+  backdrop-filter: none;
+}
+#overlay[data-screen="classes"],
+#overlay[data-screen="confirm"] {
+  background:
+    linear-gradient(#09181ca6, #09181ccc),
+    url("/assets/twilight.svg") center/cover;
+}
+.menu {
+  background:
+    radial-gradient(ellipse at 50% 46%, #0c202c96, #08131bad),
+    url("/assets/twilight.svg") center/cover;
+}
+.menu h1 {
+  font-size: clamp(56px, 7vw, 96px);
+  letter-spacing: 0.15em;
+  text-indent: 0.15em;
+  color: #f1ddab;
+}
+.menu .eyebrow {
+  color: #d6d2a8;
+  font-size: 10px;
+  letter-spacing: 5px;
+}
+.menu .tagline {
+  margin: 16px 0 26px;
+  color: #e2e8cb;
+}
+.menu-actions button {
+  background: #142b30d9;
+  border-color: #8ba59155;
+}
+.menu-actions button:first-child,
+button.primary {
+  background: linear-gradient(125deg, #b5d6ad, #91bdb1);
+  color: #102b2a;
+  border-color: #c9deb2;
+}
+.panel {
+  background: linear-gradient(140deg, #203633ed, #101f29f5);
+  border: 1px solid #879f8855;
+  border-top: 1px solid #d5c18b99;
+  border-radius: 9px;
+  box-shadow:
+    0 22px 70px #0009,
+    inset 0 0 0 5px #b5cf9e04;
+}
+.panel h2 {
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+button {
+  border-radius: 6px;
+}
+.pause-panel {
+  width: min(660px, 95%);
+  text-align: center;
+  padding: 32px 36px;
+}
+.pause-panel .eyebrow {
+  margin-bottom: 0;
+  font-size: 10px;
+  color: #9eb9ac;
+}
+.pause-emblem {
+  font:
+    60px Georgia,
+    serif;
+  line-height: 1.25;
+  color: #dec58b;
+  text-shadow: 0 0 35px #f1d59150;
+}
+.pause-panel h2 {
+  color: #f0dfb5;
+  font-size: 30px;
+  margin: 8px 0 16px;
+}
+.pause-story {
+  line-height: 2.1;
+  letter-spacing: 1px;
+}
+.pause-record {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid #b3bc8540;
+  border-bottom: 1px solid #b3bc8540;
+  padding: 16px 0;
+  margin: 22px 0;
+}
+.pause-record small {
+  display: block;
+  color: #90a99e;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+.pause-record strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #dfdec1;
+  margin-top: 5px;
+}
+.pause-actions {
+  width: min(320px, 100%);
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.pause-actions .primary {
+  grid-column: 1 / -1;
+  padding: 13px;
+}
+.pause-actions button {
+  font-size: 12px;
+  padding: 9px;
+}
+.pause-panel .fine {
+  font-size: 10px;
+  margin-top: 20px;
+}
+.card:before {
+  display: none;
+}
+.card-art {
+  display: block;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 10px;
+  color: var(--card, #d4c28f);
+  filter: drop-shadow(0 0 7px #e8d09922);
+}
+.art-frame {
+  stroke-width: 1;
+  opacity: 0.35;
+}
+.art-corners {
+  stroke-width: 2;
+  opacity: 0.8;
+}
+.family-ice {
+  color: #bcefff;
+}
+.family-fire {
+  color: #ffb179;
+}
+.family-water {
+  color: #99dbf3;
+}
+.family-lightning {
+  color: #ffdfa0;
+}
+.family-fusion {
+  color: #e6c0f7;
+}
+.family-sword {
+  color: #f0d4a5;
+}
+.family-bow {
+  color: #cceab1;
+}
+.family-mage {
+  color: #d7bbff;
+}
+.family-traveler {
+  color: #d5d8aa;
+}
+.family-traveler .art-frame {
+  stroke-dasharray: 3 3;
+}
+.family-fusion .art-frame {
+  stroke-width: 3;
+}
+.family-sword .art-frame,
+.family-bow .art-frame,
+.family-mage .art-frame {
+  stroke-width: 2;
+}
+.card h3 {
+  margin: 8px 0;
+  font-size: 20px;
+}
+.choice-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 10px;
+}
+.choice-footer small {
+  font-size: 11px;
+  color: #a6b9a3;
+}
+.choice-footer button {
+  padding: 7px 16px;
+  border-color: #c9c29277;
+  color: #e7d7a7;
+}
+.saving button[data-action="reroll"] {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.catalog {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-height: 370px;
+}
+.catalog-card {
+  border: 1px solid #738c7155;
+  border-radius: 5px;
+  text-align: center;
+  background: linear-gradient(#253b39, #172b30) !important;
+}
+.catalog-card .card-art {
+  width: 68px;
+  height: 68px;
+  margin-bottom: 8px;
+}
+.catalog-card strong {
+  color: #e5dcc0;
+  font-size: 13px;
+  margin: 5px 0;
+}
+.catalog-card p {
+  font-size: 11px;
+  line-height: 1.6;
+}
+.catalog-card.locked {
+  background: #0e1d23 !important;
+  border-color: #35494344;
+}
+.catalog-card.locked .card-art {
+  color: #536765;
+  filter: none;
+  opacity: 0.55;
+}
+.catalog-card.locked strong,
+.catalog-card.locked p,
+.catalog-card.locked .rarity {
+  color: #627872;
+}
+@media (max-height: 800px) {
+  .card-art {
+    width: 65px;
+    height: 65px;
+    margin-bottom: 5px;
+  }
+  .pause-panel {
+    padding: 22px 28px;
+  }
+  .pause-emblem {
+    font-size: 48px;
+  }
+  .pause-record {
+    margin: 15px 0;
+    padding: 12px 0;
+  }
+}

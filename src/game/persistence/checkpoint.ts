@@ -6,6 +6,7 @@ export interface Saved {
   revision: number;
   current: Run;
   entry: Run;
+  discovered?: number[];
 }
 export function validate(value: unknown): Saved {
   if (!value || typeof value !== "object") throw new Error("存檔不是有效資料");
@@ -29,6 +30,12 @@ export function validate(value: unknown): Saved {
       }
   }
   inspect(s);
+  if (
+    s.discovered !== undefined &&
+    (!Array.isArray(s.discovered) ||
+      s.discovered.some((id) => !cards.some((c) => c.id === id)))
+  )
+    throw new Error("圖鑑資料損壞");
   for (const r of [s.current, s.entry]) {
     if (
       !r ||
@@ -112,6 +119,8 @@ export function validate(value: unknown): Saved {
       .filter(Boolean)
       .map((i) => i!.id);
     if (new Set(ids).size !== ids.length) throw new Error("存檔含重複物品");
+    if (r.rerollUsed !== undefined && typeof r.rerollUsed !== "boolean")
+      throw new Error("刷新資料損壞");
     for (const [id, l] of Object.entries(r.cards)) {
       if (
         !cards.some((c) => c.id === Number(id)) ||
@@ -139,6 +148,7 @@ export class Checkpoints {
   private db!: IDBDatabase;
   revision = 0;
   entry: Run | null = null;
+  discovered: number[] = [];
   async open() {
     this.db = await new Promise<IDBDatabase>((resolve, reject) => {
       const req = indexedDB.open("solaria-remaster", 1);
@@ -151,6 +161,7 @@ export class Checkpoints {
     });
   }
   async load(): Promise<Run | null> {
+    await this.remember([]);
     const saved = await this.read("latest");
     if (!saved) return null;
     let s: Saved;
@@ -164,9 +175,29 @@ export class Checkpoints {
       this.revision = s.revision;
       throw new Error("最新存檔損壞；前一份仍保留。請先匯出備份後重試。");
     }
+    await this.remember([
+      ...Object.keys(s.current.cards).map(Number),
+      ...Object.keys(s.entry.cards).map(Number),
+      ...(s.discovered || []),
+    ]);
     this.entry = clone(s.entry);
     this.revision = s.revision;
     return clone(s.current.phase === "COMBAT" ? s.entry : s.current);
+  }
+  private async remember(ids: number[]) {
+    await new Promise<void>((resolve, reject) => {
+      const tx = this.db.transaction("profile", "readwrite"),
+        store = tx.objectStore("profile"),
+        req = store.get("discovered");
+      req.onsuccess = () => {
+        this.discovered = [...new Set([...(req.result || []), ...ids])]
+          .filter((id: number) => cards.some((c) => c.id === id))
+          .sort((a, b) => a - b);
+        store.put(this.discovered, "discovered");
+      };
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(new Error("無法保存旅人圖鑑"));
+    });
   }
   private read(key: string) {
     return new Promise<unknown>((resolve, reject) => {
@@ -185,7 +216,7 @@ export class Checkpoints {
       entry: clone(this.entry),
     };
     await new Promise<void>((resolve, reject) => {
-      const tx = this.db.transaction("run", "readwrite"),
+      const tx = this.db.transaction(["run", "profile"], "readwrite"),
         store = tx.objectStore("run"),
         req = store.get("latest");
       req.onsuccess = () => {
@@ -196,6 +227,17 @@ export class Checkpoints {
         }
         if (prior) store.put(prior, "previous");
         store.put(next, "latest");
+        const profile = tx.objectStore("profile"),
+          known = profile.get("discovered");
+        known.onsuccess = () => {
+          this.discovered = [
+            ...new Set([
+              ...(known.result || []),
+              ...Object.keys(r.cards).map(Number),
+            ]),
+          ].sort((a, b) => a - b);
+          profile.put(this.discovered, "discovered");
+        };
       };
       tx.oncomplete = () => resolve();
       tx.onabort = () =>
@@ -207,6 +249,7 @@ export class Checkpoints {
     r.revision = this.revision;
   }
   async clear(r?: Run) {
+    if (r) await this.remember(Object.keys(r.cards).map(Number));
     await new Promise<void>((resolve, reject) => {
       const tx = this.db.transaction(["run", "profile"], "readwrite");
       const req = tx.objectStore("run").get("latest");
@@ -246,6 +289,7 @@ export class Checkpoints {
         revision: this.revision,
         current: r,
         entry: this.entry ?? r,
+        discovered: this.discovered,
       },
       null,
       2,
@@ -254,6 +298,7 @@ export class Checkpoints {
   async import(text: string) {
     if (text.length > 5_000_000) throw new Error("存檔檔案過大");
     const saved = validate(JSON.parse(text));
+    await this.remember(saved.discovered || []);
     const current = (await this.read("latest")) as Saved | undefined;
     this.revision = current?.revision ?? 0;
     this.entry = saved.entry;

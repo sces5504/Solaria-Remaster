@@ -217,7 +217,9 @@ export function step(r: Run, c: Command, paused = false) {
         p.radius,
         false,
       );
-      if (r.cards[47])
+      if (r.cards[47]) {
+        if (c.dodge || r.tick % 3 === 0)
+          visual(r, "charge", old, 0, 0xffda83, 32, p.dashAngle);
         for (const e of r.enemies)
           if (segmentDistance(e, old, p) < e.radius + p.radius) {
             if (!p.dashHits.includes(e.id)) {
@@ -225,6 +227,7 @@ export function step(r: Run, c: Command, paused = false) {
               hit(r, e, 40 * (1 + (r.cards[47] - 1) * 0.2), context(r, 47));
             }
           }
+      }
     } else {
       const len = Math.hypot(c.move.x, c.move.y) || 1;
       const nx = (c.move.x / len) * r.stats.speed * DT,
@@ -293,8 +296,9 @@ export function step(r: Run, c: Command, paused = false) {
     r.phase = "DEAD";
     r.choices = [];
   }
-  if (c.interact && r.phase === "POST_CLEAR") {
-    if (p.x > 872 && Math.abs(p.y - 320) < 55) enterNext(r);
+  if (c.interact) {
+    if (r.phase === "POST_CLEAR" && p.x > 872 && Math.abs(p.y - 320) < 55)
+      enterNext(r);
     else pickup(r);
   }
 }

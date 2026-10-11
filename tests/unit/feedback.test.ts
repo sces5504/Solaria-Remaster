@@ -106,7 +106,7 @@ describe("第一里程碑試玩回饋", () => {
     }
     expect(r.level).toBe(6);
   });
-  it("山羊環彈發出完整十六方向，沒有人工缺口", () => {
+  it("山羊環彈發出完整十四方向，沒有人工缺口", () => {
     const r = newRun("mage", 5);
     r.enemies = [actor(10, 7, 512, 320)];
     r.reserves = [];
@@ -127,12 +127,12 @@ describe("第一里程碑試玩回饋", () => {
       },
     ];
     updateModes(r);
-    expect(r.projectiles.length).toBe(16);
+    expect(r.projectiles.length).toBe(14);
     const angles = r.projectiles
       .map((b) => Math.atan2(b.vy, b.vx))
       .sort((a, b) => a - b);
-    for (let i = 1; i < 16; i++)
-      expect(angles[i] - angles[i - 1]).toBeCloseTo(Math.PI / 8, 6);
+    for (let i = 1; i < 14; i++)
+      expect(angles[i] - angles[i - 1]).toBeCloseTo((Math.PI * 2) / 14, 6);
   });
   it("衝刺前停止行走、蓄力至少 .7 秒，普通狼衝刺速度不超過 240", () => {
     const r = newRun("sword", 6);

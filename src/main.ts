@@ -5,13 +5,13 @@ import { AudioMixer } from "./audio/mixer";
 import { Checkpoints } from "./game/persistence/checkpoint";
 import { FixedClock, clone } from "./game/core/primitives";
 import { newRun, startRoom, step } from "./game/core/run";
-import { choose, equip, discard } from "./game/systems/progression";
+import { choose, equip, discard, reroll } from "./game/systems/progression";
 import type { Run, ClassId } from "./game/core/types";
 import { zh } from "./i18n/zh-TW";
 import * as view from "./ui/view";
 const root = document.querySelector<HTMLDivElement>("#app")!;
 root.innerHTML =
-  '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>第一里程碑 · 暮光草原</span><div class="sound"><label for="volume">音量</label><input id="volume" type="range" min="0" max="1" step="0.05" aria-label="音效音量"><button id="mute">音效</button></div></header><main><div class="game-layout"><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="world-hints" aria-live="polite"></div><div id="overlay"></div><div id="toast" role="status"></div></div><aside id="sidebar" aria-label="角色屬性與裝備"></aside></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · E 拾取／進門 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
+  '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>旅途初章 · 暮光草原</span><div class="sound"><label for="volume">音量</label><input id="volume" type="range" min="0" max="1" step="0.05" aria-label="音效音量"><button id="mute">音效</button></div></header><main><div class="game-layout"><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="world-hints" aria-live="polite"></div><div id="overlay"></div><div id="toast" role="status"></div></div><aside id="sidebar" aria-label="角色屬性與裝備"></aside></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · E 拾取／進門 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
 const stage = new Stage(),
   saves = new Checkpoints(),
   audio = new AudioMixer(),
@@ -69,6 +69,7 @@ function refresh(force = false) {
     run?.phase,
     run?.room,
     run?.choices.join(","),
+    run?.rerollUsed,
     selected,
     saveBusy,
     run?.bag.length,
@@ -84,24 +85,23 @@ function refresh(force = false) {
   let html = "";
   if (screen === "loading")
     html =
-      '<section class="panel"><h2>喚醒暮光…</h2><p>載入原創素材與存檔</p></section>';
+      '<section class="panel"><h2>喚醒暮光…</h2><p>旅人與暮光即將甦醒</p></section>';
   else if (screen === "menu") html = view.menu(Boolean(saved));
   else if (screen === "classes") html = view.classSelect();
   else if (screen === "confirm")
     html = `<section class="panel"><h2>開始新旅程？</h2><p>將覆蓋這個瀏覽器未完成的本局存檔。永久紀錄會保留。</p>${view.button("確認新局", "confirmNew")}${view.button("保留旅程", "menu")}</section>`;
   else if (screen === "controls") html = view.controls();
-  else if (screen === "catalog") html = view.catalog();
+  else if (screen === "catalog") html = view.catalog(saves.discovered);
   else if (screen === "inventory" && run) html = view.inventory(run);
   else if (screen === "stats" && run) html = view.stats(run);
-  else if (screen === "pause")
-    html = `<section class="panel"><div class="eyebrow">世界暫停</div><h2>稍作歇息</h2><p>${zh.controls}</p>${view.button("繼續旅程", "resume")}${view.button("操作與製作資訊", "controls")}${view.button("匯出存檔", "export")}${view.button("回主選單", "returnMenu")}<p class="fine">戰鬥退出回本房入口；清關後保留最新檢查點。</p></section>`;
+  else if (screen === "pause" && run) html = view.pauseView(run);
   else if (screen === "saveError")
     html = `<section class="panel"><h2>存檔需要處理</h2><p>上一份有效存檔仍保留。請先匯出目前資料；若另一分頁已更新，回主選單讀取最新版本。</p>${view.button("匯出備份", "export")}${view.button("重新讀取", "reloadSave")}</section>`;
   else if (screen === "error")
     html = `<section class="panel"><h2>無法載入遊戲</h2><p>此版本需要 WebGL。請使用支援 WebGL 的桌面瀏覽器；既有存檔保留。</p>${view.button("重試", "reload")}</section>`;
   else if (run) {
     if (run.phase === "ROOM_INTRO")
-      html = `<section class="panel"><div class="eyebrow">暮光草原 · 第 ${run.room} / 5 房</div><h2>${run.room === 5 ? zh.bosses[run.boss as 1] : zh.templates[run.templates[run.room - 1]]}</h2><p>${run.room === 5 ? "兩階段 · 各三招 · 留意預警與掩體耐久" : run.modifiers.length ? run.modifiers.map((m) => zh.modifiers[m]).join("<br>") : "一片安靜的暮色，危機藏在樹影之間。"}</p><p class="fine">${zh.controls}</p>${view.button("進入戰鬥", "start", saveBusy ? "disabled" : "")}</section>`;
+      html = `<section class="panel"><div class="eyebrow">暮光草原 · 第 ${run.room} / 5 房</div><h2>${run.room === 5 ? zh.bosses[run.boss as 1] : zh.templates[run.templates[run.room - 1]]}</h2><p>${run.room === 5 ? "領主已在等你。留意預警，善用掩體。" : run.modifiers.length ? run.modifiers.map((m) => zh.modifiers[m]).join("<br>") : "一片安靜的暮色，危機藏在樹影之間。"}</p><p class="fine">${zh.controls}</p>${view.button("進入戰鬥", "start", saveBusy ? "disabled" : "")}</section>`;
     if (run.phase === "UPGRADE_CHOICE") html = view.choiceView(run, selected);
     if (run.phase === "DEAD")
       html = `<section class="panel"><div class="eyebrow">旅程紀錄</div><h2>暮光收留了你</h2><p>${zh.classes[run.classId]} · Lv.${run.level}<br>抵達第 ${run.room} 房 · ${Math.floor(run.time / 60)} 分 ${Math.floor(run.time % 60)} 秒</p><p>這次的構築告一段落，下一次旅程仍有所有職業與卡片。</p>${view.button("再踏旅途", "new")}${view.button("主選單", "menu")}</section>`;
@@ -111,6 +111,7 @@ function refresh(force = false) {
   const wasModal = !overlay.classList.contains("hidden");
   overlay.innerHTML = html;
   overlay.classList.toggle("hidden", !html);
+  overlay.dataset.screen = screen;
   if (saveBusy) overlay.classList.add("saving");
   else overlay.classList.remove("saving");
   if (wasModal !== Boolean(html)) input?.clear();
@@ -148,6 +149,12 @@ async function action(value: string) {
       persist();
     } else if (act === "choose" && run && !saveBusy) {
       if (choose(run, Number(arg))) {
+        audio.play("heal");
+        selected = 0;
+        persist();
+      }
+    } else if (act === "reroll" && run && !saveBusy) {
+      if (reroll(run)) {
         audio.play("heal");
         selected = 0;
         persist();
@@ -294,7 +301,8 @@ function frame(ms: number) {
   lastTime = ms;
   if (run) {
     const prev = run.phase,
-      items = run.items.length;
+      items = run.items.length,
+      bag = run.bag.length;
     const cmd = input.command(run);
     clock.advance(
       seconds,
@@ -323,9 +331,9 @@ function frame(ms: number) {
       } else persist(run.phase === "ROOM_INTRO");
     }
     if (
-      items !== run.items.length &&
-      run.phase === "POST_CLEAR" &&
-      prev === run.phase
+      prev === run.phase &&
+      ((items !== run.items.length && run.phase === "POST_CLEAR") ||
+        bag !== run.bag.length)
     )
       persist();
     if (run.message) {
@@ -340,7 +348,7 @@ function frame(ms: number) {
         soundId = Math.max(soundId, v.id);
       }
   }
-  stage.draw(run);
+  stage.draw(run, screen === "game" && !saveBusy);
   if (ms - lastHud > 80) {
     hud.innerHTML = run ? view.hud(run) : "";
     document.querySelector("#world-hints")!.innerHTML = run

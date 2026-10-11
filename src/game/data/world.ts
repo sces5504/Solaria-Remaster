@@ -10,11 +10,16 @@ export const classes = {
 // Deterministic procedural meadow. Profiles affect density/material, never fixed coordinates.
 export function roomRoute(profile: number, boss = 0, seed = 1) {
   const rng = { rng: seedFor(seed, profile + boss * 33 + 500) };
+  const phase = random(rng) * Math.PI * 2;
   const route = [{ x: 112, y: 320 }];
   for (let x = 192; x <= 832; x += 64) {
     route.push({
       x,
-      y: boss ? 320 : 320 + (Math.floor(random(rng) * 3) - 1) * 32,
+      y: boss
+        ? 320
+        : 320 +
+          Math.sin(((x - 112) / 700) * Math.PI * 2 + phase) *
+            (profile === 1 ? 20 : 32),
     });
   }
   route.push({ x: 928, y: 320 });
@@ -73,12 +78,86 @@ export function makeObstacles(profile: number, boss = 0, seed = 1): Obstacle[] {
     }
     return end === total && passable[exit] === 2;
   };
+  // Each profile has a spatial grammar: groves, rock banks, avenues or ruins.
+  const anchors = boss
+    ? [
+        [8, 5],
+        [13, 5],
+        [21, 5],
+        [26, 5],
+        [8, 15],
+        [13, 15],
+        [21, 15],
+        [26, 15],
+      ]
+    : profile === 0
+      ? [
+          [8, 5],
+          [10, 15],
+          [23, 5],
+          [25, 15],
+        ]
+      : profile === 1
+        ? [
+            [8, 5],
+            [13, 5],
+            [21, 15],
+            [26, 15],
+          ]
+        : profile === 2
+          ? [
+              [7, 5],
+              [13, 5],
+              [21, 5],
+              [27, 5],
+              [7, 15],
+              [13, 15],
+              [21, 15],
+              [27, 15],
+            ]
+          : profile === 3
+            ? [
+                [8, 5],
+                [9, 15],
+                [24, 5],
+                [25, 15],
+              ]
+            : profile === 4
+              ? [
+                  [7, 5],
+                  [12, 15],
+                  [22, 5],
+                  [27, 15],
+                ]
+              : [
+                  [8, 5],
+                  [13, 15],
+                  [22, 5],
+                  [27, 15],
+                ];
   const wanted = boss ? 12 : 20 + profile;
   for (let attempt = 0; attempt < 700 && occupied.length < wanted; attempt++) {
-    const x = 5 + Math.floor(random(rng) * 23),
-      y = 3 + Math.floor(random(rng) * 14);
-    const w = random(rng) < 0.24 ? 2 : 1,
-      h = random(rng) < 0.2 ? 2 : 1;
+    const anchor = anchors[Math.floor(random(rng) * anchors.length)];
+    const x = Math.max(
+        5,
+        Math.min(
+          27,
+          anchor[0] + Math.floor((random(rng) + random(rng) - 1) * 6),
+        ),
+      ),
+      y = Math.max(
+        3,
+        Math.min(
+          16,
+          anchor[1] + Math.floor((random(rng) + random(rng) - 1) * 5),
+        ),
+      );
+    const waterCandidate =
+      !boss &&
+      [0, 3].includes(profile) &&
+      occupied.filter((v) => v[4] === 0).length < 2;
+    const w = waterCandidate ? 2 : random(rng) < 0.24 ? 2 : 1,
+      h = waterCandidate ? 2 : random(rng) < 0.2 ? 2 : 1;
     let blocked = false;
     for (let dy = 0; dy < h; dy++)
       for (let dx = 0; dx < w; dx++)
@@ -94,16 +173,17 @@ export function makeObstacles(profile: number, boss = 0, seed = 1): Obstacle[] {
       )
     )
       continue;
-    const water =
-      !boss &&
-      profile === 0 &&
-      occupied.filter((v) => v[4] === 0).length < 2 &&
-      random(rng) < 0.18;
+    const water = waterCandidate;
     const kind = water
       ? 0
-      : boss === 2 && random(rng) < 0.4
+      : (boss === 2 || (!boss && profile === 5)) && random(rng) < 0.65
         ? 3
-        : random(rng) < 0.62
+        : random(rng) <
+            (boss === 1 || profile === 2
+              ? 0.9
+              : profile === 1 || profile === 3
+                ? 0.25
+                : 0.65)
           ? 1
           : 2;
     const candidate = [x, y, w, h, kind];

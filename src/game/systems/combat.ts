@@ -47,7 +47,15 @@ export function visual(
   color = 0xffd891,
   radius = 20,
   a = 0,
+  options: { elements?: Element[]; enemy?: boolean; duration?: number } = {},
 ) {
+  const duration =
+    options.duration ??
+    (kind === "damage"
+      ? 0.45
+      : kind === "burst" || kind === "thunder"
+        ? 0.65
+        : 0.3);
   r.visuals.push({
     id: r.nextId++,
     kind,
@@ -57,7 +65,9 @@ export function visual(
     color,
     radius,
     angle: a,
-    until: r.time + (kind === "damage" ? 0.45 : 0.3),
+    until: r.time + duration,
+    duration,
+    ...options,
   });
 }
 export function shield(r: Run, amount: number, seconds: number) {
@@ -185,6 +195,17 @@ export function hit(
           : 0xf4edcc,
     crit ? 22 : 16,
   );
+  if (actual > 0 && ctx.damageKind !== "dot" && ctx.damageKind !== "additional")
+    visual(
+      r,
+      "impact",
+      e,
+      [47, 144, 158].includes(ctx.sourceAbilityId) ? 2.2 : crit ? 1.5 : 0,
+      crit ? 0xffe7a1 : 0xe8f9eb,
+      18,
+      angle(r.player, e),
+      { duration: 0.18 },
+    );
   if (ctx.lifestealEligible && actual > 0 && r.stats.lifesteal > 0) {
     const gain = Math.min(
       r.stats.maxHP - r.player.hp,
@@ -280,6 +301,7 @@ export function hurt(r: Run, base: number, element: Element | null = null) {
   if (p.hp <= 0 || p.invulnerable > r.time) return false;
   if (p.blockUntil > r.time) {
     if (!p.blockHit) {
+      visual(r, "block", p, 0, 0xa8f2dd, 48, p.aim || 0);
       p.blockHit = true;
       p.counterAt = r.time + 0.3;
       p.blockUntil = Math.max(p.blockUntil, r.time + 0.4);
@@ -295,6 +317,7 @@ export function hurt(r: Run, base: number, element: Element | null = null) {
   p.hp = Math.max(0, p.hp - value);
   p.invulnerable = r.time + 0.5;
   visual(r, "damage", p, Math.round(value), 0xff797c);
+  visual(r, "impact", p, 3.5, 0xff968a, 27, 0, { enemy: true, duration: 0.22 });
   if (element === "water") p.wetUntil = r.time + 3;
   if (element === "fire") p.burnUntil = r.time + 3;
   if (element === "ice") {
@@ -327,7 +350,9 @@ export function burst(
     p,
     0,
     ctx.elementMask.includes("fire") ? 0xffac69 : 0xbde8ff,
-    radius,
+    radius * r.stats.range,
+    0,
+    { elements: ctx.elementMask },
   );
   for (const e of [...r.enemies])
     if (distance(p, e) <= radius * r.stats.range + e.radius)
@@ -555,7 +580,17 @@ export function updateAreas(r: Run) {
     if (r.time < a.starts || r.time < a.next || r.time > a.ends) continue;
     a.next += a.interval;
     if (a.enemy) {
-      if (a.shape === "circle") visual(r, "burst", a, 0, 0xffb08a, a.radius);
+      if (a.shape === "circle")
+        visual(
+          r,
+          a.effect === "thunder" ? "thunder" : "burst",
+          a,
+          0,
+          a.effect === "thunder" ? 0xffdba5 : 0xffb08a,
+          a.radius,
+          0,
+          { enemy: true },
+        );
       const end = beamEnd(r, a, a.angle);
       const affected =
         a.shape === "beam"
@@ -608,7 +643,12 @@ export function updateAreas(r: Run) {
           : a.context.elementMask.includes("lightning")
             ? 0xc3aeff
             : 0x83d9ef,
-        a.radius,
+        a.radius * r.stats.range,
+        0,
+        {
+          elements: a.context.elementMask,
+          duration: a.ends - a.starts > 0.1 ? 0.28 : 0.65,
+        },
       );
     }
   }

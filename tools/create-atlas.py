@@ -148,6 +148,21 @@ for row,name in enumerate(names):
   atlas.alpha_composite(tile.resize((S,S),Image.Resampling.NEAREST),(frame*S,row*S))
  meta[name]={'row':row,'frames':6,'size':S}
 os.makedirs('public/assets',exist_ok=True);atlas.save('public/assets/solaria-atlas.png');json.dump(meta,open('public/assets/atlas.json','w'),indent=2)
-# Export individual portraits so the selection cards use actual art.
-for row,name in enumerate(names[:3]):atlas.crop((0,row*S,S,(row+1)*S)).save('public/assets/'+name+'.png')
-json.dump({'author':'Solaria Remaster original polygon pixel illustrations','license':'CC0-1.0','source':'tools/create-atlas.py','assets':['solaria-atlas.png','atlas.json','sword.png','bow.png','mage.png'],'reference':'Original Solaria observed for visual direction only; sprites independently drawn, no assets copied.','audio':'Original Web Audio synthesis in src/audio/mixer.ts'},open('public/assets/manifest.json','w'),indent=2)
+# Selection portraits carry a weapon; gameplay atlas deliberately does not.
+for row,name in enumerate(names[:3]):
+ portrait=atlas.crop((0,row*S,S,(row+1)*S)).resize((64,64),Image.Resampling.NEAREST)
+ pd=ImageDraw.Draw(portrait)
+ if name=='sword':
+  pd.polygon([(46,13),(50,7),(54,13),(51,35),(47,35)],fill=INK)
+  pd.polygon([(49,10),(51,14),(49,33),(47,33)],fill='#eaf6e9')
+  pd.line([(43,36),(54,36)],fill=GOLD,width=3);pd.line([(49,37),(48,45)],fill='#a88160',width=3)
+ elif name=='bow':
+  pd.line([(47,18),(54,25),(56,35),(53,44),(46,50)],fill=GOLD,width=3)
+  pd.line([(47,18),(42,35),(46,50)],fill=CREAM,width=1)
+  pd.line([(40,35),(60,35)],fill=CREAM,width=1);pd.polygon([(58,32),(63,35),(58,38)],fill=GOLD)
+ else:
+  pd.line([(49,18),(46,54)],fill='#ba9272',width=3)
+  pd.polygon([(49,5),(56,14),(49,23),(42,14)],fill='#a9dce8')
+  pd.polygon([(49,8),(52,14),(49,19),(47,14)],fill='#f5fce6')
+ portrait.resize((S,S),Image.Resampling.NEAREST).save('public/assets/'+name+'.png')
+json.dump({'author':'Solaria Remaster original polygon pixel illustrations','license':'CC0-1.0','source':'tools/create-atlas.py','assets':['solaria-atlas.png','atlas.json','sword.png','bow.png','mage.png','twilight.svg'],'illustrations':'Original 59 ability line illustrations in src/ui/card-art.ts; original menu landscape in tools/create-scene.py, CC0-1.0','reference':'Original Solaria observed for visual direction only; sprites independently drawn, no assets copied.','audio':'Original Web Audio synthesis in src/audio/mixer.ts'},open('public/assets/manifest.json','w'),indent=2)

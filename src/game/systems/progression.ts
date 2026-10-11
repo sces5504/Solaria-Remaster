@@ -73,7 +73,8 @@ export function derive(r: Run): Stats {
   s.crit = clamp(s.crit, 0, 1);
   return s;
 }
-export function drawChoices(r: Run) {
+export function drawChoices(r: Run, fresh = true) {
+  if (fresh) r.rerollUsed = false;
   const state = { rng: r.cardRng };
   const picked: number[] = [];
   for (let i = 0; i < 3; i++) {
@@ -109,6 +110,12 @@ export function drawChoices(r: Run) {
   }
   r.cardRng = state.rng;
   r.choices = picked;
+}
+export function reroll(r: Run) {
+  if (r.phase !== "UPGRADE_CHOICE" || r.rerollUsed) return false;
+  drawChoices(r, false);
+  r.rerollUsed = true;
+  return true;
 }
 export function choose(r: Run, id: number) {
   if (r.phase !== "UPGRADE_CHOICE" || !r.choices.includes(id)) return false;
@@ -222,7 +229,7 @@ export function itemFor(r: Run, enemyId: number, bossIndex = -1): Item | null {
   };
 }
 export function pickup(r: Run) {
-  if (r.phase !== "POST_CLEAR") return false;
+  if (!["COMBAT", "SETTLEMENT", "POST_CLEAR"].includes(r.phase)) return false;
   const sorted = [...r.items].sort(
     (a, b) =>
       Math.hypot(a.x - r.player.x, a.y - r.player.y) -

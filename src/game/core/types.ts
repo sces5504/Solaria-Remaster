@@ -159,6 +159,7 @@ export interface Area extends Vec {
   heavy: boolean;
   mine?: boolean;
   triggerAt?: number;
+  effect?: "thunder";
 }
 export interface Mode {
   id: number;
@@ -173,7 +174,11 @@ export interface Mode {
     | "mine"
     | "laser"
     | "summon"
-    | "slash";
+    | "slash"
+    | "impact"
+    | "block"
+    | "charge"
+    | "thunder";
   starts: number;
   ends: number;
   next: number;
@@ -194,6 +199,9 @@ export interface Drop extends Vec {
   value: number;
 }
 export interface Visual extends Vec {
+  duration?: number;
+  elements?: Element[];
+  enemy?: boolean;
   id: number;
   kind:
     | "hit"
@@ -204,7 +212,11 @@ export interface Visual extends Vec {
     | "damage"
     | "phase"
     | "loot"
-    | "slash";
+    | "slash"
+    | "impact"
+    | "block"
+    | "charge"
+    | "thunder";
   value: number;
   color: number;
   until: number;
@@ -235,6 +247,7 @@ export interface Run {
   elements: Element[];
   fusion: "steam" | "storm" | "frostfire" | null;
   choices: number[];
+  rerollUsed?: boolean;
   stats: Stats;
   player: Player;
   enemies: Actor[];

@@ -15,8 +15,10 @@ import {
   bolt,
   diamond,
   elementColor,
+  elementMotif,
   visualEffect,
 } from "./effects";
+import { cameraFeedback } from "./feedback";
 const names = [
   "sword",
   "bow",
@@ -162,9 +164,19 @@ export class Stage {
   }
   private landscape(r: Run) {
     const g = this.terrain;
+    const profile =
+      r.room === 5 ? (r.boss === 2 ? 5 : 2) : r.templates[r.room - 1];
+    const palette = [
+      [0x294b43, 0x91b5a0, 0xbacddd],
+      [0x394943, 0xb0ae98, 0xc9c8ad],
+      [0x233e37, 0x7c9c77, 0xb2cca1],
+      [0x355348, 0xbac5a0, 0xe8dfad],
+      [0x3c4d3d, 0xb7a97c, 0xd6b187],
+      [0x304444, 0x9cafa9, 0xb9c7bd],
+    ][profile] || [0x2b4c42, 0x99a981, 0xd8c48b];
     g.clear().rect(0, 0, 1024, 640).fill(0x173338);
     // Fine mottled meadow, winding light path, moss, stones, flowers and hand-cut banks.
-    g.rect(32, 64, 960, 544).fill(0x2b4c42);
+    g.rect(32, 64, 960, 544).fill(palette[0]);
     for (let y = 64; y < 608; y += 16)
       for (let x = 32; x < 992; x += 16) {
         const n = hash(x, y, r.seed + r.room);
@@ -183,8 +195,17 @@ export class Stage {
         b = route[i];
       g.moveTo(a.x, a.y)
         .lineTo(b.x, b.y)
-        .stroke({ color: 0x99a981, width: 48, alpha: 0.12 });
+        .stroke({
+          color: palette[1],
+          width: profile === 5 ? 58 : 48,
+          alpha: profile === 5 ? 0.17 : 0.12,
+        });
     }
+    if (profile === 5)
+      for (const o of r.obstacles.filter((o) => o.kind === "pillar"))
+        g.rect(o.x - 8, o.y - 8, o.w + 16, o.h + 16)
+          .fill({ color: 0x91a8a0, alpha: 0.16 })
+          .stroke({ color: 0xb3b9a1, width: 1, alpha: 0.2 });
     for (let i = 0; i < 480; i++) {
       const x = 40 + hash(i, 1, r.seed + r.room) * 940,
         y = 76 + hash(i, 2, r.seed + r.room) * 515,
@@ -208,7 +229,7 @@ export class Stage {
         g.rect(x - 1, y - 2, 2, 1).fill(0x90a28b);
       } else {
         g.rect(x, y, 1, 5).fill(0x628361);
-        g.rect(x - 2, y - 2, 5, 3).fill(n > 0.96 ? 0xc0adce : 0xd8c48b);
+        g.rect(x - 2, y - 2, 5, 3).fill(n > 0.96 ? 0xc0adce : palette[2]);
         g.rect(x, y - 1, 1, 1).fill(0xffecc4);
       }
     }
@@ -330,7 +351,9 @@ export class Stage {
         );
     }
   }
-  draw(r: Run | null) {
+  draw(r: Run | null, feedback = true) {
+    const recoil = r ? cameraFeedback(r, feedback) : { x: 0, y: 0 };
+    this.app.stage.position.set(recoil.x, recoil.y);
     const f = this.friendly,
       d = this.danger;
     f.clear();
@@ -425,6 +448,10 @@ export class Stage {
     ps.scale.x = Math.abs(ps.scale.x) * (Math.cos(p.aim || 0) < 0 ? -1 : 1);
     ps.alpha =
       p.invulnerable > r.time && Math.floor(r.time * 20) % 2 ? 0.55 : 1;
+    if (p.dashUntil > r.time && r.cards[47]) {
+      ps.rotation = Math.cos(p.dashAngle) < 0 ? -0.13 : 0.13;
+      this.glow(p.x, p.y, 45, 0xffd988, 0.65);
+    }
     if (r.phase !== "DEAD") this.weapon(r);
     for (const e of r.enemies) {
       const active = r.modes.find((m) => m.actor === e.id),
@@ -459,6 +486,20 @@ export class Stage {
             : e.elite
               ? 0xffd9a1
               : 0xffffff;
+      if (e.burn.some((b) => b.until > r.time)) {
+        this.glow(e.x, e.y, e.radius + 22, 0xff8c41, 0.45);
+        elementMotif(f, e.x, e.y, e.radius * 0.8, ["fire"], r.time, 0.55);
+      }
+      if (e.iceUntil > r.time) {
+        s.tint = e.controlUntil > r.time ? 0xb6f7ff : 0xc7edff;
+        elementMotif(f, e.x, e.y + 5, e.radius * 0.9, ["ice"], r.time, 0.45);
+      }
+      if (e.wetUntil > r.time)
+        f.ellipse(e.x, e.y + 15, e.radius + 5, 6).stroke({
+          color: 0x88dfff,
+          width: 2,
+          alpha: 0.6,
+        });
       if (e.kind > 5) {
         this.glow(
           e.x,
@@ -776,13 +817,13 @@ export class Stage {
         text.position.set(v.x + 6, v.y - 16 - (1 - progress) * 22);
         text.alpha = progress;
       } else {
-        visualEffect(f, r, v);
+        visualEffect(v.enemy ? d : f, r, v);
         this.glow(
           v.x,
           v.y,
           Math.min(130, v.radius + 20),
           v.color,
-          progress * 0.25,
+          progress * (["burst", "thunder"].includes(v.kind) ? 0.7 : 0.25),
         );
       }
     }

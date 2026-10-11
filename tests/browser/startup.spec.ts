@@ -20,12 +20,16 @@ test("WebGL 主選單、三職業、輸入、暫停與入口重載", async ({ pa
   await page.waitForTimeout(600);
   await page.mouse.up();
   await page.keyboard.press("Escape");
-  await expect(page.getByRole("heading", { name: "稍作歇息" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "日光，等你歸來" }),
+  ).toBeVisible();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+  await expect(page.locator("#hud .status")).toBeVisible();
   await page.keyboard.press("KeyI");
   await expect(page.getByRole("status")).toContainText("需要先清關");
   await page.reload();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+  await expect(page.locator("#hud .status")).toBeVisible();
   await expect(page.getByRole("button", { name: "進入戰鬥" })).toBeVisible();
   expect(errors).toEqual([]);
 });
@@ -65,6 +69,8 @@ test("真實 IndexedDB 選卡不重抽、清關穿戴保存與匯入損壞保護
   });
   await expect(page.getByRole("status")).toContainText("匯入成功");
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+  await expect(page.locator("#hud .status")).toBeVisible();
+  await expect(page.locator(".card")).toHaveCount(3);
   const shown = await page
     .locator('button[data-action^="choose:"]')
     .evaluateAll((elements) =>
@@ -75,7 +81,8 @@ test("真實 IndexedDB 選卡不重抽、清關穿戴保存與匯入損壞保護
   expect(shown).toEqual(original);
   await page.reload();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
-  expect(await page.locator('button[data-action^="choose:"]').count()).toBe(3);
+  await expect(page.locator("#hud .status")).toBeVisible();
+  await expect(page.locator('button[data-action^="choose:"]')).toHaveCount(3);
   await page.locator('button[data-action^="choose:"]').first().click();
   await expect(page.locator("#overlay")).toHaveClass(/hidden/);
   await page.keyboard.press("KeyI");
@@ -84,8 +91,10 @@ test("真實 IndexedDB 選卡不重抽、清關穿戴保存與匯入損壞保護
   await expect(
     page.getByRole("heading", { name: "背包 0 / 12" }),
   ).toBeVisible();
+  await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+  await expect(page.locator("#hud .status")).toBeVisible();
   await page.keyboard.press("KeyI");
   await expect(
     page.getByRole("heading", { name: "背包 0 / 12" }),

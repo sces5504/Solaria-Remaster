@@ -15,7 +15,9 @@ export class AudioMixer {
       osc = ctx.createOscillator(),
       gain = ctx.createGain();
     const start = ctx.currentTime;
-    osc.type = kind === "damage" ? "triangle" : "sine";
+    osc.type = ["damage", "impact", "burst", "thunder"].includes(kind)
+      ? "triangle"
+      : "sine";
     const f =
       (
         {
@@ -25,11 +27,19 @@ export class AudioMixer {
           burst: 240,
           phase: 100,
           loot: 880,
+          impact: 130,
+          block: 1250,
+          charge: 300,
+          thunder: 80,
         } as Record<string, number>
       )[kind] ?? 320;
     osc.frequency.setValueAtTime(f, start);
     osc.frequency.exponentialRampToValueAtTime(f * 0.4, start + 0.08);
-    gain.gain.setValueAtTime(this.volume * 0.08, start);
+    gain.gain.setValueAtTime(
+      this.volume *
+        (["impact", "block", "thunder", "burst"].includes(kind) ? 0.13 : 0.07),
+      start,
+    );
     gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.12);
     osc.connect(gain).connect(ctx.destination);
     osc.start(start);

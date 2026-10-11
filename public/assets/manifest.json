@@ -7,8 +7,10 @@
     "atlas.json",
     "sword.png",
     "bow.png",
-    "mage.png"
+    "mage.png",
+    "twilight.svg"
   ],
   "reference": "Original Solaria observed for visual direction only; sprites independently drawn, no assets copied.",
-  "audio": "Original Web Audio synthesis in src/audio/mixer.ts"
+  "audio": "Original Web Audio synthesis in src/audio/mixer.ts",
+  "illustrations": "Original 59 ability line illustrations in src/ui/card-art.ts; original menu landscape in tools/create-scene.py, CC0-1.0"
 }

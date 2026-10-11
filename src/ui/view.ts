@@ -2,6 +2,7 @@ import type { Run, Item, ClassId } from "../game/core/types";
 import { classes } from "../game/data/world";
 import { cards } from "../game/data/cards";
 import { cardCopy } from "../i18n/card-copy";
+import { cardArt } from "./card-art";
 import { zh } from "../i18n/zh-TW";
 export const escape = (v: unknown) =>
   String(v).replace(
@@ -41,7 +42,7 @@ export function sidebar(r: Run) {
     )}</section><p class="side-note">${zh.skills[r.classId]} · ${r.player.skillReady <= r.time ? "已就緒" : "冷卻 " + Math.max(0, r.player.skillReady - r.time).toFixed(1) + " 秒"}<br>擊殺 ${r.kills || 0} · ${Math.floor(r.time / 60)}:${String(Math.floor(r.time % 60)).padStart(2, "0")}<br>C 查看卡片構築 · Esc 暫停</p>`;
 }
 export function menu(saved: boolean) {
-  return `<div class="menu"><div class="eyebrow">日蝕之後 · 第一里程碑</div><h1>SOLARIA</h1><p class="tagline">在暮色之中，尋回日光。</p><div class="menu-actions">${button("開始新局", "new")}${button("繼續旅程", "continue", saved ? "" : 'disabled title="尚無存檔"')}${button("操作與製作資訊", "controls")}${button("卡片圖鑑 · 59", "catalog")}${button("匯入存檔", "import")}</div><div class="fine">三職業 · 四普通房 · 兩隻草原 Boss<br>製作者：Mori Fang</div></div>`;
+  return `<div class="menu"><div class="eyebrow">日蝕之後 · 旅途初章</div><h1>SOLARIA</h1><p class="tagline">在暮色之中，尋回日光。</p><div class="menu-actions">${button("開始新局", "new")}${button("繼續旅程", "continue", saved ? "" : 'disabled title="尚無存檔"')}${button("操作與製作資訊", "controls")}${button("卡片圖鑑 · 59", "catalog")}${button("匯入存檔", "import")}</div><div class="fine">三職業 · 四普通房 · 兩隻草原 Boss<br>製作者：Mori Fang</div></div>`;
 }
 export function classSelect() {
   const desc: Record<ClassId, string> = {
@@ -52,18 +53,18 @@ export function classSelect() {
   return `<section class="panel wide"><div class="eyebrow">選擇你的旅人</div><h2>踏入暮光草原</h2><div class="cards">${(["sword", "bow", "mage"] as ClassId[]).map((id) => `<button class="class-card" data-action="class:${id}"><img src="${import.meta.env.BASE_URL}assets/${id}.png" alt="${zh.classes[id]}"><h3>${zh.classes[id]}</h3><span class="gold">${zh.titles[id]}</span><p>${desc[id]}</p></button>`).join("")}</div>${button("返回主選單", "menu")}</section>`;
 }
 export function choiceView(r: Run, selected: number) {
-  return `<section class="panel wide"><div class="eyebrow">世界暫停 · 升級 ${r.level - r.pendingLevels + 1}</div><h2>選擇一份力量</h2><p>${r.pendingLevels > 1 ? "還有 " + r.pendingLevels + " 次選擇" : "讓這份力量融入你的構築"} · ${r.elements.map((e) => zh.elements[e]).join(" / ") || "元素名額 0 / 2"}</p><div class="cards">${r.choices
+  return `<section class="panel wide"><div class="eyebrow">世界暫停 · 升級 ${r.level - r.pendingLevels + 1}</div><h2>選擇一份力量</h2><p>${r.pendingLevels > 1 ? "還有 " + r.pendingLevels + " 次選擇" : "循光而行，選擇你的共鳴"} · ${r.elements.map((e) => zh.elements[e]).join(" / ") || "元素名額 0 / 2"}</p><div class="cards">${r.choices
     .map((id, index) => {
       const c = cards.find((c) => c.id === id)!;
       const l = r.cards[id] || 0;
-      return `<button class="card ${c.rarity} ${selected === index ? "selected" : ""}" data-action="choose:${id}"><span class="rarity">${id <= 14 ? "旅人強化" : id <= 40 ? "元素能力" : "職業技藝"}</span><h3>${c.name}</h3><span class="gold">${id <= 14 ? "本局已取 " + l + " 次" : l ? "Lv." + l + " → " + (l + 1) : "解鎖 Lv.1"}</span><p>${cardCopy[c.id] || c.description}</p>${l && id > 14 ? "<small>再次取得可強化此能力，招式變化最高至 Lv.5</small>" : ""}</button>`;
+      return `<button class="card ${c.rarity} ${selected === index ? "selected" : ""}" data-action="choose:${id}">${cardArt(id)}<span class="rarity">${id <= 14 ? "旅人強化" : id <= 40 ? "元素能力" : "職業技藝"}</span><h3>${c.name}</h3><span class="gold">${id <= 14 ? "本局已取 " + l + " 次" : l ? "Lv." + l + " → " + (l + 1) : "解鎖 Lv.1"}</span><p>${cardCopy[c.id] || c.description}</p>${l && id > 14 ? "<small>再次取得可強化此能力，招式變化最高至 Lv.5</small>" : ""}</button>`;
     })
     .join(
       "",
-    )}</div><small>左右鍵選擇 · Enter 確認 · 滑鼠點擊</small><details><summary>目前構築</summary>${
+    )}</div><div class="choice-footer">${button(r.rerollUsed ? "本次已刷新" : "刷新 · 1 次", "reroll", r.rerollUsed ? "disabled" : "")}<small>每次覺醒可刷新一次</small></div><small>左右鍵選擇 · Enter 確認 · 滑鼠點擊</small><details><summary>目前構築</summary>${
     Object.entries(r.cards)
       .map(([id, l]) => `${cards.find((c) => c.id === Number(id))!.name} ${l}`)
-      .join(" · ") || "尚未取得卡片"
+      .join(" · ") || "等待第一縷共鳴"
   }</details></section>`;
 }
 export function inventory(r: Run) {
@@ -76,14 +77,18 @@ export function stats(r: Run) {
         ([id, l]) =>
           `<span>${cards.find((c) => c.id === Number(id))!.name} Lv.${l}</span>`,
       )
-      .join("") || "尚未取得卡片"
+      .join("") || "等待第一縷共鳴"
   }</div>${button("返回戰場", "resume")}</section>`;
 }
 export function controls() {
-  return `<section class="panel"><h2>旅人手札</h2><p>${zh.controls}</p><p>閃避沒有無敵。格擋需在攻擊抵達前施放。樹木與岩石可阻擋敵我彈道；湖泊可跨越，但需要合法落點。</p><p>每局四間不重複草原房，再挑戰隨機狼王或邪惡山羊王。清關回復生命，累積經驗後三選一，按 E 進門前可整備裝備。</p><p>戰鬥重載回入口；選卡與清關裝備操作自動保存。存檔在此瀏覽器，可匯出備份。</p><p>製作者：Mori Fang<br>原創像素繪圖、光影特效與戰鬥音效。桌面鍵盤滑鼠先行。</p>${button("返回", "back")}</section>`;
+  return `<section class="panel"><h2>旅人手札</h2><p>${zh.controls}</p><p>閃避沒有無敵。格擋需在攻擊抵達前施放。樹木與岩石可阻擋敵我彈道；湖泊可跨越，但需要合法落點。</p><p>每局四間不重複草原房，再挑戰隨機狼王或邪惡山羊王。清關回復生命，累積經驗後三選一，按 E 進門前可整備裝備。</p><p>戰鬥重載回入口；選卡與清關裝備操作自動保存。存檔在此瀏覽器，可匯出備份。</p><p>製作者：Mori Fang<br>日蝕之後，每一次啟程，都是新的可能。</p>${button("返回", "back")}</section>`;
 }
-export function catalog() {
-  return `<section class="panel wide"><h2>里程碑卡片圖鑑 · 59</h2><div class="catalog">${cards.map((c) => `<article><span class="rarity ${c.rarity}">#${c.id}</span><strong>${c.name}</strong><p>${cardCopy[c.id] || c.description}</p></article>`).join("")}</div>${button("返回", "back")}</section>`;
+export function catalog(discovered: number[] = []) {
+  const known = new Set(discovered);
+  return `<section class="panel wide catalog-panel"><div class="eyebrow">旅人圖鑑 · ${known.size} / 59</div><h2>光的記憶</h2><p>親手取得的力量，會留在這裡。</p><div class="catalog">${cards.map((c) => (known.has(c.id) ? `<article class="catalog-card ${c.rarity}" data-card="${c.id}">${cardArt(c.id)}<span class="rarity ${c.rarity}">#${String(c.id).padStart(2, "0")}</span><strong>${c.name}</strong><p>${cardCopy[c.id] || c.description}</p></article>` : `<article class="catalog-card locked" data-card="${c.id}">${cardArt(c.id, true)}<span class="rarity">#${String(c.id).padStart(2, "0")}</span><strong>未曾相遇</strong><p>於旅途中取得後揭曉</p></article>`)).join("")}</div>${button("返回", "back")}</section>`;
+}
+export function pauseView(r: Run) {
+  return `<section class="panel pause-panel"><div class="eyebrow">暮色之間</div><div class="pause-emblem" aria-hidden="true">✧</div><h2>日光，等你歸來</h2><p class="pause-story">風停在樹梢，旅途仍在。<br>稍作歇息，再循光而行。</p><div class="pause-record"><div><small>你的旅人</small><strong>${zh.classes[r.classId]} · Lv.${r.level}</strong></div><div><small>暮光草原</small><strong>第 ${r.room} / 5 關</strong></div><div><small>旅程分數</small><strong>${(r.score || 0).toLocaleString()}</strong></div></div><div class="pause-actions">${button("繼續旅程", "resume", 'class="primary"')}${button("旅人手札", "controls")}${button("光的記憶", "catalog")}${button("匯出存檔", "export")}${button("回主選單", "returnMenu")}</div><p class="fine">Esc 返回旅途 · 戰鬥重載回本房入口</p></section>`;
 }
 
 export function worldHints(r: Run) {
@@ -91,14 +96,19 @@ export function worldHints(r: Run) {
     return "";
   const label = (x: number, y: number, text: string, classes: string) =>
     `<span class="world-label ${classes}" style="left:${(x / 1024) * 100}%;top:${(y / 640) * 100}%">${text}</span>`;
-  const nearDoor = r.player.x > 872 && Math.abs(r.player.y - 320) < 55;
+  const nearDoor =
+    r.phase === "POST_CLEAR" &&
+    r.player.x > 872 &&
+    Math.abs(r.player.y - 320) < 55;
   let html = r.items
     .map((item) => {
       const close = Math.hypot(item.x - r.player.x, item.y - r.player.y) <= 64;
       return label(
         item.x,
         item.y + 24,
-        (r.phase === "POST_CLEAR" && close && !nearDoor
+        (["COMBAT", "SETTLEMENT", "POST_CLEAR"].includes(r.phase) &&
+        close &&
+        !nearDoor
           ? "<kbd>E</kbd> 檢取 · "
           : "") + escape(zh.slots[item.slot]),
         "item-label " + item.rarity + (close ? " nearby" : ""),

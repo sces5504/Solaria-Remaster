@@ -293,15 +293,15 @@ describe("C10–18 元素、卡池、地圖与 Boss", () => {
   });
 });
 describe("C22–26 清算与保存", () => {
-  it("装备仅清关、背包满物品保留、同 ID 移动不复制", () => {
+  it("战斗可拾取、仅清关可穿戴、背包满物品保留与同 ID 不复制", () => {
     const r = arena();
     const item = itemFor(r, 90, 0)!;
     item.x = r.player.x;
     item.y = r.player.y;
     r.items = [item];
-    expect(pickup(r)).toBe(false);
-    r.phase = "POST_CLEAR";
     expect(pickup(r)).toBe(true);
+    expect(equip(r, item.id)).toBe(false);
+    r.phase = "POST_CLEAR";
     expect(equip(r, item.id)).toBe(true);
     expect(r.bag).toHaveLength(0);
     expect(r.items).toHaveLength(0);

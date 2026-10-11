@@ -127,7 +127,7 @@ function addMode(
         0.01,
         1,
         null,
-        { owner: e.id, wave: id, heavy: true },
+        { owner: e.id, wave: id, heavy: true, effect: "thunder" },
       );
   if (type === "mine")
     for (let i = 0; i < 4; i++) {
@@ -316,7 +316,7 @@ export function updateModes(r: Run) {
         (boss ? 18 : e.kind === 4 ? 10 : 8) *
         (e.elite ? 1.4 : 1) *
         (r.modifiers.includes(2) ? 1.2 : 1),
-      speed = (boss ? 270 : 260) * (r.modifiers.includes(4) ? 1.2 : 1);
+      speed = (boss ? 235 : 260) * (r.modifiers.includes(4) ? 1.2 : 1);
     if (m.type === "rush") {
       if (m.count > 0) {
         e.moveAngle = m.angle;
@@ -341,7 +341,15 @@ export function updateModes(r: Run) {
     }
     if (m.type === "fan" || m.type === "ring" || m.type === "spiral") {
       const n =
-        m.type === "ring" ? 16 : m.type === "spiral" ? 6 : e.kind === 4 ? 1 : 7;
+        m.type === "ring"
+          ? 14
+          : m.type === "spiral"
+            ? 6
+            : e.kind === 4
+              ? 1
+              : boss
+                ? 6
+                : 7;
       if (r.projectiles.filter((p) => p.enemy).length + n > 600) {
         m.next = r.time + DT;
         continue;
@@ -355,7 +363,8 @@ export function updateModes(r: Run) {
       for (let i = 0; i < n; i++) {
         let off = 0;
         if (m.type === "fan") {
-          off = e.kind === 4 ? 0 : -Math.PI / 3 + (i * Math.PI) / 9;
+          off =
+            e.kind === 4 ? 0 : -Math.PI / 3 + (i * Math.PI * 2) / (3 * (n - 1));
           if (e.kind === 5 && Math.abs(off) < 0.175) continue;
         }
         if (m.type === "ring") {
@@ -371,10 +380,12 @@ export function updateModes(r: Run) {
         (e.kind === 4
           ? 0.15
           : m.type === "spiral"
-            ? 0.12
+            ? 0.14
             : m.type === "ring"
-              ? 0.2
-              : 0.18);
+              ? 0.24
+              : boss
+                ? 0.21
+                : 0.18);
     }
     if (m.type === "summon") {
       const count = r.enemies.filter((e) => e.summoned && e.hp > 0).length;
