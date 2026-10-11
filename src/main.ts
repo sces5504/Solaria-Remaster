@@ -4,14 +4,14 @@ import { Input } from "./input/keyboard";
 import { AudioMixer } from "./audio/mixer";
 import { Checkpoints } from "./game/persistence/checkpoint";
 import { FixedClock, clone } from "./game/core/primitives";
-import { newRun, startRoom, step, enterNext } from "./game/core/run";
+import { newRun, startRoom, step } from "./game/core/run";
 import { choose, equip, discard } from "./game/systems/progression";
 import type { Run, ClassId } from "./game/core/types";
 import { zh } from "./i18n/zh-TW";
 import * as view from "./ui/view";
 const root = document.querySelector<HTMLDivElement>("#app")!;
 root.innerHTML =
-  '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>第一里程碑 · 暮光草原</span><div class="sound"><label for="volume">音量</label><input id="volume" type="range" min="0" max="1" step="0.05" aria-label="音效音量"><button id="mute">音效</button></div></header><main><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="overlay"></div><div id="toast" role="status"></div></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · F 拾取 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
+  '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>第一里程碑 · 暮光草原</span><div class="sound"><label for="volume">音量</label><input id="volume" type="range" min="0" max="1" step="0.05" aria-label="音效音量"><button id="mute">音效</button></div></header><main><div class="game-layout"><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="overlay"></div><div id="toast" role="status"></div></div><aside id="sidebar" aria-label="角色屬性與裝備"></aside></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · E 拾取／進門 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
 const stage = new Stage(),
   saves = new Checkpoints(),
   audio = new AudioMixer(),
@@ -108,11 +108,12 @@ function refresh(force = false) {
     if (run.phase === "RUN_END")
       html = `<section class="panel"><div class="eyebrow">第一里程碑完成</div><h2>草原之後，日光仍在等待</h2><p>${zh.classes[run.classId]} · Lv.${run.level}<br>${Math.floor(run.time / 60)} 分 ${Math.floor(run.time % 60)} 秒 · 擊敗${zh.bosses[run.boss as 1]}</p><p>製作者：Mori Fang</p><p class="fine">此版本在草原結束。其餘秘境於第二次任務接續。</p>${view.button("完成本局", "finish")}${view.button("匯出構築", "export")}</section>`;
   }
+  const wasModal = !overlay.classList.contains("hidden");
   overlay.innerHTML = html;
   overlay.classList.toggle("hidden", !html);
   if (saveBusy) overlay.classList.add("saving");
   else overlay.classList.remove("saving");
-  input?.clear();
+  if (wasModal !== Boolean(html)) input?.clear();
 }
 async function action(value: string) {
   const [act, arg] = value.split(":");
@@ -302,6 +303,7 @@ function frame(ms: number) {
         !["COMBAT", "POST_CLEAR"].includes(run.phase),
       () => {
         step(run!, cmd);
+        input.consumeEdges();
         cmd.skill = false;
         cmd.dodge = false;
         cmd.interact = false;
@@ -318,7 +320,7 @@ function frame(ms: number) {
             refresh(true);
           })
           .catch((e) => notify(e.message));
-      } else persist();
+      } else persist(run.phase === "ROOM_INTRO");
     }
     if (
       items !== run.items.length &&
@@ -332,16 +334,6 @@ function frame(ms: number) {
       );
       run.message = "";
     }
-    if (
-      screen === "game" &&
-      run.phase === "POST_CLEAR" &&
-      run.player.x > 892 &&
-      Math.abs(run.player.y - 320) < 45 &&
-      !saveBusy
-    ) {
-      if (enterNext(run))
-        persist(run.room < 5 || (run.phase as string) === "ROOM_INTRO");
-    }
     for (const v of run.visuals)
       if (v.id > soundId) {
         audio.play(v.kind);
@@ -351,6 +343,9 @@ function frame(ms: number) {
   stage.draw(run);
   if (ms - lastHud > 80) {
     hud.innerHTML = run ? view.hud(run) : "";
+    document.querySelector("#sidebar")!.innerHTML = run
+      ? view.sidebar(run)
+      : view.sidebarIntro();
     lastHud = ms;
   }
   refresh();

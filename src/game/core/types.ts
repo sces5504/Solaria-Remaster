@@ -66,6 +66,8 @@ export interface Actor extends Vec {
   hits: number;
   focusRoots?: number[];
   resonanceNext: number;
+  xpReward?: number;
+  activateAt?: number;
   elite: boolean;
   summoned: boolean;
   element: Element | null;
@@ -91,6 +93,7 @@ export interface Player extends Vec {
   blockHit: boolean;
   counterAt: number;
   rapid: { at: number; remaining: number; interval: number };
+  aim?: number;
   casts: number;
   capacitor: number;
   buffUntil: number;
@@ -191,7 +194,16 @@ export interface Drop extends Vec {
 }
 export interface Visual extends Vec {
   id: number;
-  kind: "hit" | "heal" | "cast" | "arc" | "burst" | "damage" | "phase" | "loot";
+  kind:
+    | "hit"
+    | "heal"
+    | "cast"
+    | "arc"
+    | "burst"
+    | "damage"
+    | "phase"
+    | "loot"
+    | "slash";
   value: number;
   color: number;
   until: number;
@@ -213,6 +225,8 @@ export interface Run {
   time: number;
   tick: number;
   nextId: number;
+  score?: number;
+  kills?: number;
   level: number;
   xp: number;
   pendingLevels: number;
@@ -223,6 +237,8 @@ export interface Run {
   stats: Stats;
   player: Player;
   enemies: Actor[];
+  reserves?: Actor[];
+  reinforcementAt?: number;
   obstacles: Obstacle[];
   projectiles: Projectile[];
   areas: Area[];

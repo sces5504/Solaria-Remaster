@@ -342,7 +342,7 @@ export function cone(
   damage: number,
   ctx: DamageContext,
 ) {
-  visual(r, "cast", p, 0, 0xffdcab, radius, a);
+  visual(r, "slash", p, width, 0xffe4a9, radius * r.stats.range, a);
   let successful = false;
   for (const e of r.enemies)
     if (coneHit(p, e, radius * r.stats.range, a, width, e.radius)) {
@@ -555,6 +555,7 @@ export function updateAreas(r: Run) {
     if (r.time < a.starts || r.time < a.next || r.time > a.ends) continue;
     a.next += a.interval;
     if (a.enemy) {
+      if (a.shape === "circle") visual(r, "burst", a, 0, 0xffb08a, a.radius);
       const end = beamEnd(r, a, a.angle);
       const affected =
         a.shape === "beam"

@@ -23,7 +23,15 @@ export function targetPoint(r: Run, c: Command, range = 450) {
 }
 export function basic(r: Run, c: Command, rapid = false) {
   const p = r.player;
-  visual(r, "cast", p, 0, 0xc3d8bd, 10);
+  visual(
+    r,
+    "cast",
+    p,
+    0,
+    r.classId === "mage" ? 0xcdb4ff : 0xe6f4b7,
+    10,
+    angle(p, c.pointerWorld),
+  );
   p.casts++;
   p.capacitor = Math.min(5, p.capacitor + 1);
   const a = angle(p, c.pointerWorld),

@@ -10,7 +10,13 @@ import {
   BitmapFont,
 } from "pixi.js";
 import type { Run } from "../game/core/types";
-import { beamEnd } from "../game/systems/geometry";
+import {
+  areaEffect,
+  bolt,
+  diamond,
+  elementColor,
+  visualEffect,
+} from "./effects";
 const names = [
   "sword",
   "bow",
@@ -27,18 +33,29 @@ const names = [
   "pillar",
   "lake",
   "door",
+  "heal",
+  "xp",
 ];
+const hash = (x: number, y: number, seed: number) => {
+  const n = Math.sin(x * 127.1 + y * 311.7 + seed * 0.017) * 43758.5453;
+  return n - Math.floor(n);
+};
 export class Stage {
   app = new Application();
   private terrain = new Graphics();
   private objects = new Container();
+  private lights = new Container();
   private friendly = new Graphics();
   private danger = new Graphics();
   private numbers = new Container();
   private sprites = new Map<string, Sprite>();
+  private glows: Sprite[] = [];
+  private glowCount = 0;
+  private glowTexture!: Texture;
   private texts = new Map<number, BitmapText>();
   private textures: Record<string, Texture[]> = {};
   private roomKey = "";
+  private positions = new Map<string, { x: number; y: number }>();
   async init(host: HTMLElement) {
     await this.app.init({
       width: 1024,
@@ -60,7 +77,7 @@ export class Stage {
         (_, i) =>
           new Texture({
             source: atlas.source,
-            frame: new Rectangle(i * 48, row * 48, 48, 48),
+            frame: new Rectangle(i * 96, row * 96, 96, 96),
           }),
       );
     BitmapFont.install({
@@ -68,21 +85,55 @@ export class Stage {
       style: { fontFamily: "monospace", fontSize: 18, fill: 0xffffff },
       chars: "0123456789+−",
     });
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 128;
+    const ctx = canvas.getContext("2d")!,
+      gradient = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    gradient.addColorStop(0, "#ffffffb0");
+    gradient.addColorStop(0.2, "#ffffff55");
+    gradient.addColorStop(0.55, "#ffffff14");
+    gradient.addColorStop(1, "#ffffff00");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 128, 128);
+    this.glowTexture = Texture.from(canvas);
+    this.objects.sortableChildren = true;
     this.app.stage.addChild(
       this.terrain,
       this.objects,
+      this.lights,
       this.friendly,
       this.danger,
       this.numbers,
     );
+  }
+  private glow(
+    x: number,
+    y: number,
+    radius: number,
+    color: number,
+    alpha = 0.5,
+  ) {
+    let s = this.glows[this.glowCount++];
+    if (!s) {
+      s = new Sprite(this.glowTexture);
+      s.anchor.set(0.5);
+      s.blendMode = "add";
+      this.lights.addChild(s);
+      this.glows.push(s);
+    }
+    s.visible = true;
+    s.position.set(x, y);
+    s.width = s.height = radius * 2;
+    s.tint = color;
+    s.alpha = alpha;
   }
   private sprite(
     key: string,
     name: string,
     x: number,
     y: number,
-    w = 48,
-    h = 48,
+    w = 64,
+    h = 64,
     frame = 0,
   ) {
     let s = this.sprites.get(key);
@@ -97,245 +148,560 @@ export class Stage {
     s.position.set(x, y);
     s.width = w;
     s.height = h;
+    s.alpha = 1;
+    s.rotation = 0;
+    s.tint = 0xffffff;
+    s.zIndex = name === "lake" ? 0 : y;
     return s;
   }
-  draw(r: Run | null) {
+  private pose(key: string, x: number, y: number, time: number) {
+    const old = this.positions.get(key),
+      moving = old && Math.hypot(old.x - x, old.y - y) > 0.02;
+    this.positions.set(key, { x, y });
+    return moving ? 1 + (Math.floor(time * 8) % 2) : 0;
+  }
+  private landscape(r: Run) {
     const g = this.terrain;
+    g.clear().rect(0, 0, 1024, 640).fill(0x173338);
+    // Fine mottled meadow, winding light path, moss, stones, flowers and hand-cut banks.
+    g.rect(32, 64, 960, 544).fill(0x2b4c42);
+    for (let y = 64; y < 608; y += 16)
+      for (let x = 32; x < 992; x += 16) {
+        const n = hash(x, y, r.seed + r.room);
+        if (n < 0.3)
+          g.rect(x, y, 12, 8).fill({
+            color: n < 0.1 ? 0x53735b : 0x203f39,
+            alpha: 0.15,
+          });
+      }
+    const pathY = (x: number) =>
+      320 + Math.sin(x * 0.012 + r.templates[0]) * 15;
+    for (let x = 48; x < 980; x += 16) {
+      const y = pathY(x),
+        next = pathY(x + 16);
+      g.poly([x, y - 26, x + 16, next - 26, x + 16, next + 26, x, y + 26]).fill(
+        { color: 0x99a981, alpha: 0.12 },
+      );
+    }
+    for (let i = 0; i < 480; i++) {
+      const x = 40 + hash(i, 1, r.seed + r.room) * 940,
+        y = 76 + hash(i, 2, r.seed + r.room) * 515,
+        n = hash(i, 3, r.seed);
+      if (Math.abs(y - 320) < 28 && n < 0.75) {
+        g.rect(x, y, 2 + n * 3, 1).fill({ color: 0xa6b190, alpha: 0.4 });
+        continue;
+      }
+      if (n < 0.7)
+        g.moveTo(x - 3, y + 3)
+          .lineTo(x - 2, y - 2)
+          .lineTo(x, y + 1)
+          .lineTo(x + 2, y - 4)
+          .stroke({
+            color: n < 0.35 ? 0x8ca878 : 0x426e57,
+            width: 1,
+            alpha: 0.65,
+          });
+      else if (n < 0.85) {
+        g.ellipse(x, y, 3, 2).fill(0x4b6563);
+        g.rect(x - 1, y - 2, 2, 1).fill(0x90a28b);
+      } else {
+        g.rect(x, y, 1, 5).fill(0x628361);
+        g.rect(x - 2, y - 2, 5, 3).fill(n > 0.96 ? 0xc0adce : 0xd8c48b);
+        g.rect(x, y - 1, 1, 1).fill(0xffecc4);
+      }
+    }
+    g.rect(0, 0, 1024, 64)
+      .fill(0x132a31)
+      .rect(0, 608, 1024, 32)
+      .fill(0x122a30)
+      .rect(0, 64, 32, 544)
+      .fill(0x132d31)
+      .rect(992, 64, 32, 544)
+      .fill(0x132d31);
+    for (let x = 0; x < 1024; x += 20) {
+      const h = 5 + hash(x, 12, r.seed) * 12;
+      g.poly([x, 64, x + 14, 64, x + 18, 64 + h, x + 4, 64 + h + 4]).fill(
+        0x405c51,
+      );
+      g.rect(x, 608, 14, 3).fill(0x4e675b);
+    }
+    for (let y = 66; y < 610; y += 24) {
+      g.rect(24, y, 8, 17).fill(0x405c51);
+      g.rect(992, y, 8, 17).fill(0x405c51);
+    }
+    // Ambient pools are painted once; moving light stays on the effect layer.
+    g.ellipse(112, 320, 44, 23).fill({ color: 0xacc9a0, alpha: 0.07 });
+    g.ellipse(928, 320, 44, 25).fill({ color: 0xdfc487, alpha: 0.1 });
+  }
+  private weapon(r: Run) {
+    const p = r.player,
+      g = this.friendly,
+      aim = p.aim || 0;
+    const slash = [...r.visuals]
+      .reverse()
+      .find(
+        (v) =>
+          v.kind === "slash" &&
+          Math.hypot(v.x - p.x, v.y - p.y) < 75 &&
+          v.until > r.time,
+      );
+    const attack = slash ? 1 - (slash.until - r.time) / 0.3 : 0;
+    const a = slash
+      ? slash.angle - slash.value / 2 + attack * slash.value
+      : aim;
+    const pt = (x: number, y: number) => ({
+      x: p.x + Math.cos(a) * x - Math.sin(a) * y,
+      y: p.y + Math.sin(a) * x + Math.cos(a) * y,
+    });
+    const poly = (points: number[], color: number) => {
+      const v: number[] = [];
+      for (let i = 0; i < points.length; i += 2) {
+        const q = pt(points[i], points[i + 1]);
+        v.push(q.x, q.y);
+      }
+      g.poly(v).fill(color);
+    };
+    const line = (
+      x: number,
+      y: number,
+      tx: number,
+      ty: number,
+      color: number,
+      width: number,
+    ) => {
+      const a = pt(x, y),
+        b = pt(tx, ty);
+      g.moveTo(a.x, a.y).lineTo(b.x, b.y).stroke({ color, width });
+    };
+    const color = elementColor(
+      r.elements,
+      r.classId === "mage" ? 0xc8a3ff : 0xffe3a1,
+    );
+    if (r.classId === "sword") {
+      poly([15, -4, 42, -4, 50, 0, 42, 4, 15, 4], 0xebf7e7);
+      line(18, 0, 43, 0, 0x8ec2d5, 1.5);
+      line(15, -9, 15, 9, 0xe6bd74, 3);
+      line(5, 0, 14, 0, 0x976e51, 4);
+      if (slash) {
+        const q = pt(45, 0);
+        this.glow(q.x, q.y, 22, color, 0.4);
+      }
+    } else if (r.classId === "bow") {
+      const points = [
+        pt(17, -20),
+        pt(28, -9),
+        pt(30, 0),
+        pt(28, 9),
+        pt(17, 20),
+      ];
+      g.moveTo(points[0].x, points[0].y);
+      for (const q of points.slice(1)) g.lineTo(q.x, q.y);
+      g.stroke({ color: 0xdeba7b, width: 3 });
+      const release = Math.max(
+        0,
+        1 - (r.time - (p.attackNext - 1 / r.stats.attackRate)) / 0.22,
+      );
+      const stringX = 17 - release * 8;
+      line(17, -20, stringX, 0, 0xe6efcf, 1);
+      line(stringX, 0, 17, 20, 0xe6efcf, 1);
+      line(8, 0, 37, 0, 0xe5f5bc, 1.5);
+      poly([36, -3, 42, 0, 36, 3], 0xffe9b6);
+      if (p.rapid.remaining) this.glow(p.x, p.y, 42, 0xe2ef9d, 0.35);
+    } else {
+      line(9, 0, 31, 0, 0xb9916b, 4);
+      const q = pt(35, 0);
+      diamond(g, q.x, q.y, 12, 0xcdb7fa);
+      diamond(g, q.x, q.y, 5, 0xffffff);
+      const flare = Math.max(
+        0,
+        1 - (r.time - (p.attackNext - 1 / r.stats.attackRate)) / 0.25,
+      );
+      this.glow(q.x, q.y, 30 + flare * 12, color, 0.65 + flare * 0.2);
+      for (let i = 0; i < 3; i++)
+        diamond(
+          g,
+          q.x + Math.cos(r.time * 5 + i * 2.1) * 16,
+          q.y + Math.sin(r.time * 5 + i * 2.1) * 16,
+          2,
+          color,
+          0.7,
+        );
+    }
+  }
+  draw(r: Run | null) {
+    const f = this.friendly,
+      d = this.danger;
+    f.clear();
+    d.clear();
     for (const s of this.sprites.values()) s.visible = false;
-    this.friendly.clear();
-    this.danger.clear();
+    for (const s of this.glows) s.visible = false;
+    this.glowCount = 0;
     if (!r) {
-      g.clear().rect(0, 0, 1024, 640).fill(0x172a35);
+      this.terrain.clear().rect(0, 0, 1024, 640).fill(0x182e35);
       return;
     }
     const key = `${r.runId}-${r.room}`;
     if (this.roomKey !== key) {
       this.roomKey = key;
-      g.clear().rect(0, 0, 1024, 640).fill(0x233e43);
-      for (let y = 64; y < 608; y += 32)
-        for (let x = 32; x < 992; x += 32) {
-          const n = (x * 7 + y * 13 + r.seed) % 17;
-          g.rect(x, y, 32, 32).fill(
-            n < 4 ? 0x2b4547 : n < 10 ? 0x284244 : 0x263f43,
-          );
-          if (n < 5)
-            g.moveTo(x + 8, y + 24)
-              .lineTo(x + 10, y + 19)
-              .lineTo(x + 12, y + 24)
-              .stroke({ color: 0x648473, width: 1, alpha: 0.5 });
-        }
-      g.rect(0, 0, 1024, 64)
-        .fill(0x14252d)
-        .rect(0, 608, 1024, 32)
-        .fill(0x172a30)
-        .rect(0, 64, 32, 544)
-        .fill(0x172a30)
-        .rect(992, 64, 32, 544)
-        .fill(0x172a30);
-      g.rect(72, 294, 84, 52)
-        .fill({ color: 0x9fc6b4, alpha: 0.12 })
-        .rect(888, 294, 76, 52)
-        .fill({ color: 0xd5c48b, alpha: 0.12 });
+      this.positions.clear();
+      this.landscape(r);
     }
     for (const o of r.obstacles) {
       if (o.durability <= 0) {
-        this.friendly
-          .rect(o.x, o.y, o.w, o.h)
-          .fill({ color: 0x6b7d7b, alpha: 0.2 });
+        for (let i = 0; i < 6; i++)
+          f.poly([
+            o.x + (i * o.w) / 6,
+            o.y + o.h / 2,
+            o.x + (i * o.w) / 6 + 5,
+            o.y + o.h / 2 - 4,
+            o.x + (i * o.w) / 6 + 8,
+            o.y + o.h / 2 + 5,
+          ]).fill({ color: 0x82928a, alpha: 0.5 });
         continue;
       }
-      const s = this.sprite(
-        `ob-${o.id}`,
-        o.kind,
-        o.x + o.w / 2,
-        o.y + o.h / 2,
-        o.w + (o.kind === "tree" ? 24 : 0),
-        o.h + (o.kind === "tree" ? 24 : 0),
-        Math.floor(r.time * 2) % 2,
-      );
-      const ratio = o.durability / o.maxDurability;
-      s.tint = ratio > 0.65 ? 0xffffff : ratio > 0.3 ? 0xb0a09b : 0x82757b;
-      if (r.room === 5 && o.kind !== "lake") {
-        this.friendly.rect(o.x, o.y + o.h + 2, o.w * ratio, 3).fill(0xa9b5a6);
-      }
+      if (o.kind === "lake")
+        this.sprite(
+          `ob-${o.id}`,
+          o.kind,
+          o.x + o.w / 2,
+          o.y + o.h / 2,
+          o.w + 6,
+          o.h + 6,
+          Math.floor(r.time * 2) % 3,
+        );
+      else
+        for (let y = 0; y < o.h; y += 32)
+          for (let x = 0; x < o.w; x += 32) {
+            const s = this.sprite(
+              `ob-${o.id}-${x}-${y}`,
+              o.kind,
+              o.x + x + 16,
+              o.y + y + 16,
+              o.kind === "tree" ? 56 : 48,
+              o.kind === "tree" ? 60 : 48,
+            );
+            const ratio = o.durability / o.maxDurability;
+            s.tint =
+              ratio > 0.65 ? 0xffffff : ratio > 0.3 ? 0xb0a394 : 0x827a75;
+            if (ratio < 0.65) {
+              f.moveTo(o.x + x + 12, o.y + y + 4)
+                .lineTo(o.x + x + 18, o.y + y + 12)
+                .lineTo(o.x + x + 13, o.y + y + 20)
+                .stroke({ color: 0x22313b, width: 2 });
+            }
+          }
+      if (r.room === 5 && o.kind !== "lake")
+        f.rect(
+          o.x,
+          o.y + o.h + 2,
+          (o.w * o.durability) / o.maxDurability,
+          2,
+        ).fill(0xd8cb9c);
     }
-    this.sprite(
-      "door",
-      "door",
-      928,
-      320,
-      56,
-      72,
-      r.phase === "POST_CLEAR" ? 1 : 0,
-    ).tint = r.phase === "POST_CLEAR" ? 0xffffff : 0x726d69;
+    const open = r.phase === "POST_CLEAR";
+    this.sprite("door", "door", 928, 320, 70, 86, open ? 1 : 0).tint = open
+      ? 0xffffff
+      : 0x9d9488;
+    if (open) {
+      this.glow(928, 320, 65, 0xa2e9d0, 0.65);
+      for (let i = 0; i < 7; i++)
+        diamond(
+          f,
+          913 + Math.sin(i + r.time) * 12,
+          345 - ((r.time * 22 + i * 9) % 60),
+          2,
+          0xecffd5,
+          0.7,
+        );
+    }
     const p = r.player,
-      frame =
-        r.phase === "DEAD"
-          ? 5
-          : p.invulnerable > r.time
-            ? 4
-            : p.attackNext - r.time > 0.15
-              ? 3
-              : Math.floor(r.time * 6) % 3;
-    const ps = this.sprite("player", r.classId, p.x, p.y, 42, 42, frame);
-    ps.alpha = p.invulnerable > r.time && Math.floor(r.time * 20) % 2 ? 0.5 : 1;
+      pose = this.pose("player", p.x, p.y, r.time),
+      attack = p.attackNext - r.time > 0.15;
+    const frame =
+      r.phase === "DEAD" ? 5 : p.invulnerable > r.time ? 4 : attack ? 3 : pose;
+    const ps = this.sprite("player", r.classId, p.x, p.y, 60, 60, frame);
+    ps.scale.x = Math.abs(ps.scale.x) * (Math.cos(p.aim || 0) < 0 ? -1 : 1);
+    ps.alpha =
+      p.invulnerable > r.time && Math.floor(r.time * 20) % 2 ? 0.55 : 1;
+    if (r.phase !== "DEAD") this.weapon(r);
     for (const e of r.enemies) {
-      const name = names[e.kind + 2];
-      const size = e.kind > 5 ? 90 : e.elite ? 56 : 42;
+      const active = r.modes.find((m) => m.actor === e.id),
+        size = e.kind > 5 ? 128 : e.elite ? 74 : 58;
       const frame =
-        e.transition > r.time
+        e.transition > r.time || e.controlUntil > r.time
           ? 4
-          : e.controlUntil > r.time
-            ? 0
-            : e.rushUntil > r.time
-              ? 3
-              : Math.floor(r.time * 5) % 3;
-      const s = this.sprite(`enemy-${e.id}`, name, e.x, e.y, size, size, frame);
+          : e.rushUntil > r.time || (active && r.time >= active.starts)
+            ? 3
+            : this.pose(`e-${e.id}`, e.x, e.y, r.time);
+      const s = this.sprite(
+        `enemy-${e.id}`,
+        names[e.kind + 2],
+        e.x,
+        e.y,
+        size,
+        size,
+        frame,
+      );
+      s.scale.x = Math.abs(s.scale.x) * (r.player.x < e.x ? -1 : 1);
+      if (active && active.starts > r.time) {
+        s.scale.y *= 0.95 + Math.sin(r.time * 18) * 0.025;
+      } else if (e.rushUntil > r.time) {
+        s.scale.y *= 0.9;
+        s.rotation = Math.cos(e.moveAngle) < 0 ? -0.08 : 0.08;
+      }
       s.tint =
         e.controlUntil > r.time
-          ? 0x83e4f6
+          ? 0xbcefff
           : e.phase === 2
-            ? 0xffb095
+            ? 0xffc7a1
             : e.elite
-              ? 0xffd58b
+              ? 0xffd9a1
               : 0xffffff;
-      if (e.hp < e.maxHP && e.kind <= 5) {
-        this.friendly
-          .rect(e.x - 18, e.y - 25, 36, 3)
-          .fill(0x1b2630)
-          .rect(e.x - 18, e.y - 25, (36 * e.hp) / e.maxHP, 3)
-          .fill(0xc8947f);
+      if (e.kind > 5) {
+        this.glow(
+          e.x,
+          e.y,
+          70,
+          e.kind === 6 ? 0x9fd5ed : 0xdbaaee,
+          0.25 + Math.sin(r.time * 2) * 0.06,
+        );
+        if (e.transition > r.time) {
+          f.circle(e.x, e.y, 64).stroke({
+            color: 0xffd68d,
+            width: 3,
+            alpha: 0.6,
+          });
+          for (let i = 0; i < 6; i++)
+            diamond(
+              f,
+              e.x + Math.cos(r.time + i) * 70,
+              e.y + Math.sin(r.time + i) * 55,
+              5,
+              0xffe9bc,
+            );
+        }
       }
-      if (e.iceUntil > r.time)
-        this.friendly
-          .circle(e.x, e.y, e.radius + 4)
-          .stroke({ color: 0x9ee6f5, width: 1 });
-      if (e.wetUntil > r.time)
-        this.friendly
-          .ellipse(e.x, e.y + e.radius, 16, 5)
-          .stroke({ color: 0x65bbed, width: 2 });
-      if (e.burn.length)
-        this.friendly
-          .circle(e.x, e.y - 20, 4 + Math.sin(r.time * 18) * 2)
-          .fill({ color: 0xfbbc75, alpha: 0.7 });
+      if (e.elite) {
+        diamond(f, e.x, e.y - size * 0.48, 5, 0xffd18e);
+        this.glow(e.x, e.y, 35, 0xd9a4f7, 0.18);
+      }
+      if (e.hp < e.maxHP && e.kind <= 5)
+        f.rect(e.x - 18, e.y - size * 0.47, 36, 3)
+          .fill(0x172932)
+          .rect(e.x - 18, e.y - size * 0.47, (36 * e.hp) / e.maxHP, 3)
+          .fill(0xe1b199);
+      if (e.iceUntil > r.time) {
+        this.glow(e.x, e.y, 34, 0x8fd8ff, 0.25);
+        for (const sign of [-1, 1])
+          diamond(f, e.x + sign * 19, e.y + 7, 10, 0xc6f7ff, 0.7);
+      }
+      if (e.controlUntil > r.time)
+        f.poly([
+          e.x - 20,
+          e.y + 15,
+          e.x - 22,
+          e.y - 20,
+          e.x,
+          e.y - 36,
+          e.x + 22,
+          e.y - 20,
+          e.x + 20,
+          e.y + 15,
+        ])
+          .fill({ color: 0xbbf5ff, alpha: 0.22 })
+          .stroke({ color: 0xd3fcff, width: 1 });
+      if (e.wetUntil > r.time) {
+        f.ellipse(e.x, e.y + 15, 22, 7).stroke({
+          color: 0x8ccffa,
+          width: 2,
+          alpha: 0.75,
+        });
+        for (let i = 0; i < 3; i++)
+          diamond(
+            f,
+            e.x - 12 + i * 12,
+            e.y - 14 + Math.sin(r.time * 5 + i) * 7,
+            3,
+            0xa7e6ff,
+            0.7,
+          );
+      }
+      if (e.burn.length) {
+        this.glow(e.x, e.y, 35, 0xffa15c, 0.35);
+        for (let i = 0; i < 6; i++) {
+          const y = e.y + 10 - ((r.time * 40 + i * 11) % 42),
+            x = e.x + Math.sin(i * 3 + r.time * 6) * 15;
+          f.poly([x - 3, y + 3, x, y - 8, x + 4, y + 2]).fill({
+            color: i % 2 ? 0xffae4e : 0xffe88d,
+            alpha: 0.8,
+          });
+        }
+      }
     }
-    const f = this.friendly,
-      d = this.danger;
-    f.rect(p.x - 20, p.y + 24, 40, 5)
-      .fill(0x0d1c29)
+    f.rect(p.x - 21, p.y + 27, 42, 6)
+      .fill(0x0c2029)
       .rect(
         p.x - 20,
-        p.y + 24,
+        p.y + 28,
         40 * Math.max(0, 1 - (p.skillReady - r.time) / r.stats.skillCD),
-        5,
+        4,
       )
-      .fill(p.skillReady <= r.time ? 0xf5d98c : 0x7d91b3);
-    if (p.blockUntil > r.time)
-      f.circle(p.x, p.y, 26).stroke({ color: 0xfceac0, width: 3 });
-    if (p.shields.length)
-      f.circle(p.x, p.y, 24).stroke({ color: 0x9fdaeb, width: 2 });
+      .fill(p.skillReady <= r.time ? 0xffe4a2 : 0x9fb9dd);
+    if (p.blockUntil > r.time) {
+      this.glow(p.x, p.y, 46, 0xffe1a0, 0.45);
+      f.circle(p.x, p.y, 29).stroke({ color: 0xffedbd, width: 3 });
+      for (let i = 0; i < 4; i++)
+        diamond(
+          f,
+          p.x + Math.cos((i * Math.PI) / 2 + r.time) * 31,
+          p.y + Math.sin((i * Math.PI) / 2 + r.time) * 31,
+          4,
+          0xfff6d4,
+        );
+    }
+    if (p.shields.length) {
+      this.glow(p.x, p.y, 40, 0xb7e7fa, 0.25);
+      f.circle(p.x, p.y, 27).stroke({ color: 0xc4efff, width: 2 });
+    }
+    if (p.dashUntil > r.time)
+      for (let i = 1; i < 5; i++) {
+        const x = p.x - Math.cos(p.dashAngle) * i * 11,
+          y = p.y - Math.sin(p.dashAngle) * i * 11;
+        f.ellipse(x, y, 9 - i, 12 - i).fill({
+          color: 0xcae8db,
+          alpha: 0.25 - i * 0.04,
+        });
+      }
     for (const item of r.items) {
       const color =
         item.rarity === "黃"
-          ? 0xf4d480
+          ? 0xffdc80
           : item.rarity === "紫"
-            ? 0xb29ee8
-            : 0x8bbbed;
-      f.circle(item.x, item.y, 9)
-        .fill({ color, alpha: 0.25 })
-        .rect(item.x - 4, item.y - 5, 8, 10)
-        .fill(color);
+            ? 0xc9a2ff
+            : 0x8acbff;
+      this.glow(item.x, item.y, 28, color, 0.5);
+      const y = item.y + Math.sin(r.time * 3) * 2;
+      diamond(f, item.x, y, 10, color);
+      diamond(f, item.x, y, 4, 0xfff9db);
+      f.ellipse(item.x, item.y + 13, 11, 4).stroke({
+        color,
+        width: 1,
+        alpha: 0.5,
+      });
     }
-    for (const drop of r.drops)
-      f.circle(drop.x, drop.y, drop.kind === "xp" ? 3 : 7).fill(
-        drop.kind === "xp" ? 0xa9ceb5 : 0xe69791,
+    for (const drop of r.drops) {
+      this.sprite(
+        `drop-${drop.id}`,
+        drop.kind === "heal" ? "heal" : "xp",
+        drop.x,
+        drop.y + Math.sin(r.time * 3 + drop.id) * 2,
+        drop.kind === "heal" ? 30 : 16,
+        drop.kind === "heal" ? 30 : 16,
       );
-    for (const projectile of r.projectiles) {
-      const target = projectile.enemy ? d : f;
-      const color = projectile.enemy
-        ? 0xff8f86
-        : projectile.context?.elementMask.includes("fire")
-          ? 0xffc17b
-          : projectile.context?.elementMask.includes("lightning")
-            ? 0xcab3ff
-            : 0xa1e5f4;
-      target
-        .moveTo(
-          projectile.x - projectile.vx * 0.018,
-          projectile.y - projectile.vy * 0.018,
-        )
-        .lineTo(projectile.x, projectile.y)
-        .stroke({
-          color,
-          width: projectile.enemy ? 3 : 2,
-          alpha:
-            projectile.context?.chainScale && projectile.context.chainScale < 1
-              ? 0.5
-              : 1,
-        });
-      target.circle(projectile.x, projectile.y, projectile.radius).fill(color);
+      this.glow(
+        drop.x,
+        drop.y,
+        drop.kind === "heal" ? 22 : 12,
+        drop.kind === "heal" ? 0xbbedab : 0x91efd5,
+        0.3,
+      );
+    }
+    for (const b of r.projectiles) {
+      const g = b.enemy ? d : f,
+        els = b.context?.elementMask || [],
+        color = b.enemy
+          ? 0xffb196
+          : elementColor(els, r.classId === "bow" ? 0xe4eeb2 : 0xc7abff),
+        a = Math.atan2(b.vy, b.vx),
+        scale = b.context?.chainScale ?? 1,
+        alpha = scale < 1 ? 0.55 : 1;
+      this.glow(b.x, b.y, b.enemy ? 17 : 23, color, alpha * 0.45);
+      const owner = r.enemies.find((e) => e.id === b.owner),
+        arrow = b.enemy
+          ? owner?.kind === 4
+          : !els.length && r.classId === "bow";
+      const tx = b.x - Math.cos(a) * (arrow ? 20 : 14),
+        ty = b.y - Math.sin(a) * (arrow ? 20 : 14);
+      for (const [width, fade] of [
+        [7, 0.1],
+        [3, 0.3],
+        [1, 0.9],
+      ])
+        g.moveTo(tx, ty)
+          .lineTo(b.x, b.y)
+          .stroke({ color, width, alpha: fade * alpha });
+      if (arrow) {
+        g.moveTo(tx, ty)
+          .lineTo(b.x, b.y)
+          .stroke({ color: 0xfff1c4, width: 2, alpha });
+        const px = -Math.sin(a) * 4,
+          py = Math.cos(a) * 4;
+        g.poly([
+          b.x + Math.cos(a) * 7,
+          b.y + Math.sin(a) * 7,
+          b.x + px,
+          b.y + py,
+          b.x - px,
+          b.y - py,
+        ]).fill({ color, alpha });
+      } else if (els.includes("ice")) {
+        diamond(g, b.x, b.y, 8, 0xd7fbff, alpha);
+      } else if (els.includes("lightning")) {
+        bolt(g, tx, ty, b.x, b.y, r.time, color, alpha);
+        diamond(g, b.x, b.y, 6, color, alpha);
+      } else {
+        diamond(g, b.x, b.y, b.radius + 3, color, alpha);
+        g.circle(b.x, b.y, b.radius * 0.5).fill({ color: 0xfff6d9, alpha });
+        if (els.includes("fire"))
+          g.poly([
+            tx - 4,
+            ty + 3,
+            tx - 8,
+            ty - 7,
+            b.x,
+            b.y,
+            tx + 5,
+            ty + 4,
+          ]).fill({ color: 0xffaa58, alpha: 0.5 });
+      }
     }
     for (const a of r.areas) {
-      const warning = r.time < a.starts;
-      const target = a.enemy ? d : f;
-      const color = a.enemy
-        ? warning
-          ? 0xffbc98
-          : 0xff787e
-        : a.context?.elementMask.includes("fire")
-          ? 0xffbc7c
-          : a.context?.elementMask.includes("lightning")
-            ? 0xc8aaff
-            : 0x83d6ed;
-      if (a.shape === "beam") {
-        const end = beamEnd(r, a, a.angle);
-        target
-          .moveTo(a.x, a.y)
-          .lineTo(end.x, end.y)
-          .stroke({
-            color,
-            width: warning ? 2 : a.width,
-            alpha: warning ? 0.5 : 0.8,
-          });
-      } else if (a.shape === "cone") {
-        target
-          .moveTo(a.x, a.y)
-          .arc(a.x, a.y, a.radius, a.angle - a.width / 2, a.angle + a.width / 2)
-          .closePath()
-          .fill({ color, alpha: 0.09 })
-          .stroke({ color, width: 1 });
-      } else {
-        target
-          .circle(a.x, a.y, a.radius)
-          .fill({ color, alpha: warning ? 0.04 : 0.08 })
-          .stroke({ color, width: warning ? 2 : 1, alpha: 0.75 });
-        if (warning && a.enemy) {
-          target
-            .moveTo(a.x - 8, a.y)
-            .lineTo(a.x + 8, a.y)
-            .moveTo(a.x, a.y - 8)
-            .lineTo(a.x, a.y + 8)
-            .stroke({ color, width: 2 });
-        }
-      }
+      areaEffect(a.enemy ? d : f, r, a);
+      if (r.time >= a.starts)
+        this.glow(
+          a.x,
+          a.y,
+          Math.min(180, a.radius + 20),
+          a.enemy ? 0xff9b7c : elementColor(a.context?.elementMask),
+          0.16,
+        );
     }
     for (const m of r.modes)
       if (m.starts > r.time) {
         const e = r.enemies.find((e) => e.id === m.actor);
         if (!e) continue;
         if (m.type === "rush" || m.type === "slash") {
-          const length = m.type === "rush" ? (e.kind > 5 ? 350 : 180) : 70;
+          const length = m.type === "rush" ? (e.kind > 5 ? 186 : 96) : 70,
+            x = e.x + Math.cos(m.angle) * length,
+            y = e.y + Math.sin(m.angle) * length;
           d.moveTo(e.x, e.y)
-            .lineTo(
-              e.x + Math.cos(m.angle) * length,
-              e.y + Math.sin(m.angle) * length,
-            )
-            .stroke({ color: 0xffbd8c, width: 2 });
-        } else
-          d.circle(e.x, e.y, e.radius + 10).stroke({
-            color: 0xffb994,
+            .lineTo(x, y)
+            .stroke({ color: 0xffb28b, width: e.radius * 2 + 6, alpha: 0.1 })
+            .moveTo(e.x, e.y)
+            .lineTo(x, y)
+            .stroke({ color: 0xffd8a5, width: 2, alpha: 0.9 });
+          diamond(d, x, y, 7, 0xffdda9, 0.9);
+        } else if (m.type === "mark")
+          d.circle(m.target.x, m.target.y, e.kind > 5 ? 65 : 55).stroke({
+            color: 0xffd5a3,
             width: 2,
           });
+        else
+          d.circle(e.x, e.y, e.radius + 9).stroke({
+            color: 0xffd5a3,
+            width: 2,
+          });
+        this.glow(e.x, e.y, e.radius + 20, 0xffb180, 0.3);
       }
     const active = new Set<number>();
     for (const v of r.visuals) {
@@ -357,19 +723,16 @@ export class Stage {
         }
         text.position.set(v.x + 6, v.y - 16 - (1 - progress) * 22);
         text.alpha = progress;
-      } else if (v.kind === "arc") {
-        f.moveTo(v.x, v.y)
-          .lineTo(
-            v.x + Math.cos(v.angle) * v.value,
-            v.y + Math.sin(v.angle) * v.value,
-          )
-          .stroke({ color: v.color, width: 2, alpha: progress });
-      } else
-        f.circle(v.x, v.y, v.radius * (1.1 - progress * 0.35)).stroke({
-          color: v.color,
-          width: 2,
-          alpha: progress * 0.7,
-        });
+      } else {
+        visualEffect(f, r, v);
+        this.glow(
+          v.x,
+          v.y,
+          Math.min(130, v.radius + 20),
+          v.color,
+          progress * 0.25,
+        );
+      }
     }
     for (const [id, text] of this.texts)
       if (!active.has(id)) {
@@ -377,7 +740,12 @@ export class Stage {
         this.texts.delete(id);
       }
     for (const [key, s] of this.sprites)
-      if (!s.visible && key.startsWith("enemy")) {
+      if (
+        !s.visible &&
+        (key.startsWith("enemy") ||
+          key.startsWith("drop") ||
+          key.startsWith("ob-"))
+      ) {
         s.destroy();
         this.sprites.delete(key);
       }

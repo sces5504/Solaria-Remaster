@@ -14,7 +14,14 @@ export const bossAttacks = {
   ],
 } as const;
 function navigate(r: Run, e: Actor, speed: number) {
-  let a = angle(e, r.player);
+  const orbit = (e.id * 2.399963) % (Math.PI * 2);
+  const radius = e.kind > 3 ? 185 : e.kind === 2 ? 60 : 32;
+  const target = {
+    x: r.player.x + Math.cos(orbit) * radius,
+    y: r.player.y + Math.sin(orbit) * radius,
+  };
+  if (!legal(r, target, e.radius)) Object.assign(target, r.player);
+  let a = angle(e, target);
   if (e.navUntil > r.time && e.navTarget && distance(e, e.navTarget) > 8) {
     a = angle(e, e.navTarget);
   } else if (lineBlocked(r, e, r.player, true)) {
@@ -57,6 +64,20 @@ function navigate(r: Run, e: Actor, speed: number) {
       a = angle(e, e.navTarget);
     }
   }
+  // Anticipatory steering widens the approach before bodies overlap.
+  let sx = Math.cos(a),
+    sy = Math.sin(a);
+  for (const other of r.enemies) {
+    if (other === e || other.hp <= 0) continue;
+    const d = distance(e, other),
+      separation = e.radius + other.radius + 24;
+    if (d > 0.01 && d < separation) {
+      const force = (1 - d / separation) * 1.25;
+      sx += ((e.x - other.x) / d) * force;
+      sy += ((e.y - other.y) / d) * force;
+    }
+  }
+  a = Math.atan2(sy, sx);
   e.moveAngle = a;
   const next = { x: e.x, y: e.y };
   move(r, next, Math.cos(a) * speed * DT, Math.sin(a) * speed * DT, e.radius);
@@ -153,10 +174,10 @@ function bossAI(r: Run, e: Actor) {
       e,
       type,
       attack,
-      type === "rush" ? 0.35 : type === "laser" ? 0.8 : 0.6,
+      type === "rush" ? 0.8 : type === "laser" ? 0.8 : 0.6,
       type === "rush"
         ? e.phase === 2
-          ? 2.5
+          ? 3.0
           : 0.65
         : type === "spiral"
           ? 1.8
@@ -167,12 +188,31 @@ function bossAI(r: Run, e: Actor) {
               : 1.5,
       type === "rush" && e.phase === 2 ? 3 : 1,
     );
-    e.nextAttack = r.time + 1.7;
+    e.nextAttack = r.time + 2.4;
   }
   if (!active.some((m) => m.type === "rush"))
     navigate(r, e, 50 * (e.iceUntil > r.time ? 0.8 : 1));
 }
 export function updateEnemies(r: Run) {
+  const cap = r.room <= 2 ? 4 : 5;
+  if (
+    r.reserves?.length &&
+    r.enemies.filter((e) => e.hp > 0 && !e.summoned).length < cap &&
+    r.time >= (r.reinforcementAt || 0)
+  ) {
+    const next = r.reserves[0];
+    // Do not pop a reinforcement into melee range.
+    if (distance(next, r.player) > 150) {
+      r.reserves.shift();
+      next.nextAttack = r.time + 1.2;
+      r.enemies.push(next);
+      visual(r, "phase", next, 0, 0xe7c58e, 35);
+      r.reinforcementAt = r.time + 2;
+    } else {
+      r.reserves.push(r.reserves.shift()!);
+      r.reinforcementAt = r.time + 0.3;
+    }
+  }
   for (const e of r.enemies) {
     if (e.hp <= 0) continue;
     if (e.kind > 5) {
@@ -181,7 +221,15 @@ export function updateEnemies(r: Run) {
     }
     if (e.controlUntil > r.time) continue;
     const speed =
-      (e.kind <= 3 ? 110 : e.kind === 4 ? 90 : 80) *
+      (e.kind === 1
+        ? 74
+        : e.kind === 2
+          ? 48
+          : e.kind === 3
+            ? 65
+            : e.kind === 4
+              ? 55
+              : 45) *
       (e.iceUntil > r.time ? 0.8 : 1) *
       (r.modifiers.includes(3) ? 1.2 : 1);
     const d = distance(e, r.player);
@@ -189,8 +237,8 @@ export function updateEnemies(r: Run) {
       move(
         r,
         e,
-        Math.cos(e.moveAngle) * 450 * DT,
-        Math.sin(e.moveAngle) * 450 * DT,
+        Math.cos(e.moveAngle) * 240 * DT,
+        Math.sin(e.moveAngle) * 240 * DT,
         e.radius,
       );
       if (
@@ -206,6 +254,7 @@ export function updateEnemies(r: Run) {
       }
       continue;
     }
+    if (r.modes.some((m) => m.actor === e.id && m.starts > r.time)) continue;
     if (
       (e.kind <= 3 && d > 55) ||
       (e.kind > 3 && (d > 240 || lineBlocked(r, e, r.player)))
@@ -230,7 +279,7 @@ export function updateEnemies(r: Run) {
             ? "slash"
             : "fan",
       `mon-${e.kind}`,
-      e.kind === 2 ? 0.6 : e.kind <= 3 ? 0.35 : 0.4,
+      e.kind <= 3 ? 0.7 : 0.6,
       e.kind <= 3 ? 0.4 : e.kind === 4 ? 0.31 : 0.01,
       e.kind === 4 ? 3 : 1,
     );
@@ -270,14 +319,15 @@ export function updateModes(r: Run) {
       speed = (boss ? 270 : 260) * (r.modifiers.includes(4) ? 1.2 : 1);
     if (m.type === "rush") {
       if (m.count > 0) {
-        e.moveAngle = angle(e, m.target);
+        e.moveAngle = m.angle;
         e.rushUntil = r.time + (boss ? 0.6 : 0.4);
         e.rushHits = [];
         m.count--;
-        m.next = r.time + (boss ? 0.95 : 1);
+        m.next = r.time + (boss ? 1.05 : 1);
         if (m.count) {
           m.target = { x: r.player.x, y: r.player.y };
-          m.starts = m.next - 0.35;
+          m.angle = angle(e, m.target);
+          m.starts = m.next - 0.45;
         }
       }
     }
@@ -310,8 +360,6 @@ export function updateModes(r: Run) {
         }
         if (m.type === "ring") {
           off = (i * Math.PI * 2) / n;
-          if (Math.abs(Math.atan2(Math.sin(off), Math.cos(off))) < Math.PI / 6)
-            continue;
         }
         if (m.type === "spiral")
           off = Math.floor(i / 3) * Math.PI + (i % 3) * 0.1;
@@ -367,8 +415,8 @@ export function updateModes(r: Run) {
       move(
         r,
         e,
-        Math.cos(e.moveAngle) * 600 * DT,
-        Math.sin(e.moveAngle) * 600 * DT,
+        Math.cos(e.moveAngle) * 310 * DT,
+        Math.sin(e.moveAngle) * 310 * DT,
         e.radius,
       );
       if (

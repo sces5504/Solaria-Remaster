@@ -114,6 +114,7 @@ describe("C01–09 時鐘、職業與來源", () => {
   });
   it("同幀最後怪與玩家零 HP 先清算救回且只一次", () => {
     const r = arena();
+    r.reserves = [];
     r.player.hp = 0;
     r.enemies[0].hp = 0;
     step(r, idleCommand(r));

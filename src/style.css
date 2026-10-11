@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap");
 :root {
   color-scheme: dark;
   font-family: "Noto Sans TC", system-ui, sans-serif;
@@ -460,4 +459,420 @@ footer {
 }
 .sound label {
   font-size: 10px;
+}
+/* Desktop playfield fills the available height; the sidebar uses the old game's information hierarchy. */
+body {
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  background: #0c1b20;
+}
+header {
+  height: 42px;
+  padding: 0 20px;
+}
+.brand {
+  font-size: 18px;
+  letter-spacing: 4px;
+}
+.brand span {
+  display: inline;
+  margin-left: 8px;
+  font-size: 8px;
+}
+main {
+  height: calc(100dvh - 42px);
+  padding: 8px 12px 0;
+  justify-content: center;
+}
+.game-layout {
+  display: flex;
+  align-items: stretch;
+  width: min(100%, calc((100dvh - 80px) * 1.6 + 216px));
+  min-height: 0;
+  border: 1px solid #63837655;
+  border-radius: 7px;
+  overflow: hidden;
+  box-shadow: 0 12px 50px #0006;
+}
+#viewport {
+  width: calc(100% - 216px);
+  flex: none;
+  aspect-ratio: 8/5;
+  border: 0;
+  box-shadow: none;
+}
+canvas {
+  image-rendering: pixelated;
+  cursor: crosshair;
+}
+#sidebar {
+  width: 216px;
+  flex: none;
+  padding: 18px 16px;
+  background: linear-gradient(#172f31, #102528);
+  border-left: 1px solid #59796844;
+  display: flex;
+  flex-direction: column;
+  color: #dce8d6;
+  font-size: 12px;
+  min-height: 0;
+  overflow: auto;
+}
+#sidebar h2 {
+  color: #efce88;
+  font-size: 23px;
+  margin: 5px 0;
+}
+#sidebar h3 {
+  color: #a8c1ad;
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin: 17px 0 8px;
+}
+#sidebar h3 span {
+  float: right;
+  color: #eacb8a;
+  border: 1px solid #678571;
+  padding: 0 4px;
+}
+#sidebar small {
+  color: #9ab7ad;
+  font-size: 11px;
+}
+#sidebar p {
+  line-height: 1.9;
+}
+.side-title {
+  color: #b1c79e;
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+.side-divider {
+  border-top: 1px solid #65847544;
+  margin: 12px 0;
+}
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #789c7430;
+  font-size: 12px;
+}
+.stat-row span {
+  color: #96b4a6;
+}
+.stat-row strong {
+  font-weight: 500;
+  color: #e9e9cc;
+}
+.element-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.element-chips span {
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  padding: 4px 7px;
+  font-size: 11px;
+}
+.element-ice {
+  color: #b4efff;
+}
+.element-fire {
+  color: #ffb271;
+}
+.element-water {
+  color: #81ceff;
+}
+.element-lightning {
+  color: #ffe49c;
+}
+.equipment-mini {
+  padding: 8px 10px;
+  background: #244039;
+  border: 1px solid #5d7b6755;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+.equipment-mini small {
+  display: block;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+.equipment-mini.藍 {
+  border-left: 3px solid #80c4f2;
+}
+.equipment-mini.紫 {
+  border-left: 3px solid #c6a5f2;
+}
+.equipment-mini.黃 {
+  border-left: 3px solid #f1cd7c;
+}
+.side-note {
+  margin-top: auto;
+  padding-top: 16px;
+  font-size: 11px;
+  color: #9cbbab;
+}
+footer {
+  height: 26px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  color: #a2b5a5;
+  font-size: 11px;
+  letter-spacing: 0;
+}
+#hud {
+  grid-template-columns: 25% 48% 27%;
+  font-size: clamp(10px, 1vw, 16px);
+  padding: 1% 1.5%;
+}
+.status {
+  background: #10272de0;
+  border: 1px solid #829b6650;
+}
+.hp i {
+  background: linear-gradient(90deg, #689f81, #c5dc97);
+}
+.xp-track {
+  height: 3px;
+  background: #273c4a;
+  margin: 3px 0;
+}
+.xp-track i {
+  display: block;
+  height: 100%;
+  background: #86c9d6;
+}
+.score {
+  text-align: right;
+  background: #10272dcc;
+  padding: 7px 10px;
+  border: 1px solid #829b6650;
+}
+.score strong {
+  font:
+    24px Georgia,
+    serif;
+  color: #f4d79c;
+  display: block;
+  line-height: 1.1;
+  margin: 3px 0;
+}
+.score small {
+  color: #a4bdad;
+  font-size: 0.8em;
+}
+.class-card img {
+  display: block;
+  width: 88px;
+  height: 88px;
+  image-rendering: pixelated;
+  margin: 0 auto;
+  filter: drop-shadow(0 4px 9px #0008);
+}
+.class-card {
+  min-height: 280px;
+  background: linear-gradient(#29433b, #152b2c);
+  border: 1px solid #587759;
+  border-top: 3px solid #c8b47e;
+}
+.class-card h3 {
+  text-align: center;
+  margin: 5px 0 8px;
+}
+.class-card .gold {
+  display: block;
+  text-align: center;
+}
+.class-card p {
+  font-size: 12px;
+}
+.card {
+  --card: #72b6ee;
+  --wash: #214772;
+  --dark: #152c43;
+  background: linear-gradient(155deg, var(--wash), var(--dark));
+  border: 1px solid var(--card);
+  border-top: 4px solid var(--card);
+  box-shadow:
+    inset 0 0 40px #ffffff05,
+    0 4px 20px #0004;
+  min-height: 275px;
+}
+.card:before {
+  content: "✦";
+  display: block;
+  color: var(--card);
+  font-size: 30px;
+  filter: drop-shadow(0 0 7px var(--card));
+  margin: 5px 0 10px;
+}
+.card.藍 {
+  --card: #8acbff;
+  --wash: #234f7c;
+  --dark: #152b47;
+}
+.card.紫 {
+  --card: #d5acff;
+  --wash: #594578;
+  --dark: #302b4e;
+}
+.card.黃 {
+  --card: #ffe090;
+  --wash: #75643a;
+  --dark: #3c3321;
+}
+.card.青 {
+  --card: #83f0da;
+  --wash: #245d58;
+  --dark: #183d3d;
+}
+.card h3 {
+  color: #fff4d7;
+  font-size: 21px;
+}
+.card p {
+  color: #eceedd;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.card:hover,
+.card:focus-visible {
+  background: linear-gradient(155deg, var(--wash), var(--dark));
+  box-shadow: 0 0 22px color-mix(in srgb, var(--card) 28%, transparent);
+  border-color: #fff1c1;
+}
+.card.selected {
+  outline: 2px solid #fff1b6;
+  outline-offset: 3px;
+}
+.card .rarity {
+  color: var(--card);
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+.card .gold {
+  color: #f8e7bb;
+  font-size: 12px;
+}
+.panel {
+  background: linear-gradient(145deg, #203a38f8, #12292ff8);
+  border-color: #b0ad7755;
+  border-top-color: #eed399;
+  border-radius: 6px;
+}
+.panel.wide {
+  width: min(950px, 96%);
+}
+.panel h2 {
+  letter-spacing: 1px;
+  color: #ffe4a5;
+}
+.menu {
+  background: radial-gradient(ellipse at 50% 40%, #284d41ee, #0c202bf5);
+}
+.menu h1 {
+  text-shadow: 0 0 45px #f3c87645;
+}
+.tagline {
+  color: #c0d1b7;
+}
+@media (max-height: 800px) {
+  #sidebar {
+    padding: 12px;
+    font-size: 11px;
+  }
+  #sidebar h3 {
+    margin: 10px 0 5px;
+  }
+  .stat-row {
+    padding: 4px 0;
+    font-size: 11px;
+  }
+  .equipment-mini {
+    padding: 5px 8px;
+    margin-bottom: 4px;
+  }
+  .side-note {
+    padding-top: 8px;
+    line-height: 1.6 !important;
+  }
+  .class-card {
+    min-height: 230px;
+  }
+  .class-card img {
+    width: 65px;
+    height: 65px;
+  }
+  .card {
+    min-height: 220px;
+    padding: 14px;
+  }
+  .card:before {
+    font-size: 22px;
+    margin: 0;
+  }
+  .panel {
+    padding: 18px;
+  }
+  .cards {
+    margin: 12px 0;
+  }
+  .fine {
+    margin-top: 12px;
+  }
+}
+@media (max-width: 1000px) {
+  .game-layout {
+    width: min(100%, calc((100dvh - 80px) * 1.6));
+  }
+  #viewport {
+    width: 100%;
+  }
+  #sidebar {
+    display: none;
+  }
+  main {
+    padding: 6px 6px 0;
+  }
+  header > span {
+    display: none;
+  }
+}
+@media (max-height: 560px) {
+  header {
+    height: 32px;
+  }
+  main {
+    height: calc(100dvh - 32px);
+  }
+  .game-layout {
+    width: min(100%, calc((100dvh - 66px) * 1.6 + 216px));
+  }
+  .card {
+    min-height: 170px;
+    padding: 9px;
+  }
+  .card h3 {
+    font-size: 17px;
+    margin: 8px 0;
+  }
+  .card p {
+    font-size: 11px;
+  }
+  .class-card img {
+    width: 50px;
+    height: 50px;
+  }
+  .panel p {
+    font-size: 11px;
+  }
+  .panel h2 {
+    font-size: 21px;
+  }
 }

@@ -1,5 +1,7 @@
 import type { Run, Obstacle, Actor } from "../core/types";
 import { random, seedFor } from "../core/primitives";
+export const roomXPBudget = (room: number) =>
+  100 + 20 * Math.min(room - 1, 4) + 10 * Math.max(0, room - 5);
 export const classes = {
   sword: { hp: 150, armor: 25, damage: 30, rate: 2, cd: 7 },
   bow: { hp: 100, armor: 10, damage: 18, rate: 3, cd: 8 },
@@ -40,7 +42,11 @@ const layouts = [
     [17, 4, 3, 2, 0],
   ],
 ];
-export function makeObstacles(template: number, boss = 0): Obstacle[] {
+export function makeObstacles(
+  template: number,
+  boss = 0,
+  seed = 1,
+): Obstacle[] {
   const entries =
     boss === 1
       ? [
@@ -57,7 +63,30 @@ export function makeObstacles(template: number, boss = 0): Obstacle[] {
             [21, 13, 1, 2, 3],
           ]
         : layouts[template];
-  return entries.map((v, i) => ({
+  const variation = { rng: seedFor(seed, template + 500) };
+  const base = entries.map((v) => [...v]);
+  if (!boss) {
+    // Small, non-overlapping clusters; a broad centre trail and a vertical branch stay open.
+    for (let i = 0; i < 11; i++) {
+      const x = 6 + Math.floor(random(variation) * 21);
+      const y = 3 + Math.floor(random(variation) * 14);
+      const w = random(variation) < 0.25 ? 2 : 1;
+      const h = random(variation) < 0.2 ? 2 : 1;
+      if ((y + h >= 8 && y <= 12) || (x + w >= 15 && x <= 17)) continue;
+      if (
+        base.some(
+          (v) =>
+            x < v[0] + v[2] + 1 &&
+            x + w + 1 > v[0] &&
+            y < v[1] + v[3] + 1 &&
+            y + h + 1 > v[1],
+        )
+      )
+        continue;
+      base.push([x, y, w, h, random(variation) < 0.7 ? 1 : 2]);
+    }
+  }
+  return base.map((v, i) => ({
     id: i + 1,
     x: v[0] * 32,
     y: v[1] * 32,
@@ -119,6 +148,8 @@ export function actor(
 export function populate(r: Run) {
   r.rng = seedFor(r.seed, r.room);
   r.enemies = [];
+  r.reserves = [];
+  r.reinforcementAt = r.time + 2;
   r.projectiles = [];
   r.areas = [];
   r.modes = [];
@@ -130,6 +161,7 @@ export function populate(r: Run) {
   r.obstacles = makeObstacles(
     r.templates[r.room - 1] ?? 0,
     r.room === 5 ? r.boss : 0,
+    r.seed + r.room,
   );
   r.player.x = 112;
   r.player.y = 320;
@@ -141,7 +173,8 @@ export function populate(r: Run) {
   r.modifiers = [];
   if (r.room === 5) {
     const e = actor(r.nextId++, r.boss + 5, 760, 320);
-    e.nextAttack = r.time + 1;
+    e.nextAttack = r.time + 1.5;
+    e.xpReward = roomXPBudget(r.room);
     r.enemies.push(e);
     return;
   }
@@ -156,13 +189,14 @@ export function populate(r: Run) {
   if (r.modifiers.includes(0)) n = Math.ceil(n * 1.25);
   const eliteIndex = random(r) < 0.25 ? Math.floor(random(r) * n) : -1;
   for (let i = 0; i < n; i++) {
-    const kind = 1 + Math.floor(random(r) * 5);
+    const kind = 1 + ((i + Math.floor(random(r) * 2)) % 5);
     let x = 0,
       y = 0;
     for (let retry = 0; retry < 100; retry++) {
       x = 330 + random(r) * 570;
       y = 110 + random(r) * 430;
       if (
+        r.enemies.every((e) => Math.hypot(e.x - x, e.y - y) > 62) &&
         r.obstacles.every(
           (o) =>
             x < o.x - 24 ||
@@ -174,7 +208,7 @@ export function populate(r: Run) {
         break;
     }
     const e = actor(r.nextId++, kind, x, y, i === eliteIndex);
-    e.nextAttack = r.time + 1 + i * 0.25;
+    e.nextAttack = r.time + 1.5 + i * 0.35;
     if (r.modifiers.includes(1)) e.hp = e.maxHP *= 1.3;
     if (random(r) < (r.modifiers.includes(5) ? 0.2 : 0.05))
       e.element = (["ice", "fire", "water", "lightning"] as const)[
@@ -187,4 +221,8 @@ export function populate(r: Run) {
     e.nextAttack = r.time + 3;
     r.enemies.push(e);
   }
+  const budget = roomXPBudget(r.room);
+  const weight = r.enemies.reduce((sum, e) => sum + (e.elite ? 2 : 1), 0);
+  for (const e of r.enemies) e.xpReward = (budget * (e.elite ? 2 : 1)) / weight;
+  r.reserves = r.enemies.splice(r.room <= 2 ? 4 : 5);
 }

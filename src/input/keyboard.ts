@@ -18,7 +18,7 @@ export class Input {
       this.keys.add(e.code);
       if (e.repeat) return;
       if (e.code === "Space") this.dodge = true;
-      else if (e.code === "KeyF") this.interact = true;
+      else if (e.code === "KeyE") this.interact = true;
       else if (
         ["Escape", "KeyI", "KeyC", "Enter", "ArrowLeft", "ArrowRight"].includes(
           e.code,
@@ -34,11 +34,11 @@ export class Input {
         y: ((e.clientY - rect.top) * 640) / rect.height,
       };
     });
-    canvas.addEventListener("pointerdown", (e) => {
+    canvas.addEventListener("mousedown", (e) => {
       if (e.button === 0) this.attack = true;
       if (e.button === 2) this.skill = true;
     });
-    window.addEventListener("pointerup", (e) => {
+    window.addEventListener("mouseup", (e) => {
       if (e.button === 0) this.attack = false;
     });
     canvas.addEventListener("contextmenu", (e) => e.preventDefault());
@@ -60,6 +60,11 @@ export class Input {
     this.dodge = false;
     this.interact = false;
   }
+  consumeEdges() {
+    this.skill = false;
+    this.dodge = false;
+    this.interact = false;
+  }
   command(r: Run): Command {
     const cmd: Command = {
       tick: r.tick,
@@ -74,9 +79,6 @@ export class Input {
       dodge: this.dodge,
       interact: this.interact,
     };
-    this.skill = false;
-    this.dodge = false;
-    this.interact = false;
     return cmd;
   }
 }

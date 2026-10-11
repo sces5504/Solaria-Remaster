@@ -13,6 +13,8 @@ it("四普通房、逐级选卡、Boss清算到里程碑结尾；阶段检查点
   for (let room = 1; room <= 5; room++) {
     expect(r.phase).toBe("ROOM_INTRO");
     startRoom(r);
+    r.enemies.push(...(r.reserves || []));
+    r.reserves = [];
     for (const e of r.enemies) e.hp = 0;
     step(r, idleCommand(r));
     while (r.phase === "UPGRADE_CHOICE") {
@@ -31,7 +33,12 @@ it("清关后残留投射物仍伤、旧房危险不跟到下房", () => {
   const r = newRun("mage", 1);
   startRoom(r);
   r.obstacles = [];
-  for (const e of r.enemies) e.hp = 0;
+  r.enemies.push(...(r.reserves || []));
+  r.reserves = [];
+  for (const e of r.enemies) {
+    e.hp = 0;
+    e.xpReward = 0;
+  }
   r.projectiles = [
     {
       id: 999,

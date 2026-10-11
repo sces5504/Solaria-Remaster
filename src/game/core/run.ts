@@ -36,6 +36,8 @@ export function newRun(classId: ClassId, seed: number): Run {
     time: 0,
     tick: 0,
     nextId: 100,
+    score: 0,
+    kills: 0,
     level: 1,
     xp: 0,
     pendingLevels: 0,
@@ -113,8 +115,12 @@ export function enterNext(r: Run) {
 function deathRewards(r: Run) {
   const dead = r.enemies.filter((e) => e.hp <= 0);
   for (const e of dead) {
+    r.kills = (r.kills || 0) + 1;
+    r.score = (r.score || 0) + (e.kind > 5 ? 500 : e.elite ? 50 : 25);
     if (!e.summoned) {
-      const value = (e.kind > 5 ? 100 : 5 * (e.elite ? 2 : 1)) * r.stats.xp;
+      const value =
+        (e.xpReward ?? (e.kind > 5 ? 148 : 12 * (e.elite ? 2 : 1))) *
+        r.stats.xp;
       r.drops.push({ id: r.nextId++, x: e.x, y: e.y, kind: "xp", value });
       if (e.kind > 5) {
         for (let i = 0; i < 2; i++) {
@@ -159,13 +165,14 @@ function consumeDrops(r: Run, all = false) {
 export function settle(r: Run) {
   if (r.settledOnce) return;
   r.settledOnce = true;
+  r.score = (r.score || 0) + 100;
   consumeDrops(r, true);
   r.player.hp = Math.min(
     r.stats.maxHP,
     r.player.hp + (r.room === 5 ? r.stats.maxHP : r.stats.maxHP * 0.1),
   );
-  while (r.xp >= 100 + 20 * (r.level - 1)) {
-    r.xp -= 100 + 20 * (r.level - 1);
+  while (r.xp + 1e-7 >= 100 + 20 * (r.level - 1)) {
+    r.xp = Math.max(0, r.xp - (100 + 20 * (r.level - 1)));
     r.level++;
     r.pendingLevels++;
   }
@@ -188,10 +195,11 @@ export function step(r: Run, c: Command, paused = false) {
   r.tick++;
   r.stats = derive(r);
   const p = r.player;
+  p.aim = angle(p, c.pointerWorld);
   p.shields = p.shields.filter((s) => s.until > r.time && s.amount > 0);
   r.visuals = r.visuals.filter((v) => v.until > r.time);
   if (r.time >= p.controlUntil) {
-    if (c.skill && r.phase === "COMBAT") castSkill(r, c);
+    if (c.skill) castSkill(r, c);
     if (c.dodge) dodge(r, c);
     const old = clone({ x: p.x, y: p.y });
     if (p.dashUntil > r.time) {
@@ -226,7 +234,7 @@ export function step(r: Run, c: Command, paused = false) {
       )
         Object.assign(p, temp);
     }
-    if (c.attack && r.phase === "COMBAT" && r.time >= p.attackNext) {
+    if (c.attack && r.time >= p.attackNext) {
       basic(r, c);
       p.attackNext = r.time + 1 / r.stats.attackRate;
     }
@@ -262,12 +270,16 @@ export function step(r: Run, c: Command, paused = false) {
   if (p.iceUntil <= r.time) p.frost = 0;
   deathRewards(r);
   consumeDrops(r);
-  if (r.phase === "COMBAT" && r.enemies.length === 0) settle(r);
+  if (r.phase === "COMBAT" && r.enemies.length === 0 && !r.reserves?.length)
+    settle(r);
   if (p.hp <= 0) {
     r.phase = "DEAD";
     r.choices = [];
   }
-  if (c.interact && r.phase === "POST_CLEAR") pickup(r);
+  if (c.interact && r.phase === "POST_CLEAR") {
+    if (p.x > 872 && Math.abs(p.y - 320) < 55) enterNext(r);
+    else pickup(r);
+  }
 }
 export function idleCommand(r: Run): Command {
   return {

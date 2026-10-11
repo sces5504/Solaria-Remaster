@@ -3,7 +3,7 @@ export const zh = {
   titles: { sword: "暮光守衛", bow: "苔原遊俠", mage: "星火學者" },
   skills: { sword: "格擋反擊", bow: "快速射擊", mage: "行星爆" },
   elements: { ice: "冰霜", fire: "燼火", water: "潮水", lightning: "雷電" },
-  fusion: { steam: "蒸氣", storm: "水電工", frostfire: "冰火奧術" },
+  fusion: { steam: "蒸氣", storm: "雷潮共鳴", frostfire: "冰火奧術" },
   slots: { armor: "裝甲", ring: "戒指", amulet: "護符" },
   affixes: {
     hp: "生命",
@@ -42,5 +42,5 @@ export const zh = {
   ],
   bosses: { 1: "狼王", 2: "邪惡山羊王" },
   controls:
-    "WASD 移動 · 滑鼠瞄準 · 按住左鍵普攻 · 右鍵職業技能 · 空白閃避（無無敵） · F 撿裝 · I 裝備 · C 構築 · Esc 暫停",
+    "WASD 移動 · 滑鼠瞄準 · 按住左鍵普攻 · 右鍵職業技能 · 空白閃避（無無敵） · E 撿裝／進門 · I 裝備 · C 構築 · Esc 暫停",
 };
