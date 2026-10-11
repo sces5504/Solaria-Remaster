@@ -1,0 +1,6 @@
+{
+  "name": "Solaria Remaster",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:24-bookworm",
+  "forwardPorts": [5173, 4173],
+  "postCreateCommand": "bash scripts/cloud-setup.sh"
+}
