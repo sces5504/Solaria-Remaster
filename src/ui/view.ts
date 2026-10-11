@@ -1,3 +1,4 @@
+import { eventDefinitions } from "../game/data/events";
 import { equipmentCatalog } from "../game/data/equipment";
 import {
   slotRestriction,
@@ -6,7 +7,7 @@ import {
 } from "../game/systems/ability-policies";
 import { isBossRoom } from "../game/data/journey";
 import { currentBiome } from "../game/data/biomes";
-import { bosses } from "../game/data/bosses";
+import { combatBosses as bosses } from "../game/data/combat-content";
 import type { Run, Item, ClassId } from "../game/core/types";
 import { classes } from "../game/data/world";
 import { cards } from "../game/data/cards";
@@ -31,7 +32,7 @@ export function hud(r: Run) {
     boss = r.enemies.find((e) => e.kind > 5),
     shield = p.shields.reduce((n, s) => n + s.amount, 0),
     xpNeed = 100 + 20 * (r.level - 1);
-  return `<div class="status"><strong>${zh.classes[r.classId]} <span class="muted">Lv.${r.level}</span></strong><div class="hp"><i style="width:${Math.max(0, (p.hp / r.stats.maxHP) * 100)}%"></i><span>${Math.ceil(p.hp)} / ${Math.ceil(r.stats.maxHP)}${shield > 0 ? " · 護盾 " + Math.ceil(shield) : ""}</span></div><div class="xp-track"><i style="width:${Math.min(100, (r.xp / xpNeed) * 100)}%"></i></div><small>經驗 ${Math.floor(r.xp)} / ${xpNeed}</small></div><div class="room"><strong>${currentBiome(r).name}</strong><small>第 ${r.room} / 31 關 · ${isBossRoom(r) ? "領主之境" : currentBiome(r).themes[r.templates[(r.room - 1) % 5]]}</small>${boss ? `<div class="boss"><span>${r.room === 31 ? "索拉里斯神" : (bosses[r.boss]?.name ?? zh.bosses[r.boss as 1])} · ${boss.transition > r.time ? "力量覺醒・暫時無敵" : "第 " + (boss.solarisBar ?? boss.phase) + " 階段"}</span><div><i style="width:${(boss.hp / boss.maxHP) * 100}%"></i></div></div>` : ""}</div><div class="score"><small>本局分數</small><strong>${(r.score || 0).toLocaleString()}</strong><small>${r.phase === "POST_CLEAR" ? "已清關 · E 拾取／進門" : r.phase === "SETTLEMENT" ? "清算 · 經驗與補給集結中" : `敵人 ${r.enemies.filter((e) => e.hp > 0).length} · 後續 ${r.reserves?.length || 0}`}</small></div>`;
+  return `<div class="status"><strong>${zh.classes[r.classId]} <span class="muted">Lv.${r.level}</span></strong><div class="hp"><i style="width:${Math.max(0, (p.hp / r.stats.maxHP) * 100)}%"></i><span>${Math.ceil(p.hp)} / ${Math.ceil(r.stats.maxHP)}${shield > 0 ? " · 護盾 " + Math.ceil(shield) : ""}</span></div><div class="xp-track"><i style="width:${Math.min(100, (r.xp / xpNeed) * 100)}%"></i></div><small>經驗 ${Math.floor(r.xp)} / ${xpNeed}</small></div><div class="room"><strong>${r.event ? eventDefinitions[r.event.id].name : currentBiome(r).name}</strong><small>第 ${r.room} / 31 關 · ${r.event ? (r.event.boss ? "災厄降臨" : `第 ${Math.min(3, r.event.wave + 1)} 波${r.event.waiting ? " · 下一波將至" : ""}`) : isBossRoom(r) ? "領主之境" : currentBiome(r).themes[r.templates[(r.room - 1) % 5]]}</small>${boss ? `<div class="boss"><span>${r.room === 31 ? "索拉里斯神" : (bosses[boss.bossId ?? r.boss]?.name ?? zh.bosses[r.boss as 1])} · ${boss.transition > r.time ? "力量覺醒・暫時無敵" : "第 " + (boss.solarisBar ?? boss.phase) + " 階段"}</span><div><i style="width:${(boss.hp / boss.maxHP) * 100}%"></i></div></div>` : ""}</div><div class="score"><small>本局分數</small><strong>${(r.score || 0).toLocaleString()}</strong><small>${r.phase === "POST_CLEAR" ? "已清關 · E 拾取／進門" : r.phase === "SETTLEMENT" ? "清算 · 經驗與補給集結中" : `敵人 ${r.enemies.filter((e) => e.hp > 0).length} · 後續 ${r.reserves?.length || 0}`}</small></div>`;
 }
 export function sidebarIntro() {
   return `<div class="side-title">旅人手札</div><h2>日光邊境</h2><p>六重秘境，日光在前。<br>以選卡塑造你的戰鬥風格。</p><div class="side-divider"></div><p>WASD 移動<br>左鍵持續普攻<br>右鍵職業技能<br>空白閃避<br>E 拾取／進門</p><p class="side-note">看清蓄力方向，再橫向閃避。<br>掩體能阻擋敵我彈道。</p>`;

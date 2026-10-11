@@ -1,3 +1,4 @@
+import { selectEvent, eventLayout, beginEventWave } from "../systems/events";
 import { gearState } from "../systems/equipment-abilities";
 import { pumpkin } from "../systems/companion";
 import { bossEntryAbility } from "../systems/advanced-abilities";
@@ -320,8 +321,16 @@ export function populate(r: Run) {
   r.player.counterAt = 0;
   r.modifiers = [];
   if (r.room === 31) {
+    r.event = undefined;
     placeSolaris(r);
     bossEntryAbility(r);
+    return;
+  }
+  if (selectEvent(r)) {
+    const layout = eventLayout(r);
+    r.obstacles = layout.obstacles;
+    r.route = layout.route;
+    beginEventWave(r);
     return;
   }
   if (localRoom === 5) {
@@ -378,9 +387,9 @@ export function populate(r: Run) {
       e.element = definition.element;
     }
     e.hp = e.maxHP *= enemyHPScale(r);
-    if (e.elite) assignElite(r, e);
     e.nextAttack = r.time + 1.5 + i * 0.35;
     if (r.modifiers.includes(1)) e.hp = e.maxHP *= 1.3;
+    if (e.elite) assignElite(r, e);
     if (random(r) < (r.modifiers.includes(5) ? 0.2 : 0.05))
       e.element = (["ice", "fire", "water", "lightning"] as const)[
         Math.floor(random(r) * 4)

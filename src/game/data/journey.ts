@@ -1,3 +1,4 @@
+import { eventDefinitions } from "./events";
 import type { Run } from "../core/types";
 import type { BiomeId } from "./biomes";
 import { random, seedFor } from "../core/primitives";
@@ -44,7 +45,10 @@ export function journeyFor(seed: number, loop = 1): JourneySegment[] {
     };
   });
 }
-export const isBossRoom = (r: Run) => r.room === 31 || r.room % 5 === 0;
+export const isBossRoom = (r: Run) =>
+  r.room === 31 ||
+  r.room % 5 === 0 ||
+  !!(r.event && eventDefinitions[r.event.id].boss);
 export function restoreJourney(r: Run) {
   if (r.journey) return;
   r.loop ??= 1;

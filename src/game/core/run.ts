@@ -1,3 +1,4 @@
+import { updateEvent } from "../systems/events";
 import { hasEquipment } from "../data/equipment";
 import { gearKill, updateGear } from "../systems/equipment-abilities";
 import { updatePumpkin, revivePumpkin } from "../systems/companion";
@@ -360,8 +361,11 @@ export function step(r: Run, c: Command, paused = false) {
     consumeDrops(r);
     if (r.time + 1e-7 >= ends) finishSettlement(r);
   } else consumeDrops(r);
-  if (r.phase === "COMBAT" && r.enemies.length === 0 && !r.reserves?.length)
-    settle(r);
+  if (r.phase === "COMBAT") {
+    const eventPending = updateEvent(r);
+    if (!eventPending && r.enemies.length === 0 && !r.reserves?.length)
+      settle(r);
+  }
   if (p.hp <= 0) {
     r.phase = "DEAD";
     r.choices = [];

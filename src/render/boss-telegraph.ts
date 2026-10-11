@@ -1,10 +1,12 @@
 import type { Graphics } from "pixi.js";
 import type { Actor, Mode, Run } from "../game/core/types";
-import { currentBiome } from "../game/data/biomes";
+import { biomes, currentBiome } from "../game/data/biomes";
 export function bossTelegraph(g: Graphics, r: Run, e: Actor, m: Mode): boolean {
   const attack = m.bossAttack;
   if (!attack) return false;
-  const color = e.solarisBar ? 0xffe2a0 : currentBiome(r).palette[2];
+  const color = e.solarisBar
+    ? 0xffe2a0
+    : (r.event ? biomes[r.event.theme] : currentBiome(r)).palette[2];
   const alpha = 0.5 + 0.2 * Math.sin(r.time * 12);
   const line = (x1: number, y1: number, x2: number, y2: number, width = 2) =>
     g.moveTo(x1, y1).lineTo(x2, y2).stroke({ color, width, alpha });

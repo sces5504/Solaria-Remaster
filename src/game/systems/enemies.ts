@@ -1,3 +1,5 @@
+import { rallyFactor } from "./event-combat";
+import { combatMonsters as monsters } from "../data/combat-content";
 import { enemyTarget, contactRush, meleeBodies } from "./companion";
 import {
   normalWarning,
@@ -15,9 +17,10 @@ import { angle, distance, DT, random } from "../core/primitives";
 import { legal, lineBlocked, move, coneHit, segmentDistance } from "./geometry";
 import { shoot, area, hurt, damageCover, visual } from "./combat";
 import { actor } from "../data/world";
-import { monsters, enemyDamageScale } from "../data/biomes";
+import { enemyDamageScale } from "../data/biomes";
 import {
   biomeBossAI,
+  updateBossLeap,
   executeBossMode,
   updateHealingSummon,
 } from "./biome-bosses";
@@ -181,7 +184,9 @@ function addMode(
         r,
         e,
         1100,
-        (e.kind > 5 ? 24 : 8) * enemyDamageScale(r),
+        (e.kind > 5 ? 24 : 8) *
+          enemyDamageScale(r) *
+          rallyFactor(r, e, "damage"),
         0.8 + i * 0.3,
         e.monsterId === 29 ? 0.6 : 1.2,
         0.15,
@@ -297,6 +302,7 @@ export function updateEnemies(r: Run) {
       continue;
     }
     if (e.kind > 5) {
+      if (updateBossLeap(r, e)) continue;
       if (e.solarisBar) solarisAI(r, e);
       else if (e.bossId) biomeBossAI(r, e);
       else bossAI(r, e);
@@ -341,7 +347,8 @@ export function updateEnemies(r: Run) {
                 ? 55
                 : 45)) *
       (e.iceUntil > r.time ? 0.8 : 1) *
-      (r.modifiers.includes(3) ? 1.2 : 1);
+      (r.modifiers.includes(3) ? 1.2 : 1) *
+      rallyFactor(r, e, "speed");
     const d = distance(e, r.player);
     if (e.rushUntil > r.time) {
       move(
@@ -360,6 +367,7 @@ export function updateEnemies(r: Run) {
         e,
         12 *
           enemyDamageScale(r) *
+          rallyFactor(r, e, "damage") *
           (e.elite ? 1.4 : 1) *
           (r.modifiers.includes(2) ? 1.2 : 1),
         enemyElements(e),
@@ -447,6 +455,7 @@ export function updateModes(r: Run) {
     const boss = e.kind > 5,
       damage =
         enemyDamageScale(r) *
+        rallyFactor(r, e, "damage") *
         (boss ? 18 : e.kind === 4 ? 10 : 8) *
         (e.elite ? 1.4 : 1) *
         (r.modifiers.includes(2) ? 1.2 : 1),
@@ -487,6 +496,7 @@ export function updateModes(r: Run) {
         12 *
           (e.monsterId === 12 ? 1.5 : 1) *
           enemyDamageScale(r) *
+          rallyFactor(r, e, "damage") *
           (e.elite ? 1.4 : 1) *
           (r.modifiers.includes(2) ? 1.2 : 1),
         enemyElements(e),
@@ -603,7 +613,7 @@ export function updateModes(r: Run) {
         r,
         m.target,
         e.monsterId === 24 ? 65 : 55,
-        18 * enemyDamageScale(r),
+        18 * enemyDamageScale(r) * rallyFactor(r, e, "damage"),
         0,
         0.01,
         1,

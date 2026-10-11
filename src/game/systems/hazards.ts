@@ -7,7 +7,7 @@ import { legal } from "./geometry";
 
 export function createHazards(r: Run) {
   r.hazards = [];
-  if (r.room === 31) return;
+  if (r.room === 31 || r.event) return;
   const definition = currentBiome(r);
   if (!definition.hazard) return;
   const rng = {

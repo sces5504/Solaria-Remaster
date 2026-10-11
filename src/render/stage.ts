@@ -1,3 +1,6 @@
+import { eventProjectile, eventImpact } from "./event-effects";
+import { eventLandscape } from "./event-landscape";
+import { eventMonsters } from "../game/data/event-content";
 import { equipmentProjectile } from "./equipment-projectiles";
 import { equipmentEffect, equipmentAura } from "./equipment-effects";
 import { pumpkin } from "../game/systems/companion";
@@ -399,11 +402,13 @@ export class Stage {
       this.terrain.clear().rect(0, 0, 1024, 640).fill(0x182e35);
       return;
     }
-    const key = `${r.runId}-${r.room}-${r.biome ?? "meadow"}-${r.loop ?? 1}`;
+    const key = `${r.runId}-${r.room}-${r.event?.id ?? r.biome ?? "meadow"}-${r.loop ?? 1}`;
+    const theme = r.event?.theme ?? r.biome;
     if (this.roomKey !== key) {
       this.roomKey = key;
       this.positions.clear();
-      this.landscape(r);
+      this.landscape(r.event ? { ...r, biome: r.event.theme } : r);
+      eventLandscape(this.terrain, r);
     }
     for (const o of r.obstacles) {
       if (o.durability > 0 && o.kind !== "lake") {
@@ -438,7 +443,7 @@ export class Stage {
       if (o.kind === "lake")
         this.sprite(
           `ob-${o.id}`,
-          r.biome && r.biome !== "meadow" ? `${r.biome}-${o.kind}` : o.kind,
+          theme && theme !== "meadow" ? `${theme}-${o.kind}` : o.kind,
           o.x + o.w / 2,
           o.y + o.h / 2,
           o.w + 6,
@@ -450,7 +455,7 @@ export class Stage {
           for (let x = 0; x < o.w; x += 32) {
             const s = this.sprite(
               `ob-${o.id}-${x}-${y}`,
-              r.biome && r.biome !== "meadow" ? `${r.biome}-${o.kind}` : o.kind,
+              theme && theme !== "meadow" ? `${theme}-${o.kind}` : o.kind,
               o.x + x + 16,
               o.y + y + 16,
               o.kind === "tree" ? 56 : 48,
@@ -657,6 +662,17 @@ export class Stage {
           .fill(0xffe4a1);
         continue;
       }
+      if (e.rally) {
+        d.moveTo(e.x + 20, e.y + 7)
+          .lineTo(e.x + 20, e.y - 62)
+          .stroke({ color: 0xe4c78c, width: 3 });
+        d.poly([e.x + 22, e.y - 62, e.x + 55, e.y - 54, e.x + 22, e.y - 37])
+          .fill(0xdb784e)
+          .stroke({ color: 0xffdaa2, width: 2 });
+        d.moveTo(e.x + 31, e.y - 53)
+          .lineTo(e.x + 43, e.y - 48)
+          .stroke({ color: 0xffecbe, width: 3 });
+      }
       const active = r.modes.find((m) => m.actor === e.id),
         size = e.kind > 5 ? 128 : e.elite ? 74 : 58;
       const frame =
@@ -670,12 +686,29 @@ export class Stage {
         e.solarisBar
           ? "boss19"
           : e.bossId
-            ? `boss${String(e.bossId).padStart(2, "0")}`
+            ? e.bossId === 20
+              ? "frost-santa"
+              : e.bossId === 21
+                ? "pumpkin-lord"
+                : `boss${String(e.bossId).padStart(2, "0")}`
             : e.monsterId
-              ? `mon${String(e.monsterId).padStart(2, "0")}`
+              ? (eventMonsters[e.monsterId]?.art ??
+                `mon${String(e.monsterId).padStart(2, "0")}`)
               : names[e.kind + 2],
         e.x,
-        e.y,
+        e.y -
+          (e.leap
+            ? Math.sin(
+                Math.PI *
+                  Math.max(
+                    0,
+                    Math.min(
+                      1,
+                      (r.time - e.leap.starts) / (e.leap.ends - e.leap.starts),
+                    ),
+                  ),
+              ) * 65
+            : 0),
         size,
         size,
         frame,
@@ -927,6 +960,16 @@ export class Stage {
       );
     }
     for (const b of r.projectiles) {
+      if (eventProjectile(d, b, r.time)) {
+        this.glow(
+          b.x,
+          b.y,
+          24,
+          b.eventGlyph === "plasma" ? 0x68dbff : 0xffdbad,
+          0.4,
+        );
+        continue;
+      }
       if (equipmentProjectile(f, b, r.time)) {
         this.glow(b.x, b.y, 30, 0xa5d9ff, 0.3);
         continue;
@@ -1082,6 +1125,7 @@ export class Stage {
         text.alpha = progress;
       } else {
         if (
+          eventImpact(v.enemy ? d : f, v, r.time) ||
           equipmentEffect(v.enemy ? d : f, v, r.time) ||
           advancedEffect(v.enemy ? d : f, v, r.time)
         ) {

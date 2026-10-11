@@ -1,5 +1,9 @@
+import { populate } from "../../src/game/data/world";
+import { context, hit } from "../../src/game/systems/combat";
+import { validate } from "../../src/game/persistence/checkpoint";
+import { isBossRoom } from "../../src/game/data/journey";
 import { it, expect } from "vitest";
-import { newRun } from "../../src/game/core/run";
+import { newRun, step, idleCommand, nextLoop } from "../../src/game/core/run";
 import {
   eventDefinitions,
   eventChance,
@@ -134,4 +138,162 @@ it("流星三處鎖定落星有一秒警告、三秒節奏，波次等待期間�
   r.time = 6;
   updateEvent(r);
   expect(r.areas).toHaveLength(6);
+});
+
+for (const id of Object.keys(eventDefinitions) as EventId[])
+  it(`${id} 正式核心三波死亡獎勵後才清算，保證紅裝且重載不複製`, () => {
+    const r = newRun("mage", 3119);
+    r.room = 2;
+    selectEvent(r, id);
+    populate(r);
+    r.phase = "COMBAT";
+    r.player.invulnerable = 1000;
+    r.player.hp = 1;
+    const aliveCount = () =>
+      [...r.enemies, ...(r.reserves ?? [])].filter((e) => e.hp > 0).length;
+    let elapsed = 0;
+    while (!r.settledOnce && elapsed < 5000) {
+      for (const m of [...r.enemies])
+        if (!m.transition || m.transition <= r.time)
+          hit(r, m, 1000000, context(r, 1, "basic", [], true));
+      step(r, idleCommand(r));
+      if (r.event!.waiting) expect(r.settledOnce).toBe(false);
+      elapsed++;
+    }
+    expect(elapsed).toBeLessThan(5000);
+    expect(aliveCount()).toBe(0);
+    expect(r.phase).toBe("SETTLEMENT");
+    expect(r.event!.completed).toBe(true);
+    expect(r.player.hp).toBe(
+      isBossRoom(r) ? r.stats.maxHP : 1 + r.stats.maxHP * 0.1,
+    );
+    expect(
+      r.items.filter((i) => i.ability === eventDefinitions[id].reward),
+    ).toHaveLength(1);
+    const saved = validate(
+      JSON.parse(
+        JSON.stringify({ version: 1, revision: 0, current: r, entry: r }),
+      ),
+    );
+    const copy = saved.current;
+    for (let i = 0; i < 90; i++) step(copy, idleCommand(copy));
+    expect(
+      copy.items.filter((i) => i.ability === eventDefinitions[id].reward),
+    ).toHaveLength(1);
+    const seen = [...copy.seenEvents!];
+    copy.phase = "RUN_END";
+    nextLoop(copy);
+    expect(copy.seenEvents).toEqual(seen);
+  });
+it("非事件同房重建不增加抽取計數；存檔拒絕重複已遇與未完成發獎", () => {
+  const r = newRun("mage", 711);
+  const counter = r.eventCounter;
+  populate(r);
+  populate(r);
+  expect(r.eventCounter).toBe(counter);
+  selectEvent(r, "army");
+  populate(r);
+  const saved = { version: 1, revision: 0, current: r, entry: r };
+  expect(() => validate(saved)).not.toThrow();
+  r.seenEvents!.push("army");
+  expect(() => validate(saved)).toThrow("災厄紀錄");
+  r.seenEvents!.pop();
+  r.event!.rewarded = true;
+  expect(() => validate(saved)).toThrow("災厄進度");
+});
+it("事件王螺旋有真雙臂／三臂整批；追蹤冰鈴提前.4秒鎖點", async () => {
+  const { eventBosses } = await import("../../src/game/data/event-content");
+  const { beginBossAttack, executeBossMode } =
+    await import("../../src/game/systems/biome-bosses");
+  const { updateAreas } = await import("../../src/game/systems/combat");
+  for (const id of ["christmas", "halloween"] as EventId[]) {
+    const r = newRun("mage", 773);
+    r.room = 2;
+    selectEvent(r, id);
+    populate(r);
+    r.event!.wave = 3;
+    beginEventWave(r);
+    const e = r.enemies[0],
+      a = eventBosses[e.bossId!].attacks[1][0];
+    beginBossAttack(r, e, a);
+    const m = r.modes.at(-1)!;
+    r.time = m.starts;
+    executeBossMode(r, m, e);
+    expect(r.projectiles.length).toBe(a.arms * 3);
+    const angles = r.projectiles
+      .filter((_, i) => i % 3 === 0)
+      .map((p) => Math.atan2(p.vy, p.vx));
+    expect(new Set(angles.map((n) => Math.round(n * 100))).size).toBe(a.arms);
+  }
+  const r = newRun("mage", 771);
+  r.room = 2;
+  selectEvent(r, "christmas");
+  populate(r);
+  r.event!.wave = 3;
+  beginEventWave(r);
+  const e = r.enemies[0],
+    a = eventBosses[20].attacks[1][1];
+  beginBossAttack(r, e, a);
+  r.player.x = 240;
+  r.player.y = 340;
+  r.time = 0.2;
+  updateAreas(r);
+  expect(r.areas[0].x).toBe(240);
+  expect(r.areas[0].y).toBe(340);
+  r.player.x = 360;
+  r.time = 0.5;
+  updateAreas(r);
+  expect(r.areas[0].x).toBe(240);
+});
+it("南瓜躍擊是真位移與合法落點、沒有額外無敵；流星等待停止新危險", async () => {
+  const { eventBosses } = await import("../../src/game/data/event-content");
+  const { beginBossAttack, updateBossLeap } =
+    await import("../../src/game/systems/biome-bosses");
+  const r = newRun("mage", 781);
+  r.room = 2;
+  selectEvent(r, "halloween");
+  populate(r);
+  r.event!.wave = 3;
+  beginEventWave(r);
+  const e = r.enemies[0],
+    start = e.x;
+  beginBossAttack(r, e, eventBosses[21].attacks[1][2]);
+  const landing = { ...r.areas[0] };
+  r.time = 0.55;
+  expect(updateBossLeap(r, e)).toBe(true);
+  expect(e.x).toBeLessThan(start);
+  expect(e.x).toBeGreaterThan(landing.x);
+  expect(e.transition).toBe(0);
+  r.time = 1.1;
+  updateBossLeap(r, e);
+  expect(e.x).toBe(landing.x);
+  expect(e.y).toBe(landing.y);
+  expect(legal(r, e, e.radius)).toBe(true);
+  selectEvent(r, "meteor");
+  beginEventWave(r);
+  r.enemies = [];
+  r.reserves = [];
+  r.areas = [];
+  updateEvent(r);
+  r.time = 200;
+  updateEvent(r);
+  expect(r.areas).toHaveLength(0);
+});
+it("軍旗第三波附近友軍真正強化，旗倒下立即失去效果", async () => {
+  const { rallyFactor } = await import("../../src/game/systems/event-combat");
+  const r = newRun("mage", 973);
+  r.room = 2;
+  selectEvent(r, "army");
+  populate(r);
+  r.event!.wave = 2;
+  beginEventWave(r);
+  const flag = r.enemies[0],
+    friend = r.enemies[1];
+  expect(flag.rally).toBe(true);
+  friend.x = flag.x + 40;
+  friend.y = flag.y;
+  expect(rallyFactor(r, friend, "speed")).toBe(1.12);
+  expect(rallyFactor(r, friend, "damage")).toBe(1.15);
+  flag.hp = 0;
+  expect(rallyFactor(r, friend, "damage")).toBe(1);
 });

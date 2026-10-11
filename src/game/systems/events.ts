@@ -2,7 +2,12 @@ import type { Actor, Item, Run } from "../core/types";
 import { random, seedFor, type Vec } from "../core/primitives";
 import { eventDefinitions, rollEvent, type EventId } from "../data/events";
 import { eventMonsters, eventBosses } from "../data/event-content";
-import { biomeLayout, currentBiome, enemyHPScale } from "../data/biomes";
+import {
+  biomeLayout,
+  currentBiome,
+  enemyHPScale,
+  enemyDamageScale,
+} from "../data/biomes";
 import {
   actor,
   assignElite,
@@ -44,6 +49,9 @@ export function selectEvent(run: Run, forced?: EventId) {
     return false;
   }
   if (r.event?.room === r.room && r.event.loop === (r.loop ?? 1)) return true;
+  const key = `${r.loop ?? 1}:${r.room}`;
+  if (!forced && r.eventEntryKey === key) return false;
+  r.eventEntryKey = key;
   const chosen =
     forced ??
     rollEvent(r.seed, r.loop ?? 1, r.room, r.eventCounter, r.seenEvents);
@@ -82,10 +90,10 @@ export function eventLayout(r: Run) {
   const seed = seedFor(r.seed, r.room + (r.loop ?? 1) * 457);
   if (e.theme === "meadow")
     return {
-      obstacles: makeObstacles(profiles[e.id], 0, seed),
-      route: roomRoute(profiles[e.id], 0, seed),
+      obstacles: makeObstacles((profiles[e.id] + (seed % 3)) % 6, 0, seed),
+      route: roomRoute((profiles[e.id] + (seed % 3)) % 6, 0, seed),
     };
-  return biomeLayout(e.theme, profiles[e.id], seed);
+  return biomeLayout(e.theme, (profiles[e.id] + (seed % 3)) % 6, seed);
 }
 function counts(r: Run) {
   const tier = currentBiome(r).tier;
@@ -172,6 +180,7 @@ export function beginEventWave(r: Run) {
     monster.hp = monster.maxHP *= enemyHPScale(r);
     monster.nextAttack = r.time + 1 + (i % 5) * 0.2;
     if (elite) assignElite(r, monster);
+    if (e.id === "army" && e.wave === 2 && i === 0) monster.rally = true;
     spawned.push(monster);
   }
   const waveWeight = spawned.reduce((sum, m) => sum + (m.elite ? 2 : 1), 0);
@@ -210,7 +219,13 @@ function eventReward(r: Run): Item {
 export function updateEvent(r: Run) {
   const e = eventState(r);
   if (!e || e.completed) return false;
-  if (e.id === "meteor" && r.phase === "COMBAT" && r.time >= e.meteorNext) {
+  if (
+    e.id === "meteor" &&
+    !e.waiting &&
+    r.enemies.some((m) => m.hp > 0) &&
+    r.phase === "COMBAT" &&
+    r.time >= e.meteorNext
+  ) {
     e.meteorNext = r.time + 3;
     const rng = { rng: seedFor(r.seed, r.room * 71 + Math.floor(r.time / 3)) };
     for (let i = 0; i < 3; i++) {
@@ -218,7 +233,11 @@ export function updateEvent(r: Run) {
         x: Math.max(70, Math.min(952, r.player.x + (random(rng) - 0.5) * 220)),
         y: Math.max(100, Math.min(570, r.player.y + (random(rng) - 0.5) * 180)),
       };
-      area(r, p, 70, 18, 1, 0.01, 1, null, { owner: -1, enemyTheme: "stars" });
+      area(r, p, 70, 18 * enemyDamageScale(r), 1, 0.01, 1, null, {
+        owner: -1,
+        eventAbility: "meteor-rain",
+        enemyTheme: "stars",
+      });
     }
   }
   if (r.enemies.some((m) => m.hp > 0) || (r.reserves?.length ?? 0) > 0)

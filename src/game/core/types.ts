@@ -51,6 +51,7 @@ export interface Stats {
 export interface Actor extends Vec {
   id: number;
   kind: number;
+  leap?: { from: Vec; to: Vec; starts: number; ends: number };
   monsterId?: number;
   bossId?: number;
   killedByRoot?: boolean;
@@ -60,6 +61,7 @@ export interface Actor extends Vec {
   splitGroup?: number;
   summonRole?: "totem" | "blood";
   bossOwner?: number;
+  rally?: boolean;
   eliteAbility?: "rush" | "barrage" | "shield" | "element";
   eliteReady?: number;
   enemyShield?: number;
@@ -168,6 +170,7 @@ export interface Obstacle {
   waves: number[];
 }
 export interface Projectile extends Vec {
+  eventGlyph?: "gift" | "ghost" | "plasma" | "comet";
   id: number;
   homingTarget?: number;
   vx: number;
@@ -190,6 +193,9 @@ export interface Projectile extends Vec {
   trail: number;
 }
 export interface Area extends Vec {
+  eventAbility?: string;
+  trackingUntil?: number;
+  trackingOffset?: Vec;
   enemyElement?: Element | null;
   enemyElements?: Element[];
   enemyTheme?: BiomeId | "sun";
@@ -265,6 +271,7 @@ export interface Drop extends Vec {
   value: number;
 }
 export interface Visual extends Vec {
+  eventAbility?: string;
   enemyTheme?: BiomeId | "sun";
   duration?: number;
   elements?: Element[];
@@ -309,6 +316,10 @@ export interface Run {
   echoing?: boolean;
   activeSkillBonus?: number;
   echoSkillBonus?: number;
+  event?: import("../systems/events").EventState;
+  seenEvents?: import("../data/events").EventId[];
+  eventCounter?: number;
+  eventEntryKey?: string;
   gear?: import("../systems/equipment-abilities").GearState;
   companion?: import("../systems/companion").Pumpkin;
   echoCapacitor?: number;

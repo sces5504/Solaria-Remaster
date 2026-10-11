@@ -502,3 +502,15 @@ PASS：最新278unit、check/build/format。完整52Chromium曾全部PASS；後�
 驗收入口 docs/validation/EQUIPMENT_MATRIX.md；永久log docs/validation/results/_equipment_。正式遊戲仍53691bf，遠端實作仍9f88061；f322a36是前一已保存檢查點，新檢查點commit以git log核對，只推備份分支backup/v1-progress-2026-10-11，尚不部署部分v1。
 
 接續：立即S11接入六事件三波／2王／專屬布局與FX／整局一次及存檔→S12教學圖鑑成就外觀音效保存错误→S13正常／強構築與效能／記憶體→S14完整Pages。人工平衡、硬體GPU60FPS、600真GPU、10restart真設備、Firefox/Safari仍NOT_RUN。本檢查點不是完整v1，也不等待階段指示。
+
+## 第四個內部檢查點：六事件接入（2026-10-11 18:36:16 UTC）
+
+六事件實際替換普通房，三有限波／兩事件王各2×3招／專屬紅裝保證／整局一次跨周目／原地形XP與難度／無普通詞條、機關全部接入。新增追蹤冰鈴提前.4秒鎖點、真正合法躍擊、軍旗附近加速／增傷及旗倒解除、禮盒／幽魂／稜光／隕星專屬彈體與事件景物；事件保存格式驗證與同房不重抽已測。普通精英盾改在最終生命詞條後配置，恢復20%最終生命。
+
+PASS：最新295unit（288已接入遊戲／事件回歸＋4未接入profile＋3未接入碰撞／網格工具單測），check/build/format PASS。完整62 Chromium全部PASS15.5分鐘；先前9事件案例7PASS／2FAIL的原因是測試未accept第二階段存檔覆蓋confirm，已修dialog handler，完整重跑兩王2×3招及獎勵讀檔均PASS。新增未引用S12/S13模組後build的13個JS SHA256與62測試bundle完全相同。永久log見docs/validation/results/_events_。
+
+事件與兩王实际畫面已目檢，王招式啟動紀錄每階段3種由正式核心執行驗證；這不等同逐幀特效／人工平衡／硬體FPS驗收。docs/validation/EVENT_MATRIX.md與EQUIPMENT_MATRIX.md為逐項入口。地形王仍有部分通用彈體／斬擊待補相應招式，不能把S06/S07美術全面驗收標完成。
+
+S12準備但尚未引用：profile/records/profile-store/run-store/checkpoint-schema、journal/room-copy、SoundController；S13準備但尚未引用：collision-time/spatial-grid、boss-projectiles。特別RunStore新revision墓碑／profile備份尚未實際替代舊Checkpoints，不能宣稱已解決清除旅程的兩分頁ABA或永久紀錄壞檔。只有前三項component單測不能替代整合驗收。
+
+前一已保存檢查點ba94447於遠端backup/v1-progress-2026-10-11。本次檢查點來源commit以git log核對，持續同備份分支保存，不部署部分v1。正式仍53691bf/Pages，遠端implement仍9f88061。接著立即S12整合UI／教學／成就／外觀／音效／保存錯誤與遷移→S07專屬FX剩餘核對→S13平衡效能→S14完整Pages。硬體GPU60FPS／600真GPU／10restart真設備、Firefox/Safari、人工構築周目平衡NOT_RUN。

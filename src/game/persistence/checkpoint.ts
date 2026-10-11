@@ -1,3 +1,4 @@
+import { eventDefinitions } from "../data/events";
 import { equipmentCatalog } from "../data/equipment";
 import { biomes } from "../data/biomes";
 import { restoreJourney } from "../data/journey";
@@ -72,6 +73,44 @@ export function validate(value: unknown): Saved {
       (!Number.isInteger(r.loop) || r.loop < 1 || r.loop > 1000000)
     )
       throw new Error("周目資料損壞");
+    if (
+      r.seenEvents !== undefined &&
+      (!Array.isArray(r.seenEvents) ||
+        r.seenEvents.length > 6 ||
+        new Set(r.seenEvents).size !== r.seenEvents.length ||
+        r.seenEvents.some((id) => !(id in eventDefinitions)))
+    )
+      throw new Error("災厄紀錄損壞");
+    if (
+      r.eventCounter !== undefined &&
+      (!Number.isInteger(r.eventCounter) ||
+        r.eventCounter < 0 ||
+        r.eventCounter > 10)
+    )
+      throw new Error("災厄計數損壞");
+    if (r.event) {
+      const e = r.event;
+      if (
+        !(e.id in eventDefinitions) ||
+        e.room !== r.room ||
+        e.loop !== (r.loop ?? 1) ||
+        r.room % 5 === 0 ||
+        r.room === 31 ||
+        e.theme !== eventDefinitions[e.id].theme ||
+        !r.seenEvents?.includes(e.id) ||
+        !Number.isInteger(e.wave) ||
+        e.wave < 0 ||
+        e.wave > (eventDefinitions[e.id].boss ? 3 : 2) ||
+        [e.waiting, e.boss, e.completed, e.rewarded].some(
+          (x) => typeof x !== "boolean",
+        ) ||
+        e.boss !== (e.wave === 3 && !e.waiting) ||
+        e.rewarded !== e.completed ||
+        !Number.isFinite(e.next) ||
+        !Number.isFinite(e.meteorNext)
+      )
+        throw new Error("災厄進度損壞");
+    }
     if (r.biome !== undefined && !(r.biome in biomes))
       throw new Error("地形資料損壞");
     if (

@@ -1,0 +1,14 @@
+{
+  "status": "continuing S12; incomplete v1",
+  "unit": 295,
+  "unitIntegrated": 288,
+  "unitUnintegratedPrep": 7,
+  "Chromium": 62,
+  "ChromiumInitialEvent": {
+    "pass": 7,
+    "failFixture": 2
+  },
+  "bundleIdenticalAfterUnreferencedPrep": true,
+  "jsFiles": 13,
+  "hardwareAndManual": "NOT_RUN"
+}

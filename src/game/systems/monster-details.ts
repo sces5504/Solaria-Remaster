@@ -1,4 +1,5 @@
-import { monsters } from "../data/biomes";
+import { combatMonsters as monsters } from "../data/combat-content";
+
 import type { Actor, Mode, Projectile, Run } from "../core/types";
 import { angle, distance, DT, type Vec } from "../core/primitives";
 import { move } from "./geometry";

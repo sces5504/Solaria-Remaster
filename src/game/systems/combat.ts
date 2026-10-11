@@ -69,6 +69,7 @@ export function visual(
     elements?: Element[];
     enemy?: boolean;
     duration?: number;
+    eventAbility?: string;
     enemyTheme?: Run["visuals"][number]["enemyTheme"];
   } = {},
 ) {
@@ -562,10 +563,28 @@ export function shoot(
     damage,
     context: ctx,
     enemy,
+    eventGlyph: enemy
+      ? (() => {
+          const body = r.enemies.find((e) => e.id === owner);
+          return body?.bossId === 20 || body?.monsterId === 30
+            ? "gift"
+            : body?.bossId === 21 || body?.monsterId === 34
+              ? "ghost"
+              : [36, 37, 38].includes(body?.monsterId ?? 0)
+                ? "plasma"
+                : [39, 40].includes(body?.monsterId ?? 0)
+                  ? "comet"
+                  : undefined;
+        })()
+      : undefined,
     enemyElements: enemy
       ? enemyElements(r.enemies.find((e) => e.id === owner))
       : undefined,
-    enemyTheme: enemy ? (r.room === 31 ? "sun" : r.biome) : undefined,
+    enemyTheme: enemy
+      ? r.room === 31
+        ? "sun"
+        : (r.event?.theme ?? r.biome)
+      : undefined,
     enemyElement: enemy
       ? (r.enemies.find((e) => e.id === owner)?.element ?? null)
       : undefined,
@@ -607,7 +626,11 @@ export function area(
     enemyElements: !ctx
       ? enemyElements(r.enemies.find((e) => e.id === extra.owner))
       : undefined,
-    enemyTheme: !ctx ? (r.room === 31 ? "sun" : r.biome) : undefined,
+    enemyTheme: !ctx
+      ? r.room === 31
+        ? "sun"
+        : (r.event?.theme ?? r.biome)
+      : undefined,
     enemyElement: !ctx
       ? (r.enemies.find((e) => e.id === extra.owner)?.element ?? null)
       : undefined,
@@ -765,6 +788,16 @@ export function updateProjectiles(r: Run, dt: number) {
 }
 export function updateAreas(r: Run) {
   for (const a of r.areas) {
+    if (a.trackingUntil && r.time < a.trackingUntil) {
+      a.x = Math.max(
+        72,
+        Math.min(950, r.player.x + (a.trackingOffset?.x ?? 0)),
+      );
+      a.y = Math.max(
+        100,
+        Math.min(570, r.player.y + (a.trackingOffset?.y ?? 0)),
+      );
+    }
     if (a.follow) {
       a.x = r.player.x;
       a.y = r.player.y;
@@ -799,7 +832,12 @@ export function updateAreas(r: Run) {
           a.effect === "thunder" ? 0x49baff : 0xffb08a,
           a.radius,
           0,
-          { enemy: true, enemyTheme: a.enemyTheme, duration: 0.65 },
+          {
+            enemy: true,
+            eventAbility: a.eventAbility,
+            enemyTheme: a.enemyTheme,
+            duration: 0.65,
+          },
         );
       const end = beamEnd(r, a, a.angle);
       const affected =

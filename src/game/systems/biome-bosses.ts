@@ -2,7 +2,8 @@ import { enemyTarget, contactRush, meleeBodies } from "./companion";
 import { enemyElements } from "./monster-details";
 import type { Actor, Mode, Run } from "../core/types";
 import { angle, distance, DT, type Vec } from "../core/primitives";
-import { bosses, type BossAttack } from "../data/bosses";
+import type { BossAttack } from "../data/bosses";
+import { combatBosses as bosses } from "../data/combat-content";
 import { currentBiome, enemyDamageScale, enemyHPScale } from "../data/biomes";
 import { actor } from "../data/world";
 import { area, damageCover, hurt, shoot, visual } from "./combat";
@@ -91,6 +92,15 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
     phase: e.phase,
     bossAttack: attack,
   };
+  if (attack.pattern === "mark" && attack.id.includes("leap")) {
+    m.target = point(r, e, m.target);
+    e.leap = {
+      from: { x: e.x, y: e.y },
+      to: { ...m.target },
+      starts: r.time,
+      ends: starts,
+    };
+  }
   r.modes.push(m);
   r.attackLog.push(attack.id);
   r.attackLog = r.attackLog.slice(-120);
@@ -114,7 +124,21 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
         0.01,
         1,
         null,
-        { owner: e.id, wave: id, heavy: true },
+        {
+          owner: e.id,
+          eventAbility: attack.id,
+          wave: id,
+          heavy: true,
+          ...(attack.id === "santa-tracking"
+            ? {
+                trackingUntil: r.time + attack.warning + i * 0.25 - 0.4,
+                trackingOffset: {
+                  x: Math.cos(i * 2.4) * spread,
+                  y: Math.sin(i * 2.4) * spread,
+                },
+              }
+            : {}),
+        },
       );
     }
   if (attack.pattern === "mine")
@@ -123,6 +147,7 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
       const p = { x: e.x + Math.cos(a) * 130, y: e.y + Math.sin(a) * 130 };
       area(r, p, attack.radius, damage, 1.3, 4.01, 1, null, {
         owner: e.id,
+        eventAbility: attack.id,
         wave: id,
         heavy: true,
         mine: true,
@@ -154,6 +179,19 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
       wave: id,
       heavy: true,
     });
+}
+export function updateBossLeap(r: Run, e: Actor) {
+  if (e.leap) {
+    const t = Math.max(
+      0,
+      Math.min(1, (r.time - e.leap.starts) / (e.leap.ends - e.leap.starts)),
+    );
+    e.x = e.leap.from.x + (e.leap.to.x - e.leap.from.x) * t;
+    e.y = e.leap.from.y + (e.leap.to.y - e.leap.from.y) * t;
+    if (t >= 1) e.leap = undefined;
+    else return true;
+  }
+  return false;
 }
 export function biomeBossAI(r: Run, e: Actor) {
   const b = bosses[e.bossId!];

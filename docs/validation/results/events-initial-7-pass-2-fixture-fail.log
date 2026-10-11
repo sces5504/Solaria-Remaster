@@ -1,0 +1,96 @@
+[WebServer] (node:27314) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:27327) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 9 tests using 1 worker
+
+(node:27346) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/events.spec.ts:31:3 › christmas 專屬事件族群、場景、波次與讀檔 (13.0s)
+  ✓  2 tests/browser/events.spec.ts:31:3 › bloodmoon 專屬事件族群、場景、波次與讀檔 (14.7s)
+  ✓  3 tests/browser/events.spec.ts:31:3 › halloween 專屬事件族群、場景、波次與讀檔 (15.2s)
+  ✓  4 tests/browser/events.spec.ts:31:3 › alien 專屬事件族群、場景、波次與讀檔 (15.0s)
+  ✓  5 tests/browser/events.spec.ts:31:3 › meteor 專屬事件族群、場景、波次與讀檔 (13.2s)
+  ✓  6 tests/browser/events.spec.ts:31:3 › army 專屬事件族群、場景、波次與讀檔 (15.4s)
+  ✘  7 tests/browser/events.spec.ts:58:3 › christmas 事件王兩階段各三招實際場景 (23.9s)
+(node:27623) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  8 tests/browser/events.spec.ts:58:3 › halloween 事件王兩階段各三招實際場景 (26.5s)
+(node:27798) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  9 tests/browser/events.spec.ts:91:1 › 事件完成存檔匯入、E拾專屬紅裝，重載不重發，已遇集合保留 (7.8s)
+
+
+  1) tests/browser/events.spec.ts:58:3 › christmas 事件王兩階段各三招實際場景 ───────────────────────────────────
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('status')
+    Expected substring: "匯入成功"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" getByRole('status') with timeout 5000ms
+      - waiting for getByRole('status')
+
+
+      16 |     ),
+      17 |   });
+    > 18 |   await expect(page.getByRole("status")).toContainText("匯入成功");
+         |                                          ^
+      19 |   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+      20 |   await expect(page.locator("#hud .status")).toBeVisible();
+      21 | }
+        at load (/workspace/Solaria-Remaster/tests/browser/events.spec.ts:18:42)
+        at /workspace/Solaria-Remaster/tests/browser/events.spec.ts:67:7
+
+    Error Context: test-results/events-christmas-事件王兩階段各三招實際場景/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/events-christmas-事件王兩階段各三招實際場景/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/events-christmas-事件王兩階段各三招實際場景/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/browser/events.spec.ts:58:3 › halloween 事件王兩階段各三招實際場景 ───────────────────────────────────
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('status')
+    Expected substring: "匯入成功"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" getByRole('status') with timeout 5000ms
+      - waiting for getByRole('status')
+
+
+      16 |     ),
+      17 |   });
+    > 18 |   await expect(page.getByRole("status")).toContainText("匯入成功");
+         |                                          ^
+      19 |   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+      20 |   await expect(page.locator("#hud .status")).toBeVisible();
+      21 | }
+        at load (/workspace/Solaria-Remaster/tests/browser/events.spec.ts:18:42)
+        at /workspace/Solaria-Remaster/tests/browser/events.spec.ts:67:7
+
+    Error Context: test-results/events-halloween-事件王兩階段各三招實際場景/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/events-halloween-事件王兩階段各三招實際場景/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/events-halloween-事件王兩階段各三招實際場景/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/browser/events.spec.ts:58:3 › christmas 事件王兩階段各三招實際場景 ────────────────────────────────────
+    tests/browser/events.spec.ts:58:3 › halloween 事件王兩階段各三招實際場景 ────────────────────────────────────
+  7 passed (2.5m)

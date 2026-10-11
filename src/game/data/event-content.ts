@@ -172,7 +172,7 @@ export const eventBosses: Record<number, BossDefinition> = {
           groups: 8,
           duration: 2,
           interval: 0.18,
-          shots: 1,
+          shots: 6,
           rotation: 0.32,
         }),
         spell("santa-tracking", "追蹤冰鈴", "mark", {
@@ -181,6 +181,7 @@ export const eventBosses: Record<number, BossDefinition> = {
           damage: 28,
         }),
         spell("santa-lasers", "交錯鈴光", "laser", {
+          arms: 3,
           groups: 3,
           radius: 10,
           damage: 24,
@@ -218,7 +219,7 @@ export const eventBosses: Record<number, BossDefinition> = {
           groups: 10,
           duration: 2,
           interval: 0.18,
-          shots: 1,
+          shots: 9,
           rotation: 0.27,
         }),
         spell("pumpkin-lantern", "鬼燈雷射", "sweep", {
