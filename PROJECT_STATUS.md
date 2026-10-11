@@ -9,9 +9,9 @@
 ## 本次 16 項修正
 
 1. 滑鼠改用 mousedown／mouseup 接收每個按鍵：左鍵已按住時的右鍵不會被 Pointer Events 的多鍵語意漏掉。技能／閃避／互動按下事件只在實際 fixed tick 消耗，避免高更新率渲染先吃掉；保存刷新不清連續輸入。
-2. 三選一卡片整张背景／邊框／圖示／光暈依藍紫青黃顯色，移除以顏色名稱取代呈現的標籤。
+2. 三選一卡片整張背景／邊框／圖示／光暈依藍紫青黃顯色，移除以顏色名稱取代呈現的標籤。
 3. POST_CLEAR 保留普攻與職業技能，暫停／選卡仍凍結。
-4. 普通房总數保留 8–12（詞條另加），有限分批增援，前兩房同屏 4、後兩房 5。草原行走 74／48／65／55／45，加入個體接近角度、預先分離和不同站位距離。
+4. 普通房總數保留 8–12（詞條另加），有限分批增援，前兩房同屏 4、後兩房 5。草原行走 74／48／65／55／45，加入個體接近角度、預先分離和不同站位距離。
 5. 全新原創 96px atlas：三職業、五怪、兩領主、樹／岩／柱／水／門、補包與經驗晶體；層次輪廓、盔甲、鬃毛、彎角、衣袍與陰影。獨立重繪，未複製原作 sprites；manifest CC0。
 6. 瀏覽器可用高度放大舞台，保留 8:5，不需捲動頁面；桌面側欄取代大量留白。
 7. 扇形揮砍／反擊、弓弦放箭／快射、法杖蓄光／行星爆、閃避殘影、技能領域與命中／爆炸粒子。
@@ -42,7 +42,13 @@
 
 使用者已將儲存庫設為 public、Pages Source = GitHub Actions，並允許 `implement/s00-s05` 部署到 `github-pages` 環境（另保留 main）。Pages 工作流程先 check／unit／format／Chromium，通過後以 `SOLARIA_PAGES=1` 建置 `/Solaria-Remaster/` 子路徑，upload-pages-artifact＋deploy-pages。
 
-預定網址：https://sces5504.github.io/Solaria-Remaster/ 。尚需記錄本次實際部署成功與線上驗證結果；不能以此段預定網址宣稱已發布。
+正式試玩網址：https://sces5504.github.io/Solaria-Remaster/ 。
+
+- PASS：遊戲修正版 `6776b7c7b279bc15ffec75f1205c6fc29fc5a2f3` 已發布。Pages run [38134987440](https://github.com/sces5504/Solaria-Remaster/actions/runs/38134987440)，build／deploy 均 success；deployment `6994765136`。
+- PASS：同版本 Development checks runs `38134987410`／`38134990147` 均 success。
+- PASS：直接使用正式 Pages 網址的雲端 Chromium 驗證：HTML、CSS／JS、atlas／三職業肖像／manifest 均 HTTP 200；WebGL 法師新局、真實左鍵保持＋右鍵施技、舞台比例／無頁面捲動、IndexedDB 保存及重載回房間入口；pageerror 與 HTTP 失敗均為零。
+- 線上檢查使用瀏覽器 fetch 驗證素材；Node 的獨立 API request 不走環境代理，首次驗證在該請求階段遇連線限制，改用瀏覽器同源請求後完整通過。
+- 此文件記錄的是已驗證遊戲 commit；後續文件提交不代表新玩法版本。
 
 Draft PR：https://github.com/sces5504/Solaria-Remaster/pull/2 ，base `docs/solaria-cloud-spec`；保留 main，沒有合併主分支。先前 Sites 部署不是本次交付，不再更新。
 

@@ -31,4 +31,4 @@ WASD 移動，滑鼠瞄準；按住左鍵普攻、右鍵職技、空白閃避（
 
 原創像素素材與合成音效來源在 public/assets/manifest.json。已執行／未執行的測試與託管狀態見 PROJECT_STATUS.md，headless 不代表實體 GPU 60FPS。
 
-GitHub Pages 試玩目標：https://sces5504.github.io/Solaria-Remaster/ 。由 `.github/workflows/pages.yml` 在 `implement/s00-s05` 推送通過驗證後部署；實際已發布版本以 PROJECT_STATUS.md 為準。
+GitHub Pages 試玩：https://sces5504.github.io/Solaria-Remaster/ 。由 `.github/workflows/pages.yml` 在 `implement/s00-s05` 推送通過驗證後部署；已發布修正版與線上驗證紀錄見 PROJECT_STATUS.md。
