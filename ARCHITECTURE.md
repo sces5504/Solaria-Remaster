@@ -66,7 +66,7 @@ IndexedDB內run與profile分離，用revision及transaction保存；settings小�
 
 ## 靜態部署與未來合作
 
-Vite build到dist，專案Pages base為/Solaria-Remaster/，資源不硬寫根路徑。Actions建置、artifact→Pages；採pages:write、id-token:write與github-pages environment。實際公開repo／Pages於發布階段，文件階段不改。
+Vite build到dist，專案Pages base為/Solaria-Remaster/，資源不硬寫根路徑。Actions建置、artifact→Pages；採pages:write、id-token:write與github-pages environment。第一里程碑若無可分享Cloud預覽可提前部署Pages試玩版，正式v1在S14更新；本地文件階段不變更可見性或發布。
 
 後續2–4人合作採用權威核心狀態、command tick與穩定ID。無網路code/房間backend/重連協議第一版；future房間服務單獨托管，Pages只托管前端。可序列化資料和owner/faction欄位先保留，不導入未使用同步SDK。
 

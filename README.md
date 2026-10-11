@@ -8,6 +8,6 @@ Solaria 的全新重製專案。原作：[sces5504/Solaria](https://github.com/s
 - [介面與美術](UI_UX_SPEC.md)、[測試](TEST_PLAN.md)、[規則](AGENTS.md)、[目前狀態](PROJECT_STATUS.md)
 - [貼到Cloud的啟動Prompt](CLOUD_START_PROMPT.md)
 
-目前依然只有startup scaffold，規格完成不表示遊戲已實作／60FPS已驗收／網站已發布。第一版PixiJS／WebGL、三職業、固定全房與85張卡；原始碼及遊玩站可公開，Pages實際發布留S14。
+目前依然只有startup scaffold，規格完成不表示遊戲已實作／60FPS已驗收／網站已發布。第一版PixiJS／WebGL、三職業、固定全房與85張卡；原始碼及遊玩站可公開，第一次交付里程碑試玩網址，正式v1發布在S14。
 
-下一個 Cloud 任務使用 `docs/solaria-cloud-spec` 分支與 CLOUD_START_PROMPT，執行 S00 文件及環境核驗；需求訪談已結束。
+下一個 Cloud 任務使用 `docs/solaria-cloud-spec` 分支與 CLOUD_START_PROMPT，連續完成 S00–S05 與第一里程碑試玩交付；第二次在同一Cloud對話接續全部 S06–S14。需求訪談已結束。
