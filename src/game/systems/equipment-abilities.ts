@@ -181,6 +181,7 @@ export function gearHit(
   const s = gearState(r);
   if (
     actual <= 0 ||
+    ctx.damageKind === "percent" ||
     e.sealPillar ||
     (ctx.procPolicy === "none" && !ctx.basicHitProxy)
   )

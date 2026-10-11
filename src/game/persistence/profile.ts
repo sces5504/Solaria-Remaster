@@ -55,14 +55,22 @@ export function parseProfile(value: unknown): Profile {
       "army",
     ]) ||
     !validArray(p.completedClasses, ["sword", "bow", "mage"]) ||
-    !(p.cosmetic in cosmetics) ||
+    typeof p.cosmetic !== "string" ||
+    !Object.hasOwn(cosmetics, p.cosmetic) ||
     typeof p.tutorialSeen !== "boolean"
   )
     throw new Error("旅人永久紀錄損壞；原始資料保留。");
   const skin = cosmetics[p.cosmetic];
   if (skin.requirement && !p.achievements.includes(skin.requirement))
     throw new Error("旅人外觀紀錄損壞；原始資料保留。");
-  return JSON.parse(JSON.stringify(p)) as Profile;
+  return {
+    version: 1,
+    achievements: [...p.achievements],
+    clearedEvents: [...p.clearedEvents],
+    completedClasses: [...p.completedClasses],
+    cosmetic: p.cosmetic,
+    tutorialSeen: p.tutorialSeen,
+  };
 }
 export function updateProfile(
   prior: Profile,

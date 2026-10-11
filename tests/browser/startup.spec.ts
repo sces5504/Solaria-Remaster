@@ -28,6 +28,7 @@ test("WebGL 主選單、三職業、輸入、暫停與入口重載", async ({ pa
   await expect(page.locator("#hud .status")).toBeVisible();
   await page.keyboard.press("KeyI");
   await expect(page.getByRole("status")).toContainText("需要先清關");
+  await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
   await expect(page.locator("#hud .status")).toBeVisible();
@@ -42,6 +43,7 @@ test("圖鑑完整、音效設定持續", async ({ page }) => {
   await expect(page.locator(".catalog article")).toHaveCount(cards.length);
   await page.locator("#mute").click();
   await expect(page.locator("#mute")).toHaveText("音效 關");
+  await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
   await expect(page.locator("#mute")).toHaveText("音效 關");
 });
@@ -82,6 +84,7 @@ test("真實 IndexedDB 選卡不重抽、清關穿戴保存與匯入損壞保護
       ),
     );
   expect(shown).toEqual(original);
+  await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
   await expect(page.locator("#hud .status")).toBeVisible();

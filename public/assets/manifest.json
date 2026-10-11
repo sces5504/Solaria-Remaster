@@ -17,7 +17,7 @@
     "event-atlas.json"
   ],
   "reference": "Original Solaria observed for visual direction only; sprites independently drawn, no assets copied.",
-  "audio": "Original Web Audio synthesis in src/audio/mixer.ts",
+  "audio": "Original layered Web Audio synthesis in src/audio/sound-bank.ts; src/audio/controller.ts mixing and settings; CC0-1.0",
   "illustrations": "Original 85 ability illustrations in src/ui/card-art.ts; original menu landscape, CC0-1.0",
   "expansion": "Original 24 monster and 32 terrain sprite rows, 336 frames, independently drawn in tools/create-biome-atlas.py; CC0-1.0",
   "bosses": "Original 17 boss silhouette rows, 102 frames, tools/create-boss-atlas.py; CC0-1.0",

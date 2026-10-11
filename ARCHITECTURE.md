@@ -77,3 +77,9 @@ Vite build到dist，專案Pages base為/Solaria-Remaster/，資源不硬寫根�
 ## 第一里程碑第五輪渲染增量
 
 `src/render/lighting.ts` 提供只讀state的發光源清單、腳下冷卻顯示夾限與重用512×320暗部／光照texture。地形／投影／actors之後套暗部，後續柔光、友方FX、敵方危險與HUD不被蓋住。樹岩附近柔暗，發光源以radial destination-out照亮世界，色光add混合；裝飾光源上限64，不删攻擊或變更RNG。暫停相同光源不重建上傳。這是2D藝術光影，不承諾精確3D遮蔽或全v1效能已驗收。技能steam視覺事件與Area可選steam effect向後相容；一般來源／序列化邊界保持。
+
+## S12 實際接入補充（2026-10-11）
+
+Checkpoints 公開入口沿用既有 import 路徑，內部由 checkpoint-schema 與 RunStore 分離。IndexedDB schema 保持1，run store 新增 revision 墓碑鍵；即使清除旅程，另一分頁也不能用先前 revision 復活舊局。永久 profile 獨立 journal、discovered、records，皆保存 previous；坏資料保留 damaged。讀檔無有效前版時不造空收藏，顯示可下載原始備份與匯入有效備份的流程。公開 profile 格式只保留收藏、外觀、教學欄位，排除未知欄位；不存在永久戰鬥屬性。
+
+音效由 SoundController → sound-bank 合成，保留 AudioContext 手勢解鎖；缺少音訊介面不阻止旅程。音量／上次非零音量獨立小型設定，mute 不清除玩家音量。每個合成聲的節點結束後解除連接，噪聲buffer按context重用。波形自動檢查與人工聆聽分開記錄。

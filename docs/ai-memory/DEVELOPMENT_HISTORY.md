@@ -1,5 +1,19 @@
 # DEVELOPMENT_HISTORY — 開發、Bug 與技術記錄
 
+## 第五個內部檢查點：S12接入與王房視覺（2026-10-11 19:19 UTC）
+
+旅人手冊／可跳過首局導引、七項收藏成就、三種非戰力外觀、旅程紀錄、全螢幕8:5與音量重載均已實際接入。SoundController原創多層合成已替代舊mixer；波形量測PASS，不當作人工聆聽。Checkpoints入口換至RunStore／schema分離，既有schema1／53691bf旅程可繼續，保存獨立永久紀錄／前版／壞資料，星典可獨立備份，兩分頁revision墓碑防clear後復活。配額／拒絕存取／資源失敗／壞檔皆提供清楚流程與原始備份；有效備份可明確恢復損壞永久紀錄。
+
+百分比hit入口再隔離代理／元素／副鏈／強制暴擊，不接受原型鍵外觀，不帶未知永久戰鬥欄位。保存中選擇按鈕停用；beforeunload保護未完成交易。普通瀏覽器重載回歸等到交易完成，再核對保留選擇；已用延遲交易completion案例驗證保護及保存後恢復。
+
+Boss補獨立冰息／藤鞭／鯨鰭／重斬動態與各地形彈體；索拉里斯seed日輪王房、8可破坏掩體、四柱和中央通路跨100seed×4周目PASS。場景目檢發現Pixi arc連接前一路徑造成額外長線，已顯式moveTo修正，後續針對視覺回歸核對。TERRAIN_MATRIX／BOSS_MATRIX／CARD_MATRIX更新，矩陣是能力與程式回歸索引，不捏造逐幀人工全驗收。
+
+PASS：302unit（295接入回歸＋3未接入碰撞／網格工具＋4未接入全彈時間序工具），check/build。S12首輪13案例10PASS／3FAIL修復後13PASS；再加入离頁保護／王房／BossFX21Chromium全部PASS4.8分鐘。完整71項曾在第29項後中斷，1FAIL／28PASS，原因融合畫面更新後測試未等交易完成立即重載；這輪不能標完整PASS。修復後需要新版完整回歸。目檢修正弧線後最後5視覺案例全部PASS1.3分鐘，封印場景再目檢無額外連線；format PASS。
+
+S13準備：contact-queue／projectile-sweep／SpatialGrid與RetainedPool尚未接入，不能標M06已完成。命令式三職一般／偏攻探測只選真實候選、不改敵血不授卡；初版避險欄位錯誤已修，補路徑後三職抵達5–7房死亡，不能當完整30＋1平衡通過。後續仍須1／2／5／10周目構築與壓力／記憶體實測；硬體GPU60FPS、600真GPU、10restart真設備、Firefox／Safari、人工聆聽／構築平衡NOT_RUN。
+
+前一已保存來源89375d9在backup/v1-progress-2026-10-11。此檢查點來源hash以git log核對；正式仍53691bf、遠端implement仍9f88061，尚不部署部分v1。直接接S13碰撞／物件重用／壓力和平衡，再S14完整Pages，不等逐階段指示。boss-beams已準備尚未引用。
+
 ## 開發檢查點驗證收束（2026-10-11 16:27:16 UTC）
 
 215unit、TypeScript check、build、format:check PASS。新版46Chromium：43PASS、3因舊房號断言FAIL；仅更新第1/2房總數5→31後，3失敗案例重跑PASS（38.2秒），本輪46案例最終全部通過。沒有藉重build改測試中的dist。此檢查點不是S06–S14階段完成，更不是完整v1；自然完整31房與人工／硬體平衡NOT_RUN。新增王、沙漠底圖與索拉里斯四柱實際畫面已目檢；其餘逐招專屬特效仍續作。

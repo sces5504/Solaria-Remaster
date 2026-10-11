@@ -1,3 +1,6 @@
+import { bossAction } from "./boss-actions";
+import { bossProjectile } from "./boss-projectiles";
+import { solarLandscape } from "./solar-landscape";
 import { eventProjectile, eventImpact } from "./event-effects";
 import { eventLandscape } from "./event-landscape";
 import { eventMonsters } from "../game/data/event-content";
@@ -385,7 +388,7 @@ export class Stage {
         );
     }
   }
-  draw(r: Run | null, feedback = true) {
+  draw(r: Run | null, feedback = true, cosmetic = 0xffdf98) {
     const recoil = r ? cameraFeedback(r, feedback) : { x: 0, y: 0 };
     this.app.stage.position.set(recoil.x, recoil.y);
     const f = this.friendly,
@@ -409,6 +412,7 @@ export class Stage {
       this.positions.clear();
       this.landscape(r.event ? { ...r, biome: r.event.theme } : r);
       eventLandscape(this.terrain, r);
+      solarLandscape(this.terrain, r);
     }
     for (const o of r.obstacles) {
       if (o.durability > 0 && o.kind !== "lake") {
@@ -567,6 +571,14 @@ export class Stage {
       attack = p.attackNext - r.time > 0.15;
     const frame =
       r.phase === "DEAD" ? 5 : p.invulnerable > r.time ? 4 : attack ? 3 : pose;
+    if (cosmetic !== 0xffdf98) {
+      f.moveTo(p.x - 17, p.y + 21)
+        .lineTo(p.x - 11, p.y + 26)
+        .lineTo(p.x + 11, p.y + 26)
+        .lineTo(p.x + 17, p.y + 21)
+        .stroke({ color: cosmetic, width: 2, alpha: 0.8 });
+      this.glow(p.x, p.y - 10, 38, cosmetic, 0.22);
+    }
     equipmentAura(f, r);
     const ally = pumpkin(r);
     if (ally) {
@@ -970,6 +982,20 @@ export class Stage {
         );
         continue;
       }
+      if (bossProjectile(d, b, r.time)) {
+        this.glow(
+          b.x,
+          b.y,
+          24,
+          b.enemyTheme === "sun"
+            ? 0xffdda0
+            : b.enemyTheme === "icefield"
+              ? 0x8beaff
+              : 0xc0b3ec,
+          0.35,
+        );
+        continue;
+      }
       if (equipmentProjectile(f, b, r.time)) {
         this.glow(b.x, b.y, 30, 0xa5d9ff, 0.3);
         continue;
@@ -1125,6 +1151,7 @@ export class Stage {
         text.alpha = progress;
       } else {
         if (
+          bossAction(v.enemy ? d : f, v, r.time) ||
           eventImpact(v.enemy ? d : f, v, r.time) ||
           equipmentEffect(v.enemy ? d : f, v, r.time) ||
           advancedEffect(v.enemy ? d : f, v, r.time)

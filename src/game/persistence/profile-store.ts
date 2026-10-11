@@ -1,34 +1,34 @@
 import {
   parseProfile,
-  emptyProfile,
   type Profile,
   type CosmeticId,
   cosmetics,
 } from "./profile";
 
-export function readProfile(
+export function readPermanent<T>(
   db: IDBDatabase,
-): Promise<{ profile: Profile; notice: string }> {
+  key: string,
+  parse: (value: unknown) => T,
+): Promise<{ value: T; notice: string }> {
   return new Promise((resolve, reject) => {
     const tx = db.transaction("profile", "readwrite"),
       store = tx.objectStore("profile");
-    let profile = emptyProfile(),
+    let value: T,
       notice = "",
       failure: unknown;
-    const latest = store.get("journal");
+    const latest = store.get(key);
     latest.onsuccess = () => {
       try {
-        profile = parseProfile(latest.result);
+        value = parse(latest.result);
       } catch (error) {
         failure = error;
-        const previous = store.get("journalPrevious");
+        const previous = store.get(`${key}Previous`);
         previous.onsuccess = () => {
           try {
-            // Missing backup must not silently reset a damaged permanent record.
             if (previous.result === undefined) throw failure;
-            profile = parseProfile(previous.result);
-            store.put(latest.result, "journalDamaged");
-            store.put(profile, "journal");
+            value = parse(previous.result);
+            store.put(latest.result, `${key}Damaged`);
+            store.put(value, key);
             notice = "旅人紀錄損壞，已恢復上一份有效星典。";
           } catch (e) {
             failure = e;
@@ -37,11 +37,15 @@ export function readProfile(
         };
       }
     };
-    tx.oncomplete = () => resolve({ profile, notice });
+    tx.oncomplete = () => resolve({ value, notice });
     tx.onabort = () =>
       reject(failure ?? new Error("無法讀取星典，原始紀錄仍保留。"));
     tx.onerror = () => reject(new Error("無法讀取星典，原始紀錄仍保留。"));
   });
+}
+export async function readProfile(db: IDBDatabase) {
+  const result = await readPermanent(db, "journal", parseProfile);
+  return { profile: result.value, notice: result.notice };
 }
 export function setProfilePreference(
   db: IDBDatabase,

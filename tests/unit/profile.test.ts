@@ -79,3 +79,14 @@ it("永久紀錄合併保留另一分頁的收藏，未解鎖外觀與壞資料�
     "原始資料保留",
   );
 });
+it("拒絕原型鍵外觀，永久備份僅帶收藏欄位，不能夾帶戰鬥增益", () => {
+  for (const cosmetic of ["constructor", "__proto__", "toString"])
+    expect(() => parseProfile({ ...emptyProfile(), cosmetic })).toThrow();
+  expect(
+    parseProfile({
+      ...emptyProfile(),
+      stats: { global: 999 },
+      arbitrary: true,
+    }),
+  ).toEqual(emptyProfile());
+});

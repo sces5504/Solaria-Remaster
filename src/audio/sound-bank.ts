@@ -174,5 +174,8 @@ export function playSound(
         0.035,
         i * 0.12,
       );
+  } else if (kind === "ready") {
+    tone(880, 880, 0.12, "sine", 0.022);
+    tone(1320, 1320, 0.1, "sine", 0.015, 0.05);
   } else if (kind === "ui") tone(760, 580, 0.055, "sine", 0.025);
 }

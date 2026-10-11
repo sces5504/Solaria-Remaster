@@ -356,6 +356,7 @@ export function discard(r: Run, id: string) {
 
 /** Testing grants retain normal class and two-element rules; no level/choice is consumed. */
 export function grantTestCard(r: Run, id: number) {
+  r.testing = true;
   const priorPhase = r.phase;
   const card = cards.find((c) => c.id === id);
   if ((id === 78 && r.cards[83]) || (id === 83 && r.cards[78])) return false;

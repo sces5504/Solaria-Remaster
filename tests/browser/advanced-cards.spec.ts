@@ -32,10 +32,12 @@ test("元素使三元素的強制融合選擇重載後仍保留、卡片圖鑑85
   await expect(
     page.getByRole("heading", { name: "定下你的共鳴" }),
   ).toBeVisible();
+  await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
   await page.locator('[data-action="fusion:frostfire"]').click();
   await expect(page.locator("#sidebar")).toContainText("冰火奧術");
+  await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
   await expect(page.locator("#sidebar")).toContainText("冰火奧術");
@@ -77,6 +79,7 @@ test("命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法�
   await expect(page.locator('button[data-action^="equip:"]')).toHaveCount(2);
   for (const btn of await page.locator('button[data-action^="equip:"]').all())
     await expect(btn).toBeDisabled();
+  await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
   await expect(page.locator("#hud .status")).toBeVisible();

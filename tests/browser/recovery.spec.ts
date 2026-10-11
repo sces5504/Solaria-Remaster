@@ -28,6 +28,7 @@ test("M01 最新壞檔自動回退，提示並繼續保存，不清圖鑑", asyn
     });
     db.close();
   }, saved);
+  await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
   await expect(page.getByRole("status")).toContainText("已恢復上一份有效紀錄");
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
@@ -54,6 +55,7 @@ test("M01 最新壞檔自動回退，提示並繼續保存，不清圖鑑", asyn
   expect(result.latest.current.seed).toBe(7721);
   expect(result.damaged.current.broken).toBe(true);
   expect(result.profile).toEqual([1, 15, 19]);
+  await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
   await expect(page.getByRole("button", { name: "進入戰鬥" })).toBeVisible();

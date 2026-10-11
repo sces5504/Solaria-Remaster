@@ -49,8 +49,8 @@ export function context(
     canCrit: r.echoing || kind === "percent" ? false : crit,
     lifestealEligible: kind !== "dot" && kind !== "percent",
     skillBonus: kind === "skill" ? r.activeSkillBonus : undefined,
-    basicEffectMask: r.echoing ? false : proxy,
-    basicHitProxy: r.echoing ? false : proxy,
+    basicEffectMask: r.echoing || kind === "percent" ? false : proxy,
+    basicHitProxy: r.echoing || kind === "percent" ? false : proxy,
     basicCastProxy: false,
     procPolicy: r.echoing || kind === "percent" ? "none" : proc,
     ancestry: [...ancestry, id, ...(r.echoing ? [171] : [])],
@@ -165,6 +165,16 @@ export function hit(
   frost = 15,
 ) {
   if (e.hp <= 0 || e.transition > r.time) return 0;
+  if (ctx.damageKind === "percent")
+    ctx = {
+      ...ctx,
+      canCrit: false,
+      lifestealEligible: false,
+      basicHitProxy: false,
+      basicEffectMask: false,
+      elementMask: [],
+      procPolicy: "none",
+    };
   let conditional = 1;
   if (level(r, 60) && r.player.hp < r.stats.maxHP * 0.5)
     conditional += 0.2 * skillFactor(level(r, 60), 1);
@@ -207,7 +217,12 @@ export function hit(
   }
   let crit =
     ctx.damageKind !== "percent" && ctx.canCrit && random(r) < r.stats.crit;
-  if (ctx.sourceAbilityId === 144 && level(r, 45)) crit = true;
+  if (
+    ctx.damageKind !== "percent" &&
+    ctx.sourceAbilityId === 144 &&
+    level(r, 45)
+  )
+    crit = true;
   const category =
     ctx.damageKind === "basic"
       ? r.stats.basic
@@ -576,6 +591,14 @@ export function shoot(
                   ? "comet"
                   : undefined;
         })()
+      : undefined,
+    bossAttackId: enemy
+      ? (r.modes.find(
+          (m) => m.actor === owner && m.starts <= r.time && m.ends >= r.time,
+        )?.attackId ??
+        (r.enemies.find((e) => e.id === owner)?.sealPillar
+          ? "solaris-seal"
+          : undefined))
       : undefined,
     enemyElements: enemy
       ? enemyElements(r.enemies.find((e) => e.id === owner))

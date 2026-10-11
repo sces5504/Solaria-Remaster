@@ -127,6 +127,9 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
         {
           owner: e.id,
           eventAbility: attack.id,
+          effect: /witch-thunder|brain-storm/.test(attack.id)
+            ? "thunder"
+            : undefined,
           wave: id,
           heavy: true,
           ...(attack.id === "santa-tracking"
@@ -313,7 +316,13 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
       0xffce99,
       a.radius,
       direction,
-      { enemy: true, duration: 0.35 },
+      {
+        enemy: true,
+        duration: 0.35,
+        eventAbility: a.id,
+        enemyTheme: e.solarisBar ? "sun" : bosses[e.bossId!]?.biome,
+        elements: enemyElements(e),
+      },
     );
     m.count++;
     m.next = r.time + 0.4;

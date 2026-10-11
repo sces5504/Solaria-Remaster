@@ -55,6 +55,7 @@ test("背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不�
   const offers = await page
     .locator(".card")
     .evaluateAll((ns) => ns.map((n) => (n as HTMLElement).dataset.action));
+  await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
   await expect(page.getByRole("button", { name: "本次已刷新" })).toBeDisabled();
@@ -77,6 +78,7 @@ test("背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不�
   await page.getByRole("button", { name: "回主選單", exact: true }).click();
   await page.getByRole("button", { name: "開始新局", exact: true }).click();
   await page.getByRole("button", { name: "確認新局", exact: true }).click();
+  await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
   await page
     .getByRole("button", { name: `卡片圖鑑 · ${cards.length}` })
@@ -193,6 +195,7 @@ test("音量左側測試面板可搜尋給卡、換職業補覺醒，保留待�
   await page.screenshot({ path: "test-results/test-grants.png" });
   await page.keyboard.press("Escape");
   await expect(page.getByRole("button", { name: "本次已刷新" })).toBeDisabled();
+  await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
   await expect(page.getByRole("button", { name: "本次已刷新" })).toBeDisabled();

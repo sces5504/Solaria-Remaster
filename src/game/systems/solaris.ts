@@ -1,3 +1,4 @@
+import { solarArena } from "../data/solar-arena";
 import type { Actor, Run } from "../core/types";
 import type { BossAttack, BossPattern } from "../data/bosses";
 import { actor } from "../data/world";
@@ -85,51 +86,11 @@ export function placeSolaris(r: Run) {
   r.enemies = [e];
   r.reserves = [];
   r.hazards = [];
-  r.obstacles = [
-    {
-      id: 1,
-      x: 350,
-      y: 160,
-      w: 48,
-      h: 48,
-      kind: "pillar",
-      durability: 15,
-      maxDurability: 15,
-      waves: [],
-    },
-    {
-      id: 2,
-      x: 350,
-      y: 432,
-      w: 48,
-      h: 48,
-      kind: "pillar",
-      durability: 15,
-      maxDurability: 15,
-      waves: [],
-    },
-    {
-      id: 3,
-      x: 650,
-      y: 140,
-      w: 48,
-      h: 48,
-      kind: "pillar",
-      durability: 15,
-      maxDurability: 15,
-      waves: [],
-    },
-    {
-      id: 4,
-      x: 650,
-      y: 452,
-      w: 48,
-      h: 48,
-      kind: "pillar",
-      durability: 15,
-      maxDurability: 15,
-      waves: [],
-    },
+  r.obstacles = solarArena(r);
+  r.route = [
+    { x: 48, y: 320 },
+    { x: 512, y: 320 },
+    { x: 980, y: 320 },
   ];
 }
 function roomExperience(r: Run) {

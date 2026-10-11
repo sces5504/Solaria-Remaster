@@ -170,6 +170,7 @@ export interface Obstacle {
   waves: number[];
 }
 export interface Projectile extends Vec {
+  bossAttackId?: string;
   eventGlyph?: "gift" | "ghost" | "plasma" | "comet";
   id: number;
   homingTarget?: number;
@@ -313,6 +314,7 @@ export interface Run {
   journey?: import("../data/journey").JourneySegment[];
   solaris?: { sealed: boolean; wave: number; next: number };
   loop?: number;
+  testing?: boolean;
   echoing?: boolean;
   activeSkillBonus?: number;
   echoSkillBonus?: number;

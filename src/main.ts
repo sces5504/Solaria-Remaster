@@ -1,7 +1,9 @@
-import { isBossRoom } from "./game/data/journey";
+import { journal, tutorial } from "./ui/journal";
+import { roomTitle, roomStory } from "./ui/room-copy";
+import { eventDefinitions } from "./game/data/events";
+import { cosmetics, type CosmeticId } from "./game/persistence/profile";
 import { nextLoop } from "./game/core/run";
 import { currentBiome } from "./game/data/biomes";
-import { bosses } from "./game/data/bosses";
 import "./style.css";
 import { Stage } from "./render/stage";
 import { Input } from "./input/keyboard";
@@ -23,7 +25,7 @@ import { zh } from "./i18n/zh-TW";
 import * as view from "./ui/view";
 const root = document.querySelector<HTMLDivElement>("#app")!;
 root.innerHTML =
-  '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>旅途初章 · 暮光草原</span><div class="sound"><button id="testing">測試</button><label for="volume">音量</label><input id="volume" type="range" min="0" max="1" step="0.05" aria-label="音效音量"><button id="mute">音效</button></div></header><main><div class="game-layout"><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="world-hints" aria-live="polite"></div><div id="overlay"></div><div id="toast" role="status"></div></div><aside id="sidebar" aria-label="角色屬性與裝備"></aside></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · E 拾取／進門 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
+  '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>日蝕之後 · 尋回日光</span><div class="sound"><button id="fullscreen" title="Esc 離開全螢幕">全螢幕</button><button id="testing">測試</button><label for="volume">音量</label><input id="volume" type="range" min="0" max="1" step="0.05" aria-label="音效音量"><button id="mute">音效</button></div></header><main><div class="game-layout"><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="world-hints" aria-live="polite"></div><div id="overlay"></div><div id="toast" role="status"></div></div><aside id="sidebar" aria-label="角色屬性與裝備"></aside></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · E 拾取／進門 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
 const stage = new Stage(),
   saves = new Checkpoints(),
   audio = new AudioMixer(),
@@ -38,14 +40,27 @@ let run: Run | null = null,
   selected = 0,
   lastSignature = "",
   saveBusy = false,
+  actionBusy = false,
   saveChain = Promise.resolve(),
   menuBack = "menu",
   testBack = "game",
   testQuery = "",
   soundId = 0,
   lastTime = 0,
-  lastHud = 0;
+  lastHud = 0,
+  warningId = 0,
+  wasSkillReady = false;
 let toastTimeout: ReturnType<typeof setTimeout>;
+function download(text: string, name: string) {
+  const url = URL.createObjectURL(
+      new Blob([text], { type: "application/json" }),
+    ),
+    a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
 function notify(message: string) {
   toast.textContent = message;
   clearTimeout(toastTimeout);
@@ -57,7 +72,11 @@ function persist(entry = false) {
   saveBusy = true;
   saveChain = saveChain
     .then(async () => {
+      const known = new Set(saves.profile.achievements);
       await saves.save(snapshot, entry);
+      if (run?.runId === snapshot.runId) run.revision = snapshot.revision;
+      if (saves.profile.achievements.some((id) => !known.has(id)))
+        notify("星典留下了新的旅人足跡。");
       saved = clone(snapshot);
     })
     .catch((e) => {
@@ -86,6 +105,7 @@ function refresh(force = false) {
     run?.rerollUsed,
     selected,
     saveBusy,
+    actionBusy,
     run?.bag.length,
     run
       ? Object.values(run.equipment)
@@ -106,17 +126,19 @@ function refresh(force = false) {
     html = `<section class="panel"><h2>開始新旅程？</h2><p>將覆蓋這個瀏覽器未完成的本局存檔。永久紀錄會保留。</p>${view.button("確認新局", "confirmNew")}${view.button("保留旅程", "menu")}</section>`;
   else if (screen === "controls") html = view.controls();
   else if (screen === "catalog") html = view.catalog(saves.discovered);
+  else if (screen === "journal") html = journal(saves.profile, saves.records);
+  else if (screen === "tutorial") html = tutorial();
   else if (screen === "inventory" && run) html = view.inventory(run);
   else if (screen === "test" && run) html = view.testing(run, testQuery);
   else if (screen === "stats" && run) html = view.stats(run);
   else if (screen === "pause" && run) html = view.pauseView(run);
   else if (screen === "saveError")
-    html = `<section class="panel"><h2>存檔需要處理</h2><p>上一份有效存檔仍保留。請先匯出目前資料；若另一分頁已更新，回主選單讀取最新版本。</p>${view.button("匯出備份", "export")}${view.button("重新讀取", "reloadSave")}</section>`;
+    html = `<section class="panel"><h2>存檔需要處理</h2><p>上一份有效存檔仍保留。請先匯出目前資料；若另一分頁已更新，回主選單讀取最新版本。</p>${view.button("匯出備份", "exportRaw", saves.ready ? "" : "disabled")}${view.button("匯入備份", "import")}${view.button("重新讀取", "reloadSave")}</section>`;
   else if (screen === "error")
-    html = `<section class="panel"><h2>無法載入遊戲</h2><p>此版本需要 WebGL。請使用支援 WebGL 的桌面瀏覽器；既有存檔保留。</p>${view.button("重試", "reload")}</section>`;
+    html = `<section class="panel"><h2>無法載入遊戲</h2><p>畫面或美術資源載入失敗。請檢查網路，並使用支援 WebGL 的桌面瀏覽器；既有存檔保留。</p>${view.button("重試", "reload")}</section>`;
   else if (run) {
     if (run.phase === "ROOM_INTRO")
-      html = `<section class="panel"><div class="eyebrow">${currentBiome(run).name} · 第 ${run.room} / 31 房</div><h2>${isBossRoom(run) ? (run.room === 31 ? "索拉里斯神" : (bosses[run.boss]?.name ?? zh.bosses[run.boss as 1])) : currentBiome(run).themes[run.templates[(run.room - 1) % 5]]}</h2><p>${isBossRoom(run) ? "領主已在等你。留意預警，善用掩體。" : run.modifiers.length ? run.modifiers.map((m) => zh.modifiers[m]).join("<br>") : "一片安靜的暮色，危機藏在樹影之間。"}</p><p class="fine">${zh.controls}</p>${view.button("進入戰鬥", "start", saveBusy ? "disabled" : "")}</section>`;
+      html = `<section class="panel"><div class="eyebrow">${run.event ? eventDefinitions[run.event.id].name : currentBiome(run).name} · 第 ${run.room} / 31 房 · 第 ${run.loop ?? 1} 周目</div><h2>${roomTitle(run)}</h2><p>${roomStory(run)}</p><p class="fine">${zh.controls}</p>${!saves.profile.tutorialSeen ? `<aside class="first-tip"><strong>第一次啟程</strong><p>WASD 走位，滑鼠瞄準；左右鍵可同時使用。空白閃避，靠近物品與右門按 E。</p>${view.button("略過導引", "skipTutorial")}${view.button("查看旅人手冊", "tutorial")}</aside>` : ""}${view.button("進入戰鬥", "start", saveBusy ? "disabled" : "")}</section>`;
     if (run.phase === "FUSION_CHOICE") html = view.fusionChoice(run);
     if (run.phase === "EQUIPMENT_SLOT_CHOICE")
       html = view.equipmentSlotChoice();
@@ -130,13 +152,27 @@ function refresh(force = false) {
   overlay.innerHTML = html;
   overlay.classList.toggle("hidden", !html);
   overlay.dataset.screen = screen;
+  if (actionBusy)
+    for (const btn of overlay.querySelectorAll<HTMLButtonElement>(
+      "button[data-action]",
+    ))
+      btn.disabled = true;
+  if (saveBusy)
+    for (const btn of overlay.querySelectorAll<HTMLButtonElement>(
+      'button[data-action^="choose:"],button[data-action^="fusion:"],button[data-action^="slot:"],button[data-action^="equip:"],button[data-action^="discard:"],button[data-action^="grant:"],button[data-action="reroll"],button[data-action="nextLoop"]',
+    ))
+      btn.disabled = true;
   if (saveBusy) overlay.classList.add("saving");
   else overlay.classList.remove("saving");
   if (wasModal !== Boolean(html)) input?.clear();
 }
 async function action(value: string) {
+  if (actionBusy) return;
+  actionBusy = true;
   const [act, arg] = value.split(":");
   try {
+    audio.unlock();
+    audio.play("ui");
     if (act === "new") {
       screen = saved ? "confirm" : "classes";
     } else if (act === "confirmNew") {
@@ -153,22 +189,30 @@ async function action(value: string) {
       );
       screen = "game";
       selected = 0;
-      soundId = 0;
+      soundId = run.nextId - 1;
+      warningId = run.nextId - 1;
+      wasSkillReady = true;
       persist(true);
     } else if (act === "continue") {
+      screen = "loading";
+      refresh(true);
       run = await saves.load();
       if (saves.recoveryNotice) notify(saves.recoveryNotice);
       if (run) {
         screen = "game";
+        soundId = warningId = run.nextId - 1;
+        wasSkillReady = run.player.skillReady <= run.time;
         audio.unlock();
         clock.reset();
       }
     } else if (act === "start" && run && !saveBusy) {
+      if (!saves.profile.tutorialSeen)
+        await saves.preference({ tutorialSeen: true });
       startRoom(run);
       persist();
     } else if (act === "choose" && run && !saveBusy) {
       if (choose(run, Number(arg))) {
-        audio.play("heal");
+        audio.play("choice");
         selected = 0;
         persist();
       }
@@ -178,7 +222,7 @@ async function action(value: string) {
       if (chooseEquipmentSlot(run, arg as Slot)) persist();
     } else if (act === "reroll" && run && !saveBusy) {
       if (reroll(run)) {
-        audio.play("heal");
+        audio.play("choice");
         selected = 0;
         persist();
       }
@@ -198,13 +242,16 @@ async function action(value: string) {
       screen = "game";
       input.clear();
       clock.reset();
-    } else if (act === "controls" || act === "catalog") {
+    } else if (["controls", "catalog", "journal", "tutorial"].includes(act)) {
       menuBack = screen;
       screen = act;
     } else if (act === "back") {
       screen = menuBack;
     } else if (act === "equip" && run && !saveBusy) {
-      if (equip(run, arg)) persist();
+      if (equip(run, arg)) {
+        audio.play("equip");
+        persist();
+      }
     } else if (act === "discard" && run && !saveBusy) {
       if (discard(run, arg)) persist();
     } else if (act === "returnMenu" || act === "menu") {
@@ -220,17 +267,32 @@ async function action(value: string) {
       saved = null;
       run = null;
       screen = "menu";
+    } else if (act === "skipTutorial") {
+      await saves.preference({ tutorialSeen: true });
+    } else if (act === "cosmetic") {
+      await saves.preference({ cosmetic: arg as CosmeticId });
+    } else if (["exportProfile", "exportRaw"].includes(act)) {
+      await saveChain;
+      download(
+        act === "exportRaw"
+          ? JSON.stringify(
+              {
+                ...JSON.parse(await saves.exportRaw()),
+                working: run ? JSON.parse(saves.export(run)) : undefined,
+              },
+              null,
+              2,
+            )
+          : saves.exportProfile(),
+        act === "exportRaw" ? "solaria-recovery.json" : "solaria-profile.json",
+      );
     } else if (act === "export" && run) {
-      const blob = new Blob([saves.export(run)], { type: "application/json" }),
-        url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "solaria-checkpoint.json";
-      a.click();
-      URL.revokeObjectURL(url);
+      await saveChain;
+      download(saves.export(run), "solaria-checkpoint.json");
     } else if (act === "import") {
       document.querySelector<HTMLInputElement>("#import-file")!.click();
     } else if (act === "reloadSave") {
+      if (!saves.ready) await saves.open();
       saved = await saves.load();
       run = null;
       screen = "menu";
@@ -239,6 +301,9 @@ async function action(value: string) {
   } catch (error) {
     screen = "saveError";
     notify((error as Error).message);
+    refresh(true);
+  } finally {
+    actionBusy = false;
     refresh(true);
   }
 }
@@ -254,8 +319,35 @@ document
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
     try {
-      if (saved && !confirm("匯入將覆蓋目前未完成旅程，是否繼續？")) return;
-      saved = await saves.import(await file.text());
+      const text = await file.text();
+      if (text.length > 20_000_000) throw new Error("備份檔案過大");
+      const data = JSON.parse(text);
+      if (data.kind === "solaria-profile") {
+        await saves.importProfile(text);
+      } else {
+        if (saved && !confirm("匯入將覆蓋目前未完成旅程，是否繼續？")) return;
+        if (data.kind === "solaria-recovery") {
+          const { validate } = await import("./game/persistence/checkpoint");
+          let candidate;
+          for (const value of [data.working, data.latest, data.previous]) {
+            try {
+              candidate = validate(value);
+              break;
+            } catch {}
+          }
+          if (!candidate) throw new Error("備份內沒有有效旅程，原始資料保留。");
+          saved = await saves.import(
+            JSON.stringify({
+              ...candidate,
+              discovered: candidate.discovered ?? data.discovered,
+              profile: candidate.profile ?? data.journal,
+              records: candidate.records ?? data.records,
+            }),
+          );
+        } else saved = await saves.import(text);
+      }
+      run = null;
+      if (data.kind === "solaria-profile") saved = await saves.load();
       screen = "menu";
       notify("匯入成功");
       refresh(true);
@@ -264,6 +356,18 @@ document
     }
     (event.target as HTMLInputElement).value = "";
   });
+document.querySelector<HTMLButtonElement>("#fullscreen")!.onclick =
+  async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else
+        await document
+          .querySelector<HTMLElement>(".game-layout")!
+          .requestFullscreen();
+    } catch {
+      notify("這個瀏覽器尚未開放全螢幕；旅程仍可繼續。");
+    }
+  };
 document.querySelector<HTMLButtonElement>("#testing")!.onclick = () => {
   if (!run || ["DEAD", "RUN_END"].includes(run.phase)) {
     notify("先選擇旅人、開始旅程，再開啟測試構築。");
@@ -290,7 +394,8 @@ function muteLabel() {
 }
 mute.onclick = () => {
   audio.unlock();
-  audio.setVolume(audio.volume ? 0 : 0.25);
+  audio.toggleMute();
+  volume.value = String(audio.volume);
   muteLabel();
 };
 muteLabel();
@@ -302,6 +407,7 @@ volume.addEventListener("input", () => {
   muteLabel();
 });
 function key(code: string) {
+  if (actionBusy) return;
   if (code === "Escape") {
     if (screen === "test") {
       void action("testBack");
@@ -337,8 +443,8 @@ async function boot() {
   try {
     await stage.init(document.querySelector("#stage")!);
     input = new Input(stage.app.canvas, key, pause);
-    await saves.open();
     try {
+      await saves.open();
       saved = await saves.load();
     } catch (e) {
       notify((e as Error).message);
@@ -381,6 +487,7 @@ function frame(ms: number) {
     if (prev !== run.phase) {
       input.clear();
       if (run.phase === "DEAD") {
+        audio.play("death");
         const dead = clone(run);
         saveChain = saveChain
           .then(() => saves.clear(dead))
@@ -389,7 +496,10 @@ function frame(ms: number) {
             refresh(true);
           })
           .catch((e) => notify(e.message));
-      } else persist(run.phase === "ROOM_INTRO");
+      } else {
+        if (run.phase === "RUN_END") audio.play("victory");
+        persist(run.phase === "ROOM_INTRO");
+      }
     }
     if (
       prev === run.phase &&
@@ -405,11 +515,30 @@ function frame(ms: number) {
     }
     for (const v of run.visuals)
       if (v.id > soundId) {
-        audio.play(v.kind);
+        audio.play(
+          v.kind,
+          run.classId,
+          v.elements ?? [],
+          v.kind === "relic" ? v.value : 0,
+        );
         soundId = Math.max(soundId, v.id);
       }
   }
-  stage.draw(run, screen === "game" && !saveBusy);
+  if (run) {
+    for (const m of run.modes)
+      if (m.id > warningId && m.starts > run.time) {
+        audio.play("warning");
+        warningId = Math.max(warningId, m.id);
+      }
+    const ready = run.player.skillReady <= run.time && !run.cards[83];
+    if (ready && !wasSkillReady && screen === "game") audio.play("ready");
+    wasSkillReady = ready;
+  }
+  stage.draw(
+    run,
+    screen === "game" && !saveBusy,
+    cosmetics[saves.profile.cosmetic].color,
+  );
   if (ms - lastHud > 80) {
     hud.innerHTML = run ? view.hud(run) : "";
     document.querySelector("#world-hints")!.innerHTML = run
@@ -425,3 +554,10 @@ function frame(ms: number) {
 }
 refresh(true);
 void boot();
+
+window.addEventListener("beforeunload", (event) => {
+  if (saveBusy) {
+    event.preventDefault();
+    event.returnValue = "";
+  }
+});

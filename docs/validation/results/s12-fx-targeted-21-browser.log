@@ -1,0 +1,29 @@
+
+Running 21 tests using 1 worker
+
+(node:35067) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/advanced-cards.spec.ts:18:1 › 元素使三元素的強制融合選擇重載後仍保留、卡片圖鑑85張 (9.4s)
+  ✓   2 tests/browser/advanced-cards.spec.ts:49:1 › 命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴 (9.5s)
+(node:35067) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+  ✓   3 tests/browser/audio.spec.ts:5:1 › 實際音效合成以OfflineAudioContext核對職業、蒸氣、雷電、格擋與結局波形 (441ms)
+  ✓   4 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-5 冰龍 專屬布局與兩階段原創畫面 (20.6s)
+  ✓   5 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-9 食人花怪 專屬布局與兩階段原創畫面 (21.1s)
+  ✓   6 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-16 異星鯨魚 專屬布局與兩階段原創畫面 (21.0s)
+  ✓   7 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-17 白骨攝政王 專屬布局與兩階段原創畫面 (24.5s)
+  ✓   8 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-18 蝕星大法師 專屬布局與兩階段原創畫面 (27.3s)
+  ✓   9 tests/browser/journal.spec.ts:19:1 › 首局導引可跳過並重看；成就外觀重載與星典備份，下一新局無永久戰力 (22.4s)
+  ✓  10 tests/browser/journal.spec.ts:95:1 › 兩分頁換裝revision衝突保留唯一物件，錯誤可匯出目前工作備份 (20.1s)
+  ✓  11 tests/browser/journal.spec.ts:127:1 › 另一分頁清除旅程後，舊分頁不能復活舊局或重寫新局 (18.4s)
+  ✓  12 tests/browser/journal.spec.ts:153:1 › 永久星典壞檔回退有提示、無備份則保留且可下載原始檔 (3.5s)
+  ✓  13 tests/browser/journal.spec.ts:251:1 › 模擬配額失敗保留交易前存檔，匯出含目前工作狀態 (8.8s)
+  ✓  14 tests/browser/journal.spec.ts:276:1 › 全螢幕保持8:5與返回尺寸、音量靜音重載後恢復原值 (2.9s)
+  ✓  15 tests/browser/journal.spec.ts:302:1 › 瀏覽器拒絕IndexedDB時顯示存檔錯誤而非WebGL，恢復存取可重試 (797ms)
+  ✓  16 tests/browser/journal.spec.ts:340:1 › 美術資源失敗可重試，既有存檔保持 (6.1s)
+  ✓  17 tests/browser/journal.spec.ts:355:1 › 選擇未保存時離頁受保護，交易完成後允許離頁 (10.7s)
+  ✓  18 tests/browser/solaris.spec.ts:6:3 › 索拉里斯 first 血條、四柱與招式畫面可保存重載 (13.7s)
+  ✓  19 tests/browser/solaris.spec.ts:6:3 › 索拉里斯 sealed 血條、四柱與招式畫面可保存重載 (14.3s)
+  ✓  20 tests/browser/solaris.spec.ts:6:3 › 索拉里斯 second 血條、四柱與招式畫面可保存重載 (14.3s)
+  ✓  21 tests/browser/solaris.spec.ts:6:3 › 索拉里斯 third 血條、四柱與招式畫面可保存重載 (15.6s)
+
+  21 passed (4.8m)

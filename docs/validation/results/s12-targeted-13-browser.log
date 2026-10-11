@@ -1,0 +1,25 @@
+[WebServer] (node:32696) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:32709) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 13 tests using 1 worker
+
+(node:32728) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:32728) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+  ✓   1 tests/browser/audio.spec.ts:5:1 › 實際音效合成以OfflineAudioContext核對職業、蒸氣、雷電、格擋與結局波形 (493ms)
+  ✓   2 tests/browser/journal.spec.ts:19:1 › 首局導引可跳過並重看；成就外觀重載與星典備份，下一新局無永久戰力 (23.5s)
+  ✓   3 tests/browser/journal.spec.ts:93:1 › 兩分頁換裝revision衝突保留唯一物件，錯誤可匯出目前工作備份 (21.2s)
+  ✓   4 tests/browser/journal.spec.ts:125:1 › 另一分頁清除旅程後，舊分頁不能復活舊局或重寫新局 (17.7s)
+  ✓   5 tests/browser/journal.spec.ts:151:1 › 永久星典壞檔回退有提示、無備份則保留且可下載原始檔 (3.6s)
+  ✓   6 tests/browser/journal.spec.ts:248:1 › 模擬配額失敗保留交易前存檔，匯出含目前工作狀態 (7.5s)
+  ✓   7 tests/browser/journal.spec.ts:273:1 › 全螢幕保持8:5與返回尺寸、音量靜音重載後恢復原值 (2.6s)
+  ✓   8 tests/browser/journal.spec.ts:298:1 › 瀏覽器拒絕IndexedDB時顯示存檔錯誤而非WebGL，恢復存取可重試 (1.2s)
+  ✓   9 tests/browser/journal.spec.ts:336:1 › 美術資源失敗可重試，既有存檔保持 (4.3s)
+  ✓  10 tests/browser/recovery.spec.ts:4:1 › M01 最新壞檔自動回退，提示並繼續保存，不清圖鑑 (5.2s)
+  ✓  11 tests/browser/startup.spec.ts:3:1 › WebGL 主選單、三職業、輸入、暫停與入口重載 (9.0s)
+  ✓  12 tests/browser/startup.spec.ts:37:1 › 圖鑑完整、音效設定持續 (1.5s)
+  ✓  13 tests/browser/startup.spec.ts:49:1 › 真實 IndexedDB 選卡不重抽、清關穿戴保存與匯入損壞保護 (11.3s)
+
+  13 passed (1.8m)

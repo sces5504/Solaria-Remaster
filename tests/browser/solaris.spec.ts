@@ -48,6 +48,7 @@ for (const state of ["first", "sealed", "second", "third"] as const)
       .getByLabel("Solaria 遊戲畫布")
       .screenshot({ path: info.outputPath(`${state}.png`) });
     expect(errors).toEqual([]);
+    await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
     await page.reload();
     await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
     await expect(

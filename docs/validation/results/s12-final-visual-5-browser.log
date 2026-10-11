@@ -1,0 +1,12 @@
+
+Running 5 tests using 1 worker
+
+(node:36135) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-16 異星鯨魚 專屬布局與兩階段原創畫面 (21.0s)
+  ✓  2 tests/browser/solaris.spec.ts:6:3 › 索拉里斯 first 血條、四柱與招式畫面可保存重載 (13.3s)
+  ✓  3 tests/browser/solaris.spec.ts:6:3 › 索拉里斯 sealed 血條、四柱與招式畫面可保存重載 (16.6s)
+  ✓  4 tests/browser/solaris.spec.ts:6:3 › 索拉里斯 second 血條、四柱與招式畫面可保存重載 (13.9s)
+  ✓  5 tests/browser/solaris.spec.ts:6:3 › 索拉里斯 third 血條、四柱與招式畫面可保存重載 (14.6s)
+
+  5 passed (1.3m)

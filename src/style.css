@@ -1335,3 +1335,142 @@ button {
 .catalog-card.青 {
   background: linear-gradient(145deg, #366c65, #204b4c);
 }
+
+.first-tip {
+  margin: 12px 0;
+  padding: 10px 14px;
+  border: 1px solid #d1c39455;
+  border-radius: 7px;
+  background: #213c3a;
+  text-align: left;
+}
+.first-tip p {
+  margin: 6px 0;
+  font-size: 13px;
+}
+.first-tip button {
+  padding: 7px 11px;
+  margin-right: 8px;
+}
+.achievement-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 18px 0;
+}
+.achievement {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #aeb6a83d;
+  border-radius: 7px;
+  text-align: left;
+}
+.achievement > span {
+  font-size: 28px;
+  color: #e2c98d;
+}
+.achievement h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+.achievement p {
+  margin: 0 0 6px;
+  font-size: 13px;
+}
+.achievement small {
+  color: #bad6c0;
+}
+.achievement.locked {
+  opacity: 0.55;
+}
+.cosmetic-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 14px 0;
+}
+.cosmetic-options button {
+  border-color: var(--skin-color);
+  color: var(--skin-color);
+}
+.records {
+  text-align: left;
+  max-height: 220px;
+  overflow: auto;
+}
+.records p {
+  padding: 10px 12px;
+  border-bottom: 1px solid #9bab9329;
+  margin: 0;
+}
+.tutorial-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+  text-align: left;
+  margin: 20px 0;
+}
+.tutorial-steps article {
+  padding: 15px;
+  background: #223c3c;
+  border-radius: 7px;
+}
+.tutorial-steps b {
+  color: #e7d7a3;
+}
+.tutorial-steps p {
+  font-size: 14px;
+  margin: 8px 0 0;
+}
+.boss .sun-health {
+  display: flex;
+  gap: 4px;
+  height: 7px;
+  background: none;
+}
+.boss .sun-health > span {
+  flex: 1;
+  overflow: hidden;
+  background: #37343f;
+  border: 1px solid #9b8a6555;
+}
+.boss .sun-health > span.active {
+  border-color: #ffe9b6;
+  box-shadow: 0 0 5px #ffc66055;
+}
+.boss .sun-health i {
+  display: block;
+  height: 100%;
+  background: #e4b87c;
+}
+.game-layout:fullscreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100dvh;
+  border: 0;
+  border-radius: 0;
+  background: #07141d;
+}
+.game-layout:fullscreen #viewport {
+  width: min(calc(100vw - 216px), calc(100dvh * 1.6));
+  height: auto;
+  aspect-ratio: 8/5;
+}
+.game-layout:fullscreen #sidebar {
+  height: min(100dvh, calc((100vw - 216px) * 0.625));
+}
+@media (max-width: 1200px) {
+  .game-layout:fullscreen #viewport {
+    width: min(100vw, calc(100dvh * 1.6));
+  }
+}
+@media (max-width: 700px) {
+  .achievement-grid,
+  .tutorial-steps {
+    grid-template-columns: 1fr;
+  }
+}

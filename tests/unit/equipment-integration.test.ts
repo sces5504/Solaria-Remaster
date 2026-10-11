@@ -285,3 +285,27 @@ it("覓星只提升精英掉落30→40%，普通4%和已掉品質完全相同", 
     expect(itemFor(a, 9)).toEqual(itemFor(b, 9));
   }
 });
+it("百分比入口隔離錯誤代理標記、強制暴擊、元素與副鏈，不修改來源物件", () => {
+  const r = setup("starSeal");
+  const e = r.enemies[0];
+  r.cards[45] = 1;
+  r.cards[16] = 1;
+  r.cards[10] = 1;
+  r.stats.crit = 1;
+  r.stats.lifesteal = 1;
+  r.player.hp = 10;
+  const ctx = {
+    ...context(r, 144, "basic", ["fire", "ice", "lightning"], true),
+    damageKind: "percent" as const,
+  };
+  const before = r.projectiles.length;
+  hit(r, e, 200, ctx);
+  expect(e.hp).toBe(9800);
+  expect(e.burn).toEqual([]);
+  expect(e.frost).toBe(0);
+  expect(r.player.hp).toBe(10);
+  expect(r.projectiles.length).toBe(before);
+  expect(gearState(r).targets[e.id]).toBeUndefined();
+  expect(ctx.basicHitProxy).toBe(true);
+  expect(ctx.elementMask).toHaveLength(3);
+});

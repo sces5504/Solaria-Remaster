@@ -10,7 +10,11 @@ import {
   type Profile,
   type CosmeticId,
 } from "./profile";
-import { readProfile, setProfilePreference } from "./profile-store";
+import {
+  readProfile,
+  readPermanent,
+  setProfilePreference,
+} from "./profile-store";
 import { parseRecords, mergeRecords, type JourneyRecord } from "./records";
 
 export class RunStore {
@@ -81,6 +85,21 @@ export class RunStore {
       throw new Error("旅人圖鑑損壞，原始紀錄仍保留。");
     return [...new Set(values)].sort((a, b) => a - b) as number[];
   }
+  private priorOrRestore<T>(
+    store: IDBObjectStore,
+    key: string,
+    value: unknown,
+    parse: (value: unknown) => T,
+    incoming: unknown,
+  ): T {
+    try {
+      return parse(value);
+    } catch (error) {
+      if (incoming === undefined) throw error;
+      store.put(value, `${key}Damaged`);
+      return parse(incoming);
+    }
+  }
   private write(
     action: (
       tx: IDBTransaction,
@@ -98,8 +117,26 @@ export class RunStore {
         failure: unknown;
       const ready = () => {
         if (++count < 2) return;
-        const prior = latest.result as Saved | undefined,
-          rev = prior?.revision ?? marker.result ?? 0;
+        const prior = latest.result as Saved | undefined;
+        const markerRevision = marker.result ?? 0;
+        const priorRevision = prior?.revision;
+        if (
+          !Number.isSafeInteger(markerRevision) ||
+          markerRevision < 0 ||
+          (prior &&
+            (!Number.isSafeInteger(priorRevision) || priorRevision! < 0) &&
+            !allowReplace)
+        ) {
+          failure = new Error("存檔版本紀錄損壞，原始資料保留。");
+          tx.abort();
+          return;
+        }
+        const rev = Math.max(
+          markerRevision,
+          Number.isSafeInteger(priorRevision) && priorRevision! >= 0
+            ? priorRevision!
+            : 0,
+        );
         if (!Number.isSafeInteger(rev) || rev < 0) {
           failure = new Error("存檔版本紀錄損壞，原始資料保留。");
           tx.abort();
@@ -113,7 +150,10 @@ export class RunStore {
         try {
           action(tx, prior, rev);
         } catch (error) {
-          failure = error;
+          failure =
+            (error as Error)?.name === "QuotaExceededError"
+              ? new Error("儲存空間不足；上一份紀錄保留，請匯出備份。")
+              : error;
           tx.abort();
         }
       };
@@ -130,6 +170,7 @@ export class RunStore {
             ),
         );
       tx.onerror = () => {
+        if (failure) return;
         failure = new Error(
           tx.error?.name === "QuotaExceededError"
             ? "儲存空間不足；上一份紀錄保留，請匯出備份。"
@@ -150,7 +191,7 @@ export class RunStore {
       q.onsuccess = () => {
         try {
           restored = validate(q.result);
-          restored.revision = rev + 1;
+          restored.revision = Math.max(rev, restored.revision) + 1;
           restored.current.revision = restored.entry.revision =
             restored.revision;
           s.put(latest, "damaged");
@@ -171,11 +212,21 @@ export class RunStore {
     const journal = await readProfile(this.handle());
     this.profile = journal.profile;
     this.recoveryNotice = journal.notice;
-    this.discovered = this.ids(await this.read("profile", "discovered"));
-    this.records = parseRecords(await this.read("profile", "records"));
+    const known = await readPermanent(this.handle(), "discovered", (value) =>
+      this.ids(value),
+    );
+    const history = await readPermanent(this.handle(), "records", parseRecords);
+    this.discovered = known.value;
+    this.records = history.value;
+    this.recoveryNotice = [journal.notice, known.notice, history.notice]
+      .filter(Boolean)
+      .join(" ");
     const raw = await this.read("run", "latest");
     if (!raw) {
-      this.revision = Number(await this.read("run", "revision")) || 0;
+      const marker = (await this.read("run", "revision")) ?? 0;
+      if (!Number.isSafeInteger(marker) || Number(marker) < 0)
+        throw new Error("存檔版本紀錄損壞，原始資料保留。");
+      this.revision = Number(marker);
       this.entry = null;
       return null;
     }
@@ -186,7 +237,10 @@ export class RunStore {
       s = await this.recover(error);
     }
     this.entry = clone(s.entry);
-    this.revision = s.revision;
+    this.revision = Math.max(
+      s.revision,
+      Number(await this.read("run", "revision")) || 0,
+    );
     const owned = [
       ...Object.keys(s.current.cards),
       ...Object.keys(s.entry.cards),
@@ -204,6 +258,7 @@ export class RunStore {
       q.onsuccess = () => {
         try {
           result = this.ids([...this.ids(q.result), ...ids]);
+          s.put(this.ids(q.result), "discoveredPrevious");
           s.put(result, "discovered");
         } catch {
           tx.abort();
@@ -239,7 +294,13 @@ export class RunStore {
       q.onsuccess = () => {
         try {
           known = this.ids([
-            ...this.ids(q.result),
+            ...this.priorOrRestore(
+              p,
+              "discovered",
+              q.result,
+              (v) => this.ids(v),
+              imported?.discovered,
+            ),
             ...Object.keys(r.cards).map(Number),
             ...(imported?.discovered ?? []),
           ]);
@@ -251,7 +312,13 @@ export class RunStore {
         const journal = p.get("journal");
         journal.onsuccess = () => {
           try {
-            const old = parseProfile(journal.result);
+            const old = this.priorOrRestore(
+              p,
+              "journal",
+              journal.result,
+              parseProfile,
+              imported?.profile,
+            );
             nextProfile = updateProfile(
               imported?.profile ? mergeProfiles(old, imported.profile) : old,
               r,
@@ -267,7 +334,13 @@ export class RunStore {
           const history = p.get("records");
           history.onsuccess = () => {
             try {
-              const old = parseRecords(history.result);
+              const old = this.priorOrRestore(
+                p,
+                "records",
+                history.result,
+                parseRecords,
+                imported.records,
+              );
               nextRecords = mergeRecords(old, imported.records!);
               p.put(old, "recordsPrevious");
               p.put(nextRecords, "records");
@@ -305,6 +378,8 @@ export class RunStore {
               ...this.ids(q.result),
               ...Object.keys(r.cards).map(Number),
             ]);
+            if (Array.isArray(q.result))
+              p.put(this.ids(q.result), "discoveredPrevious");
             p.put(known, "discovered");
           } catch {
             tx.abort();
@@ -397,6 +472,79 @@ export class RunStore {
       2,
     );
   }
+  async importProfile(text: string) {
+    if (text.length > 5_000_000) throw new Error("星典檔案過大");
+    const data = JSON.parse(text);
+    if (
+      data.kind !== "solaria-profile" ||
+      data.version !== 1 ||
+      !data.profile ||
+      !Array.isArray(data.discovered) ||
+      !Array.isArray(data.records)
+    )
+      throw new Error("不是有效星典備份");
+    const profile = parseProfile(data.profile),
+      ids = this.ids(data.discovered),
+      records = parseRecords(data.records);
+    let nextProfile = this.profile,
+      nextIds = this.discovered,
+      nextRecords = this.records;
+    await new Promise<void>((resolve, reject) => {
+      const tx = this.handle().transaction("profile", "readwrite"),
+        s = tx.objectStore("profile");
+      const j = s.get("journal"),
+        d = s.get("discovered"),
+        h = s.get("records");
+      let ready = 0,
+        failure: unknown;
+      const apply = () => {
+        if (++ready < 3) return;
+        try {
+          const old = this.priorOrRestore(
+              s,
+              "journal",
+              j.result,
+              parseProfile,
+              profile,
+            ),
+            oldIds = this.priorOrRestore(
+              s,
+              "discovered",
+              d.result,
+              (v) => this.ids(v),
+              ids,
+            ),
+            oldRecords = this.priorOrRestore(
+              s,
+              "records",
+              h.result,
+              parseRecords,
+              records,
+            );
+          nextProfile = mergeProfiles(old, profile);
+          nextIds = this.ids([...oldIds, ...ids]);
+          nextRecords = mergeRecords(oldRecords, records);
+          s.put(old, "journalPrevious");
+          s.put(nextProfile, "journal");
+          s.put(oldIds, "discoveredPrevious");
+          s.put(nextIds, "discovered");
+          s.put(oldRecords, "recordsPrevious");
+          s.put(nextRecords, "records");
+        } catch (e) {
+          failure = e;
+          tx.abort();
+        }
+      };
+      j.onsuccess = d.onsuccess = h.onsuccess = apply;
+      tx.oncomplete = () => resolve();
+      tx.onabort = () =>
+        reject(failure ?? new Error("無法匯入星典，原始紀錄保留。"));
+      tx.onerror = tx.onabort;
+    });
+    this.profile = nextProfile;
+    this.discovered = nextIds;
+    this.records = nextRecords;
+  }
   async exportRaw() {
     const archive: Record<string, unknown> = {
       kind: "solaria-recovery",
@@ -406,10 +554,14 @@ export class RunStore {
       archive[key] = await this.read("run", key);
     for (const key of [
       "discovered",
+      "discoveredPrevious",
+      "discoveredDamaged",
       "journal",
       "journalPrevious",
       "journalDamaged",
       "records",
+      "recordsPrevious",
+      "recordsDamaged",
     ])
       archive[key] = await this.read("profile", key);
     return JSON.stringify(archive, null, 2);

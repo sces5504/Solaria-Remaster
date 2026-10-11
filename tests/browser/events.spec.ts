@@ -49,6 +49,7 @@ for (const id of Object.keys(eventDefinitions) as EventId[])
     await page
       .getByLabel("Solaria 遊戲畫布")
       .screenshot({ path: info.outputPath(`${id}.png`) });
+    await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
     await page.reload();
     await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
     await expect(page.locator("#hud .room")).toContainText(
@@ -118,6 +119,7 @@ test("事件完成存檔匯入、E拾專屬紅裝，重載不重發，已遇集�
   await page.keyboard.press("KeyE");
   await page.keyboard.press("KeyI");
   await expect(page.locator(".bag")).toContainText("軍團號令");
+  await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
   await expect(page.locator("#hud .status")).toBeVisible();

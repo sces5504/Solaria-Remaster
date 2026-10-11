@@ -15,7 +15,14 @@ export class SoundController {
   private remembered = 0.25;
   volume = savedVolume();
   constructor() {
-    this.remembered = this.volume || 0.25;
+    try {
+      const v = Number(
+        localStorage.getItem("solaria-last-volume") ?? this.volume,
+      );
+      this.remembered = Number.isFinite(v) && v > 0 ? Math.min(1, v) : 0.25;
+    } catch {
+      this.remembered = this.volume || 0.25;
+    }
   }
   unlock() {
     try {
@@ -47,6 +54,8 @@ export class SoundController {
       );
     try {
       localStorage.setItem("solaria-volume", String(this.volume));
+      if (this.volume)
+        localStorage.setItem("solaria-last-volume", String(this.volume));
     } catch {}
   }
   toggleMute() {

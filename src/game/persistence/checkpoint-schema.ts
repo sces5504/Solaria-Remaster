@@ -84,7 +84,10 @@ export function validate(value: unknown): Saved {
       (!Array.isArray(r.seenEvents) ||
         r.seenEvents.length > 6 ||
         new Set(r.seenEvents).size !== r.seenEvents.length ||
-        r.seenEvents.some((id) => !(id in eventDefinitions)))
+        r.seenEvents.some(
+          (id) =>
+            typeof id !== "string" || !Object.hasOwn(eventDefinitions, id),
+        ))
     )
       throw new Error("災厄紀錄損壞");
     if (
@@ -97,7 +100,7 @@ export function validate(value: unknown): Saved {
     if (r.event) {
       const e = r.event;
       if (
-        !(e.id in eventDefinitions) ||
+        !Object.hasOwn(eventDefinitions, e.id) ||
         e.room !== r.room ||
         e.loop !== (r.loop ?? 1) ||
         r.room % 5 === 0 ||
@@ -117,7 +120,7 @@ export function validate(value: unknown): Saved {
       )
         throw new Error("災厄進度損壞");
     }
-    if (r.biome !== undefined && !(r.biome in biomes))
+    if (r.biome !== undefined && !Object.hasOwn(biomes, r.biome))
       throw new Error("地形資料損壞");
     if (
       r.journey !== undefined &&
@@ -126,7 +129,7 @@ export function validate(value: unknown): Saved {
         r.journey.some(
           (seg) =>
             !seg ||
-            !(seg.biome in biomes) ||
+            !Object.hasOwn(biomes, seg.biome) ||
             !Array.isArray(seg.templates) ||
             seg.templates.length !== 4 ||
             new Set(seg.templates).size !== 4 ||
