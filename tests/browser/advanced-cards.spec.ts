@@ -89,3 +89,29 @@ test("命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法�
   ).toBeVisible();
   await expect(page.getByRole("button", { name: "卸下至地面" })).toHaveCount(1);
 });
+
+test("吸血鬼以灰色標明不可回復區，保留真實七成生命與四成上限", async ({
+  page,
+}) => {
+  const r = newRun("mage", 799);
+  grantTestCard(r, 79);
+  r.player.hp = r.stats.maxHP * 0.7;
+  await load(page, r);
+  const cap = page.locator(".hp .healing-limit");
+  await expect(cap).toBeVisible();
+  const widths = await page.evaluate(() => {
+    const node = document.querySelector("#hud .hp")!;
+    const whole = node.getBoundingClientRect(),
+      cap = node.querySelector(".healing-limit")!.getBoundingClientRect(),
+      hp = node.querySelector("i")!.getBoundingClientRect();
+    return {
+      left: (cap.x - whole.x) / whole.width,
+      cap: cap.width / whole.width,
+      hp: hp.width / whole.width,
+    };
+  });
+  expect(widths.left).toBeCloseTo(0.4, 2);
+  expect(widths.cap).toBeCloseTo(0.6, 2);
+  expect(widths.hp).toBeCloseTo(0.7, 2);
+  await expect(page.locator(".hp")).toHaveAttribute("title", /回復上限40%/);
+});

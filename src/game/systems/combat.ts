@@ -1,3 +1,5 @@
+import { pooledProjectile } from "./projectile-pool";
+import { sweepProjectiles } from "./projectile-sweep";
 import { gearHit, gearHurt } from "./equipment-abilities";
 import { hasEquipment } from "../data/equipment";
 import { pumpkin, hurtPumpkin } from "./companion";
@@ -6,7 +8,7 @@ import {
   elementResonance,
   lifesteal,
 } from "./advanced-abilities";
-import { sineVelocity, enemyElements } from "./monster-details";
+import { enemyElements } from "./monster-details";
 import { damageSolaris } from "./solaris";
 import type {
   Run,
@@ -567,59 +569,61 @@ export function shoot(
 ) {
   if (enemy && r.projectiles.filter((p) => p.enemy).length >= 600) return;
   const mul = enemy ? 1 : r.stats.projectile;
-  r.projectiles.push({
-    id: r.nextId++,
-    x: p.x,
-    y: p.y,
-    vx: Math.cos(a) * speed * mul,
-    vy: Math.sin(a) * speed * mul,
-    radius: enemy ? 5 : ctx?.sourceAbilityId === 50 ? 3 : 4,
-    distanceLeft: range * (enemy ? 1 : r.stats.range),
-    damage,
-    context: ctx,
-    enemy,
-    eventGlyph: enemy
-      ? (() => {
-          const body = r.enemies.find((e) => e.id === owner);
-          return body?.bossId === 20 || body?.monsterId === 30
-            ? "gift"
-            : body?.bossId === 21 || body?.monsterId === 34
-              ? "ghost"
-              : [36, 37, 38].includes(body?.monsterId ?? 0)
-                ? "plasma"
-                : [39, 40].includes(body?.monsterId ?? 0)
-                  ? "comet"
-                  : undefined;
-        })()
-      : undefined,
-    bossAttackId: enemy
-      ? (r.modes.find(
-          (m) => m.actor === owner && m.starts <= r.time && m.ends >= r.time,
-        )?.attackId ??
-        (r.enemies.find((e) => e.id === owner)?.sealPillar
-          ? "solaris-seal"
-          : undefined))
-      : undefined,
-    enemyElements: enemy
-      ? enemyElements(r.enemies.find((e) => e.id === owner))
-      : undefined,
-    enemyTheme: enemy
-      ? r.room === 31
-        ? "sun"
-        : (r.event?.theme ?? r.biome)
-      : undefined,
-    enemyElement: enemy
-      ? (r.enemies.find((e) => e.id === owner)?.element ?? null)
-      : undefined,
-    owner,
-    wave,
-    hit: [],
-    pierce,
-    bounce,
-    explosion,
-    explosionDamage,
-    trail,
-  });
+  r.projectiles.push(
+    pooledProjectile(r, {
+      id: r.nextId++,
+      x: p.x,
+      y: p.y,
+      vx: Math.cos(a) * speed * mul,
+      vy: Math.sin(a) * speed * mul,
+      radius: enemy ? 5 : ctx?.sourceAbilityId === 50 ? 3 : 4,
+      distanceLeft: range * (enemy ? 1 : r.stats.range),
+      damage,
+      context: ctx,
+      enemy,
+      eventGlyph: enemy
+        ? (() => {
+            const body = r.enemies.find((e) => e.id === owner);
+            return body?.bossId === 20 || body?.monsterId === 30
+              ? "gift"
+              : body?.bossId === 21 || body?.monsterId === 34
+                ? "ghost"
+                : [36, 37, 38].includes(body?.monsterId ?? 0)
+                  ? "plasma"
+                  : [39, 40].includes(body?.monsterId ?? 0)
+                    ? "comet"
+                    : undefined;
+          })()
+        : undefined,
+      bossAttackId: enemy
+        ? (r.modes.find(
+            (m) => m.actor === owner && m.starts <= r.time && m.ends >= r.time,
+          )?.attackId ??
+          (r.enemies.find((e) => e.id === owner)?.sealPillar
+            ? "solaris-seal"
+            : undefined))
+        : undefined,
+      enemyElements: enemy
+        ? enemyElements(r.enemies.find((e) => e.id === owner))
+        : undefined,
+      enemyTheme: enemy
+        ? r.room === 31
+          ? "sun"
+          : (r.event?.theme ?? r.biome)
+        : undefined,
+      enemyElement: enemy
+        ? (r.enemies.find((e) => e.id === owner)?.element ?? null)
+        : undefined,
+      owner,
+      wave,
+      hit: [],
+      pierce,
+      bounce,
+      explosion,
+      explosionDamage,
+      trail,
+    }),
+  );
 }
 export function area(
   r: Run,
@@ -691,123 +695,7 @@ export function damageCover(
     }
 }
 export function updateProjectiles(r: Run, dt: number) {
-  for (const p of r.projectiles) {
-    if (p.homingTarget && !p.enemy) {
-      const target =
-        r.enemies.find((e) => e.id === p.homingTarget && e.hp > 0) ??
-        r.enemies.find((e) => e.hp > 0 && !e.sealPillar);
-      if (target) {
-        p.homingTarget = target.id;
-        const a = angle(p, target),
-          speed = Math.hypot(p.vx, p.vy);
-        p.vx = Math.cos(a) * speed;
-        p.vy = Math.sin(a) * speed;
-      }
-    }
-    sineVelocity(p, dt);
-    const old = { x: p.x, y: p.y };
-    const dist = Math.hypot(p.vx, p.vy) * dt;
-    let stopped = false;
-    const steps = Math.ceil(dist / 4) || 1;
-    for (let i = 0; i < steps; i++) {
-      p.x += (p.vx * dt) / steps;
-      p.y += (p.vy * dt) / steps;
-      if (lineBlocked(r, old, p)) {
-        stopped = true;
-        break;
-      }
-      if (p.enemy) {
-        const c = pumpkin(r);
-        if (
-          c &&
-          c.hp > 0 &&
-          segmentDistance(c, old, p) < c.radius + p.radius &&
-          distance(old, c) < distance(old, r.player)
-        ) {
-          hurtPumpkin(
-            r,
-            p.damage,
-            p.enemyElements ?? (p.enemyElement ? [p.enemyElement] : []),
-          );
-          stopped = true;
-          break;
-        }
-        if (segmentDistance(r.player, old, p) < r.player.radius + p.radius) {
-          const owner = r.enemies.find((e) => e.id === p.owner);
-          hurt(
-            r,
-            p.damage,
-            p.enemyElements ?? p.enemyElement ?? owner?.element,
-          );
-          stopped = true;
-          break;
-        }
-      } else if (p.context) {
-        for (const e of r.enemies)
-          if (
-            e.hp > 0 &&
-            !p.hit.includes(e.id) &&
-            segmentDistance(e, old, p) < e.radius + p.radius
-          ) {
-            hit(r, e, p.damage, p.context);
-            p.hit.push(e.id);
-            p.pierce--;
-            if (p.bounce > 0) {
-              const target = r.enemies
-                .filter(
-                  (e2) =>
-                    e2.hp > 0 &&
-                    !p.hit.includes(e2.id) &&
-                    !lineBlocked(r, e, e2),
-                )
-                .sort(
-                  (a, b) => distance(e, a) - distance(e, b) || a.id - b.id,
-                )[0];
-              if (target) {
-                const a = angle(e, target),
-                  speed = Math.hypot(p.vx, p.vy);
-                p.vx = Math.cos(a) * speed;
-                p.vy = Math.sin(a) * speed;
-                p.context = {
-                  ...p.context,
-                  chainScale: p.context.chainScale * 0.7,
-                };
-                p.bounce--;
-                p.pierce++;
-                break;
-              }
-            }
-            if (p.pierce <= 0) {
-              stopped = true;
-              break;
-            }
-          }
-      }
-      if (stopped) break;
-    }
-    p.distanceLeft -= dist;
-    if (p.trail && r.tick % 15 === 0 && p.context)
-      area(r, p, 25, 6 * factor(r, 21), 0, 3, 0.5, {
-        ...p.context,
-        damageKind: "skill",
-        canCrit: true,
-        procPolicy: "root",
-      });
-    if (stopped || p.distanceLeft <= 0) {
-      p.distanceLeft = -1;
-      if (p.enemy) {
-        if (r.room === 5) damageCover(r, p, 8, p.wave);
-      } else if (p.explosion && p.context)
-        burst(r, p, p.explosion, p.explosionDamage, {
-          ...p.context,
-          damageKind: "additional",
-          canCrit: false,
-          basicHitProxy: false,
-          procPolicy: "none",
-        });
-    }
-  }
-  r.projectiles = r.projectiles.filter((p) => p.distanceLeft > 0);
+  sweepProjectiles(r, dt);
 }
 export function updateAreas(r: Run) {
   for (const a of r.areas) {

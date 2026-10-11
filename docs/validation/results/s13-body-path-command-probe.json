@@ -1,0 +1,1759 @@
+{
+  "kind": "AUTOMATED_COMMAND_PROBE",
+  "humanBalance": "NOT_RUN",
+  "generated": "2026-10-11T20:13:41.217Z",
+  "results": [
+    {
+      "classId": "sword",
+      "build": "一般抽選",
+      "seed": 20506,
+      "phase": "COMBAT",
+      "room": 3,
+      "seconds": 3599.9166666848932,
+      "level": 3,
+      "kills": 30,
+      "player": {
+        "x": 669.9625836086004,
+        "y": 172.54796759025655,
+        "hp": 83.69136886029816
+      },
+      "items": [],
+      "obstacles": [
+        {
+          "id": 1,
+          "x": 736,
+          "y": 160,
+          "w": 64,
+          "h": 64,
+          "kind": "rock",
+          "durability": 10,
+          "maxDurability": 10,
+          "waves": []
+        },
+        {
+          "id": 2,
+          "x": 864,
+          "y": 512,
+          "w": 32,
+          "h": 64,
+          "kind": "rock",
+          "durability": 10,
+          "maxDurability": 10,
+          "waves": []
+        },
+        {
+          "id": 3,
+          "x": 672,
+          "y": 192,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 4,
+          "x": 352,
+          "y": 384,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 5,
+          "x": 160,
+          "y": 192,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 6,
+          "x": 736,
+          "y": 256,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 7,
+          "x": 800,
+          "y": 416,
+          "w": 32,
+          "h": 32,
+          "kind": "rock",
+          "durability": 10,
+          "maxDurability": 10,
+          "waves": []
+        },
+        {
+          "id": 8,
+          "x": 224,
+          "y": 96,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 9,
+          "x": 416,
+          "y": 416,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 10,
+          "x": 288,
+          "y": 384,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 11,
+          "x": 352,
+          "y": 96,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 12,
+          "x": 160,
+          "y": 96,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 13,
+          "x": 640,
+          "y": 96,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 14,
+          "x": 864,
+          "y": 448,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 15,
+          "x": 256,
+          "y": 512,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 16,
+          "x": 800,
+          "y": 512,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 17,
+          "x": 384,
+          "y": 480,
+          "w": 32,
+          "h": 64,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 18,
+          "x": 384,
+          "y": 192,
+          "w": 64,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 19,
+          "x": 288,
+          "y": 96,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 20,
+          "x": 736,
+          "y": 480,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 21,
+          "x": 576,
+          "y": 160,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 22,
+          "x": 320,
+          "y": 192,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 23,
+          "x": 256,
+          "y": 192,
+          "w": 32,
+          "h": 64,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 24,
+          "x": 320,
+          "y": 512,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 25,
+          "x": 608,
+          "y": 224,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        }
+      ],
+      "remainingEnemies": [
+        {
+          "id": 8437,
+          "hp": 14.996574371792388,
+          "maxHP": 110,
+          "x": 527.981494980085,
+          "y": 286.5363223046089
+        }
+      ],
+      "hurt": 141.30863113970184,
+      "healed": 75,
+      "cards": [
+        {
+          "id": 8,
+          "name": "求知",
+          "count": 1
+        },
+        {
+          "id": 11,
+          "name": "殘忍",
+          "count": 1
+        }
+      ],
+      "rooms": [
+        {
+          "room": 1,
+          "seconds": 561.7999999998177,
+          "level": 2,
+          "hp": 119.66
+        },
+        {
+          "room": 2,
+          "seconds": 58.98333333327969,
+          "level": 3,
+          "hp": 73.69213651607612
+        }
+      ]
+    },
+    {
+      "classId": "sword",
+      "build": "偏攻抽選",
+      "seed": 20506,
+      "phase": "COMBAT",
+      "room": 3,
+      "seconds": 3599.9166666848932,
+      "level": 3,
+      "kills": 30,
+      "player": {
+        "x": 669.9625836086004,
+        "y": 172.54796759025655,
+        "hp": 83.69136886029816
+      },
+      "items": [],
+      "obstacles": [
+        {
+          "id": 1,
+          "x": 736,
+          "y": 160,
+          "w": 64,
+          "h": 64,
+          "kind": "rock",
+          "durability": 10,
+          "maxDurability": 10,
+          "waves": []
+        },
+        {
+          "id": 2,
+          "x": 864,
+          "y": 512,
+          "w": 32,
+          "h": 64,
+          "kind": "rock",
+          "durability": 10,
+          "maxDurability": 10,
+          "waves": []
+        },
+        {
+          "id": 3,
+          "x": 672,
+          "y": 192,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 4,
+          "x": 352,
+          "y": 384,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 5,
+          "x": 160,
+          "y": 192,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 6,
+          "x": 736,
+          "y": 256,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 7,
+          "x": 800,
+          "y": 416,
+          "w": 32,
+          "h": 32,
+          "kind": "rock",
+          "durability": 10,
+          "maxDurability": 10,
+          "waves": []
+        },
+        {
+          "id": 8,
+          "x": 224,
+          "y": 96,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 9,
+          "x": 416,
+          "y": 416,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 10,
+          "x": 288,
+          "y": 384,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 11,
+          "x": 352,
+          "y": 96,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 12,
+          "x": 160,
+          "y": 96,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 13,
+          "x": 640,
+          "y": 96,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 14,
+          "x": 864,
+          "y": 448,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 15,
+          "x": 256,
+          "y": 512,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 16,
+          "x": 800,
+          "y": 512,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 17,
+          "x": 384,
+          "y": 480,
+          "w": 32,
+          "h": 64,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 18,
+          "x": 384,
+          "y": 192,
+          "w": 64,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 19,
+          "x": 288,
+          "y": 96,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 20,
+          "x": 736,
+          "y": 480,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 21,
+          "x": 576,
+          "y": 160,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 22,
+          "x": 320,
+          "y": 192,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 23,
+          "x": 256,
+          "y": 192,
+          "w": 32,
+          "h": 64,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 24,
+          "x": 320,
+          "y": 512,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 25,
+          "x": 608,
+          "y": 224,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        }
+      ],
+      "remainingEnemies": [
+        {
+          "id": 8437,
+          "hp": 14.996574371792388,
+          "maxHP": 110,
+          "x": 527.981494980085,
+          "y": 286.5363223046089
+        }
+      ],
+      "hurt": 141.30863113970184,
+      "healed": 75,
+      "cards": [
+        {
+          "id": 8,
+          "name": "求知",
+          "count": 2
+        }
+      ],
+      "rooms": [
+        {
+          "room": 1,
+          "seconds": 561.7999999998177,
+          "level": 2,
+          "hp": 119.66
+        },
+        {
+          "room": 2,
+          "seconds": 58.98333333327969,
+          "level": 3,
+          "hp": 73.69213651607612
+        }
+      ]
+    },
+    {
+      "classId": "bow",
+      "build": "一般抽選",
+      "seed": 20506,
+      "phase": "DEAD",
+      "room": 6,
+      "seconds": 225.03333333340456,
+      "level": 6,
+      "kills": 71,
+      "player": {
+        "x": 517.0941799991117,
+        "y": 577.0910322122897,
+        "hp": 0
+      },
+      "items": [],
+      "obstacles": [
+        {
+          "id": 1,
+          "x": 288,
+          "y": 128,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 2,
+          "x": 736,
+          "y": 160,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 3,
+          "x": 704,
+          "y": 448,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 4,
+          "x": 736,
+          "y": 512,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 5,
+          "x": 320,
+          "y": 480,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 6,
+          "x": 672,
+          "y": 512,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 7,
+          "x": 256,
+          "y": 512,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 8,
+          "x": 288,
+          "y": 416,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 9,
+          "x": 320,
+          "y": 224,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 10,
+          "x": 672,
+          "y": 160,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 11,
+          "x": 768,
+          "y": 416,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 12,
+          "x": 320,
+          "y": 544,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 13,
+          "x": 736,
+          "y": 96,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 14,
+          "x": 256,
+          "y": 192,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 15,
+          "x": 672,
+          "y": 96,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 16,
+          "x": 736,
+          "y": 224,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        }
+      ],
+      "remainingEnemies": [
+        {
+          "id": 5099,
+          "hp": 76.9972594974339,
+          "maxHP": 153,
+          "x": 230.22915347798894,
+          "y": 373.662155487092
+        },
+        {
+          "id": 5102,
+          "hp": 187,
+          "maxHP": 187,
+          "x": 174.70268143547236,
+          "y": 386.1453747164133
+        },
+        {
+          "id": 5105,
+          "hp": 30.24434771345743,
+          "maxHP": 187,
+          "x": 274.4762713317984,
+          "y": 401.57450458648105
+        },
+        {
+          "id": 5107,
+          "hp": 7.6447587888423385,
+          "maxHP": 153,
+          "x": 285.94624899410405,
+          "y": 360.4956914458479
+        },
+        {
+          "id": 5108,
+          "hp": 114.99862974871695,
+          "maxHP": 153,
+          "x": 387.56072441895435,
+          "y": 419.99298702164
+        },
+        {
+          "id": 5110,
+          "hp": 153,
+          "maxHP": 153,
+          "x": 457.0540819720301,
+          "y": 375.171493140521
+        }
+      ],
+      "hurt": 272.0612082868733,
+      "healed": 172.06120828687335,
+      "cards": [
+        {
+          "id": 4,
+          "name": "秘藝",
+          "count": 2
+        },
+        {
+          "id": 8,
+          "name": "求知",
+          "count": 1
+        },
+        {
+          "id": 11,
+          "name": "殘忍",
+          "count": 1
+        },
+        {
+          "id": 24,
+          "name": "水覺醒",
+          "count": 1
+        }
+      ],
+      "rooms": [
+        {
+          "room": 1,
+          "seconds": 34.733333333332645,
+          "level": 2,
+          "hp": 99.54545454545455
+        },
+        {
+          "room": 2,
+          "seconds": 20.433333333332172,
+          "level": 3,
+          "hp": 36.24212312929058
+        },
+        {
+          "room": 3,
+          "seconds": 23.099999999998694,
+          "level": 4,
+          "hp": 61.24212312929058
+        },
+        {
+          "room": 4,
+          "seconds": 26.466666666665162,
+          "level": 5,
+          "hp": 86.58145684605779
+        },
+        {
+          "room": 5,
+          "seconds": 80.25000000005431,
+          "level": 6,
+          "hp": 100
+        }
+      ]
+    },
+    {
+      "classId": "bow",
+      "build": "偏攻抽選",
+      "seed": 20506,
+      "phase": "DEAD",
+      "room": 5,
+      "seconds": 133.18333333333146,
+      "level": 5,
+      "kills": 46,
+      "player": {
+        "x": 59.89204742628824,
+        "y": 95.24036760041415,
+        "hp": 0
+      },
+      "items": [],
+      "obstacles": [
+        {
+          "id": 1,
+          "x": 800,
+          "y": 128,
+          "w": 64,
+          "h": 64,
+          "kind": "rock",
+          "durability": 10,
+          "maxDurability": 10,
+          "waves": []
+        },
+        {
+          "id": 2,
+          "x": 800,
+          "y": 416,
+          "w": 64,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 3,
+          "x": 672,
+          "y": 480,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 4,
+          "x": 640,
+          "y": 224,
+          "w": 64,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 5,
+          "x": 416,
+          "y": 480,
+          "w": 64,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 6,
+          "x": 640,
+          "y": 160,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 7,
+          "x": 416,
+          "y": 192,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 8,
+          "x": 864,
+          "y": 512,
+          "w": 32,
+          "h": 64,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 9,
+          "x": 736,
+          "y": 224,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 10,
+          "x": 352,
+          "y": 192,
+          "w": 32,
+          "h": 64,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 11,
+          "x": 224,
+          "y": 160,
+          "w": 32,
+          "h": 32,
+          "kind": "tree",
+          "durability": 5,
+          "maxDurability": 5,
+          "waves": []
+        },
+        {
+          "id": 12,
+          "x": 288,
+          "y": 512,
+          "w": 64,
+          "h": 64,
+          "kind": "tree",
+          "durability": 4,
+          "maxDurability": 5,
+          "waves": [2820]
+        }
+      ],
+      "remainingEnemies": [
+        {
+          "id": 2734,
+          "hp": 2307.9534114563685,
+          "maxHP": 3600,
+          "x": 93.97904753592833,
+          "y": 121.28772521990497
+        }
+      ],
+      "hurt": 199.99999999999997,
+      "healed": 100,
+      "cards": [
+        {
+          "id": 6,
+          "name": "靈步",
+          "count": 1
+        },
+        {
+          "id": 8,
+          "name": "求知",
+          "count": 2
+        },
+        {
+          "id": 24,
+          "name": "水覺醒",
+          "count": 1
+        }
+      ],
+      "rooms": [
+        {
+          "room": 1,
+          "seconds": 34.733333333332645,
+          "level": 2,
+          "hp": 99.54545454545455
+        },
+        {
+          "room": 2,
+          "seconds": 20.433333333332172,
+          "level": 3,
+          "hp": 36.24212312929058
+        },
+        {
+          "room": 3,
+          "seconds": 23.099999999998694,
+          "level": 4,
+          "hp": 61.24212312929058
+        },
+        {
+          "room": 4,
+          "seconds": 25.69999999999854,
+          "level": 5,
+          "hp": 94.72627144785378
+        }
+      ]
+    },
+    {
+      "classId": "mage",
+      "build": "一般抽選",
+      "seed": 20506,
+      "phase": "DEAD",
+      "room": 7,
+      "seconds": 168.7833333333598,
+      "level": 7,
+      "kills": 81,
+      "player": {
+        "x": 286.53983704379635,
+        "y": 392.7382619462312,
+        "hp": 0
+      },
+      "items": [
+        {
+          "id": "501a-mage-1-7-2593--1",
+          "slot": "ring",
+          "rarity": "藍",
+          "affixes": [
+            {
+              "stat": "global",
+              "value": 0.04368586065340787
+            }
+          ],
+          "x": 137.19203988757673,
+          "y": 234.837023789434
+        },
+        {
+          "id": "501a-mage-1-7-2601--1",
+          "slot": "ring",
+          "rarity": "藍",
+          "affixes": [
+            {
+              "stat": "global",
+              "value": 0.055967343005351715
+            }
+          ],
+          "x": 435.2812347589076,
+          "y": 429.13621178619917
+        }
+      ],
+      "obstacles": [
+        {
+          "id": 1,
+          "x": 768,
+          "y": 448,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 2,
+          "x": 320,
+          "y": 160,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 3,
+          "x": 640,
+          "y": 416,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 4,
+          "x": 320,
+          "y": 480,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 5,
+          "x": 736,
+          "y": 192,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 6,
+          "x": 192,
+          "y": 480,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 7,
+          "x": 416,
+          "y": 192,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 8,
+          "x": 576,
+          "y": 416,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 9,
+          "x": 640,
+          "y": 224,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 10,
+          "x": 704,
+          "y": 448,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 11,
+          "x": 416,
+          "y": 448,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 12,
+          "x": 224,
+          "y": 160,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 13,
+          "x": 256,
+          "y": 480,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 14,
+          "x": 576,
+          "y": 224,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 15,
+          "x": 224,
+          "y": 96,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 16,
+          "x": 288,
+          "y": 96,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        }
+      ],
+      "remainingEnemies": [
+        {
+          "id": 2599,
+          "hp": 187,
+          "maxHP": 187,
+          "x": 606.6596356219367,
+          "y": 397.55826209041595
+        },
+        {
+          "id": 2602,
+          "hp": 187,
+          "maxHP": 187,
+          "x": 686.5071422653024,
+          "y": 263.06256884065795
+        },
+        {
+          "id": 2604,
+          "hp": 187,
+          "maxHP": 187,
+          "x": 656.8443439768472,
+          "y": 291.1904823215999
+        }
+      ],
+      "hurt": 242.07944481328252,
+      "healed": 152.07944481328252,
+      "cards": [
+        {
+          "id": 4,
+          "name": "秘藝",
+          "count": 3
+        },
+        {
+          "id": 8,
+          "name": "求知",
+          "count": 1
+        },
+        {
+          "id": 11,
+          "name": "殘忍",
+          "count": 1
+        },
+        {
+          "id": 24,
+          "name": "水覺醒",
+          "count": 1
+        }
+      ],
+      "rooms": [
+        {
+          "room": 1,
+          "seconds": 19.48333333333351,
+          "level": 2,
+          "hp": 90
+        },
+        {
+          "room": 2,
+          "seconds": 10.483333333332741,
+          "level": 3,
+          "hp": 83.71694548906362
+        },
+        {
+          "room": 3,
+          "seconds": 16.483333333332396,
+          "level": 4,
+          "hp": 90
+        },
+        {
+          "room": 4,
+          "seconds": 12.699999999999285,
+          "level": 5,
+          "hp": 118.33155161328614
+        },
+        {
+          "room": 5,
+          "seconds": 44.749999999997456,
+          "level": 6,
+          "hp": 118.33155161328614
+        },
+        {
+          "room": 6,
+          "seconds": 23.950000000012224,
+          "level": 7,
+          "hp": 109.70680323926672
+        }
+      ]
+    },
+    {
+      "classId": "mage",
+      "build": "偏攻抽選",
+      "seed": 20506,
+      "phase": "DEAD",
+      "room": 7,
+      "seconds": 167.83333333335904,
+      "level": 7,
+      "kills": 81,
+      "player": {
+        "x": 396.81438674809624,
+        "y": 307.4207198559884,
+        "hp": 0
+      },
+      "items": [],
+      "obstacles": [
+        {
+          "id": 1,
+          "x": 768,
+          "y": 448,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 2,
+          "x": 320,
+          "y": 160,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 3,
+          "x": 640,
+          "y": 416,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 4,
+          "x": 320,
+          "y": 480,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 5,
+          "x": 736,
+          "y": 192,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 6,
+          "x": 192,
+          "y": 480,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 7,
+          "x": 416,
+          "y": 192,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 8,
+          "x": 576,
+          "y": 416,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 9,
+          "x": 640,
+          "y": 224,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 10,
+          "x": 704,
+          "y": 448,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 11,
+          "x": 416,
+          "y": 448,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 12,
+          "x": 224,
+          "y": 160,
+          "w": 64,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 13,
+          "x": 256,
+          "y": 480,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 14,
+          "x": 576,
+          "y": 224,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 15,
+          "x": 224,
+          "y": 96,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        },
+        {
+          "id": 16,
+          "x": 288,
+          "y": 96,
+          "w": 32,
+          "h": 32,
+          "kind": "pillar",
+          "durability": 15,
+          "maxDurability": 15,
+          "waves": []
+        }
+      ],
+      "remainingEnemies": [
+        {
+          "id": 2811,
+          "hp": 136.33150633162262,
+          "maxHP": 187,
+          "x": 542.8770218968411,
+          "y": 196.52216043784424
+        },
+        {
+          "id": 2815,
+          "hp": 187,
+          "maxHP": 187,
+          "x": 731.306534539941,
+          "y": 410.56701864563337
+        },
+        {
+          "id": 2817,
+          "hp": 187,
+          "maxHP": 187,
+          "x": 687.8177149849082,
+          "y": 427.02802506667655
+        },
+        {
+          "id": 2818,
+          "hp": 187,
+          "maxHP": 187,
+          "x": 743.7522249272599,
+          "y": 174.85787386844714
+        },
+        {
+          "id": 2819,
+          "hp": 89.66438291452826,
+          "maxHP": 153,
+          "x": 528,
+          "y": 432
+        }
+      ],
+      "hurt": 229.26306853340262,
+      "healed": 139.26306853340265,
+      "cards": [
+        {
+          "id": 4,
+          "name": "秘藝",
+          "count": 2
+        },
+        {
+          "id": 6,
+          "name": "靈步",
+          "count": 1
+        },
+        {
+          "id": 8,
+          "name": "求知",
+          "count": 2
+        },
+        {
+          "id": 24,
+          "name": "水覺醒",
+          "count": 1
+        }
+      ],
+      "rooms": [
+        {
+          "room": 1,
+          "seconds": 19.48333333333351,
+          "level": 2,
+          "hp": 90
+        },
+        {
+          "room": 2,
+          "seconds": 10.483333333332741,
+          "level": 3,
+          "hp": 83.71694548906362
+        },
+        {
+          "room": 3,
+          "seconds": 16.483333333332396,
+          "level": 4,
+          "hp": 90
+        },
+        {
+          "room": 4,
+          "seconds": 12.849999999999277,
+          "level": 5,
+          "hp": 118.33155161328614
+        },
+        {
+          "room": 5,
+          "seconds": 54.94999999999688,
+          "level": 6,
+          "hp": 118.33155161328614
+        },
+        {
+          "room": 6,
+          "seconds": 23.400000000018622,
+          "level": 7,
+          "hp": 106.23007138273685
+        }
+      ]
+    }
+  ]
+}

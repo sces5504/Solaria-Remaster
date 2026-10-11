@@ -1,0 +1,24 @@
+
+> solaria-remaster@1.0.0 test:browser
+> playwright test --workers=1
+
+
+Running 76 tests using 1 worker
+
+(node:40167) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/advanced-cards.spec.ts:18:1 › 元素使三元素的強制融合選擇重載後仍保留、卡片圖鑑85張 (9.8s)
+  ✓   2 tests/browser/advanced-cards.spec.ts:49:1 › 命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴 (10.3s)
+(node:40167) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+  ✓   3 tests/browser/audio.spec.ts:5:1 › 實際音效合成以OfflineAudioContext核對職業、蒸氣、雷電、格擋與結局波形 (503ms)
+  ✓   4 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-3 金字塔神 專屬布局與兩階段原創畫面 (25.2s)
+  ✓   5 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-4 沙塵暴刺客 專屬布局與兩階段原創畫面 (23.6s)
+  ✓   6 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-5 冰龍 專屬布局與兩階段原創畫面 (20.7s)
+  ✓   7 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-6 冰川巨魔 專屬布局與兩階段原創畫面 (18.3s)
+  ✓   8 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-7 火山熔爐怪 專屬布局與兩階段原創畫面 (22.1s)
+  ✓   9 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-8 火炎獸 專屬布局與兩階段原創畫面 (20.2s)
+  ✓  10 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-9 食人花怪 專屬布局與兩階段原創畫面 (27.0s)
+  ✓  11 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-10 邪惡巫醫 專屬布局與兩階段原創畫面 (36.8s)
+  ✓  12 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-11 虛空蠕蟲 專屬布局與兩階段原創畫面 (24.6s)
+  ✓  13 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-12 眼球怪 專屬布局與兩階段原創畫面 (21.1s)
+  ✓  14 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-13 血腥浮空腦袋 專屬布局與兩階段原創畫面 (19.1s)

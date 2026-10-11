@@ -1,7 +1,7 @@
 import { solarArena } from "../data/solar-arena";
 import type { Actor, Run } from "../core/types";
 import type { BossAttack, BossPattern } from "../data/bosses";
-import { actor } from "../data/world";
+import { actor, roomXPBudget } from "../data/world";
 import { angle, distance, DT } from "../core/primitives";
 import { beginBossAttack } from "./biome-bosses";
 import { hurt, shoot, visual } from "./combat";
@@ -94,7 +94,7 @@ export function placeSolaris(r: Run) {
   ];
 }
 function roomExperience(r: Run) {
-  return 450;
+  return roomXPBudget(r.room);
 }
 // Returns actual HP lost from one bar. Excess damage never skips a bar or seal.
 export function damageSolaris(r: Run, e: Actor, value: number) {

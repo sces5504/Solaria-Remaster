@@ -2,6 +2,7 @@ name: Solaria GitHub Pages
 on:
   push:
     branches: [implement/s00-s05, main]
+    paths-ignore: ["**/*.md", "docs/**"]
   workflow_dispatch:
 permissions:
   contents: read

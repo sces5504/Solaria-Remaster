@@ -34,7 +34,7 @@ export function rootKillAbilities(r: Run, e: Actor) {
   r.cooldowns[75] = r.time + 1;
   const targets = r.enemies
     .filter((target) => target.hp > 0 && !target.sealPillar)
-    .sort((a, b) => distance(e, a) - distance(e, b));
+    .sort((a, b) => distance(e, a) - distance(e, b) || a.id - b.id);
   if (!targets.length) return;
   for (let i = 0; i < 3; i++) {
     const target = targets[i % targets.length];

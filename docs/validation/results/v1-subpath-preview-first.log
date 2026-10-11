@@ -1,0 +1,80 @@
+
+Running 2 tests using 1 worker
+
+(node:45820) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tools/validation/pages.spec.ts:7:1 › 正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續 (5.1s)
+(node:45897) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tools/validation/pages.spec.ts:81:1 › 正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存 (5.1s)
+
+
+  1) tools/validation/pages.spec.ts:7:1 › 正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續 ──────────────────────────
+
+    Error: expect(locator).toBeEnabled() failed
+
+    Locator: getByRole('button', { name: '開始新局', exact: true })
+    Expected: enabled
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeEnabled" getByRole('button', { name: '開始新局', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: '開始新局', exact: true })
+
+
+      20 |   await expect(
+      21 |     page.getByRole("button", { name: "開始新局", exact: true }),
+    > 22 |   ).toBeEnabled();
+         |     ^
+      23 |   for (const path of [
+      24 |     "solaria-atlas.png",
+      25 |     "biome-atlas.png",
+        at /workspace/Solaria-Remaster/tools/validation/pages.spec.ts:22:5
+
+    Error Context: ../../tmp/solaria-pages-results/pages-正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/solaria-pages-results/pages-正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/solaria-pages-results/pages-正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tools/validation/pages.spec.ts:81:1 › 正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存 ───────────────
+
+    Error: expect(locator).toBeEnabled() failed
+
+    Locator: getByRole('button', { name: '開始新局', exact: true })
+    Expected: enabled
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeEnabled" getByRole('button', { name: '開始新局', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: '開始新局', exact: true })
+
+
+      85 |   await expect(
+      86 |     page.getByRole("button", { name: "開始新局", exact: true }),
+    > 87 |   ).toBeEnabled();
+         |     ^
+      88 |   await page.evaluate(async (saved) => {
+      89 |     const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      90 |       const q = indexedDB.open("solaria-remaster", 1);
+        at /workspace/Solaria-Remaster/tools/validation/pages.spec.ts:87:5
+
+    Error Context: ../../tmp/solaria-pages-results/pages-正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/solaria-pages-results/pages-正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/solaria-pages-results/pages-正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tools/validation/pages.spec.ts:7:1 › 正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續 ───────────────────────────
+    tools/validation/pages.spec.ts:81:1 › 正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存 ────────────────

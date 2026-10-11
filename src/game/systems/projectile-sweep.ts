@@ -1,3 +1,4 @@
+import { retireProjectile } from "./projectile-pool";
 import type { Run, Projectile, Actor, Obstacle } from "../core/types";
 import { angle, distance } from "../core/primitives";
 import { circleContact, rectangleContact } from "./collision-time";
@@ -214,5 +215,10 @@ export function sweepProjectiles(r: Run, dt: number) {
     }
     register(event.time);
   }
-  r.projectiles = r.projectiles.filter((p) => p.distanceLeft > 0);
+  const active: Projectile[] = [];
+  for (const p of r.projectiles) {
+    if (p.distanceLeft > 0) active.push(p);
+    else retireProjectile(r, p);
+  }
+  r.projectiles = active;
 }

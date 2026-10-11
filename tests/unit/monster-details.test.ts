@@ -114,9 +114,10 @@ it("原生火焰可疊冰覺醒；敵人死後發出的元素仍保留，一次�
   p.y = 320;
   p.vx = 260;
   p.vy = 0;
-  const hp = r.player.hp;
+  const hp = r.player.hp,
+    damage = p.damage;
   updateProjectiles(r, 1 / 60);
-  expect(r.player.hp).toBe(hp - p.damage);
+  expect(r.player.hp).toBe(hp - damage);
   expect(r.player.burnUntil).toBeGreaterThan(r.time);
   expect(r.player.frost).toBe(15);
 });

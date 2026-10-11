@@ -8,7 +8,7 @@ import "./style.css";
 import { Stage } from "./render/stage";
 import { Input } from "./input/keyboard";
 import { AudioMixer } from "./audio/mixer";
-import { Checkpoints } from "./game/persistence/checkpoint";
+import { Checkpoints, validate } from "./game/persistence/checkpoint";
 import { FixedClock, clone } from "./game/core/primitives";
 import { newRun, startRoom, step } from "./game/core/run";
 import {
@@ -242,6 +242,7 @@ async function action(value: string) {
       screen = "game";
       input.clear();
       clock.reset();
+      lastTime = 0;
     } else if (["controls", "catalog", "journal", "tutorial"].includes(act)) {
       menuBack = screen;
       screen = act;
@@ -317,8 +318,11 @@ document
   .querySelector("#import-file")!
   .addEventListener("change", async (event) => {
     const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) return;
+    if (!file || actionBusy) return;
+    actionBusy = true;
+    refresh(true);
     try {
+      await saveChain;
       const text = await file.text();
       if (text.length > 20_000_000) throw new Error("備份檔案過大");
       const data = JSON.parse(text);
@@ -327,7 +331,6 @@ document
       } else {
         if (saved && !confirm("匯入將覆蓋目前未完成旅程，是否繼續？")) return;
         if (data.kind === "solaria-recovery") {
-          const { validate } = await import("./game/persistence/checkpoint");
           let candidate;
           for (const value of [data.working, data.latest, data.previous]) {
             try {
@@ -353,8 +356,11 @@ document
       refresh(true);
     } catch (error) {
       notify((error as Error).message);
+    } finally {
+      actionBusy = false;
+      refresh(true);
+      (event.target as HTMLInputElement).value = "";
     }
-    (event.target as HTMLInputElement).value = "";
   });
 document.querySelector<HTMLButtonElement>("#fullscreen")!.onclick =
   async () => {
@@ -560,4 +566,29 @@ window.addEventListener("beforeunload", (event) => {
     event.preventDefault();
     event.returnValue = "";
   }
+});
+
+Object.defineProperty(window, "solariaDiagnostics", {
+  value: () => ({
+    render: stage.inspect(),
+    core: run
+      ? {
+          room: run.room,
+          loop: run.loop ?? 1,
+          phase: run.phase,
+          tick: run.tick,
+          time: run.time,
+          enemies: run.enemies.length,
+          enemyProjectiles: run.projectiles.filter((p) => p.enemy).length,
+          projectiles: run.projectiles.length,
+          visuals: run.visuals.length,
+          originalBasics: run.player.originalBasics ?? 0,
+          damageNumbers: run.visuals.filter(
+            (v) => v.kind === "damage" || v.kind === "heal",
+          ).length,
+          areas: run.areas.length,
+        }
+      : null,
+  }),
+  writable: false,
 });

@@ -33,4 +33,4 @@
 
 首血後四1500生命封印柱；12彈每2秒，保留旋轉60°缺口（本次使用者明示特殊例外）。三血／封印／字幕／周目核心：journey.test.ts、solaris.spec.ts。王房 seed 變體中央通路／四柱位置：solar-arena.test.ts。
 
-彈體boss-projectiles、斬击boss-actions、落擊enemy-impact及事件event-effects；雷射boss-beams準備中尚未接入。各王兩階段招式啟動紀錄由核心自動驗證，不能標示所有短暫FX皆已逐幀人工目檢。真GPU60FPS、人工1／2／5／10周目構築平衡、Firefox／Safari仍NOT_RUN。
+彈體boss-projectiles、斬击boss-actions、落擊enemy-impact及事件event-effects；雷射boss-beams已接入正式Stage。各王兩階段招式啟動紀錄由核心自動驗證，不能標示所有短暫FX皆已逐幀人工目檢。真GPU60FPS、人工1／2／5／10周目構築平衡、Firefox／Safari仍NOT_RUN。

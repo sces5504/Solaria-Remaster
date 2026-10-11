@@ -317,3 +317,20 @@ it("分裂箭对同敌多箭命中只推一次连射专注", () => {
   for (const p of r.projectiles) hit(r, e, 1, p.context!);
   expect(e.hits).toBe(1);
 });
+it("五級以上的職業機制卡仍以共用邊際bonus增傷，分裂數量與來源折扣不增加", () => {
+  const damage: number[] = [];
+  for (const level of [5, 10, 25, 50]) {
+    const r = newRun("bow", 991);
+    r.phase = "COMBAT";
+    r.obstacles = [];
+    r.cards[50] = level;
+    r.loop = Math.ceil(level / 5);
+    basic(r, { ...idleCommand(r), pointerWorld: { x: 700, y: 320 } });
+    expect(r.projectiles).toHaveLength(5);
+    expect(r.projectiles.map((p) => p.context!.chainScale)).toEqual([
+      1, 0.15, 0.15, 0.15, 0.15,
+    ]);
+    damage.push(r.projectiles[0].damage);
+  }
+  expect(damage.every((v, i) => i === 0 || v > damage[i - 1])).toBe(true);
+});

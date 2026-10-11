@@ -1,3 +1,5 @@
+import { RetainedPool } from "./retained-pool";
+import { bossBeam } from "./boss-beams";
 import { bossAction } from "./boss-actions";
 import { bossProjectile } from "./boss-projectiles";
 import { solarLandscape } from "./solar-landscape";
@@ -72,6 +74,42 @@ export class Stage {
   private glowTexture!: Texture;
   private texts = new Map<number, BitmapText>();
   private textures: Record<string, Texture[]> = {};
+  private spritePool = new RetainedPool(
+    () => new Sprite(Texture.EMPTY),
+    (s) => {
+      s.visible = false;
+      s.removeFromParent();
+    },
+    (s) => s.destroy(),
+    80,
+  );
+  private textPool = new RetainedPool(
+    () =>
+      new BitmapText({
+        text: "",
+        style: { fontFamily: "SolariaNumbers", fontSize: 16, fill: 0xffffff },
+      }),
+    (t) => {
+      t.visible = false;
+      t.removeFromParent();
+    },
+    (t) => t.destroy(),
+    256,
+  );
+  inspect() {
+    return {
+      sprites: this.sprites.size,
+      cachedSprites: this.spritePool.retained,
+      createdSprites: this.spritePool.created,
+      texts: this.texts.size,
+      cachedTexts: this.textPool.retained,
+      createdTexts: this.textPool.created,
+      glows: this.glows.length,
+      activeGlows: this.glowCount,
+      positions: this.positions.size,
+      renderer: this.app.renderer.name,
+    };
+  }
   private roomKey = "";
   private positions = new Map<string, { x: number; y: number }>();
   async init(host: HTMLElement) {
@@ -181,7 +219,7 @@ export class Stage {
   ) {
     let s = this.sprites.get(key);
     if (!s) {
-      s = new Sprite(this.textures[name][frame]);
+      s = this.spritePool.take();
       s.anchor.set(0.5);
       this.objects.addChild(s);
       this.sprites.set(key, s);
@@ -399,8 +437,14 @@ export class Stage {
     for (const s of this.glows) s.visible = false;
     this.glowCount = 0;
     this.lighting.sprite.visible = !!r;
+    this.numbers.visible = !!r;
     this.shadows.clear();
     if (!r) {
+      for (const s of this.sprites.values()) this.spritePool.release(s);
+      for (const t of this.texts.values()) this.textPool.release(t);
+      this.sprites.clear();
+      this.texts.clear();
+      this.positions.clear();
       this.roomKey = "";
       this.terrain.clear().rect(0, 0, 1024, 640).fill(0x182e35);
       return;
@@ -1078,7 +1122,8 @@ export class Stage {
         }
         f.ellipse(a.x, a.y, 18, 9).fill({ color: 0x131c36, alpha: 0.9 });
         diamond(f, a.x, a.y, 7, 0xe1ffcf, 0.9);
-      } else areaEffect(a.enemy ? d : f, r, a);
+      } else if (!bossBeam(a.enemy ? d : f, r, a))
+        areaEffect(a.enemy ? d : f, r, a);
       if (r.time >= a.starts && a.shape !== "cone")
         this.glow(
           a.x,
@@ -1136,14 +1181,11 @@ export class Stage {
         active.add(v.id);
         let text = this.texts.get(v.id);
         if (!text) {
-          text = new BitmapText({
-            text: `${v.kind === "heal" ? "+" : ""}${Math.abs(v.value)}`,
-            style: {
-              fontFamily: "SolariaNumbers",
-              fontSize: v.radius === 22 ? 22 : 16,
-              fill: v.color,
-            },
-          });
+          text = this.textPool.take();
+          text.text = `${v.kind === "heal" ? "+" : ""}${Math.abs(v.value)}`;
+          text.style.fontSize = v.radius === 22 ? 22 : 16;
+          text.tint = v.color;
+          text.visible = true;
           this.texts.set(v.id, text);
           this.numbers.addChild(text);
         }
@@ -1181,7 +1223,7 @@ export class Stage {
     }
     for (const [id, text] of this.texts)
       if (!active.has(id)) {
-        text.destroy();
+        this.textPool.release(text);
         this.texts.delete(id);
       }
     for (const [key, s] of this.sprites)
@@ -1192,8 +1234,10 @@ export class Stage {
           key.startsWith("hazard-") ||
           key.startsWith("ob-"))
       ) {
-        s.destroy();
+        this.spritePool.release(s);
         this.sprites.delete(key);
+        if (key.startsWith("enemy-"))
+          this.positions.delete(`e-${key.slice(6)}`);
       }
   }
 }

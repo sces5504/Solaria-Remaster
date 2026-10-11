@@ -7,7 +7,7 @@ import {
   idleCommand,
 } from "../../src/game/core/run";
 import { journeyFor, restoreJourney } from "../../src/game/data/journey";
-import { populate } from "../../src/game/data/world";
+import { populate, roomXPBudget } from "../../src/game/data/world";
 import { hit, context } from "../../src/game/systems/combat";
 import { solarisAI } from "../../src/game/systems/solaris";
 import { validate } from "../../src/game/persistence/checkpoint";
@@ -121,4 +121,21 @@ it("封印每兩秒12彈、旋轉60度通路、整組容量延後", () => {
     Math.atan2(r.projectiles[12].vy, r.projectiles[12].vx) -
       Math.atan2(first.vy, first.vx),
   ).toBeCloseTo(Math.PI / 4);
+});
+it("最終王沿用最新房間配額440，總配額8890保持約26級，沒有回復舊750", () => {
+  const r = newRun("mage", 79);
+  r.room = 31;
+  populate(r);
+  expect(r.enemies[0].xpReward).toBe(440);
+  let xp = Array.from({ length: 31 }, (_, i) => roomXPBudget(i + 1)).reduce(
+    (a, b) => a + b,
+    0,
+  );
+  expect(xp).toBe(8890);
+  let level = 1;
+  while (xp >= 100 + 20 * (level - 1)) {
+    xp -= 100 + 20 * (level - 1);
+    level++;
+  }
+  expect(level).toBe(26);
 });

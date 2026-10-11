@@ -83,3 +83,15 @@ Vite build到dist，專案Pages base為/Solaria-Remaster/，資源不硬寫根�
 Checkpoints 公開入口沿用既有 import 路徑，內部由 checkpoint-schema 與 RunStore 分離。IndexedDB schema 保持1，run store 新增 revision 墓碑鍵；即使清除旅程，另一分頁也不能用先前 revision 復活舊局。永久 profile 獨立 journal、discovered、records，皆保存 previous；坏資料保留 damaged。讀檔無有效前版時不造空收藏，顯示可下載原始備份與匯入有效備份的流程。公開 profile 格式只保留收藏、外觀、教學欄位，排除未知欄位；不存在永久戰鬥屬性。
 
 音效由 SoundController → sound-bank 合成，保留 AudioContext 手勢解鎖；缺少音訊介面不阻止旅程。音量／上次非零音量獨立小型設定，mute 不清除玩家音量。每個合成聲的節點結束後解除連接，噪聲buffer按context重用。波形自動檢查與人工聆聽分開記錄。
+
+## v1實際模組接入（2026-10-11）
+
+core/run維持固定60Hz；旅程／地形／王／事件定義放data，systems各自處理專屬行為。combat實際引用projectile-sweep，以collision-time解析圓／矩形接觸，SpatialGrid查局部目標、ContactQueue按接觸秒／projectile ID／target ID決定全彈順序。追加彈保留同tick剩餘時間；命中後再求下一接觸，保留掩體破壞／穿透／彈射。
+
+projectile-pool的WeakMap只存暫態退休物件，queue全部消耗後才釋放；清空所有舊可選欄位再重用。State內仍有完整有效projectile與穩定ID，可序列化，不把池寫進save。Stage退休Sprite／BitmapText池不限制活躍數，傷字各別ID與文字，不合併；回menu釋放活躍物件及位置表，閒置快取有上限。glows不刪有效攻擊；既有半解析度装饰光照budget保持。
+
+RunStore／checkpoint-schema／profile-store／records替代舊Checkpoints實作但保留公開入口與schema1兼容。兩分頁revision以交易檢查及清除墓碑防ABA；永久星典／前版／壞資料分開保存，壞檔先保留原文。profile只有收藏／外觀／教學，沒有永久戰力。UI保存busy串行選擇／import，beforeunload保護交易；取消／拒絕／配額錯誤皆解除忙碌但保留備份流程。
+
+SoundController讀核心事件及UI動作，合成原創分層音效；renderer只讀Run與視覺事件，不修改數值。solariaDiagnostics回傳新建的計數快照，不暴露Run或寫入入口。多人邊界仍保留，沒有提前實作網路。
+
+實際CloudJS物件重用／碰撞順序與重啟已驗證，真GPU效能尚NOT_RUN；不能以架構接入推論60FPS。

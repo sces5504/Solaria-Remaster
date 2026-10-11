@@ -109,7 +109,9 @@ export function gearBasic(r: Run, aim: number) {
   if (hasEquipment(r, "moonString") && s.basics % 4 === 0) {
     const target = r.enemies
       .filter((e) => e.hp > 0 && !e.sealPillar)
-      .sort((a, b) => distance(r.player, a) - distance(r.player, b))[0];
+      .sort(
+        (a, b) => distance(r.player, a) - distance(r.player, b) || a.id - b.id,
+      )[0];
     visual(
       r,
       "relic",
@@ -253,7 +255,9 @@ export function updateGear(r: Run) {
   ) {
     const target = r.enemies
       .filter((e) => e.hp > 0 && !e.sealPillar && !lineBlocked(r, r.player, e))
-      .sort((a, b) => distance(r.player, a) - distance(r.player, b))[0];
+      .sort(
+        (a, b) => distance(r.player, a) - distance(r.player, b) || a.id - b.id,
+      )[0];
     if (target) {
       visual(
         r,
@@ -276,7 +280,9 @@ export function updateGear(r: Run) {
     s.meteorNext = r.time + 3;
     const target = r.enemies
       .filter((e) => e.hp > 0 && distance(r.player, e) <= 450 * r.stats.range)
-      .sort((a, b) => distance(r.player, a) - distance(r.player, b))[0];
+      .sort(
+        (a, b) => distance(r.player, a) - distance(r.player, b) || a.id - b.id,
+      )[0];
     if (target)
       area(
         r,

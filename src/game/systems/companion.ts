@@ -129,7 +129,7 @@ export function updatePumpkin(r: Run) {
   if (c.controlUntil > r.time) return;
   const target = r.enemies
     .filter((e) => e.hp > 0 && !e.sealPillar)
-    .sort((a, b) => distance(c, a) - distance(c, b))[0];
+    .sort((a, b) => distance(c, a) - distance(c, b) || a.id - b.id)[0];
   const aim = target ?? r.player;
   const a = angle(c, aim);
   c.aim = a;

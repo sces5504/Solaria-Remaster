@@ -1,5 +1,29 @@
 # AI_HANDOFF_MASTER — 長期記憶入口（未來交接專用）
 
+## v1發布前收束（2026-10-11 20:26:13 UTC）
+
+內容全部接入：九地形／29普通怪／18地形王、索拉里斯三血四柱／30＋1／周目、85卡、八橘／三普通紅／六事件紅裝、六事件／兩事件王、完整收藏UI／音效／保存錯誤與遷移。逐項入口見docs/validation/RELEASE_CHECKLIST與五份矩陣。
+
+固定S13新版build的76 Chromium整輪完成：75PASS／1FAIL，20分鐘。唯一FAIL是feedback測試在選卡交易尚未結束就跳頁，beforeunload消耗一次dialog handler，下一次匯入confirm被自動取消；trace已確認，修正等待saving完成，不取消正式存檔保護。最新吸血鬼HUD補灰色不可回復區，保持真實生命比例，四成是回復上限而非目前血量。小型UI補正後check／307unit／build PASS，最後5瀏覽器全部PASS。第一輪5案例4PASS／1FAIL為HUD每80ms重建而量測得到NaN，改在單次page.evaluate內查詢及量測新DOM，原比例斷言保持，第二輪5PASS。不能把前版76當新版全過，發布CI將完整77項驗證後才deploy。
+
+S13碰撞／SpatialGrid／彈池與渲染退休池已接入；Cloud10／30次UI重啟記憶體功能PASS、600彈功能PASS；CloudSwiftShader密集平均1464ms/幀、P95 1921ms，不達60FPS。24場合法預算王戰最後按本周目首29房配額修正為25／40／84／188級，橘裝三詞綴、CPU排除bot；12場強構築均擊殺，一般劍前三周目死亡保留。較早工具的全31房估級／少詞綴／CPU含bot已註記，詳見BALANCE_PERFORMANCE。
+
+NOT_RUN：實機GPU60FPS／600彈60秒／真設備重啟GPU記憶體、Firefox／Safari、三職一般／強構築自然30＋1完整人工平衡與人工周目、人工聆聽／全部短FX逐幀目檢。這些限制不能由功能PASS替代，也不能稱全部驗收完成。
+
+Pages子路徑預檢：新局／同時普攻職技／保存重載、直接繼續53691bf舊IndexedDB兩項PASS18.3秒。首次誤用仍採相對base的舊preview服務而2FAIL；改用SOLARIA_PAGES=1啟動獨立4174預覽後，未改遊戲即2PASS。這不是正式站故障。
+
+發布branch implement/s00-s05，PR2仍以docs/solaria-cloud-spec為base，保留main。Pages workflow新增忽略純Markdown／docs更新，避免發布後追加驗證紀錄重覆部署相同遊戲；程式／素材／工作流程變更仍跑完整部署CI。遠端核對仍9f88061，前一備份d2d0278；目前準備保存1.0.0並push既有實作分支。S14未部署，不提前宣稱成功。
+
+## 第六個內部檢查點：S13接入與v1回歸（2026-10-11 20:06 UTC）
+
+collision-time／SpatialGrid／全彈ContactQueue已引用於正式combat，按真接觸時間處理命中；WeakMap彈池與Stage退休Sprite／BitmapText池已接入，不序列化、不刪有效攻擊或獨立傷字。boss-beams已引用，強光束各地形／事件保持專屬造型。失焦恢復時鐘歸零與取消匯入的busy復原已驗證。
+
+307unit、check/build PASS。10次UI重啟JS記憶體回歸及追加30次PASS，後15次heap範圍約0.155MiB；600彈密集功能PASS，但Cloud SwiftShader軟體WebGL平均1464ms/幀、P95 1921ms，遠未達60FPS。真設備GPU與人工平衡仍NOT_RUN；詳見docs/validation/BALANCE_PERFORMANCE.md。24场三職一般／強構築與1/2/5/10周目王戰完成量測，保留一般劍死亡；強構築補齊傷害／攻速／CD分配後全部擊殺，調的是探測構築，不改敵血或固定倍率。
+
+最終王XP450→440依最新GAME_SPEC房間公式，31房8890、約26級，未恢復舊750或20–25級。版本package1.0.0。發布前1280×900預檢发现側欄把畫布拉到1.38比例，已修側欄定位避免拉伸，本地正常新局／舊檔兩項PASS；新增四尺寸8:5／無全頁捲動回歸。原76整輪在此之前中斷，不能寫全PASS；已重新開始固定新版build的完整76回歸。
+
+舊檔fixture由53691bf原始核心產生，舊／新validate均PASS；直接写旧IndexedDB格式後繼續、再次保存及reload本地PASS，不是用v1newRun偽裝舊檔。工具與來源在docs/validation/fixtures。前一已保存d2d0278於backup/v1-progress-2026-10-11；正式仍53691bf，尚未發布。剩下完整回歸、保存源碼與記憶、推implement/s00-s05、Pages CI／部署及正式網址正常新局／舊檔核驗。不中止、不等逐階段指示。
+
 ## 第五個內部檢查點：S12接入與王房視覺（2026-10-11 19:19 UTC）
 
 旅人手冊／可跳過首局導引、七項收藏成就、三種非戰力外觀、旅程紀錄、全螢幕8:5與音量重載均已實際接入。SoundController原創多層合成已替代舊mixer；波形量測PASS，不當作人工聆聽。Checkpoints入口換至RunStore／schema分離，既有schema1／53691bf旅程可繼續，保存獨立永久紀錄／前版／壞資料，星典可獨立備份，兩分頁revision墓碑防clear後復活。配額／拒絕存取／資源失敗／壞檔皆提供清楚流程與原始備份；有效備份可明確恢復損壞永久紀錄。

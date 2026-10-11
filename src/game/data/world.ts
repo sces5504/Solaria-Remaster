@@ -1,3 +1,4 @@
+import { retireRoomProjectiles } from "../systems/projectile-pool";
 import { selectEvent, eventLayout, beginEventWave } from "../systems/events";
 import { gearState } from "../systems/equipment-abilities";
 import { pumpkin } from "../systems/companion";
@@ -265,7 +266,7 @@ export function populate(r: Run) {
   r.enemies = [];
   r.reserves = [];
   r.reinforcementAt = r.time + 2;
-  r.projectiles = [];
+  retireRoomProjectiles(r);
   r.areas = [];
   r.modes = [];
   r.visuals = [];

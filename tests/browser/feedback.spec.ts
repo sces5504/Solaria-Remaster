@@ -139,6 +139,7 @@ test("清算先吸附再選卡，地面裝備與出口提示可互動", async ({
   await expect(page.locator(".card")).toHaveCount(3);
   await page.locator(".card").first().click();
   await expect(page.locator("#hud")).toContainText("清關");
+  await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
 
   const loot = newRun("bow", 532);
   loot.phase = "POST_CLEAR";

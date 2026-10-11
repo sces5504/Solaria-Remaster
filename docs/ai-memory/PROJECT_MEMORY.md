@@ -802,3 +802,9 @@ zh-TW字串集中key，不在simulation拼UI文字；保存穩定ID而非中文�
 2026-10-11 第四輪：音量左側「測試」按鈕與暫停給卡面板，搜尋卡名／能力／編號。厚電弧採22/10/5/2.5px四色亮層与分岔，爆炸增加亮核／放射火舌／光瓣／上升碎屑，落雷加粗分岔白芯／沿雷柱漸層柔光／側枝，爆炸留影.8秒。近戰及友方彈道／光環共用更飽滿輪廓，敵方預警仍可辨識。冰緩速少量霜痕、冰凍完整冰殼、麻痺金色跳電與顫動。移除石柱矩形地坪／門與入口的平塗橢圓底色；真正柔光使用透明徑向貼圖。
 
 <!-- SOURCE_SNAPSHOT_END: UI_UX_SPEC.md -->
+
+## v1接續成果索引（2026-10-11）
+
+本次已明確授權S06–S14，歷史等待／只備份限制不適用。第一里程碑骨幹已保留，新增九地形完整集合／29普通怪／18地形王、索拉里斯三血四柱（用户明确60°缺口例外）、85卡、17特殊裝備、六事件／兩事件王、UI／音效／永久收藏／保存遷移、周目与S13池／碰撞。具體現況、最新來源hash和部署以CURRENT_STATE首節為準。
+
+逐項矩陣位於docs/validation的TERRAIN_MATRIX、BOSS_MATRIX、CARD_MATRIX、EQUIPMENT_MATRIX、EVENT_MATRIX；BALANCE_PERFORMANCE保存實測和NOT_RUN。docs/validation/fixtures保存53691bf原始核心產生的舊IndexedDB格式；非v1Run假裝舊檔。Cloud軟體WebGL未達FPS，hardware／人工限制不抹去。

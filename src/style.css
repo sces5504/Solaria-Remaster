@@ -101,12 +101,28 @@ canvas {
   margin: 4px 0;
 }
 .hp i {
+  position: relative;
+  z-index: 1;
   display: block;
   height: 100%;
   background: #88ad93;
   transition: width 0.1s;
 }
+.hp .healing-limit {
+  position: absolute;
+  left: 40%;
+  width: 60%;
+  inset-block: 0;
+  background: repeating-linear-gradient(
+    135deg,
+    #58666b,
+    #58666b 3px,
+    #444f57 3px,
+    #444f57 6px
+  );
+}
 .hp span {
+  z-index: 2;
   position: absolute;
   inset: 0;
   text-align: center;
@@ -486,6 +502,7 @@ main {
   justify-content: center;
 }
 .game-layout {
+  position: relative;
   display: flex;
   align-items: stretch;
   width: min(100%, calc((100dvh - 80px) * 1.6 + 216px));
@@ -507,6 +524,10 @@ canvas {
   cursor: crosshair;
 }
 #sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
   width: 216px;
   flex: none;
   padding: 18px 16px;

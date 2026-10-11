@@ -288,6 +288,21 @@ test("全螢幕保持8:5與返回尺寸、音量靜音重載後恢復原值", as
   await page.reload();
   await page.locator("#mute").click();
   await expect(page.locator("#volume")).toHaveValue("0.6");
+  for (const size of [
+    { width: 1280, height: 900 },
+    { width: 1920, height: 1080 },
+    { width: 1024, height: 768 },
+    { width: 1280, height: 720 },
+  ]) {
+    await page.setViewportSize(size);
+    const rect = (await page.locator("canvas").boundingBox())!;
+    expect(rect.width / rect.height).toBeCloseTo(1.6, 2);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollHeight <= innerHeight,
+      ),
+    ).toBe(true);
+  }
   await page.getByRole("button", { name: "全螢幕", exact: true }).click();
   await expect
     .poll(() => page.evaluate(() => !!document.fullscreenElement))
@@ -402,4 +417,31 @@ test("選擇未保存時離頁受保護，交易完成後允許離頁", async ({
   await expect(page.locator("#hud .status")).toBeVisible();
   await page.keyboard.press("KeyI");
   await expect(page.locator('[data-action="discard:one-ring"]')).toHaveCount(1);
+});
+test("取消覆蓋匯入後介面恢復操作，既有旅程與唯一裝備保留", async ({ page }) => {
+  await load(page, equipmentRun());
+  await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "回主選單", exact: true }).click();
+  await page.getByRole("button", { name: "匯入存檔", exact: true }).click();
+  page.once("dialog", (dialog) => dialog.dismiss());
+  const incoming = newRun("bow", 99);
+  await page.locator("#import-file").setInputFiles({
+    name: "cancel.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(
+      JSON.stringify({
+        version: 1,
+        revision: 0,
+        current: incoming,
+        entry: incoming,
+      }),
+    ),
+  });
+  await expect(
+    page.getByRole("button", { name: "繼續旅程", exact: true }),
+  ).toBeEnabled();
+  await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+  await expect(page.locator("#hud .status")).toContainText("法師");
+  await page.keyboard.press("KeyI");
+  await expect(page.locator('[data-action="equip:one-ring"]')).toHaveCount(1);
 });
