@@ -1,3 +1,5 @@
+import { gearState } from "../systems/equipment-abilities";
+import { pumpkin } from "../systems/companion";
 import { bossEntryAbility } from "../systems/advanced-abilities";
 import { placeSolaris } from "../systems/solaris";
 import type { Run, Obstacle, Actor } from "../core/types";
@@ -299,12 +301,19 @@ export function populate(r: Run) {
     r.obstacles = layout.obstacles;
     r.route = layout.route;
   }
+  gearState(r).targets = {};
   r.player.x = 112;
   r.player.y = 320;
+  const ally = pumpkin(r);
+  if (ally) {
+    ally.x = 87;
+    ally.y = 320;
+  }
   r.player.attackNext = r.time;
   r.player.dashUntil = 0;
   r.player.rapid.remaining = 0;
   r.player.pendingEcho = undefined;
+  r.player.pendingEchoes = [];
   r.player.echoRapid = undefined;
   r.echoCapacitor = 0;
   r.player.blockUntil = 0;

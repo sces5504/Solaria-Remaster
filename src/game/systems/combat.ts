@@ -1,3 +1,6 @@
+import { gearHit, gearHurt } from "./equipment-abilities";
+import { hasEquipment } from "../data/equipment";
+import { pumpkin, hurtPumpkin } from "./companion";
 import {
   skillOpeningBonus,
   elementResonance,
@@ -16,7 +19,13 @@ import type {
 import { angle, distance, random, clamp, type Vec } from "../core/primitives";
 import { cardLevel, skillFactor } from "../data/cards";
 import { splitBoss } from "./biome-bosses";
-import { coneHit, lineBlocked, segmentDistance, beamEnd } from "./geometry";
+import {
+  coneHit,
+  lineBlocked,
+  segmentDistance,
+  beamEnd,
+  move,
+} from "./geometry";
 export const level = (r: Run, id: number) => cardLevel(r, id);
 export const factor = (r: Run, id: number, inc = 0.2) =>
   skillFactor(level(r, id), inc);
@@ -37,12 +46,13 @@ export function context(
     rootAttackId: r.nextId++,
     damageKind: kind,
     elementMask: elements,
-    canCrit: r.echoing ? false : crit,
-    lifestealEligible: kind !== "dot",
+    canCrit: r.echoing || kind === "percent" ? false : crit,
+    lifestealEligible: kind !== "dot" && kind !== "percent",
+    skillBonus: kind === "skill" ? r.activeSkillBonus : undefined,
     basicEffectMask: r.echoing ? false : proxy,
     basicHitProxy: r.echoing ? false : proxy,
     basicCastProxy: false,
-    procPolicy: r.echoing ? "none" : proc,
+    procPolicy: r.echoing || kind === "percent" ? "none" : proc,
     ancestry: [...ancestry, id, ...(r.echoing ? [171] : [])],
     chainScale: scale * (r.echoing ? 0.6 : 1),
   };
@@ -194,7 +204,8 @@ export function hit(
       if (e.hits % 3 === 0) conditional += 0.6 * factor(r, 49, 0.15);
     }
   }
-  let crit = ctx.canCrit && random(r) < r.stats.crit;
+  let crit =
+    ctx.damageKind !== "percent" && ctx.canCrit && random(r) < r.stats.crit;
   if (ctx.sourceAbilityId === 144 && level(r, 45)) crit = true;
   const category =
     ctx.damageKind === "basic"
@@ -203,19 +214,32 @@ export function hit(
         ? r.stats.skill
         : 0;
   let value =
-    base *
-    (1 + r.stats.global) *
-    (1 + category) *
-    (1 + (ctx.elementMask.length ? r.stats.elemental : 0)) *
-    conditional;
-  value *= skillOpeningBonus(r, e, ctx);
+    ctx.damageKind === "percent"
+      ? base
+      : base *
+        (1 + r.stats.global) *
+        (1 + category) *
+        (1 + (ctx.elementMask.length ? r.stats.elemental : 0)) *
+        conditional;
+  if (ctx.damageKind !== "percent") {
+    if (ctx.damageKind === "skill") value *= 1 + (ctx.skillBonus ?? 0);
+    value *= skillOpeningBonus(r, e, ctx);
+    if (hasEquipment(r, "riftRing") && (e.elite || e.kind > 5)) {
+      value *= 1.25;
+      if (ctx.damageKind !== "dot")
+        visual(r, "relic", e, 205, 0xc8b7ff, 28, 0, { duration: 0.25 });
+    }
+  }
   if (crit) value *= r.stats.critMult;
   if (
     e.wetUntil > r.time &&
     ctx.elementMask.some((el) => el === "ice" || el === "lightning")
   )
     value *= 1.25;
-  value *= (ctx.chainScale * 100) / (100 + e.armor);
+  value *=
+    ctx.damageKind === "percent"
+      ? ctx.chainScale
+      : (ctx.chainScale * 100) / (100 + e.armor);
   if (e.enemyShield) {
     const absorbed = Math.min(e.enemyShield, value);
     e.enemyShield -= absorbed;
@@ -237,7 +261,8 @@ export function hit(
     e.killedByRoot =
       ctx.procPolicy === "root" &&
       ctx.damageKind !== "additional" &&
-      ctx.damageKind !== "dot";
+      ctx.damageKind !== "dot" &&
+      ctx.damageKind !== "percent";
   if (e.phase === 2 && e.transition > r.time) splitBoss(r, e);
   visual(
     r,
@@ -264,10 +289,26 @@ export function hit(
       angle(r.player, e),
       { duration: 0.18 },
     );
-  if (!e.sealPillar) lifesteal(r, actual, ctx);
+  if (!e.sealPillar) {
+    const before = r.player.hp;
+    lifesteal(r, actual, ctx);
+    if (r.player.hp > before)
+      visual(
+        r,
+        "relic",
+        e,
+        218,
+        0xf88bac,
+        distance(e, r.player),
+        angle(e, r.player),
+        { duration: 0.35 },
+      );
+  }
   if (e.sealPillar) return actual;
+  gearHit(r, e, ctx, crit, actual);
   elementResonance(r, e, ctx, actual);
-  if (e.hp > 0 && ctx.damageKind !== "dot") elemental(r, e, ctx, frost);
+  if (e.hp > 0 && ctx.damageKind !== "dot" && ctx.damageKind !== "percent")
+    elemental(r, e, ctx, frost);
   if ((ctx.procPolicy === "root" || ctx.procPolicy === "one") && e.hp > 0) {
     const child = (id: number, elements: Element[] = []) =>
       context(
@@ -281,7 +322,12 @@ export function hit(
         "none",
         ctx.ancestry,
       );
-    if (level(r, 16) && crit && !ctx.ancestry.includes(16))
+    if (
+      level(r, 16) &&
+      !hasEquipment(r, "frostBell") &&
+      crit &&
+      !ctx.ancestry.includes(16)
+    )
       shoot(
         r,
         r.player,
@@ -400,13 +446,15 @@ export function hurt(
   )
     value *= 1.25;
   if (endurance) p.enduranceUsed = true;
+  const effective = value;
+  const shieldAmounts = p.shields.map((s) => s.amount);
   for (const s of p.shields) {
     const absorbed = Math.min(s.amount, value);
     s.amount -= absorbed;
     value -= absorbed;
   }
   p.hp = Math.max(0, p.hp - value);
-  if (value > 0) {
+  if (effective > 0) {
     p.lastHurt = r.time;
     p.enduranceUsed = false;
     if (level(r, 69)) p.recoveryUntil = r.time + 2;
@@ -416,6 +464,11 @@ export function hurt(
       visual(r, "relic", p, 0, 0xffe2a5, 40, 0, { duration: 0.5 });
     }
   }
+  gearHurt(
+    r,
+    effective,
+    p.shields.some((s, i) => shieldAmounts[i] > 0 && s.amount <= 0),
+  );
   p.invulnerable = r.time + 0.5;
   visual(r, "damage", p, Math.round(value), 0xff797c);
   visual(r, "impact", p, 3.5, 0xff968a, 27, 0, { enemy: true, duration: 0.22 });
@@ -618,6 +671,21 @@ export function updateProjectiles(r: Run, dt: number) {
         break;
       }
       if (p.enemy) {
+        const c = pumpkin(r);
+        if (
+          c &&
+          c.hp > 0 &&
+          segmentDistance(c, old, p) < c.radius + p.radius &&
+          distance(old, c) < distance(old, r.player)
+        ) {
+          hurtPumpkin(
+            r,
+            p.damage,
+            p.enemyElements ?? (p.enemyElement ? [p.enemyElement] : []),
+          );
+          stopped = true;
+          break;
+        }
         if (segmentDistance(r.player, old, p) < r.player.radius + p.radius) {
           const owner = r.enemies.find((e) => e.id === p.owner);
           hurt(
@@ -741,6 +809,21 @@ export function updateAreas(r: Run) {
             ? coneHit(a, r.player, a.radius, a.angle, a.width, r.player.radius)
             : distance(a, r.player) < a.radius + r.player.radius;
       if (affected) hurt(r, a.damage, a.enemyElements ?? a.enemyElement);
+      const c = pumpkin(r);
+      if (c && c.hp > 0) {
+        const caught =
+          a.shape === "beam"
+            ? segmentDistance(c, a, end) < a.width / 2 + c.radius
+            : a.shape === "cone"
+              ? coneHit(a, c, a.radius, a.angle, a.width, c.radius)
+              : distance(a, c) < a.radius + c.radius;
+        if (caught)
+          hurtPumpkin(
+            r,
+            a.damage,
+            a.enemyElements ?? (a.enemyElement ? [a.enemyElement] : []),
+          );
+      }
       if (r.enemies.some((e) => e.id === a.owner && e.kind > 5)) {
         if (a.shape === "beam") {
           for (let d = 0; d < distance(a, end); d += 20)
@@ -769,12 +852,16 @@ export function updateAreas(r: Run) {
             e.radius,
           )
         ) {
-          hit(r, e, a.damage, a.context, a.frost);
+          if (a.damage > 0) hit(r, e, a.damage, a.context, a.frost);
           if (a.pull && e.kind <= 5 && !e.sealPillar) {
-            e.x += (a.x - e.x) * 0.08;
-            e.y += (a.y - e.y) * 0.08;
+            move(r, e, (a.x - e.x) * 0.08, (a.y - e.y) * 0.08, e.radius);
           }
         }
+      if (a.ability === 215) continue;
+      if (a.ability === 216) {
+        visual(r, "relic", a, 216, 0xffdd9d, a.radius, 0, { duration: 0.7 });
+        continue;
+      }
       // Flame breath is rendered as a directional jet, not a circular blast per tick.
       if (a.shape === "cone" && a.ability === 20) continue;
       visual(

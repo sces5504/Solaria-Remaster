@@ -93,7 +93,13 @@ export function elementResonance(
   });
 }
 export function lifesteal(r: Run, actual: number, ctx: DamageContext) {
-  if (!ctx.lifestealEligible || actual <= 0 || ctx.damageKind === "dot") return;
+  if (
+    !ctx.lifestealEligible ||
+    actual <= 0 ||
+    ctx.damageKind === "dot" ||
+    ctx.damageKind === "percent"
+  )
+    return;
   const ordinary = Math.max(0, r.stats.lifesteal - (r.cards[79] ? 0.06 : 0));
   recoverHP(r, actual * ordinary);
   if (!r.cards[79]) return;

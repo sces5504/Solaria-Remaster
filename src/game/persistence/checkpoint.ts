@@ -1,3 +1,4 @@
+import { equipmentCatalog } from "../data/equipment";
 import { biomes } from "../data/biomes";
 import { restoreJourney } from "../data/journey";
 import type { Run } from "../core/types";
@@ -117,7 +118,7 @@ export function validate(value: unknown): Saved {
         !item ||
         typeof item.id !== "string" ||
         !["armor", "ring", "amulet"].includes(item.slot) ||
-        !["藍", "紫", "黃"].includes(item.rarity) ||
+        !["藍", "紫", "黃", "橘", "紅"].includes(item.rarity) ||
         !Array.isArray(item.affixes)
       )
         throw new Error("裝備資料損壞");
@@ -167,6 +168,17 @@ export function validate(value: unknown): Saved {
       throw new Error("融合選擇損壞");
     if (r.phase === "EQUIPMENT_SLOT_CHOICE" && !r.cards[85])
       throw new Error("裝備選擇損壞");
+    for (const item of [...r.items, ...r.bag, ...Object.values(r.equipment)]) {
+      if (!item) continue;
+      const d = item.ability ? equipmentCatalog[item.ability] : undefined;
+      if (
+        item.ability &&
+        (!d || d.slot !== item.slot || d.rarity !== item.rarity)
+      )
+        throw new Error("特殊裝備資料損壞");
+      if (["橘", "紅"].includes(item.rarity) && !d)
+        throw new Error("特殊裝備缺少能力");
+    }
     for (const [id, l] of Object.entries(r.cards)) {
       if (
         !cards.some((c) => c.id === Number(id)) ||

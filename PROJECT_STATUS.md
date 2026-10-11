@@ -1,5 +1,15 @@
 # PROJECT_STATUS — 第一里程碑試玩修正版
 
+## 第三個內部檢查點：特殊裝備接入（2026-10-11 18:11 UTC）
+
+實際接入17特殊裝備、掉落品質與周目新裝成長、南瓜夥伴吸火／碰撞／復甦／卸裝、百分比獨立來源、裝備特效及持久化。61／69／73扣盾受傷已修。71延遲副本改為保存各施放快照的隊列，短於.8秒冷卻不再覆蓋前一副本；副本不重扣代價、不改CD、不重計數。普通紅裝／橘裝已正常掉落；六事件紅裝能力可用，但保證事件取得待S11。
+
+PASS：最新278unit、check/build/format。完整52Chromium曾全部PASS；後續每次有修改，以equipment／advanced-cards／last-polish針對回歸；最新9項全部PASS。實際WebGL場景目檢三裝備組合無資源錯誤；部分短暫特效截圖錯過有效時刻，不宣稱已完整逐特效目檢。獨立未接入events單測9項包含於278總數，不能算六事件已完成；sound-bank亦僅準備未引用。
+
+驗收入口 docs/validation/EQUIPMENT_MATRIX.md；永久log docs/validation/results/_equipment_。正式遊戲仍53691bf，遠端實作仍9f88061；f322a36是前一已保存檢查點，新檢查點commit以git log核對，只推備份分支backup/v1-progress-2026-10-11，尚不部署部分v1。
+
+接續：立即S11接入六事件三波／2王／專屬布局與FX／整局一次及存檔→S12教學圖鑑成就外觀音效保存错误→S13正常／強構築與效能／記憶體→S14完整Pages。人工平衡、硬體GPU60FPS、600真GPU、10restart真設備、Firefox/Safari仍NOT_RUN。本檢查點不是完整v1，也不等待階段指示。
+
 ## 第二個內部檢查點：85卡回歸（2026-10-11 17:20 UTC）
 
 256unit PASS（248實作回歸＋8未接入裝備／南瓜模組單測），check/build/format:check PASS。48Chromium先46PASS／2測試資料FAIL，修正後融合案例PASS，賭徒案例因重載後未等遊戲畫面就按I再FAIL；加入畫面就緒等待後該案例PASS12.1秒。48個案例最後全通過，不能將首次48全過當作事實。新增未引用模組後再build，全部JS檔SHA256與完整回歸bundle相同；未在任何瀏覽器測試執行中重build。永久結果見docs/validation/results。

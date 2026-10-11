@@ -1,3 +1,6 @@
+import { equipmentProjectile } from "./equipment-projectiles";
+import { equipmentEffect, equipmentAura } from "./equipment-effects";
+import { pumpkin } from "../game/systems/companion";
 import { advancedEffect } from "./advanced-effects";
 import { enemyImpact } from "./enemy-impact";
 import { bossTelegraph } from "./boss-telegraph";
@@ -89,7 +92,7 @@ export class Stage {
             frame: new Rectangle(i * 96, row * 96, 96, 96),
           }),
       );
-    for (const prefix of ["biome", "boss"]) {
+    for (const prefix of ["biome", "boss", "event"]) {
       const expansion = await Assets.load<Texture>(
         `${import.meta.env.BASE_URL}assets/${prefix}-atlas.png`,
       );
@@ -559,6 +562,48 @@ export class Stage {
       attack = p.attackNext - r.time > 0.15;
     const frame =
       r.phase === "DEAD" ? 5 : p.invulnerable > r.time ? 4 : attack ? 3 : pose;
+    equipmentAura(f, r);
+    const ally = pumpkin(r);
+    if (ally) {
+      this.glow(ally.x, ally.y - 12, 48, 0xffb76f, 0.32);
+      const pose =
+        ally.hp <= 0
+          ? 5
+          : ally.invulnerable > r.time
+            ? 4
+            : ally.attackNext - r.time > 0.7
+              ? 3
+              : this.pose("ally", ally.x, ally.y, r.time);
+      const sprite = this.sprite(
+        "companion",
+        "pumpkin-knight",
+        ally.x,
+        ally.y,
+        56,
+        56,
+        pose,
+      );
+      sprite.scale.x =
+        Math.abs(sprite.scale.x) * (Math.cos(ally.aim ?? 0) < 0 ? -1 : 1);
+      f.rect(ally.x - 20, ally.y + 24, 40, 4).fill({ color: 0x18242e });
+      f.rect(
+        ally.x - 20,
+        ally.y + 24,
+        40 * Math.max(0, ally.hp / ally.maximum),
+        4,
+      ).fill({ color: 0xffb47e });
+      if (ally.hp <= 0) {
+        for (let i = 0; i < 3; i++)
+          diamond(
+            f,
+            ally.x + Math.sin(r.time * 2 + i) * 16,
+            ally.y - 10 - i * 5,
+            3,
+            0xa6b7db,
+            0.5,
+          );
+      }
+    }
     const ps = this.sprite("player", r.classId, p.x, p.y, 60, 60, frame);
     ps.scale.x = Math.abs(ps.scale.x) * (Math.cos(p.aim || 0) < 0 ? -1 : 1);
     ps.alpha =
@@ -882,6 +927,10 @@ export class Stage {
       );
     }
     for (const b of r.projectiles) {
+      if (equipmentProjectile(f, b, r.time)) {
+        this.glow(b.x, b.y, 30, 0xa5d9ff, 0.3);
+        continue;
+      }
       const g = b.enemy ? d : f,
         els = b.context?.elementMask || [],
         color = b.enemy
@@ -941,7 +990,26 @@ export class Stage {
       }
     }
     for (const a of r.areas) {
-      areaEffect(a.enemy ? d : f, r, a);
+      if (a.ability === 215) {
+        const phase = (r.time - a.starts) / 2;
+        for (let i = 0; i < 4; i++) {
+          const theta = r.time * 3 + (i * Math.PI) / 2;
+          const radius = a.radius * (0.3 + 0.5 * (1 - phase));
+          f.moveTo(
+            a.x + Math.cos(theta) * radius,
+            a.y + Math.sin(theta) * radius,
+          )
+            .quadraticCurveTo(
+              a.x + Math.cos(theta + 0.8) * radius * 0.6,
+              a.y + Math.sin(theta + 0.8) * radius * 0.6,
+              a.x + Math.cos(theta + 1.6) * radius * 0.3,
+              a.y + Math.sin(theta + 1.6) * radius * 0.3,
+            )
+            .stroke({ color: 0x8bd2c7, width: 3, alpha: 0.7 });
+        }
+        f.ellipse(a.x, a.y, 18, 9).fill({ color: 0x131c36, alpha: 0.9 });
+        diamond(f, a.x, a.y, 7, 0xe1ffcf, 0.9);
+      } else areaEffect(a.enemy ? d : f, r, a);
       if (r.time >= a.starts && a.shape !== "cone")
         this.glow(
           a.x,
@@ -1013,7 +1081,10 @@ export class Stage {
         text.position.set(v.x + 6, v.y - 16 - (1 - progress) * 22);
         text.alpha = progress;
       } else {
-        if (advancedEffect(v.enemy ? d : f, v, r.time)) {
+        if (
+          equipmentEffect(v.enemy ? d : f, v, r.time) ||
+          advancedEffect(v.enemy ? d : f, v, r.time)
+        ) {
         } else if (v.enemyTheme && v.kind === "burst")
           enemyImpact(d, v, r.time, v.enemyTheme);
         else visualEffect(v.enemy ? d : f, r, v);

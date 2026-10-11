@@ -201,7 +201,9 @@ it("南瓜近戰為裝備召喚追加、吃技能傷且可吸血，不暴擊、�
   updatePumpkin(r);
   expect(r.enemies[0].hp).toBe(9940);
   expect(r.player.hp).toBe(52);
-  expect(r.visuals.some((v) => v.kind === "ghost")).toBe(true);
+  expect(r.visuals.some((v) => v.kind === "relic" && v.value === 214)).toBe(
+    true,
+  );
   // Existing unrelated source policies remain separate from summon damage.
   expect(
     context(r, 214, "additional", [], false, 1, false, "none").procPolicy,

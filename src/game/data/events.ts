@@ -16,9 +16,9 @@ export const eventDefinitions: Record<EventId, EventDefinition> = {
     reward: "frostBell",
     boss: 20,
     waves: [
-      [9, 9, 10],
-      [10, 10, 11],
-      [9, 10, 11],
+      [31, 30, 30],
+      [30, 31, 30],
+      [31, 30, 31],
     ],
   },
   bloodmoon: {
@@ -26,9 +26,9 @@ export const eventDefinitions: Record<EventId, EventDefinition> = {
     theme: "crimson",
     reward: "redMoon",
     waves: [
-      [21, 21, 22],
-      [22, 23, 21],
-      [21, 22, 23],
+      [32, 32, 33],
+      [33, 32, 33],
+      [32, 33, 33],
     ],
   },
   halloween: {
@@ -37,9 +37,9 @@ export const eventDefinitions: Record<EventId, EventDefinition> = {
     reward: "ghostArmor",
     boss: 21,
     waves: [
-      [18, 18, 19],
-      [19, 20, 18],
-      [18, 19, 20],
+      [34, 35, 34],
+      [35, 34, 35],
+      [34, 35, 35],
     ],
   },
   alien: {
@@ -47,9 +47,9 @@ export const eventDefinitions: Record<EventId, EventDefinition> = {
     theme: "stars",
     reward: "gravity",
     waves: [
-      [25, 25, 26],
-      [26, 29, 25],
-      [25, 26, 29],
+      [36, 36, 36],
+      [37, 36, 37],
+      [38, 36, 38],
     ],
   },
   meteor: {
@@ -57,9 +57,9 @@ export const eventDefinitions: Record<EventId, EventDefinition> = {
     theme: "stars",
     reward: "fallingStar",
     waves: [
-      [24, 24, 25],
-      [25, 26, 24],
-      [24, 25, 26],
+      [39, 39, 40],
+      [40, 39, 40],
+      [39, 40, 40],
     ],
   },
   army: {
@@ -67,8 +67,8 @@ export const eventDefinitions: Record<EventId, EventDefinition> = {
     theme: "meadow",
     reward: "legion",
     waves: [
-      [1, 3, 1],
-      [4, 4, 3],
+      [3, 3, 3],
+      [4, 4, 4],
       [5, 5, 3],
     ],
   },

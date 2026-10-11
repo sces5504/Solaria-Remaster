@@ -1,3 +1,4 @@
+import { equipmentCatalog } from "../game/data/equipment";
 import {
   slotRestriction,
   actionRestriction,
@@ -23,7 +24,7 @@ export const escape = (v: unknown) =>
 export const button = (label: string, action: string, extra = "") =>
   `<button data-action="${action}" ${extra}>${label}</button>`;
 export function itemView(item: Item) {
-  return `<span class="rarity ${item.rarity}">${zh.slots[item.slot]}</span><br>${item.affixes.map((a) => `${escape(zh.affixes[a.stat as keyof typeof zh.affixes])} +${["hp", "armor"].includes(a.stat) ? a.value.toFixed(1) : a.stat === "critMult" ? a.value.toFixed(2) : (a.value * 100).toFixed(1) + "%"}`).join("<br>")}`;
+  return `<span class="rarity ${item.rarity}">${item.ability ? escape(equipmentCatalog[item.ability].name) : zh.slots[item.slot]}</span><br>${item.ability ? escape(equipmentCatalog[item.ability].description) + "<br>" : ""}${item.affixes.map((a) => `${escape(zh.affixes[a.stat as keyof typeof zh.affixes])} +${["hp", "armor"].includes(a.stat) ? a.value.toFixed(1) : a.stat === "critMult" ? a.value.toFixed(2) : (a.value * 100).toFixed(1) + "%"}`).join("<br>")}`;
 }
 export function hud(r: Run) {
   const p = r.player,

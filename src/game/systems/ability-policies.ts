@@ -1,3 +1,4 @@
+import { hasEquipment } from "../data/equipment";
 import type { ClassId, Run, Slot } from "../core/types";
 export type RestrictedRun = Run & { selectedEquipmentSlot?: Slot };
 export function maximumRecovery(r: Run) {
@@ -33,6 +34,7 @@ const leftOnly: Record<ClassId, Set<number>> = {
   mage: new Set([54, 57]),
 };
 export function cardRestriction(r: Run, id: number) {
+  if (id === 16 && hasEquipment(r, "frostBell")) return "霜鈴災厄封印冰矛";
   if (r.cards[83] && rightOnly.has(id)) return "職技已封印，這項升級暫時失效";
   if (
     r.cards[78] &&

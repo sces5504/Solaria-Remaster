@@ -59,7 +59,7 @@ export const equipmentCatalog = {
     name: "時序斷環",
     slot: "ring",
     rarity: "紅",
-    description: "每六次原始普攻，使下一次職技伤害+80%；只儲存一次。",
+    description: "每六次原始普攻，使下一次職技傷害+80%；只儲存一次。",
   },
   starSeal: {
     name: "星裂聖印",
@@ -88,7 +88,7 @@ export const equipmentCatalog = {
     rarity: "紅",
     event: "halloween",
     description:
-      "召出一位南瓜伙伴：三倍玩家生命、沿用護甲。倒地十秒或清關復甦。",
+      "召出一位南瓜夥伴：三倍玩家生命、沿用護甲。倒地十秒或清關復甦。",
   },
   gravity: {
     name: "引力母核",

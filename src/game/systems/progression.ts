@@ -1,3 +1,7 @@
+import { gearState } from "./equipment-abilities";
+import { hasEquipment, specialEquipment } from "../data/equipment";
+import { currentBiome } from "../data/biomes";
+import { syncPumpkin } from "./companion";
 import {
   applyEquipmentRestrictions,
   recoverHP,
@@ -8,6 +12,8 @@ import { cards, eligible, skillFactor } from "../data/cards";
 import { classes } from "../data/world";
 import { random, seedFor, clamp } from "../core/primitives";
 export function derive(r: Run): Stats {
+  const gear = gearState(r);
+  const criticalBase = hasEquipment(r, "frostBell") ? 0.25 : 0.15;
   const c = classes[r.classId],
     l = (id: number) => r.cards[id] || 0;
   const s: Stats = {
@@ -15,8 +21,8 @@ export function derive(r: Run): Stats {
     armor:
       c.armor +
       l(2) * 8 +
-      (l(84) ? 60 : 0) +
-      (l(73) && r.player.hp >= r.stats?.maxHP * 0.8 ? 40 : 0),
+      (hasEquipment(r, "meteorArmor") && gear.standingArmor ? 35 : 0) +
+      (l(84) ? 60 : 0),
     basic: l(3) * 0.1 + (l(83) ? 1.2 : 0),
     skill: l(4) * 0.1 + (l(82) ? 1.2 : 0),
     global:
@@ -31,7 +37,7 @@ export function derive(r: Run): Stats {
     speed: 0,
     projectile: 1 + l(7) * 0.1,
     range: 1.15 + l(13) * 0.1,
-    crit: 0.15 * (1 + l(10) * 0.2),
+    crit: criticalBase * (1 + l(10) * 0.2),
     critMult: 1.5 + l(11) * 0.15,
     xp: 1 + l(8) * 0.08,
     lifesteal: l(79) ? 0.06 : 0,
@@ -47,7 +53,10 @@ export function derive(r: Run): Stats {
         : 0) +
       (r.time < r.player.buffUntil ? 0.3 + Math.min(4, l(53) - 1) * 0.05 : 0),
     C = l(9) * 0.1 + (l(78) ? 4 : 0),
-    M = l(6) * 0.05 + (r.time < r.player.engineUntil ? 0.5 : 0);
+    M =
+      (hasEquipment(r, "voidCloth") && gear.voidUntil > r.time ? 0.3 : 0) +
+      l(6) * 0.05 +
+      (r.time < r.player.engineUntil ? 0.5 : 0);
   for (const item of Object.values(r.equipment))
     if (item)
       for (const aff of item.affixes) {
@@ -68,7 +77,7 @@ export function derive(r: Run): Stats {
             C += aff.value;
             break;
           case "crit":
-            s.crit += 0.15 * aff.value;
+            s.crit += criticalBase * aff.value;
             break;
           case "critMult":
             s.critMult += aff.value;
@@ -88,6 +97,7 @@ export function derive(r: Run): Stats {
         }
       }
   if (l(81)) s.maxHP *= 0.5;
+  if (l(73) && r.player.hp >= s.maxHP * 0.8) s.armor += 40;
   s.attackRate = c.rate * (1 + (4 * A) / (1 + A));
   s.skillCD = c.cd * (0.2 + 0.8 / (1 + C));
   s.speed = 200 * (1 + M / (1 + M));
@@ -166,11 +176,13 @@ function acquire(r: Run, id: number) {
     r.player.rapid.remaining = 0;
     r.player.counterAt = 0;
     r.player.pendingEcho = undefined;
+    r.player.pendingEchoes = [];
     r.player.echoRapid = undefined;
     r.player.buffUntil = 0;
     r.player.engineUntil = 0;
   }
   r.stats = derive(r);
+  syncPumpkin(r);
   r.player.hp = Math.min(r.player.hp, r.stats.maxHP);
   recoverHP(r, Math.max(0, r.stats.maxHP - old));
 }
@@ -188,17 +200,24 @@ export function choose(r: Run, id: number) {
 }
 export function itemFor(r: Run, enemyId: number, bossIndex = -1): Item | null {
   const state = {
-    rng: seedFor(r.seed, r.room * 10000 + enemyId * 3 + bossIndex),
+    rng: seedFor(
+      r.seed,
+      r.room * 10000 + enemyId * 3 + bossIndex + ((r.loop ?? 1) - 1) * 1000000,
+    ),
   };
   const enemy = r.enemies.find((e) => e.id === enemyId);
-  if (bossIndex < 0 && random(state) > (enemy?.elite ? 0.3 : 0.04)) return null;
+  if (
+    bossIndex < 0 &&
+    random(state) >
+      (enemy?.elite ? (hasEquipment(r, "starSeeker") ? 0.4 : 0.3) : 0.04)
+  )
+    return null;
   const w = [60, 25, 10, 4, 1].map(
     (v, i) => v * (i > 0 ? 1 + r.modifiers.length * 0.25 : 1),
   );
-  // S04 basic gear; orange/red abilities are explicitly scheduled for S10.
-  let roll = random(state) * w.slice(0, 3).reduce((a, b) => a + b, 0),
+  let roll = random(state) * w.reduce((a, b) => a + b, 0),
     quality = 0;
-  for (; quality < 2; quality++) {
+  for (; quality < 4; quality++) {
     roll -= w[quality];
     if (roll < 0) break;
   }
@@ -249,7 +268,10 @@ export function itemFor(r: Run, enemyId: number, bossIndex = -1): Item | null {
       : slot === "ring"
         ? "global"
         : "skill";
-  for (let i = 0; i <= quality; i++) {
+  const affixCount = [1, 2, 3, 3, 2][quality];
+  const terrainScale = 1 + currentBiome(r).tier * 0.2;
+  const loopScale = 1.35 ** ((r.loop ?? 1) - 1);
+  for (let i = 0; i < affixCount; i++) {
     const candidates = statPool.filter(
       (s) => !affixes.some((a) => a.stat === s),
     );
@@ -260,17 +282,23 @@ export function itemFor(r: Run, enemyId: number, bossIndex = -1): Item | null {
     const [lo, hi] = ranges[stat];
     affixes.push({
       stat,
-      value: (lo + (hi - lo) * random(state)) * (1 + quality * 0.2),
+      value:
+        (lo + (hi - lo) * random(state)) *
+        (1 + quality * 0.2) *
+        (stat === "lifesteal" ? 1 : terrainScale * loopScale),
     });
   }
-  return {
-    id: `${r.runId}-${r.room}-${enemyId}-${bossIndex}`,
+  const base: Item = {
+    id: `${r.runId}-${r.loop ?? 1}-${r.room}-${enemyId}-${bossIndex}`,
     slot,
-    rarity: ["藍", "紫", "黃"][quality],
+    rarity: ["藍", "紫", "黃", "橘", "紅"][quality],
     affixes,
     x: enemy?.x ?? 760,
     y: enemy?.y ?? 320,
   };
+  return quality >= 3
+    ? specialEquipment(state, slot, quality === 3 ? "橘" : "紅", base)
+    : base;
 }
 export function pickup(r: Run) {
   if (!["COMBAT", "SETTLEMENT", "POST_CLEAR"].includes(r.phase)) return false;
@@ -301,7 +329,9 @@ export function equip(r: Run, id: string) {
   r.bag.splice(index, 1);
   if (previous) r.bag.push(previous);
   r.equipment[item.slot] = item;
+  gearState(r);
   r.stats = derive(r);
+  syncPumpkin(r);
   r.player.hp = Math.min(r.player.hp, r.stats.maxHP);
   return true;
 }
@@ -317,7 +347,9 @@ export function discard(r: Run, id: string) {
       }
   if (!item) return false;
   r.items.push({ ...item, x: r.player.x, y: r.player.y });
+  gearState(r);
   r.stats = derive(r);
+  syncPumpkin(r);
   r.player.hp = Math.min(r.player.hp, r.stats.maxHP);
   return true;
 }
@@ -426,6 +458,7 @@ export function chooseEquipmentSlot(r: Run, slot: Slot) {
   r.selectedEquipmentSlot = slot;
   applyEquipmentRestrictions(r);
   r.stats = derive(r);
+  syncPumpkin(r);
   r.player.hp = Math.min(r.player.hp, r.stats.maxHP);
   finishSpecialChoice(r);
   return true;

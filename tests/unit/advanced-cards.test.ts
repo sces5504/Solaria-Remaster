@@ -315,3 +315,41 @@ it("全部85合格矩陣：前置、職業、一次／上限、紅卡失效；�
   }
   expect(skillFactor(10, 0.2)).toBeCloseTo(2.3);
 });
+
+it("71 快冷卻的每次術式都排隊，快照保留獨立瞄準／電容與增傷、各執行一次", () => {
+  const r = setup([71, 37, 82]);
+  r.elements = ["water", "lightning"];
+  r.fusion = "storm";
+  r.stats.skillCD = 0.65;
+  r.player.capacitor = 5;
+  castSkill(r, { ...idleCommand(r), pointerWorld: { x: 300, y: 200 } });
+  const hp = r.player.hp;
+  r.time = 0.65;
+  r.player.capacitor = 2;
+  castSkill(r, { ...idleCommand(r), pointerWorld: { x: 600, y: 400 } });
+  expect(r.player.pendingEchoes).toHaveLength(2);
+  expect(r.player.pendingEchoes!.map((e) => e.capacitor)).toEqual([5, 2]);
+  const saved = validate({ version: 1, revision: 0, current: r, entry: r });
+  expect(saved.current.player.pendingEchoes).toHaveLength(2);
+  const beforeFirst = r.enemies[0].hp;
+  r.time = 0.8;
+  updateSkills(r, idleCommand(r));
+  expect(beforeFirst - r.enemies[0].hp).toBeCloseTo(45);
+  expect(r.player.pendingEchoes).toHaveLength(1);
+  expect(r.areas.filter((a) => a.context?.ancestry.includes(171))).toHaveLength(
+    1,
+  );
+  const beforeSecond = r.enemies[0].hp;
+  r.time = 1.45;
+  updateSkills(r, idleCommand(r));
+  expect(beforeSecond - r.enemies[0].hp).toBeCloseTo(18);
+  expect(r.player.pendingEchoes).toHaveLength(0);
+  expect(r.areas.filter((a) => a.context?.ancestry.includes(171))).toHaveLength(
+    2,
+  );
+  expect(r.player.hp).toBeCloseTo(hp * 0.92);
+  updateSkills(r, idleCommand(r));
+  expect(r.areas.filter((a) => a.context?.ancestry.includes(171))).toHaveLength(
+    2,
+  );
+});

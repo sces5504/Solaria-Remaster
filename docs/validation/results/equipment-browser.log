@@ -1,0 +1,25 @@
+[WebServer] (node:25487) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:25500) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 9 tests using 1 worker
+
+(node:25519) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/advanced-cards.spec.ts:18:1 › 元素使三元素的強制融合選擇重載後仍保留、卡片圖鑑85張 (10.7s)
+  ✓  2 tests/browser/advanced-cards.spec.ts:47:1 › 命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴 (10.0s)
+  ✓  3 tests/browser/equipment.spec.ts:40:1 › 17特殊裝備存檔、完整能力文案、整理後重載不複製 (10.6s)
+  ✓  4 tests/browser/equipment.spec.ts:83:3 › 特殊裝備 ghostArmor／starFlow／redMoon 實際WebGL能力與夥伴畫面 (14.4s)
+  ✓  5 tests/browser/equipment.spec.ts:83:3 › 特殊裝備 molten／moonString／frostBell 實際WebGL能力與夥伴畫面 (15.7s)
+  ✓  6 tests/browser/equipment.spec.ts:83:3 › 特殊裝備 starArmor／timeRing／fallingStar 實際WebGL能力與夥伴畫面 (14.5s)
+  ✓  7 tests/browser/equipment.spec.ts:129:1 › 短冷卻雙重術式排隊能匯入並各執行，沒有重扣代價或改動職技CD (10.6s)
+  ✓  8 tests/browser/last-polish.spec.ts:67:1 › 發光藍雷實際照亮附近地面，長時間就緒冷卻條不超出角色腳下 (13.9s)
+  ✓  9 tests/browser/last-polish.spec.ts:91:1 › 扇形噴火、蒸氣水柱、強光藍雷與無黑邊石門的實際畫面 (6.6s)
+
+  9 passed (1.8m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

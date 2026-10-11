@@ -110,6 +110,16 @@ export function gearBasic(r: Run, aim: number) {
     const target = r.enemies
       .filter((e) => e.hp > 0 && !e.sealPillar)
       .sort((a, b) => distance(r.player, a) - distance(r.player, b))[0];
+    visual(
+      r,
+      "relic",
+      target ?? r.player,
+      204,
+      0xe5ddff,
+      65 * r.stats.range,
+      0,
+      { duration: 0.65 },
+    );
     burst(r, target ?? r.player, 65, 20, gearContext(r, "moonString"));
   }
   if (hasEquipment(r, "starFlow") && s.basics % 3 === 0)
@@ -122,8 +132,13 @@ export function gearSkill(r: Run) {
   const s = gearState(r);
   s.skills++;
   s.skillPower = hasEquipment(r, "timeRing") && s.timeCharge ? 1.8 : 1;
+  if (s.skillPower > 1)
+    visual(r, "relic", r.player, 210, 0xfff2bf, 42, 0, { duration: 0.65 });
   s.timeCharge = false;
-  if (hasEquipment(r, "molten")) shield(r, r.stats.maxHP * 0.1, 3);
+  if (hasEquipment(r, "molten")) {
+    shield(r, r.stats.maxHP * 0.1, 3);
+    visual(r, "relic", r.player, 201, 0xffa86f, 42, 0, { duration: 0.65 });
+  }
   if (hasEquipment(r, "legion")) s.legionUntil = r.time + 3;
   if (hasEquipment(r, "thunderBox") && s.skills % 3 === 0)
     s.thunder = { at: r.time, remaining: 3 };
@@ -133,12 +148,15 @@ export function gearHurt(r: Run, actual: number, broken: boolean) {
   if (actual > 0 && hasEquipment(r, "voidCloth") && s.voidReady <= r.time) {
     s.voidUntil = r.time + 1;
     s.voidReady = r.time + 3;
-    visual(r, "ghost", r.player, 0, 0xd1a6ff, 48, r.player.aim ?? 0, {
+    visual(r, "relic", r.player, 203, 0xd1a6ff, 48, r.player.aim ?? 0, {
       duration: 0.6,
     });
   }
   if (broken && hasEquipment(r, "starArmor") && s.shieldReady <= r.time) {
     s.shieldReady = r.time + 5;
+    visual(r, "relic", r.player, 209, 0xe0ebff, 100 * r.stats.range, 0, {
+      duration: 0.65,
+    });
     burst(r, r.player, 100, 60, gearContext(r, "starArmor"));
   }
 }
@@ -161,10 +179,18 @@ export function gearHit(
   actual: number,
 ) {
   const s = gearState(r);
-  if (actual <= 0 || e.sealPillar || ctx.procPolicy === "none" || e.hp <= 0)
+  if (
+    actual <= 0 ||
+    e.sealPillar ||
+    (ctx.procPolicy === "none" && !ctx.basicHitProxy)
+  )
     return;
-  if (crit && hasEquipment(r, "frostBell") && !ctx.ancestry.includes(212))
+  if (crit && hasEquipment(r, "frostBell") && !ctx.ancestry.includes(212)) {
+    visual(r, "relic", e, 212, 0xffdebd, 72 * r.stats.range, 0, {
+      duration: 0.65,
+    });
     burst(r, e, 72, 40, gearContext(r, "frostBell", ctx.chainScale));
+  }
   if (!ctx.basicHitProxy) return;
   const key = e.splitGroup ?? e.id;
   const t = (s.targets[key] ??= {
@@ -178,10 +204,27 @@ export function gearHit(
   t.hits++;
   t.last = r.time;
   t.decay = r.time + 6;
-  if (hasEquipment(r, "starSeal") && t.hits % 6 === 0)
+  if (hasEquipment(r, "starSeal") && t.hits % 6 === 0) {
+    visual(r, "relic", e, 211, 0xd3e9ff, 100 * r.stats.range, 0, {
+      duration: 0.65,
+    });
     burst(r, e, 100, 80, gearContext(r, "starSeal", ctx.chainScale));
+  }
   // Percentage blood damage is integrated through its own source policy, never a general-damage hit.
-  if (hasEquipment(r, "redMoon")) t.blood += 10;
+  if (hasEquipment(r, "redMoon")) {
+    t.blood += 10;
+    if (t.blood >= t.threshold && e.hp > 0) {
+      t.blood -= t.threshold;
+      t.threshold *= 1.35;
+      const percentage = {
+        ...gearContext(r, "redMoon", ctx.chainScale),
+        damageKind: "percent" as const,
+        lifestealEligible: false,
+      };
+      hit(r, e, e.maxHP * (e.kind > 5 ? 0.1 : 0.2), percentage);
+      visual(r, "relic", e, 213, 0xff7c9e, 85, 0, { duration: 0.65 });
+    }
+  }
 }
 export function updateGear(r: Run) {
   const s = gearState(r),
@@ -190,10 +233,16 @@ export function updateGear(r: Run) {
   if (moving) {
     s.moveFor += DT;
     s.standFor = 0;
-    if (s.moveFor >= 0.4) s.standingArmor = false;
+    if (s.moveFor >= 0.4) {
+      if (s.standingArmor && hasEquipment(r, "meteorArmor"))
+        visual(r, "relic", r.player, 202, 0xb5beca, 40, 1, { duration: 0.6 });
+      s.standingArmor = false;
+    }
   } else {
     s.standFor += DT;
     s.moveFor = 0;
+    if (s.standFor >= 1 && !s.standingArmor && hasEquipment(r, "meteorArmor"))
+      visual(r, "relic", r.player, 202, 0xe2dfb2, 40, 0, { duration: 0.6 });
     if (s.standFor >= 1) s.standingArmor = true;
   }
   if (

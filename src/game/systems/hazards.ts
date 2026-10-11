@@ -1,3 +1,4 @@
+import { pumpkin, hurtPumpkin } from "./companion";
 import type { Run } from "../core/types";
 import { distance, angle, seedFor, random } from "../core/primitives";
 import { currentBiome, enemyDamageScale } from "../data/biomes";
@@ -9,7 +10,9 @@ export function createHazards(r: Run) {
   if (r.room === 31) return;
   const definition = currentBiome(r);
   if (!definition.hazard) return;
-  const rng = { rng: seedFor(r.seed, r.room * 331) };
+  const rng = {
+    rng: seedFor(r.seed, r.room * 331 + ((r.loop ?? 1) - 1) * 11939),
+  };
   for (let i = 0; i < 3; i++) {
     let point = { x: 0, y: 0 };
     for (let retry = 0; retry < 100; retry++) {
@@ -40,6 +43,9 @@ export function updateHazards(r: Run) {
     if (h.kind === "sand" || h.kind === "frost") continue;
     if (h.kind === "blood") {
       if (touching) hurt(r, 6 * enemyDamageScale(r));
+      const c = pumpkin(r);
+      if (c && c.hp > 0 && distance(h, c) < h.radius + c.radius)
+        hurtPumpkin(r, 6 * enemyDamageScale(r));
       continue;
     }
     if (h.kind === "statue") {

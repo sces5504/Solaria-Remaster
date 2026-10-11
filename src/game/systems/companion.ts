@@ -1,8 +1,15 @@
 import type { Run, Player, Element } from "../core/types";
-import { clone, DT, angle, distance, random } from "../core/primitives";
+import {
+  clone,
+  DT,
+  angle,
+  distance,
+  random,
+  type Vec,
+} from "../core/primitives";
 import { hasEquipment } from "../data/equipment";
-import { move, lineBlocked } from "./geometry";
-import { cone, context, visual } from "./combat";
+import { move, lineBlocked, coneHit } from "./geometry";
+import { cone, context, visual, hurt } from "./combat";
 export interface Pumpkin extends Player {
   id: number;
   downUntil: number;
@@ -20,7 +27,11 @@ export function syncPumpkin(run: Run) {
     return;
   }
   const id = r.equipment.armor!.id;
-  if (r.companion?.equippedId === id) return;
+  if (r.companion?.equippedId === id) {
+    r.companion.maximum = r.stats.maxHP * 3;
+    r.companion.hp = Math.min(r.companion.hp, r.companion.maximum);
+    return;
+  }
   r.companion = {
     ...clone(r.player),
     id: r.nextId++,
@@ -122,7 +133,10 @@ export function updatePumpkin(r: Run) {
   const aim = target ?? r.player;
   const a = angle(c, aim);
   c.aim = a;
-  if (distance(c, aim) > (target ? 48 : 70))
+  if (
+    distance(c, aim) >
+    (target ? Math.max(48, target.radius + c.radius + 3) : 70)
+  )
     move(
       r,
       c,
@@ -140,8 +154,55 @@ export function updatePumpkin(r: Run) {
     const ctx = context(r, 214, "additional", [], false, 1, false, "none");
     ctx.ownerActorId = c.id;
     cone(r, c, a, 70, Math.PI * 1.1, 30 * (1 + r.stats.skill), ctx);
-    visual(r, "ghost", c, 0, 0xffac5b, 70 * r.stats.range, a, {
+    visual(r, "relic", c, 214, 0xffac5b, 70 * r.stats.range, a, {
       duration: 0.4,
     });
   }
+}
+export function combatBodies(r: Run): Player[] {
+  const c = pumpkin(r);
+  return c && c.hp > 0 ? [r.player, c] : [r.player];
+}
+export function hitBody(
+  r: Run,
+  body: Player,
+  damage: number,
+  mask: Element[] = [],
+) {
+  return body === r.player
+    ? hurt(r, damage, mask)
+    : hurtPumpkin(r, damage, mask);
+}
+export function contactRush(
+  r: Run,
+  e: import("../core/types").Actor,
+  damage: number,
+  mask: Element[],
+  drain = false,
+) {
+  for (const body of combatBodies(r)) {
+    const id = body === r.player ? 0 : pumpkin(r)!.id;
+    if (
+      distance(e, body) < e.radius + body.radius &&
+      !e.rushHits.includes(id)
+    ) {
+      const before = body.hp;
+      hitBody(r, body, damage, mask);
+      e.rushHits.push(id);
+      if (drain) e.hp = Math.min(e.maxHP, e.hp + (before - body.hp) * 0.1);
+    }
+  }
+}
+export function meleeBodies(
+  r: Run,
+  origin: Vec,
+  a: number,
+  radius: number,
+  width: number,
+  damage: number,
+  mask: Element[],
+) {
+  for (const body of combatBodies(r))
+    if (coneHit(origin, body, radius, a, width, body.radius))
+      hitBody(r, body, damage, mask);
 }

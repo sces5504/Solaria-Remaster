@@ -32,7 +32,17 @@ export function sceneLights(r: Run): LightSource[] {
   for (const v of r.visuals) {
     if (
       v.until <= r.time ||
-      !["burst", "thunder", "arc", "steam", "block", "charge"].includes(v.kind)
+      ![
+        "burst",
+        "thunder",
+        "arc",
+        "steam",
+        "block",
+        "charge",
+        "relic",
+        "ghost",
+        "resonance",
+      ].includes(v.kind)
     )
       continue;
     const fade = Math.min(1, (v.until - r.time) / (v.duration || 0.3));

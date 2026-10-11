@@ -1,3 +1,4 @@
+import { enemyTarget, contactRush, meleeBodies } from "./companion";
 import { enemyElements } from "./monster-details";
 import type { Actor, Mode, Run } from "../core/types";
 import { angle, distance, DT, type Vec } from "../core/primitives";
@@ -84,8 +85,8 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
     ends: starts + duration,
     next: starts,
     count: 0,
-    angle: angle(e, r.player),
-    target: { x: r.player.x, y: r.player.y },
+    angle: angle(e, enemyTarget(r, e)),
+    target: { ...enemyTarget(r, e) },
     origin: { x: e.x, y: e.y },
     phase: e.phase,
     bossAttack: attack,
@@ -193,16 +194,13 @@ export function biomeBossAI(r: Run, e: Actor) {
       Math.sin(e.moveAngle) * 310 * DT,
       e.radius,
     );
-    if (
-      distance(e, r.player) < e.radius + r.player.radius &&
-      !e.rushHits.includes(0)
-    ) {
-      const hp = r.player.hp;
-      hurt(r, 30 * enemyDamageScale(r), enemyElements(e));
-      e.rushHits.push(0);
-      if (e.bossId === 14)
-        e.hp = Math.min(e.maxHP, e.hp + (hp - r.player.hp) * 0.1);
-    }
+    contactRush(
+      r,
+      e,
+      30 * enemyDamageScale(r),
+      enemyElements(e),
+      e.bossId === 14,
+    );
     const m = active.find((m) => m.bossAttack?.pattern === "rush");
     if (m) damageCover(r, e, e.radius, m.id, true);
     if (e.bossId === 8 && r.tick % 15 === 0)
@@ -215,7 +213,7 @@ export function biomeBossAI(r: Run, e: Actor) {
     distance(e, r.player) > 160 &&
     b.speed > 0
   ) {
-    const a = angle(e, r.player);
+    const a = angle(e, enemyTarget(r, e));
     move(
       r,
       e,
@@ -259,17 +257,15 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
       return;
     }
     const direction = m.angle + (m.count * Math.PI) / 3;
-    if (
-      coneHit(
-        e,
-        r.player,
-        a.radius,
-        direction,
-        (a.spread * Math.PI) / 180,
-        r.player.radius,
-      )
-    )
-      hurt(r, damage, a.id === "solaris-flare" ? "fire" : enemyElements(e));
+    meleeBodies(
+      r,
+      e,
+      direction,
+      a.radius,
+      (a.spread * Math.PI) / 180,
+      damage,
+      a.id === "solaris-flare" ? ["fire"] : enemyElements(e),
+    );
     damageCover(r, e, a.radius, m.id, a.damage >= 36);
     visual(
       r,
@@ -292,7 +288,7 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
     if (a.pattern === "teleport")
       area(r, e, 65, damage, 0.6, 0.01, 1, null, { owner: e.id, wave: m.id });
     if (++m.count < a.groups) {
-      m.target = { x: r.player.x, y: r.player.y };
+      m.target = { ...enemyTarget(r, e) };
       m.next = r.time + 1.4;
       m.starts = m.next;
       if (a.pattern === "burrow") {
@@ -370,7 +366,7 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
     m.next = m.ends + 1;
     return;
   }
-  const aim = a.pattern === "fan" ? angle(e, r.player) : m.angle;
+  const aim = a.pattern === "fan" ? angle(e, enemyTarget(r, e)) : m.angle;
   for (let i = 0; i < n; i++) {
     let off = 0,
       p = { x: e.x, y: e.y };

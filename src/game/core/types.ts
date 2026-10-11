@@ -18,7 +18,8 @@ export interface DamageContext {
   sourceAbilityId: number;
   ownerActorId: number;
   rootAttackId: number;
-  damageKind: "basic" | "skill" | "additional" | "dot";
+  damageKind: "basic" | "skill" | "additional" | "dot" | "percent";
+  skillBonus?: number;
   elementMask: Element[];
   canCrit: boolean;
   lifestealEligible: boolean;
@@ -101,8 +102,21 @@ export interface Player extends Vec {
   terrainSlow?: number;
   lastBasic?: number;
   originalBasics?: number;
-  pendingEcho?: { at: number; pointer: Vec };
-  echoRapid?: { at: number; remaining: number; interval: number; pointer: Vec };
+  pendingEcho?: { at: number; pointer: Vec; skillBonus?: number };
+  pendingEchoes?: {
+    at: number;
+    pointer: Vec;
+    skillBonus?: number;
+    capacitor: number;
+  }[];
+  echoRapid?: {
+    at: number;
+    remaining: number;
+    interval: number;
+    pointer: Vec;
+    skillBonus?: number;
+  };
+  blockSkillBonus?: number;
   lastHurt?: number;
   enduranceUsed?: boolean;
   assaultUntil?: number;
@@ -121,7 +135,12 @@ export interface Player extends Vec {
   blockUntil: number;
   blockHit: boolean;
   counterAt: number;
-  rapid: { at: number; remaining: number; interval: number };
+  rapid: {
+    at: number;
+    remaining: number;
+    interval: number;
+    skillBonus?: number;
+  };
   aim?: number;
   casts: number;
   capacitor: number;
@@ -233,6 +252,8 @@ export interface Mode {
   origin?: Vec;
 }
 export interface Item extends Vec {
+  ability?: import("../data/equipment").EquipmentAbility;
+  name?: string;
   id: string;
   slot: Slot;
   rarity: string;
@@ -286,6 +307,10 @@ export interface Run {
   solaris?: { sealed: boolean; wave: number; next: number };
   loop?: number;
   echoing?: boolean;
+  activeSkillBonus?: number;
+  echoSkillBonus?: number;
+  gear?: import("../systems/equipment-abilities").GearState;
+  companion?: import("../systems/companion").Pumpkin;
   echoCapacitor?: number;
   relicEntryKey?: string;
   focusedPhases?: string[];

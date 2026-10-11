@@ -1,3 +1,6 @@
+import { hasEquipment } from "../data/equipment";
+import { gearKill, updateGear } from "../systems/equipment-abilities";
+import { updatePumpkin, revivePumpkin } from "../systems/companion";
 import { rootKillAbilities } from "../systems/advanced-abilities";
 import { recoverHP, actionRestriction } from "../systems/ability-policies";
 import { journeyFor, selectSegment, isBossRoom } from "../data/journey";
@@ -150,6 +153,7 @@ function deathRewards(r: Run) {
       continue;
     }
     rootKillAbilities(r, e);
+    gearKill(r, e);
     if (r.cards[66])
       r.momentum = {
         stacks: Math.min(
@@ -178,7 +182,11 @@ function deathRewards(r: Run) {
         }
       } else if (e.kind <= 5) {
         const item = itemFor(r, e.id);
-        if (item) r.items.push(item);
+        if (item) {
+          r.items.push(item);
+          if (e.elite && hasEquipment(r, "starSeeker"))
+            visual(r, "relic", e, 208, 0xffe6a8, 65, 0, { duration: 0.65 });
+        }
       }
     }
     const roll = { rng: seedFor(r.seed, r.room * 100000 + r.killOrdinal++) };
@@ -215,6 +223,7 @@ function consumeDrops(r: Run, all = false) {
 export function settle(r: Run) {
   if (r.settledOnce) return;
   r.settledOnce = true;
+  revivePumpkin(r);
   r.score = (r.score || 0) + 100;
   r.phase = "SETTLEMENT";
   r.settlementEnds = r.time + 1.1;
@@ -307,6 +316,8 @@ export function step(r: Run, c: Command, paused = false) {
     }
   }
   updateSkills(r, c);
+  updateGear(r);
+  updatePumpkin(r);
   if (r.phase === "COMBAT") {
     updateEnemies(r);
     updateModes(r);
