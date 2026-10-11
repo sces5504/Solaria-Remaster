@@ -24,7 +24,9 @@
 ## 試玩託管
 
 - GitHub Pages 管理 API BLOCKED：GitHub App 回傳 403 `Resource not accessible by integration`。未更改 main 或儲存庫可見性，沒有冒稱 Pages 已發布。
-- 改用 Sites 第一里程碑試玩託管，project `appgprj_6acb58d27758819188664258f430c33e`。部署結果及實際網址在原生工具確認後補記。
+- 改用 Sites 第一里程碑試玩託管，project `appgprj_6acb58d27758819188664258f430c33e`。原生部署狀態 `succeeded`：https://solaria-remaster-twilight.paleswift64.chatgpt.site 。deployment `appgdep_6acb5d4b13a08191a47f701165a1b804`，version `appgprj_6acb58d27758819188664258f430c33e~appgver_235936c3c878819182c743726da6e985`，託管來源 commit `d61adbbe2397e4fb664523b4e65ca13113bdb807`。
+- Sites 目前為私人、僅擁有者可存取；公開存取調整被平台自動審核拒絕，理由為本次訊息沒有明確授權公開私人專案。沒有繞過審核或調整其他分享方式。
+- Draft PR：https://github.com/sces5504/Solaria-Remaster/pull/2 ，base 為規格分支；已推送、未合併 main。
 - Vite 有 `SOLARIA_PAGES=1` 的 `/Solaria-Remaster/` base，預留具管理權限時部署 Pages。
 
 ## 未完成與待驗收
@@ -36,6 +38,6 @@
 
 ## 提交節點與第二次起點
 
-S00 `2427793`；S01 `940da46`；S02 `72612b0`；S03 `c5769f4`；S04 `2fb9663`；S05 `71cdff5`，其後有必要修復與交接提交。每節點只是同一次任務內保存，未逐階段索取批准。
+S00 `2427793`；S01 `940da46`；S02 `72612b0`；S03 `c5769f4`；S04 `2fb9663`；S05 `71cdff5`，其後必要修復與交接提交 `63980aa`（遊戲交付版本），最新文件提交再記部署結果。每節點只是同一次任務內保存，未逐階段索取批准。
 
 接續：讀本檔、git status 與最新實作分支；執行 `bash scripts/cloud-setup.sh`（包括有意義 unit tests）、`npm run format:check`；依 CLOUD_START_PROMPT 第二次任務由 S06 接續，保留既有 59 卡與草原回歸。試玩回饋／未測設備驗收與後續完整內容分開追蹤。
