@@ -307,3 +307,11 @@ describe("CARD-01..59 每卡實際條件／無条件对照", () => {
     expect(a.context?.canCrit).toBe(true);
   });
 });
+it("分裂箭对同敌多箭命中只推一次连射专注", () => {
+  const r = setup(49);
+  r.cards[50] = 1;
+  basic(r, idleCommand(r));
+  const e = r.enemies[0];
+  for (const p of r.projectiles) hit(r, e, 1, p.context!);
+  expect(e.hits).toBe(1);
+});

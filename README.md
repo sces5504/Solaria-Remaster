@@ -1,13 +1,32 @@
 # Solaria Remaster
 
-Solaria 的全新重製專案。原作：[sces5504/Solaria](https://github.com/sces5504/Solaria)。
+日蝕之後，穿越秘境尋回日光。第一里程碑已實作三職業、四草原普通房與隨機狼王／邪惡山羊王、59 卡與基本構築保存。製作者：Mori Fang。
 
-## 正式規格與交接
+正式需求見 GAME_SPEC.md、ARCHITECTURE.md、DEVELOPMENT_PLAN.md、DECISIONS.md、UI_UX_SPEC.md、TEST_PLAN.md、AGENTS.md、PROJECT_STATUS.md。第一次／第二次交付規則見 CLOUD_START_PROMPT.md。
 
-- [完整玩法](GAME_SPEC.md)、[架構](ARCHITECTURE.md)、[分階段計畫](DEVELOPMENT_PLAN.md)、[決策](DECISIONS.md)
-- [介面與美術](UI_UX_SPEC.md)、[測試](TEST_PLAN.md)、[規則](AGENTS.md)、[目前狀態](PROJECT_STATUS.md)
-- [貼到Cloud的啟動Prompt](CLOUD_START_PROMPT.md)
+## 雲端開發
 
-目前依然只有startup scaffold，規格完成不表示遊戲已實作／60FPS已驗收／網站已發布。第一版PixiJS／WebGL、三職業、固定全房與85張卡；原始碼及遊玩站可公開，第一次交付里程碑試玩網址，正式v1發布在S14。
+Node24、npm lockfile、PixiJS v8 WebGL、TypeScript、Vite、Vitest、Playwright Chromium。原作 sces5504/Solaria 僅只讀參考。
 
-下一個 Cloud 任務使用 `docs/solaria-cloud-spec` 分支與 CLOUD_START_PROMPT，連續完成 S00–S05 與第一里程碑試玩交付；第二次在同一Cloud對話接續全部 S06–S14。需求訪談已結束。
+```sh
+bash scripts/cloud-setup.sh
+npm run dev -- --port 5173 --strictPort
+```
+
+```sh
+npm run check
+npm run build
+npm test
+npm run test:browser
+npm run format:check
+```
+
+預設 build 使用相對資源路徑。Pages build：`SOLARIA_PAGES=1 npm run build`。測試和開發不需要主人電腦常開。
+
+## 操作
+
+WASD 移動，滑鼠瞄準；按住左鍵普攻、右鍵職技、空白閃避（無無敵）、F 拾取、I 清關整備、C 構築資訊、Esc 暫停。清完房間後走進右門。每局四個不重複普通模板，再遇兩隻草原 Boss 之一。
+
+戰鬥讀檔回入口，選卡與清關裝備操作自动保存在 IndexedDB。主選單可匯入，暫停／清關可匯出備份。失焦需手動繼續。草原末關明確結束里程碑，第二次任務接續 S06–S14。
+
+原創像素素材與合成音效來源在 public/assets/manifest.json。已執行／未執行的測試與託管狀態見 PROJECT_STATUS.md，headless 不代表實體 GPU 60FPS。

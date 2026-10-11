@@ -23,6 +23,7 @@ export function targetPoint(r: Run, c: Command, range = 450) {
 }
 export function basic(r: Run, c: Command, rapid = false) {
   const p = r.player;
+  visual(r, "cast", p, 0, 0xc3d8bd, 10);
   p.casts++;
   p.capacitor = Math.min(5, p.capacitor + 1);
   const a = angle(p, c.pointerWorld),
@@ -46,6 +47,10 @@ export function basic(r: Run, c: Command, rapid = false) {
   if (p.buffUntil > r.time && level(r, 53)) bonus += 0.25 * (level(r, 53) - 1);
   const damage = cls.damage * (1 + bonus);
   const ctx = context(r, id, category, [...r.elements], true);
+  const side = (source: number, scale: number) => ({
+    ...context(r, source, category, [...r.elements], true, scale),
+    rootAttackId: ctx.rootAttackId,
+  });
   if (r.classId === "sword") {
     cone(
       r,
@@ -103,16 +108,7 @@ export function basic(r: Run, c: Command, rapid = false) {
         scale = l >= 5 ? 0.15 : l >= 3 ? 0.175 : 0.2;
       for (let i = 0; i < n; i++) {
         const offset = (i - (n - 1) / 2) * 0.16 + (i < n / 2 ? -0.1 : 0.1);
-        shoot(
-          r,
-          p,
-          a + offset,
-          damage,
-          700,
-          700,
-          context(r, 50, category, [...r.elements], true, scale),
-          pierce,
-        );
+        shoot(r, p, a + offset, damage, 700, 700, side(50, scale), pierce);
       }
     }
     if (!bow && level(r, 54))
@@ -123,14 +119,7 @@ export function basic(r: Run, c: Command, rapid = false) {
         damage,
         600,
         600,
-        context(
-          r,
-          54,
-          category,
-          [...r.elements],
-          true,
-          0.4 + Math.min(4, level(r, 54) - 1) * 0.05,
-        ),
+        side(54, 0.4 + Math.min(4, level(r, 54) - 1) * 0.05),
         1,
         false,
         0,
@@ -391,6 +380,7 @@ export function dodge(r: Run, c: Command) {
   p.dashReady = r.time + 3;
   const end = { x: p.x + Math.cos(a) * 144, y: p.y + Math.sin(a) * 144 };
   if (!legal(r, end, p.radius) || lineBlocked(r, p, end, false)) return true;
+  p.dashHits = [];
   p.dashAngle = a;
   p.dashUntil = r.time + 0.18;
   return true;

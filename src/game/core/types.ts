@@ -64,6 +64,7 @@ export interface Actor extends Vec {
   ccImmune: number;
   fireStacks: number;
   hits: number;
+  focusRoots?: number[];
   resonanceNext: number;
   elite: boolean;
   summoned: boolean;
@@ -85,6 +86,7 @@ export interface Player extends Vec {
   dashReady: number;
   dashUntil: number;
   dashAngle: number;
+  dashHits: number[];
   blockUntil: number;
   blockHit: boolean;
   counterAt: number;
@@ -151,6 +153,8 @@ export interface Area extends Vec {
   hit: number[];
   wave: number;
   heavy: boolean;
+  mine?: boolean;
+  triggerAt?: number;
 }
 export interface Mode {
   id: number;

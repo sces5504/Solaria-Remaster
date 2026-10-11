@@ -38,7 +38,9 @@ export class Input {
       if (e.button === 0) this.attack = true;
       if (e.button === 2) this.skill = true;
     });
-    window.addEventListener("pointerup", () => (this.attack = false));
+    window.addEventListener("pointerup", (e) => {
+      if (e.button === 0) this.attack = false;
+    });
     canvas.addEventListener("contextmenu", (e) => e.preventDefault());
     window.addEventListener("blur", () => {
       this.clear();

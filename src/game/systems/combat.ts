@@ -131,7 +131,12 @@ export function hit(
     if (level(r, 55) && distance(r.player, e) >= 300)
       conditional += 0.4 * factor(r, 55, 0.15);
     if (level(r, 49)) {
-      e.hits++;
+      e.focusRoots ??= [];
+      if (!e.focusRoots.includes(ctx.rootAttackId)) {
+        e.focusRoots.push(ctx.rootAttackId);
+        e.focusRoots = e.focusRoots.slice(-128);
+        e.hits++;
+      }
       if (e.hits % 3 === 0) conditional += 0.6 * factor(r, 49, 0.15);
     }
   }
@@ -188,7 +193,7 @@ export function hit(
     r.player.hp += gain;
   }
   if (e.hp > 0 && ctx.damageKind !== "dot") elemental(r, e, ctx, frost);
-  if (ctx.procPolicy === "root" && e.hp > 0) {
+  if ((ctx.procPolicy === "root" || ctx.procPolicy === "one") && e.hp > 0) {
     const child = (id: number, elements: Element[] = []) =>
       context(
         r,
@@ -536,6 +541,16 @@ export function updateAreas(r: Run) {
     if (a.follow) {
       a.x = r.player.x;
       a.y = r.player.y;
+    }
+    if (a.mine) {
+      if (r.time < a.starts) continue;
+      if (!a.triggerAt && distance(a, r.player) <= 30)
+        a.triggerAt = r.time + 0.25;
+      const detonate = a.triggerAt ?? a.starts + 4;
+      if (r.time < detonate) continue;
+      a.mine = false;
+      a.next = r.time;
+      a.ends = r.time + 0.01;
     }
     if (r.time < a.starts || r.time < a.next || r.time > a.ends) continue;
     a.next += a.interval;

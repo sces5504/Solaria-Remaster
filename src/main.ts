@@ -11,7 +11,7 @@ import { zh } from "./i18n/zh-TW";
 import * as view from "./ui/view";
 const root = document.querySelector<HTMLDivElement>("#app")!;
 root.innerHTML =
-  '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>第一里程碑 · 暮光草原</span><button id="mute">音效</button></header><main><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="overlay"></div><div id="toast" role="status"></div></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · F 拾取 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
+  '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>第一里程碑 · 暮光草原</span><div class="sound"><label for="volume">音量</label><input id="volume" type="range" min="0" max="1" step="0.05" aria-label="音效音量"><button id="mute">音效</button></div></header><main><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="overlay"></div><div id="toast" role="status"></div></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · F 拾取 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
 const stage = new Stage(),
   saves = new Checkpoints(),
   audio = new AudioMixer(),
@@ -229,6 +229,13 @@ mute.onclick = () => {
   muteLabel();
 };
 muteLabel();
+const volume = document.querySelector<HTMLInputElement>("#volume")!;
+volume.value = String(audio.volume);
+volume.addEventListener("input", () => {
+  audio.unlock();
+  audio.setVolume(Number(volume.value));
+  muteLabel();
+});
 function key(code: string) {
   if (code === "Escape") {
     if (screen === "game") pause();

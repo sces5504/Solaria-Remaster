@@ -57,6 +57,7 @@ export function newRun(classId: ClassId, seed: number): Run {
       dashReady: 0,
       dashUntil: 0,
       dashAngle: 0,
+      dashHits: [],
       blockUntil: 0,
       blockHit: false,
       counterAt: 0,
@@ -205,9 +206,8 @@ export function step(r: Run, c: Command, paused = false) {
       if (r.cards[47])
         for (const e of r.enemies)
           if (segmentDistance(e, old, p) < e.radius + p.radius) {
-            const key = -Math.round(p.dashReady * 60);
-            if (!e.rushHits.includes(key)) {
-              e.rushHits.push(key);
+            if (!p.dashHits.includes(e.id)) {
+              p.dashHits.push(e.id);
               hit(r, e, 40 * (1 + (r.cards[47] - 1) * 0.2), context(r, 47));
             }
           }
@@ -217,7 +217,13 @@ export function step(r: Run, c: Command, paused = false) {
         ny = (c.move.y / len) * r.stats.speed * DT;
       const temp = { x: p.x, y: p.y };
       move(r, temp, nx, ny, p.radius);
-      if (r.enemies.every((e) => distance(temp, e) >= p.radius + e.radius))
+      if (
+        r.enemies.every(
+          (e) =>
+            distance(temp, e) >= p.radius + e.radius ||
+            distance(temp, e) > distance(p, e),
+        )
+      )
         Object.assign(p, temp);
     }
     if (c.attack && r.phase === "COMBAT" && r.time >= p.attackNext) {

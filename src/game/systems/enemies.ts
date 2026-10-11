@@ -58,7 +58,13 @@ function navigate(r: Run, e: Actor, speed: number) {
     }
   }
   e.moveAngle = a;
-  move(r, e, Math.cos(a) * speed * DT, Math.sin(a) * speed * DT, e.radius);
+  const next = { x: e.x, y: e.y };
+  move(r, next, Math.cos(a) * speed * DT, Math.sin(a) * speed * DT, e.radius);
+  if (
+    distance(next, r.player) >= e.radius + r.player.radius ||
+    distance(next, r.player) > distance(e, r.player)
+  )
+    Object.assign(e, next);
 }
 function addMode(
   r: Run,
@@ -110,11 +116,11 @@ function addMode(
         { x: e.x + Math.cos(a) * 130, y: e.y + Math.sin(a) * 130 },
         65,
         36,
-        1.3 + i * 0.4,
-        0.01,
+        1.3,
+        4.01,
         1,
         null,
-        { owner: e.id, wave: id, heavy: true },
+        { owner: e.id, wave: id, heavy: true, mine: true },
       );
     }
   if (type === "laser")
