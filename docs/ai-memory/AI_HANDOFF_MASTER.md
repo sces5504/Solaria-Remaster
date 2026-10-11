@@ -2,7 +2,7 @@
 
 備份時間：2026-10-11 14:22:09 UTC。來源基準：`a1543a07484ef230e8d694e9c0b75e5ae2f5ede9`，分支 `implement/s00-s05`。
 
-**這是長期記憶備份，不是現在交接、結束合作、重啟專案或啟動下一個開發任務。** 本次只整理檔案，沒有變更遊戲程式、玩法或數值。
+**這是長期記憶備份，不是現在交接、結束合作、重啟專案或啟動下一個開發任務。** 初次備份只整理文件、未改遊戲；之後授權的遊戲修訂與最新工作狀態見後續增量及CURRENT_STATE，不能將初次備份限制套到新任務。
 
 可信度標籤：**[使用者明示]**＝目前仍可取得的使用者原話／需求；**[正式規格]**＝根目錄確認檔案；**[程式事實]**＝此基準版本的實作；**[驗證紀錄]**＝已有測試或部署證據；**[待確認]**＝衝突／未決；**[歷史資訊不足]**＝不能還原，禁止補造。程式與 AI 撰寫的驗證檔案不能單獨證明使用者曾確認某項設計。
 
@@ -10,13 +10,13 @@
 
 ## 最新增量：第一里程碑最後九項修改
 
-2026-10-11 14:46:56 UTC：長期記憶已88954be提交推送；主人接續要求九項小改，並明示測試此版後再告知下一步。這不是S06–S14啟動。新光影、噴火、燼火+3、三場域縮小、強藍雷、冷卻条0–1、蒸氣0/.2/.4加命中代理、有限怪立即補4與無黑邊門已實作，128unit/type/build通過；17Chromium首輪16通過，fixture確認重複accept修正後新增2及舊元素2重跑通過；正式CI完整17與Pages待核驗。詳細前後數值與觸發規則見CURRENT及GAME_SPEC末尾「第五輪」。其下14:22基準摘要／原文快照為歷史，不覆蓋本增量。已发现的M01–M07不因这九项自动修复。
+2026-10-11 14:59:54 UTC：長期記憶已88954be提交推送；主人接續要求九項小改，並明示測試此版後再告知下一步。這不是S06–S14啟動。新光影、噴火、燼火+3、三場域縮小、強藍雷、冷卻條0–1、蒸氣0/.2/.4加命中代理、有限怪立即補4與無黑邊門已實作，128unit/type/build通過；17Chromium首輪16通過，fixture確認重複accept修正後新增2及舊元素2重跑通過；正式CI128unit／17Chromium、Pages與線上操作／視覺已通過；最新遊戲53691bf。詳細前後數值與觸發規則見CURRENT及GAME_SPEC末尾「第五輪」。其下14:22基準摘要／原文快照為歷史，不覆蓋本增量。已發現的M01–M07不因這九項自動修復。
 
 ## 1. 先判斷：現在並未交接
 
 使用者明確要求本次只是備份，仍在同一對話持續合作。**讀到此檔案不等於收到新遊戲任務、重新執行啟動prompt、新開Chat或開始S06–S14。** 先讀使用者當前訊息和git status，再判斷授權範圍。恢復上下文不等於交付已經驗證、也不等於程式碼都符合規範。
 
-Solaria Remaster是桌面單人俯視actionroguelike，日蝕後六重秘境尋光，三職業與二元素/融合構築。第一次S00–S05已產出草原五房/兩王/59卡/基本gear/settle/IndexedDB與四輪試玩修訂；正式九地形/85卡/最終31/周目/六事件/特殊gear是後續S06–S14，未開始。不要重做已成基礎或用第一milestone冒稱全v1。
+Solaria Remaster是桌面單人俯視actionroguelike，日蝕後六重祕境尋光，三職業與二元素/融合構築。第一次S00–S05已產出草原五房/兩王/59卡/基本gear/settle/IndexedDB與四輪試玩修訂；正式九地形/85卡/最終31/周目/六事件/特殊gear是後續S06–S14，未開始。不要重做已成基礎或用第一milestone冒稱全v1。
 
 ## 2. 六份記憶索引與建議閱讀順序
 
@@ -44,7 +44,7 @@ Solaria Remaster是桌面單人俯視actionroguelike，日蝕後六重秘境尋�
 - 最新classCD5/6/3；range基準1.15、chainbase180實207；首段Lv6/31Lv26是XP數學預算不是完成31房實戰。不要拿舊F、7/8/5、6500、cap4/5或scaffold舊文覆蓋更新。
 - 保留全部9地形/85card/18+final+eventboss/6event完整承諾。架構計劃/效能目標不是已實現證明；headless不等於真實GPU60fps，未跑列NOT_RUN，不造日誌/使用者確認。
 
-## 4. 最新狀態同步摘要
+## 4. 初次備份狀態摘要（最新狀態以本頁增量與CURRENT為準）
 
 最後更新2026-10-11 14:22:09 UTC。工作目錄/workspace/Solaria-Remaster（環境改變需重新定位）。分支implement/s00-s05；快照源HEAD a1543a07484ef230e8d694e9c0b75e5ae2f5ede9，最後game061e7ee30766c2b1583aed775ff1c5f8331f221d。實際記憶提交hash看git log，避免檔案記錄自身hash迴圈。
 
@@ -73,3 +73,12 @@ NOT_RUN真實GPU60fps/最密600/10restart記憶體/FirefoxSafari/人工三class�
 > 你正在接續 sces5504/Solaria-Remaster 的長期開發。先定位現有repo並讀docs/ai-memory/AI_HANDOFF_MASTER.md，再按索引讀CURRENT_STATE、USER_PREFERENCES、PROJECT_MEMORY、DECISION_HISTORY、DEVELOPMENT_HISTORY，並讀根目錄八份正式檔案與CLOUD_START_PROMPT。核對git status、branch、最近commit與真實部署，不重置／覆蓋未提交修改，不依舊聊天完成宣告推論現狀。程式只證明實作，不證明使用者設計意圖；後使用者明確更新覆蓋舊條文，其餘衝突標記待確認，缺史標「歷史資訊不足」不得補造。採用繁中、Cloud/CI，GitHub Pages不是Sites；原Solaria只讀參照。第一milestoneS00–S05已做與多輪修訂，別重新scaffold；S06–S14狀態看最新CURRENT，不自動啟動。先遵循我在這個Chat的新任務，授權內自主完成必要實現與驗證，別逐階段問繼續。保留elementcap2/source分類與副鏈/無永久能力/reroll儲存等核心。真實測試/未跑如實列出，headless不代表實機FPS。重大決策/bug/里程碑/架構及時增量維護記憶與UTC/MASTER，不刪歷史，不寫金鑰。當前具體新任務是：【由使用者填入本次任務】。
 
 上面Prompt只在**未來使用者真正決定跨Chat時**使用；不是此次執行指令。繼續當前對話不需任何重新啟動流程。
+
+### 第五輪正式發布與線上驗證（2026-10-11 14:59:54 UTC）
+
+- PASS：遊戲commit `53691bf925df3c39a5f20613ff7acdba900b1bb7` 已部署 GitHub Pages；[Pages run38148633408](https://github.com/sces5504/Solaria-Remaster/actions/runs/38148633408) build2分52秒／deploy11秒，兩者success；正式CI完整128unit／17Chromium全數通過。
+- PASS：正式網址 https://sces5504.github.io/Solaria-Remaster/ 的Cloud Chromium實測：HTML／CSS／JS／atlas／三持械肖像／manifest／背景HTTP200，atlas與本輪SHA256一致；法師正常新局、左held＋右技能、8:5無捲動、IndexedDB保存／回入口、E裝備拾取、Pages子路徑背景、選卡刷新使用讀檔不重置、pause／catalog、測試按鈕位置及59卡搜尋／給卡／前置／能力重載，pageerror／HTTP失敗皆0。
+- PASS：額外正式URL兩項視覺核驗：扇形噴火／蒸氣水柱／強光藍雷／新石門實際畫面；藍雷發光前後同地面位置亮度比較>15%，冷卻就緒100秒的腳下條不超出角色。線上首次亮度比較在頁內截圖影像解碼處逾時；改在Cloud以PIL分析同一WebGL截圖後通過，未改或放寬亮度／長度斷言，亦未修改線上遊戲。原因只定位到測試取樣步驟，不能宣稱是遊戲Bug。
+- 全部102 atlas影格四角透明；逐影格RGBA差異只有六門影格，三張持械肖像內容完全不變。四角檢查不等於完整alpha邊緣審計。
+- 實機GPU60FPS、600最密彈、10次restart記憶體、Firefox／Safari、人工完整五房構築仍NOT_RUN；後續S06–S14仍未開始。等待主人試玩此版後告知下一步，不自動擴張內容或另開Chat。
+- 本紀錄跟隨文件提交不改遊戲；最新遊戲仍53691bf，main未合併，原作只讀。既有記憶M01–M07未因本次九項自動解決。
