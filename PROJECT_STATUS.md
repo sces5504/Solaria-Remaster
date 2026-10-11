@@ -11,7 +11,7 @@
 
 ## 實際程式狀態
 
-基線main f0a12545efe1f9fa3ef888ab8f6dfebc0e5b2df8只有startup canvas。TypeScript／Vite／Vitest／Playwright／Prettier及CI原有；PixiJS尚未安裝，沒有simulation／職業／怪物／Boss／卡池／資產實作。本次只改Markdown及README，不開始遊戲。
+遊戲骨架基線f0a12545efe1f9fa3ef888ab8f6dfebc0e5b2df8（main最新d97b219只刪除README與AGENTS舊說明，已保留這些修改）只有startup canvas。TypeScript／Vite／Vitest／Playwright／Prettier及CI原有；PixiJS尚未安裝，沒有simulation／職業／怪物／Boss／卡池／資產實作。本次只改Markdown及README，不開始遊戲。
 
 ## 當前階段與下一步
 
@@ -38,6 +38,7 @@ CONFIRMED：全部正式規格與總審查補齊方案。PROPOSED：無。OPEN�
 
 - PASS：八份正式文件＋啟動Prompt存在；卡片ID01–85連續且唯一；Markdown內部檔案連結無缺失；本次十個變動路徑全部是Markdown。
 - PASS：獨立Prettier 3.9.10檢查十份文件；src、tests、scripts、package及CI與基線完全一致。
+- PASS：已整合main的d97b219／08bf730文件刪除，不恢復被刪除的舊說明；遊戲程式與main一致。
 - Git交接分支：`docs/solaria-cloud-spec`；不合併main。
 - npm check/build/browser/format（文件commit之既有骨架CI）：待執行。
 - 遊戲規則／平衡／實機FPS：NOT_RUN，尚無遊戲。

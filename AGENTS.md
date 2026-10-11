@@ -14,12 +14,6 @@ Before committing: `npm run check`, `npm run build`, `npm run test:browser`, `np
 
 Keep game modules under src/; add pure gameplay tests under tests/unit/ and browser tests under tests/browser/. The current page is only a startup scaffold, not the remastered game.
 
-## Grilling skill
-
-Matt Pocock's original skill is checked in at `.agents/skills/grilling/SKILL.md`. If skill discovery does not expose it, read that file explicitly when the owner requests grilling. Before substantial gameplay redesign, use it to agree on the remaster scope, what to preserve, what to replace, target devices, art direction, and the first playable milestone. The owner's decisions govern the design.
-
-Environment preparation is already authorized. Do not invoke a design interview just to install dependencies. The remaster grilling and complete review were accepted on 2026-10-11. Continue with the confirmed specifications and stage S00; do not restart the interview or assume a complete implementation is already authorized.
-
 ## Confirmed specification authority and handoff
 
 1. 先讀GAME_SPEC、ARCHITECTURE、DEVELOPMENT_PLAN、DECISIONS、UI_UX_SPEC、TEST_PLAN、PROJECT_STATUS及本檔；有CLOUD_START_PROMPT也讀取。文件在repo根目錄，不能依賴Local聊天、memory或個人skill自動同步。
