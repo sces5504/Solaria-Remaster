@@ -1,5 +1,19 @@
 # PROJECT_STATUS — v1接續開發與發布驗證
 
+## v1.0.1已發布：五項修正與雙chat交接完成（2026-10-12 05:24:59 UTC）
+
+版本1.0.1／部署來源c07e63f800530264149347436f6ed73a0e22c519／implement/s00-s05已正式發布[GitHub Pages](https://sces5504.github.io/Solaria-Remaster/)。前一5856e62安全快進接續，無reset／force／merge main，原作只讀。PR2仍Draft、base docs/solaria-cloud-spec，保留全局S13未完成界線；本輪五項修正與兩prompt交付已完成。後續純文檔提交不改正式遊戲，文件HEAD看git log。
+
+PASS：check／326unit／build／format、本地完整81Chromium19.7分鐘；./同案例導航調整後local4再次PASS。發布來源三輪完整CI成功：push38205408151（81browser18.4分鐘＋326unit）、PR38205411463（81browser30.0分鐘＋326unit）、[Pages38205408084](https://github.com/sces5504/Solaria-Remaster/actions/runs/38205408084)（81browser29.7分鐘＋326unit）及deploy成功，均無flaky。gh watch有一次讀annotations HTTP401而退出，直接run API／CLI核對與完整log確認不是測試失敗，沒有登入或改憑證。
+
+正式URL六案例PASS：既有pages2（23.6秒）正常新局／同時攻技／8:5／保存reload、53691bf舊IndexedDB直接繼續与再保存；本輪post-v1-feedback4（49.8秒）背包／側欄五色名稱、六色構築／已知圖鑑與未知不揭名、橘紅整張／hover且保留能力家族圖色、魔王城地面機關可跨越与真柱碰撞、舊鬼甲250且生命卡不放大。JS index-RGCOH5Lt／四atlas／manifest SHA256與本地Pages bundle一致，資源無錯誤。線上圖／requests／logs已存results。
+
+五項結果：確診的橘紅裝／卡稀有樣式与特殊名補齊，不改原本正確色與能力家族圖色；魔王城非實體雷射機關不再冒充石柱，改貼地雕像印記；所有實體掩體20耐久共用、Boss扣5／小怪扣4、2秒保護、同波一次、只與玩家110×range圓相交可傷（基126.5），遠處仍擋彈、湖／友方／無敵人來源機關不損，實際扇形／衝撞／射擊／落擊／半寬雷射判定與持久來源，舊耐久比例／保護時間保留；伙伴固定250含三職／升血／周目／舊檔／復活，甲與吸血來源／卸裝保持；Boss實際路線抽選原被XOR/xorshift相關綁成固定王，專流混合後九池約各50%／512組合，舊journey不重抽、不加交替保底。詳GAME_SPEC最新末節、POST_V1_FEEDBACK與新增unit／browser。
+
+兩份可全文複製的獨立new chat prompt：docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md（core／數值／機制／Bug及兩邊整合Pages）、ART_NEW_CHAT_PROMPT.md（sprite／專屬FX／UI／音效呈現、獨立art分支交整合窗口）；README索引。已含本輪確切部署源、全部必讀、現況／測試、Steam品質與五輪保留體驗、最新掩體250與Boss修正、存檔／死亡／來源邊界、協作／分支／發布／記憶、未測與恢復。沒有在本對話建立new chat或spawn agents。
+
+原全局S13界線不變：Cloud600彈／各傷字功能與10／30重啟JS heap只PASS其範圍，SwiftShader密集60FPS FAIL；真GPU／GPU記憶體、Firefox／Safari、自然一般／強構築完整30＋1及人工周目、聆聽／全部短FX逐幀NOT_RUN。不把本輪修正完成寫成完整v1全項驗收完成。後續由兩chat從最新遠端HEAD与此首節接續，核心candidate查實再修，不回骨架、不復舊規則。
+
 ## v1.0.1完整本地回歸完成，準備發布（2026-10-12 04:46:17 UTC）
 
 check／326unit／build／format PASS；完整81Chromium全部PASS19.7分鐘，含新四項、原85卡／17裝備／六事件／全王／存檔／10restart／600彈功能。之後僅將新案例load導航/改./以便同案例實測Pages子路徑，遊戲與bundle沒有變；local4再次PASS45.5秒，發布CI將完整81跑此版本。沒有測試中重build dist。

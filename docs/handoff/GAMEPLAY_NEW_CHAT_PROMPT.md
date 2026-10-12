@@ -8,6 +8,7 @@
 
 儲存庫：https://github.com/sces5504/Solaria-Remaster
 整合／正式部署分支：`implement/s00-s05`。
+本輪1.0.1已部署來源：`c07e63f800530264149347436f6ed73a0e22c519`；已通過326unit／81Chromium（本地與三輪CI）、正式站新局／舊檔2＋本輪4案例。文件後續HEAD依git log，遠端有更新保留，不強制退回此hash。
 正式網址：https://sces5504.github.io/Solaria-Remaster/
 既有 Draft PR #2：https://github.com/sces5504/Solaria-Remaster/pull/2，base `docs/solaria-cloud-spec`，main 未合併。
 

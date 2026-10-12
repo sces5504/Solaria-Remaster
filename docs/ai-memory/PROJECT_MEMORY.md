@@ -816,3 +816,7 @@ zh-TW字串集中key，不在simulation拼UI文字；保存穩定ID而非中文�
 [程式／驗證事實] CSS与機關貼圖Bug及Boss條件相關已确診；旧首周目火山全7、叢林全10，混合專流後兩候选近50%、512組合。旧route保留、不加强制交替；能力家族圖色有設計保留。共享耐久20扣5／4、半徑110×range，元規則見GAME_SPEC末尾。326unit与target4browserPASS，完整81與發布結果以CURRENT_STATE最新首節為準。
 
 [交接] docs/handoff兩全文prompt自包含；游戏chat負責core与整合Pages，美術chat sprite／FX／UI独立分支提交，不競争覆盖main／implement。保留所有历史与S13未測界線，源碼事實不等於舊用户批准。
+
+## 本輪發布與交接完成（2026-10-12 05:24:59 UTC）
+
+[驗證事實] 1.0.1/c07e63f800530264149347436f6ed73a0e22c519完成check／326unit／build／format、本地81Chromium与push／PR／Pages三輪81，正式URL2＋4案例PASS；透明原始結果已保存。兩全文promptdocs/handoff已填確切部署源，可開兩new chat，不依赖舊記憶／路徑。這不改真GPU与人工NOT_RUN、SwiftShader60FPS FAIL；既有全局S13仍未全驗收。

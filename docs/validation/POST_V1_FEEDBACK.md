@@ -22,3 +22,7 @@
 ## 持續限制
 
 S13真GPU／600彈60秒／GPU記憶體、Firefox／Safari、三職自然取得完整30＋1及人工周目、聆聽／全部短FX逐幀仍NOT_RUN。Cloud600功能與JS記憶體僅其範圍PASS，SwiftShader密集60FPS FAIL。新機制不是借效能刪攻擊或傷字。
+
+## 最終發布驗證（2026-10-12 05:24:59 UTC）
+
+1.0.1／c07e63f800530264149347436f6ed73a0e22c519已部署。326unit、本地81browser及三輪CI81成功；正式pages2＋本輪4共6PASS。源碼Source与資源SHA256對應，原失敗／修正保留，沒有改動測試期間dist。证據post-v1-pages／push／pr-ci.log、production-base-two-pass／production-four-pass、production-resources与published-bundle-sha256。兩全文prompt入口docs/handoff，接續保留S13限制。
