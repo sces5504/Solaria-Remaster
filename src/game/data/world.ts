@@ -1,3 +1,4 @@
+import { COVER_DURABILITY } from "../core/cover-rules";
 import { retireRoomProjectiles } from "../systems/projectile-pool";
 import { selectEvent, eventLayout, beginEventWave } from "../systems/events";
 import { gearState } from "../systems/equipment-abilities";
@@ -205,8 +206,12 @@ export function makeObstacles(profile: number, boss = 0, seed = 1): Obstacle[] {
     w: v[2] * 32,
     h: v[3] * 32,
     kind: (["lake", "tree", "rock", "pillar"] as const)[v[4]],
-    durability: [999, 5, 10, 15][v[4]],
-    maxDurability: [999, 5, 10, 15][v[4]],
+    durability: [999, COVER_DURABILITY, COVER_DURABILITY, COVER_DURABILITY][
+      v[4]
+    ],
+    maxDurability: [999, COVER_DURABILITY, COVER_DURABILITY, COVER_DURABILITY][
+      v[4]
+    ],
     waves: [],
   }));
 }

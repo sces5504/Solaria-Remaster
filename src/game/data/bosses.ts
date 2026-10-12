@@ -1,3 +1,4 @@
+import { COVER_DURABILITY } from "../core/cover-rules";
 import type { BiomeId } from "./biomes";
 import type { Obstacle } from "../core/types";
 export type BossPattern =
@@ -484,7 +485,7 @@ export function bossArena(id: number, seed: number) {
       : b.biome === "castle" || b.biome === "desert"
         ? "pillar"
         : "rock";
-  const durability = kind === "tree" ? 5 : kind === "rock" ? 10 : 15;
+  const durability = COVER_DURABILITY;
   const shift = ((seed % 3) - 1) * 8;
   const obstacles = columns[b.layout].flatMap(([x, y], i) => {
     const parts =

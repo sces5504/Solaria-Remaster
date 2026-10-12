@@ -312,3 +312,11 @@ S06／S07的地形ID明確為B02a沙漠、B02b冰原、B03a火山、B03b叢林�
 [程式與驗證事實] 1.0.0／cc6f32e已在既有implement分支完成三輪77 Chromium、307unit與Pages部署；正式網址新局及53691bf舊IndexedDB兩項、補充舊檔實戰PASS。四柱60°缺口沿主人明示例外，不推論所有王環彈亦有缺口。setup去除rg依賴、事件王測試改等實際核心時間，未改核心數值。
 
 [驗收限制] S13真GPU與人工項未完成、Cloud密集60FPS FAIL；不將完整內容發布寫成全項驗收完成。舊卡／格擋fixture資格錯誤和死亡均保留，資料生成合法仍不是自然取得全程。剩餘恢復步驟REMAINING_ACCEPTANCE／最新CURRENT_STATE。PR2仍Draft、base原規格分支、main未合併。
+
+## v1試玩五項與兩chat分工（2026-10-12 04:32:03 UTC）
+
+[使用者明示] 查實才修道具／卡稀有色、城堡假掩體；掩體Boss4／怪5、2秒保護、只在靜電大小玩家附近；鬼甲南瓜250；核對九池Boss各50%；完成後準備遊戲調整與美術兩new chat完整prompt。新要求取代舊掩體材質耐久／重擊3与伙伴3倍生命。
+
+[程式／驗證事實] CSS与機關貼圖Bug及Boss條件相關已确診；旧首周目火山全7、叢林全10，混合專流後兩候选近50%、512組合。旧route保留、不加强制交替；能力家族圖色有設計保留。共享耐久20扣5／4、半徑110×range，元規則見GAME_SPEC末尾。326unit与target4browserPASS，完整81與發布結果以CURRENT_STATE最新首節為準。
+
+[交接] docs/handoff兩全文prompt自包含；游戏chat負責core与整合Pages，美術chat sprite／FX／UI独立分支提交，不競争覆盖main／implement。保留所有历史与S13未測界線，源碼事實不等於舊用户批准。

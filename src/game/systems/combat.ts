@@ -1,3 +1,12 @@
+import { COVER_INVULNERABILITY, type CoverSource } from "../core/cover-rules";
+import {
+  normalizeCover,
+  coverWithin,
+  coverDamageRadius,
+  enemyCoverSource,
+  coverInCone,
+  coverInSweep,
+} from "./cover";
 import { pooledProjectile } from "./projectile-pool";
 import { sweepProjectiles } from "./projectile-sweep";
 import { gearHit, gearHurt } from "./equipment-abilities";
@@ -581,6 +590,7 @@ export function shoot(
       damage,
       context: ctx,
       enemy,
+      coverSource: enemy ? enemyCoverSource(r, owner) : undefined,
       eventGlyph: enemy
         ? (() => {
             const body = r.enemies.find((e) => e.id === owner);
@@ -650,6 +660,7 @@ export function area(
     next: r.time + delay,
     context: ctx,
     enemy: !ctx,
+    coverSource: !ctx ? enemyCoverSource(r, extra.owner ?? 0) : undefined,
     enemyElements: !ctx
       ? enemyElements(r.enemies.find((e) => e.id === extra.owner))
       : undefined,
@@ -678,20 +689,30 @@ export function damageCover(
   p: Vec,
   radius: number,
   wave: number,
-  heavy = false,
+  source: CoverSource = "boss",
+  accepts?: (o: import("../core/types").Obstacle) => boolean,
 ) {
+  normalizeCover(r);
   for (const o of r.obstacles)
     if (
       o.kind !== "lake" &&
       o.durability > 0 &&
+      r.time + 1e-8 >= (o.invulnerableUntil ?? 0) &&
       !o.waves.includes(wave) &&
-      p.x + radius >= o.x &&
-      p.x - radius <= o.x + o.w &&
-      p.y + radius >= o.y &&
-      p.y - radius <= o.y + o.h
+      coverWithin(o, r.player, coverDamageRadius(r)) &&
+      (accepts ? accepts(o) : coverWithin(o, p, radius))
     ) {
       o.waves.push(wave);
-      o.durability = Math.max(0, o.durability - (heavy ? 3 : 1));
+      o.durability = Math.max(0, o.durability - (source === "boss" ? 5 : 4));
+      o.invulnerableUntil = r.time + COVER_INVULNERABILITY;
+      visual(
+        r,
+        "impact",
+        { x: o.x + o.w / 2, y: o.y + o.h / 2 },
+        0,
+        0xe5c899,
+        Math.max(o.w, o.h) * 0.6,
+      );
     }
 }
 export function updateProjectiles(r: Run, dt: number) {
@@ -773,20 +794,23 @@ export function updateAreas(r: Run) {
             a.enemyElements ?? (a.enemyElement ? [a.enemyElement] : []),
           );
       }
-      if (r.enemies.some((e) => e.id === a.owner && e.kind > 5)) {
+      const coverSource = a.coverSource ?? enemyCoverSource(r, a.owner);
+      if (coverSource) {
         if (a.shape === "beam") {
-          for (let d = 0; d < distance(a, end); d += 20)
-            damageCover(
-              r,
-              {
-                x: a.x + Math.cos(a.angle) * d,
-                y: a.y + Math.sin(a.angle) * d,
-              },
-              a.width,
-              a.wave,
-              a.heavy,
-            );
-        } else damageCover(r, a, a.radius, a.wave, a.heavy);
+          damageCover(r, a, 0, a.wave, coverSource, (o) =>
+            coverInSweep(o, a, end.x - a.x, end.y - a.y, a.width / 2),
+          );
+        } else
+          damageCover(
+            r,
+            a,
+            a.radius,
+            a.wave,
+            coverSource,
+            a.shape === "cone"
+              ? (o) => coverInCone(o, a, a.radius, a.angle, a.width)
+              : undefined,
+          );
       }
     } else if (a.context) {
       for (const e of r.enemies)

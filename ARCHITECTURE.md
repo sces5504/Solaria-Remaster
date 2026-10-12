@@ -95,3 +95,11 @@ RunStore／checkpoint-schema／profile-store／records替代舊Checkpoints實作
 SoundController讀核心事件及UI動作，合成原創分層音效；renderer只讀Run與視覺事件，不修改數值。solariaDiagnostics回傳新建的計數快照，不暴露Run或寫入入口。多人邊界仍保留，沒有提前實作網路。
 
 實際CloudJS物件重用／碰撞順序與重啟已驗證，真GPU效能尚NOT_RUN；不能以架構接入推論60FPS。
+
+## v1.0.1掩體與雙chat接口（2026-10-12）
+
+core/cover-rules共用20耐久、2秒與靜電110基半徑；systems/cover處理附近圓、矩形／扇形／掃掠幾何與舊耐久遷移，combat.damageCover單入口施加Boss5／monster4。Projectile／Area保存可選coverSource，來源者死亡仍可判定；湖泊／我方／無敵人來源地形機關不損。接觸隊列依真碰撞時間，只有真掩體接觸傷掩體，不在任意彈道結束旁邊扣血。雷射以半線寬做整段矩形掃掠，避免取樣漏薄牆或全寬誤傷；衝撞以預計實際步進與身體範圍碰壁判定，不需先穿牆，也不攻擊正離開的背後牆。
+
+Obstacle增加可選invulnerableUntil，schema1兼容；checkpoint-schema在current／entry都遷移耐久比例與既有伙伴250上限，保留波次／時間／journey。Actor的四封印柱仍獨立1500基HP，不是20耐久環境掩體。伙伴沿原Player類型／穩定ID與来源分類，不因固定250改甲／吸血或复活时间。
+
+Boss data/journey只對Boss抽選seed非線性混合；路線與模板局部stream保持，舊journey不重算。render/hazard-markers只畫可走雕像地面印記，不創造碰撞。遊戲chat維護src/game与穩定接口／整合，美術chat render／UI／assets，獨立worktree、由遊戲窗口合併已核對commit後部署implement。共同資料保持可序列化，Visual與geometry是一個規則的呈現，不能在render藏新的傷害判定。

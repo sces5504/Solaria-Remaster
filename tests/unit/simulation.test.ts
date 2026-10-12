@@ -259,15 +259,24 @@ describe("C10–18 元素、卡池、地圖与 Boss", () => {
     hit(r, e, 10000, context(r, 1));
     expect(e.hp).toBe(e.maxHP / 2);
   });
-  it("掩体同波最多扣一次，重击扣3，碎裂同步", () => {
+  it("掩體Boss四擊、同波不重傷、兩秒保護與碎裂碰撞同步", () => {
     const r = arena();
     r.obstacles = makeObstacles(0, 1);
     const o = r.obstacles[0],
       p = { x: o.x, y: o.y };
-    damageCover(r, p, 30, 7, true);
-    damageCover(r, p, 30, 7, true);
-    expect(o.durability).toBe(2);
-    damageCover(r, p, 30, 8, true);
+    r.player.x = p.x;
+    r.player.y = p.y;
+    damageCover(r, p, 30, 7, "boss");
+    damageCover(r, p, 30, 7, "boss");
+    damageCover(r, p, 30, 8, "boss");
+    expect(o.durability).toBe(15);
+    r.time = 2;
+    damageCover(r, p, 30, 7, "boss");
+    expect(o.durability).toBe(15);
+    for (let i = 0; i < 3; i++) {
+      r.time = 2 + i * 2;
+      damageCover(r, p, 30, 10 + i, "boss");
+    }
     expect(o.durability).toBe(0);
     expect(legal(r, { x: o.x + 16, y: o.y + 16 })).toBe(true);
   });

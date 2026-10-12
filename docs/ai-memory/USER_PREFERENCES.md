@@ -124,3 +124,11 @@ Keep game modules under src/; add pure gameplay tests under tests/unit/ and brow
 13. 使用者確認原始碼與遊玩站都可公開，預定Pages，並要求第一次任務交付可試玩成果。優先提供環境的可用預覽；無可分享預覽時可建立第一里程碑Pages試玩部署並依已確認公開方向完成必要設定，正式v1再於S14更新。必須實際檢查網址與資源，權限受阻則如實回報。本Local文件更新不改可見性、不發布遊戲。
 
 <!-- SOURCE_SNAPSHOT_END: AGENTS.md -->
+
+## v1試玩五項與兩chat分工（2026-10-12 04:32:03 UTC）
+
+[使用者明示] 查實才修道具／卡稀有色、城堡假掩體；掩體Boss4／怪5、2秒保護、只在靜電大小玩家附近；鬼甲南瓜250；核對九池Boss各50%；完成後準備遊戲調整與美術兩new chat完整prompt。新要求取代舊掩體材質耐久／重擊3与伙伴3倍生命。
+
+[程式／驗證事實] CSS与機關貼圖Bug及Boss條件相關已确診；旧首周目火山全7、叢林全10，混合專流後兩候选近50%、512組合。旧route保留、不加强制交替；能力家族圖色有設計保留。共享耐久20扣5／4、半徑110×range，元規則見GAME_SPEC末尾。326unit与target4browserPASS，完整81與發布結果以CURRENT_STATE最新首節為準。
+
+[交接] docs/handoff兩全文prompt自包含；游戏chat負責core与整合Pages，美術chat sprite／FX／UI独立分支提交，不競争覆盖main／implement。保留所有历史与S13未測界線，源碼事實不等於舊用户批准。

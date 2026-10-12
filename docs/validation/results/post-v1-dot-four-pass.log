@@ -1,0 +1,11 @@
+
+Running 4 tests using 1 worker
+
+(node:57760) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/post-v1-feedback.spec.ts:59:1 › 五色裝備背包／側欄名稱、六色構築與已知圖鑑，不揭未知卡名 (18.9s)
+  ✓  2 tests/browser/post-v1-feedback.spec.ts:118:1 › 橘紅選卡整張／hover亮光對應稀有度，圖案保留能力主題 (9.0s)
+  ✓  3 tests/browser/post-v1-feedback.spec.ts:160:1 › 魔王城雷射機關呈地面印記且可跨越，真石柱仍碰撞 (10.3s)
+  ✓  4 tests/browser/post-v1-feedback.spec.ts:198:1 › 舊鬼甲快照的南瓜250上限，玩家生命強化不再放大 (6.1s)
+
+  4 passed (45.5s)

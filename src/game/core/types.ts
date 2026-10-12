@@ -168,8 +168,10 @@ export interface Obstacle {
   durability: number;
   maxDurability: number;
   waves: number[];
+  invulnerableUntil?: number;
 }
 export interface Projectile extends Vec {
+  coverSource?: import("./cover-rules").CoverSource;
   bossAttackId?: string;
   eventGlyph?: "gift" | "ghost" | "plasma" | "comet";
   id: number;
@@ -194,6 +196,7 @@ export interface Projectile extends Vec {
   trail: number;
 }
 export interface Area extends Vec {
+  coverSource?: import("./cover-rules").CoverSource;
   eventAbility?: string;
   trackingUntil?: number;
   trackingOffset?: Vec;

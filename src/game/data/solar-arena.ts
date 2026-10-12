@@ -1,3 +1,4 @@
+import { COVER_DURABILITY } from "../core/cover-rules";
 import type { Run, Obstacle } from "../core/types";
 import { random, seedFor } from "../core/primitives";
 export function solarArena(r: Run): Obstacle[] {
@@ -14,8 +15,8 @@ export function solarArena(r: Run): Obstacle[] {
         w: 48,
         h: 48,
         kind: "pillar",
-        durability: 15,
-        maxDurability: 15,
+        durability: COVER_DURABILITY,
+        maxDurability: COVER_DURABILITY,
         waves: [],
       });
       const rx = 512 + side * (285 + random(state) * 20),
@@ -27,8 +28,8 @@ export function solarArena(r: Run): Obstacle[] {
         w: 44,
         h: 30,
         kind: "rock",
-        durability: 10,
-        maxDurability: 10,
+        durability: COVER_DURABILITY,
+        maxDurability: COVER_DURABILITY,
         waves: [],
       });
     }

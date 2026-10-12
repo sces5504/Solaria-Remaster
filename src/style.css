@@ -1183,7 +1183,7 @@ button {
   border: 1px solid #738c7155;
   border-radius: 5px;
   text-align: center;
-  background: linear-gradient(#253b39, #172b30) !important;
+  background: linear-gradient(#253b39, #172b30);
 }
 .catalog-card .card-art {
   width: 68px;
@@ -1330,12 +1330,18 @@ button {
 }
 .card.橘,
 .catalog-card.橘 {
+  --card: #ffba72;
+  --wash: #a56a36;
+  --dark: #442e26;
   background: linear-gradient(145deg, #a56a36, #623c25 58%, #442e26);
   border-color: #e9ae69;
   color: #fff1cf;
 }
 .card.紅,
 .catalog-card.紅 {
+  --card: #ff9aaa;
+  --wash: #963e54;
+  --dark: #3b2436;
   background: linear-gradient(145deg, #963e54, #5e2d42 58%, #3b2436);
   border-color: #ef8799;
   color: #fff0df;
@@ -1494,4 +1500,27 @@ button {
   .tutorial-steps {
     grid-template-columns: 1fr;
   }
+}
+
+.rarity.橘 {
+  color: #e9ae69;
+}
+.rarity.紅 {
+  color: #ef8799;
+}
+.equipment-mini.橘 {
+  border-left: 3px solid #e9ae69;
+}
+.equipment-mini.紅 {
+  border-left: 3px solid #ef8799;
+}
+.equipment-mini > .rarity {
+  display: block;
+  margin-top: 4px;
+}
+.test-card.橘 {
+  --card-accent: #e9ae69;
+}
+.test-card.紅 {
+  --card-accent: #ef8799;
 }

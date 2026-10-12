@@ -1,4 +1,5 @@
 import { retireProjectile } from "./projectile-pool";
+import { enemyCoverSource } from "./cover";
 import type { Run, Projectile, Actor, Obstacle } from "../core/types";
 import { angle, distance } from "../core/primitives";
 import { circleContact, rectangleContact } from "./collision-time";
@@ -51,9 +52,7 @@ export function sweepProjectiles(r: Run, dt: number) {
       });
     if (stopped || p.distanceLeft <= 0) {
       p.distanceLeft = -1;
-      if (p.enemy) {
-        if (r.room === 5) damageCover(r, p, 8, p.wave);
-      } else if (p.explosion && p.context)
+      if (!p.enemy && p.explosion && p.context)
         burst(r, p, p.explosion, p.explosionDamage, {
           ...p.context,
           damageKind: "additional",
@@ -165,8 +164,19 @@ export function sweepProjectiles(r: Run, dt: number) {
     if (target.kind === "end") finish(f, false);
     else if (target.kind === "range" || target.kind === "wall") finish(f, true);
     else if (target.kind === "cover") {
-      if (target.body.durability > 0) finish(f, true);
-      else schedule(f);
+      if (target.body.durability > 0) {
+        const source = p.coverSource ?? enemyCoverSource(r, p.owner);
+        if (p.enemy && source)
+          damageCover(
+            r,
+            p,
+            p.radius,
+            p.wave || p.id,
+            source,
+            (o) => o.id === target.body.id,
+          );
+        finish(f, true);
+      } else schedule(f);
     } else if (target.kind === "player") {
       const owner = r.enemies.find((e) => e.id === p.owner);
       hurt(r, p.damage, p.enemyElements ?? p.enemyElement ?? owner?.element);

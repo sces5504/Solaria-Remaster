@@ -808,3 +808,11 @@ zh-TW字串集中key，不在simulation拼UI文字；保存穩定ID而非中文�
 本次已明確授權S06–S14，歷史等待／只備份限制不適用。第一里程碑骨幹已保留，新增九地形完整集合／29普通怪／18地形王、索拉里斯三血四柱（用户明确60°缺口例外）、85卡、17特殊裝備、六事件／兩事件王、UI／音效／永久收藏／保存遷移、周目与S13池／碰撞。具體現況、最新來源hash和部署以CURRENT_STATE首節為準。
 
 逐項矩陣位於docs/validation的TERRAIN_MATRIX、BOSS_MATRIX、CARD_MATRIX、EQUIPMENT_MATRIX、EVENT_MATRIX；BALANCE_PERFORMANCE保存實測和NOT_RUN。docs/validation/fixtures保存53691bf原始核心產生的舊IndexedDB格式；非v1Run假裝舊檔。Cloud軟體WebGL未達FPS，hardware／人工限制不抹去。
+
+## v1試玩五項與兩chat分工（2026-10-12 04:32:03 UTC）
+
+[使用者明示] 查實才修道具／卡稀有色、城堡假掩體；掩體Boss4／怪5、2秒保護、只在靜電大小玩家附近；鬼甲南瓜250；核對九池Boss各50%；完成後準備遊戲調整與美術兩new chat完整prompt。新要求取代舊掩體材質耐久／重擊3与伙伴3倍生命。
+
+[程式／驗證事實] CSS与機關貼圖Bug及Boss條件相關已确診；旧首周目火山全7、叢林全10，混合專流後兩候选近50%、512組合。旧route保留、不加强制交替；能力家族圖色有設計保留。共享耐久20扣5／4、半徑110×range，元規則見GAME_SPEC末尾。326unit与target4browserPASS，完整81與發布結果以CURRENT_STATE最新首節為準。
+
+[交接] docs/handoff兩全文prompt自包含；游戏chat負責core与整合Pages，美術chat sprite／FX／UI独立分支提交，不競争覆盖main／implement。保留所有历史与S13未測界線，源碼事實不等於舊用户批准。

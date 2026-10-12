@@ -38,10 +38,17 @@ export function journeyFor(seed: number, loop = 1): JourneySegment[] {
       const j = Math.floor(random(rng) * (i + 1));
       [templates[i], templates[j]] = [templates[j], templates[i]];
     }
+    // Avalanche only the boss stream: linear XOR/xorshift correlated its
+    // old sixth draw with route selection, excluding volcano/jungle bosses.
+    // Existing persisted journeys and route/layout streams stay unchanged.
+    let mixed = seedFor(seed, 0xb055 + loop * 19 + pairs[biome]);
+    mixed = Math.imul(mixed ^ (mixed >>> 16), 0x85ebca6b);
+    mixed = Math.imul(mixed ^ (mixed >>> 13), 0xc2b2ae35);
+    const bossRng = { rng: (mixed ^ (mixed >>> 16)) >>> 0 || 1 };
     return {
       biome,
       templates: templates.slice(0, 4),
-      boss: pairs[biome] + Math.floor(random(rng) * 2),
+      boss: pairs[biome] + Math.floor(random(bossRng) * 2),
     };
   });
 }

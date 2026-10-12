@@ -35,3 +35,7 @@ Keep game modules under src/; add pure gameplay tests under tests/unit/ and brow
 接續本專案時先讀 `docs/ai-memory/AI_HANDOFF_MASTER.md` 與 `CURRENT_STATE.md`，再依索引讀其餘記憶及上述原始規格。此入口不代表現在交接、開新 Chat 或啟動下一任務；以使用者當前指示和實際 Git 狀態為準。舊「startup scaffold」與 Local 文件階段敘述屬歷史狀態，現況看最新 PROJECT_STATUS／CURRENT_STATE。
 
 使用者要求形成重大設計、取代決策、重要里程碑、重大 Bug 修復、架構變更與階段收束時及時增量維護相關記憶；預期上下文壓縮或明確要求時也更新。保留已否／已取代內容及理由，不重寫刪掉歷史。CURRENT_STATE 每次更新記 UTC 時間，MASTER 索引／概要同步。程式事實不等同已確認設計；來源衝突與歷史資訊不足明示，不補造、不寫秘密。不要因維護記憶不必要地中斷主開發。純記憶整理不順手改遊戲；有未提交修改先保護。
+
+## v1發布後維護入口（2026-10-12）
+
+使用者本輪指定遊戲調整与美術兩new chat全文交接，docs/handoff為入口；目前實作非startup scaffold，確切來源／PASS／未測看CURRENT_STATE首節。本輪新掩體／南瓜／Boss條件抽選與色彩修復以GAME_SPEC、UI_UX_SPEC最新末節為準，不恢復旧耐久／伙伴3倍HP。兩窗口獨立worktree／分支，gameplay負責整合Pages、art交commit／PR与视觉證據，不競爭推implement／main；不自動建立chat或spawn agents。正式發布仍用既有implement分支完整checks，純文件更新按格式與已驗證發布来源核對。

@@ -1,3 +1,5 @@
+import { normalizePumpkinHealth } from "../systems/companion";
+import { normalizeCover } from "../systems/cover";
 import { parseProfile, type Profile } from "./profile";
 import { parseRecords, type JourneyRecord } from "./records";
 import { eventDefinitions } from "../data/events";
@@ -249,7 +251,11 @@ export function validate(value: unknown): Saved {
       throw new Error("選卡資料損壞");
   }
   const migrated = JSON.parse(JSON.stringify(s)) as Saved;
-  for (const r of [migrated.current, migrated.entry]) restoreJourney(r);
+  for (const r of [migrated.current, migrated.entry]) {
+    restoreJourney(r);
+    normalizeCover(r);
+    normalizePumpkinHealth(r);
+  }
   // JSON roundtrip strips prototypes. Strings are never inserted as HTML by UI.
   return migrated;
 }

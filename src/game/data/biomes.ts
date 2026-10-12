@@ -1,3 +1,4 @@
+import { COVER_DURABILITY } from "../core/cover-rules";
 import { random, seedFor, type Vec } from "../core/primitives";
 import type { Element, Obstacle, Run } from "../core/types";
 
@@ -366,14 +367,8 @@ export function biomeLayout(
       w: low ? 64 : w,
       h: low ? 64 : h,
       kind: low ? "lake" : kind,
-      durability: low ? 999 : kind === "tree" ? 5 : kind === "rock" ? 10 : 15,
-      maxDurability: low
-        ? 999
-        : kind === "tree"
-          ? 5
-          : kind === "rock"
-            ? 10
-            : 15,
+      durability: low ? 999 : COVER_DURABILITY,
+      maxDurability: low ? 999 : COVER_DURABILITY,
       waves: [],
     };
     if (
@@ -401,7 +396,7 @@ export function biomeLayout(
           : id === "castle" || id === "desert"
             ? "pillar"
             : "rock";
-      const durability = kind === "tree" ? 5 : kind === "rock" ? 10 : 15;
+      const durability = COVER_DURABILITY;
       const o: Obstacle = {
         id: obstacles.length + 1,
         x,

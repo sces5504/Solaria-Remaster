@@ -1,3 +1,4 @@
+import { coverInCone, coverInRush } from "./cover";
 import { enemyTarget, contactRush, meleeBodies } from "./companion";
 import { enemyElements } from "./monster-details";
 import type { Actor, Mode, Run } from "../core/types";
@@ -228,6 +229,17 @@ export function biomeBossAI(r: Run, e: Actor) {
     e.nextAttack = r.time + 2.4;
   }
   if (e.rushUntil > r.time) {
+    const m = active.find((m) => m.bossAttack?.pattern === "rush");
+    if (m)
+      damageCover(r, e, 0, m.id, "boss", (o) =>
+        coverInRush(
+          o,
+          e,
+          Math.cos(e.moveAngle) * 310 * DT,
+          Math.sin(e.moveAngle) * 310 * DT,
+          e.radius,
+        ),
+      );
     move(
       r,
       e,
@@ -242,8 +254,7 @@ export function biomeBossAI(r: Run, e: Actor) {
       enemyElements(e),
       e.bossId === 14,
     );
-    const m = active.find((m) => m.bossAttack?.pattern === "rush");
-    if (m) damageCover(r, e, e.radius, m.id, true);
+
     if (e.bossId === 8 && r.tick % 15 === 0)
       area(r, e, 25, 6 * enemyDamageScale(r), 0, 2.5, 0.5, null, {
         owner: e.id,
@@ -307,7 +318,9 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
       damage,
       a.id === "solaris-flare" ? ["fire"] : enemyElements(e),
     );
-    damageCover(r, e, a.radius, m.id, a.damage >= 36);
+    damageCover(r, e, a.radius, m.id, "boss", (o) =>
+      coverInCone(o, e, a.radius, direction, (a.spread * Math.PI) / 180),
+    );
     visual(
       r,
       "slash",

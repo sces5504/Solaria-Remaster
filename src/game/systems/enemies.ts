@@ -1,3 +1,4 @@
+import { coverInCone, coverInRush } from "./cover";
 import { rallyFactor } from "./event-combat";
 import { combatMonsters as monsters } from "../data/combat-content";
 import { enemyTarget, contactRush, meleeBodies } from "./companion";
@@ -351,6 +352,22 @@ export function updateEnemies(r: Run) {
       rallyFactor(r, e, "speed");
     const d = distance(e, r.player);
     if (e.rushUntil > r.time) {
+      const rushing = r.modes.find(
+        (m) => m.actor === e.id && m.type === "rush",
+      );
+      const rushSpeed = definition
+        ? Math.min(600, definition.reach / 0.4)
+        : 240;
+      if (rushing)
+        damageCover(r, e, 0, rushing.id, "monster", (o) =>
+          coverInRush(
+            o,
+            e,
+            Math.cos(e.moveAngle) * rushSpeed * DT,
+            Math.sin(e.moveAngle) * rushSpeed * DT,
+            e.radius,
+          ),
+        );
       move(
         r,
         e,
@@ -373,6 +390,7 @@ export function updateEnemies(r: Run) {
         enemyElements(e),
         e.monsterId === 21,
       );
+
       continue;
     }
     if (r.modes.some((m) => m.actor === e.id && m.starts > r.time)) continue;
@@ -500,6 +518,9 @@ export function updateModes(r: Run) {
           (e.elite ? 1.4 : 1) *
           (r.modifiers.includes(2) ? 1.2 : 1),
         enemyElements(e),
+      );
+      damageCover(r, e, radius, m.id, boss ? "boss" : "monster", (o) =>
+        coverInCone(o, e, radius, a, width),
       );
       visual(r, "cast", e, 0, 0xff796e, 60, a);
       m.next = m.ends + 1;
@@ -644,6 +665,17 @@ export function updateModes(r: Run) {
       e.controlUntil <= r.time &&
       e.transition <= r.time
     ) {
+      const m = r.modes.find((m) => m.actor === e.id && m.type === "rush");
+      if (m)
+        damageCover(r, e, 0, m.id, "boss", (o) =>
+          coverInRush(
+            o,
+            e,
+            Math.cos(e.moveAngle) * 310 * DT,
+            Math.sin(e.moveAngle) * 310 * DT,
+            e.radius,
+          ),
+        );
       move(
         r,
         e,
@@ -652,8 +684,6 @@ export function updateModes(r: Run) {
         e.radius,
       );
       contactRush(r, e, 30, enemyElements(e));
-      const m = r.modes.find((m) => m.actor === e.id && m.type === "rush");
-      if (m) damageCover(r, e, e.radius, m.id, true);
     }
   r.modes = r.modes.filter(
     (m) =>

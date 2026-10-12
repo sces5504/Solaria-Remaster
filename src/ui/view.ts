@@ -25,8 +25,12 @@ export const escape = (v: unknown) =>
   );
 export const button = (label: string, action: string, extra = "") =>
   `<button data-action="${action}" ${extra}>${label}</button>`;
+export const itemName = (item: Item) =>
+  item.ability
+    ? equipmentCatalog[item.ability].name
+    : item.name || zh.slots[item.slot];
 export function itemView(item: Item) {
-  return `<span class="rarity ${item.rarity}">${item.ability ? escape(equipmentCatalog[item.ability].name) : zh.slots[item.slot]}</span><br>${item.ability ? escape(equipmentCatalog[item.ability].description) + "<br>" : ""}${item.affixes.map((a) => `${escape(zh.affixes[a.stat as keyof typeof zh.affixes])} +${["hp", "armor"].includes(a.stat) ? a.value.toFixed(1) : a.stat === "critMult" ? a.value.toFixed(2) : (a.value * 100).toFixed(1) + "%"}`).join("<br>")}`;
+  return `<span class="rarity ${item.rarity}">${escape(itemName(item))}</span><br>${item.ability ? escape(equipmentCatalog[item.ability].description) + "<br>" : ""}${item.affixes.map((a) => `${escape(zh.affixes[a.stat as keyof typeof zh.affixes])} +${["hp", "armor"].includes(a.stat) ? a.value.toFixed(1) : a.stat === "critMult" ? a.value.toFixed(2) : (a.value * 100).toFixed(1) + "%"}`).join("<br>")}`;
 }
 export function hud(r: Run) {
   const p = r.player,
@@ -59,7 +63,7 @@ export function sidebar(r: Run) {
   )
     .map((slot) => {
       const i = r.equipment[slot];
-      return `<div class="equipment-mini ${i?.rarity || ""}"><strong>${zh.slots[slot]}</strong><small>${slotRestriction(r, slot) ? slotRestriction(r, slot) : i ? i.affixes.map((a) => zh.affixes[a.stat as keyof typeof zh.affixes]).join(" · ") : "尚未穿戴"}</small></div>`;
+      return `<div class="equipment-mini ${i?.rarity || ""}"><strong>${zh.slots[slot]}</strong>${i ? `<span class="rarity ${i.rarity}">${escape(itemName(i))}</span>` : ""}<small>${slotRestriction(r, slot) ? slotRestriction(r, slot) : i ? i.affixes.map((a) => zh.affixes[a.stat as keyof typeof zh.affixes]).join(" · ") : "尚未穿戴"}</small></div>`;
     })
     .join(
       "",
@@ -87,7 +91,10 @@ export function choiceView(r: Run, selected: number) {
       "",
     )}</div><div class="choice-footer">${button(r.rerollUsed ? "本次已刷新" : "刷新 · 1 次", "reroll", r.rerollUsed ? "disabled" : "")}<small>每次覺醒可刷新一次</small></div><small>左右鍵選擇 · Enter 確認 · 滑鼠點擊</small><details><summary>目前構築</summary>${
     Object.entries(r.cards)
-      .map(([id, l]) => `${cards.find((c) => c.id === Number(id))!.name} ${l}`)
+      .map(([id, l]) => {
+        const card = cards.find((c) => c.id === Number(id))!;
+        return `<span class="rarity ${card.rarity}">${card.name} ${l}</span>`;
+      })
       .join(" · ") || "等待第一縷共鳴"
   }</details></section>`;
 }
@@ -99,7 +106,7 @@ export function stats(r: Run) {
     Object.entries(r.cards)
       .map(
         ([id, l]) =>
-          `<span>${cards.find((c) => c.id === Number(id))!.name} Lv.${l}${cardRestriction(r, Number(id)) ? " · 暫時失效" : ""}</span>`,
+          `<span class="owned-card rarity ${cards.find((c) => c.id === Number(id))!.rarity}">${cards.find((c) => c.id === Number(id))!.name} Lv.${l}${cardRestriction(r, Number(id)) ? " · 暫時失效" : ""}</span>`,
       )
       .join("") || "等待第一縷共鳴"
   }</div>${button("返回戰場", "resume")}</section>`;

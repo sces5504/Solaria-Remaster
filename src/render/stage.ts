@@ -1,3 +1,4 @@
+import { castleStatueMark } from "./hazard-markers";
 import { RetainedPool } from "./retained-pool";
 import { bossBeam } from "./boss-beams";
 import { bossAction } from "./boss-actions";
@@ -519,7 +520,10 @@ export class Stage {
                 .stroke({ color: 0x22313b, width: 2 });
             }
           }
-      if (r.room % 5 === 0 && o.kind !== "lake")
+      if (
+        o.kind !== "lake" &&
+        (r.room % 5 === 0 || r.room === 31 || o.durability < o.maxDurability)
+      )
         f.rect(
           o.x,
           o.y + o.h + 2,
@@ -554,8 +558,8 @@ export class Stage {
             { color: 0xff779c, width: 1, alpha: 0.3 },
           );
       } else if (h.kind === "statue") {
-        this.sprite(`hazard-${h.x}`, "castle-pillar", h.x, h.y, 58, 68);
-        this.glow(h.x, h.y - 14, 22, 0xc69aff, pulse * 0.35);
+        castleStatueMark(f, h, pulse);
+        this.glow(h.x, h.y, 26, 0xc69aff, pulse * 0.35);
       } else if (h.kind === "rift") {
         f.poly([
           h.x - 25,

@@ -1,5 +1,25 @@
 # DEVELOPMENT_HISTORY — 開發、Bug 與技術記錄
 
+## v1.0.1完整本地回歸完成，準備發布（2026-10-12 04:46:17 UTC）
+
+check／326unit／build／format PASS；完整81Chromium全部PASS19.7分鐘，含新四項、原85卡／17裝備／六事件／全王／存檔／10restart／600彈功能。之後僅將新案例load導航/改./以便同案例實測Pages子路徑，遊戲與bundle沒有變；local4再次PASS45.5秒，發布CI將完整81跑此版本。沒有測試中重build dist。
+
+五項修正及兩全文prompt已完成源碼／文檔、之前失敗均保留。正在提交1.0.1並推既有implement/s00-s05，PR2保留Draft／原base，main未合併；正式仍前版1.0.0直到Actions成功，不提前宣稱新站已發布。隨後正常新局／旧IndexedDB2案例＋本輪稀有度／城堡機關／250伙伴4案例正式URL實測，并更新部署hash与兩prompt。
+
+S13真GPU與人工NOT_RUN及SwiftShader60FPS FAIL不因本輪完整功能回歸變PASS。交接入口docs/handoff/README、兩自包含prompt；gameplay整合發布、art獨立分支，不啟動新chat／代理。
+
+## v1.0.1試玩修訂與雙chat交接準備（2026-10-12 04:32:03 UTC）
+
+使用者本輪五項已查實並實作，詳GAME_SPEC／UI_UX_SPEC／DECISIONS／TEST_PLAN末尾及docs/validation/POST_V1_FEEDBACK。橘紅裝名稱／側欄、構築／圖鑑!important／hover缺色；城堡無碰撞機關誤用石柱貼圖改地面印記；新掩體4Boss／5怪、2秒保護、110×range附近、實際各型攻擊、旧耐久比例遷移；鬼甲250含舊檔／三職／升血／周目／復活；Boss route條件亂數相關被大樣本確診，專流混合後九池近50%、512組合，旧journey不重抽。沒有只因猜測改家族圖案色彩。
+
+PASS：最新版check／326unit／build；首次307舊回歸306PASS／1末瞬間斷言FAIL，修整段觀察而保留三招。衝撞反例fixture首版尚未移到接觸距離、修測試起點後PASS。4針對browser首2PASS／2測試假設FAIL（家族圖色／导入重算stats），修成稀有背景與hover、合法體魄20級後4PASS。精確雷射半寬與离牆衝撞又加兩unit後326PASS。本輪完整81Chromium正在跑，dist固定，未寫全PASS；格式補文件後收束。
+
+本地branch implement/s00-s05、前一HEAD5856e62工作乾淨起步；實際git ls-remote與GitHub branches確認遠端同5856，origin tracking舊9f是陳舊ref而非遠端回退。沒有reset／force／merge main，舊作只讀。正式目前仍1.0.0／cc6f32e，尚未把本輪部分發布；完整回歸後保存／push既有分支、Actions deploy、正式资源SHA與新局／舊檔驗證。
+
+使用者明示要兩個new chat的完整prompt，已準備docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md與ART_NEW_CHAT_PROMPT.md，README说明全文複製。未建立新chat或spawn agents。遊戲窗口整合兩邊與Pages；美術獨立分支／worktree，避免同時推正式分支，共享記憶以追加併入，保留当前v1与歷史。兩prompt含來源索引、所有保留體驗、新規則与五輪增量、S13真GPU／跨瀏覽器／自然人工平衡及聆听／短FX NOT_RUN、SwiftShader60FPS FAIL；不重開骨架、不冒稱全驗收。
+
+接續直接完成81回歸、修任何失败、保存commit並發布1.0.1；更新本節與两prompt实际部署基准，保留所有歷史失敗。
+
 ## v1內容發布與驗收界線（2026-10-11 21:39:23 UTC）
 
 版本1.0.0已發布正式[GitHub Pages](https://sces5504.github.io/Solaria-Remaster/)。部署來源cc6f32eff2ba1484e2f2b94bdf2e2565f74333bc、implement/s00-s05，原9f88061／53691bf成果接續，未force／回退／merge main。PR2仍Draft，base docs/solaria-cloud-spec。此後僅追加文件／驗證證據，最新文件commit以git log核對，不改已部署遊戲。

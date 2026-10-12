@@ -1,3 +1,4 @@
+import { STATIC_DISCHARGE_RADIUS } from "../core/cover-rules";
 import { gearBasic, gearSkill, gearState } from "./equipment-abilities";
 import { hasEquipment } from "../data/equipment";
 import { originalBasicAbilities } from "./advanced-abilities";
@@ -343,7 +344,7 @@ export function castSkill(r: Run, c: Command, echo = false) {
   ring(18, 100, 10, ["ice"], true, false, 30);
   ring(22, 110, 14, ["fire"], true);
   ring(26, 94, 10, ["water"], false, true);
-  ring(30, 110, 12, ["lightning"], true);
+  ring(30, STATIC_DISCHARGE_RADIUS, 12, ["lightning"], true);
   ring(36, 130, 18, ["water", "lightning"], false, true);
   if (level(r, 21))
     shoot(

@@ -10,6 +10,7 @@ import {
 import { hasEquipment } from "../data/equipment";
 import { move, lineBlocked, coneHit } from "./geometry";
 import { cone, context, visual, hurt } from "./combat";
+export const PUMPKIN_MAX_HP = 250;
 export interface Pumpkin extends Player {
   id: number;
   downUntil: number;
@@ -20,6 +21,13 @@ type CompanionRun = Run & { companion?: Pumpkin };
 export function pumpkin(run: Run) {
   return (run as CompanionRun).companion;
 }
+export function normalizePumpkinHealth(run: Run) {
+  const c = pumpkin(run);
+  if (c) {
+    c.maximum = PUMPKIN_MAX_HP;
+    c.hp = Math.min(c.hp, c.maximum);
+  }
+}
 export function syncPumpkin(run: Run) {
   const r = run as CompanionRun;
   if (!hasEquipment(r, "ghostArmor")) {
@@ -28,15 +36,14 @@ export function syncPumpkin(run: Run) {
   }
   const id = r.equipment.armor!.id;
   if (r.companion?.equippedId === id) {
-    r.companion.maximum = r.stats.maxHP * 3;
-    r.companion.hp = Math.min(r.companion.hp, r.companion.maximum);
+    normalizePumpkinHealth(r);
     return;
   }
   r.companion = {
     ...clone(r.player),
     id: r.nextId++,
-    maximum: r.stats.maxHP * 3,
-    hp: r.stats.maxHP * 3,
+    maximum: PUMPKIN_MAX_HP,
+    hp: PUMPKIN_MAX_HP,
     equippedId: id,
     radius: 16,
     x: r.player.x - 25,
@@ -103,6 +110,7 @@ export function hurtPumpkin(r: Run, base: number, mask: Element[] = []) {
 export function revivePumpkin(r: Run) {
   const c = pumpkin(r);
   if (c) {
+    c.maximum = PUMPKIN_MAX_HP;
     c.hp = c.maximum;
     c.downUntil = 0;
     c.x = r.player.x - 25;
@@ -115,7 +123,7 @@ export function updatePumpkin(r: Run) {
   syncPumpkin(r);
   const c = pumpkin(r);
   if (!c) return;
-  c.maximum = r.stats.maxHP * 3;
+  c.maximum = PUMPKIN_MAX_HP;
   c.hp = Math.min(c.hp, c.maximum);
   if (c.hp <= 0) {
     if (r.time >= c.downUntil) revivePumpkin(r);

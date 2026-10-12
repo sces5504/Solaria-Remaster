@@ -88,7 +88,7 @@ export const equipmentCatalog = {
     rarity: "紅",
     event: "halloween",
     description:
-      "召出一位南瓜夥伴：三倍玩家生命、沿用護甲。倒地十秒或清關復甦。",
+      "召出一位南瓜夥伴：固定250生命、沿用護甲。倒地十秒或清關復甦。",
   },
   gravity: {
     name: "引力母核",

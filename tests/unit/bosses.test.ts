@@ -18,6 +18,7 @@ for (const boss of [1, 2])
       r.phase = "COMBAT";
       r.enemies[0].phase = phase;
       r.player.invulnerable = 1000;
+      let sawAttack = false;
       for (let i = 0; i < 900; i++) {
         r.time += DT;
         updateEnemies(r);
@@ -27,13 +28,13 @@ for (const boss of [1, 2])
         updateModes(r);
         updateProjectiles(r, DT);
         updateAreas(r);
+        sawAttack ||=
+          r.obstacles.some((o) => o.durability < o.maxDurability) ||
+          r.projectiles.length > 0 ||
+          r.enemies.length > 1 ||
+          r.areas.length > 0;
       }
       for (const id of bossAttacks[(boss + 5) as 6][phase - 1])
         expect(r.attackLog).toContain(id);
-      expect(
-        r.obstacles.some((o) => o.durability < o.maxDurability) ||
-          r.projectiles.length > 0 ||
-          r.enemies.length > 1 ||
-          r.areas.length > 0,
-      ).toBe(true);
+      expect(sawAttack).toBe(true);
     });
