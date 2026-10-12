@@ -54,6 +54,10 @@ schema 維持 1。新 `BossAttack` 可選編排欄位及 `Area.beamMotion` 都�
 
 ## 1.2.0 本地收束，準備 main 發布（2026-10-12 16:03:54 UTC）
 
-實作完成，完整unit369PASS後追加兩項（舊召喚遷移、交錯來源）以相關53／39PASS核驗。check／build／format PASS；新三browser首輪2PASS／1FAIL，連續落擊補驗首次仍沿用36基傷（測試資料漏改，實際已blockHit=true）；修正為指定低傷fixture後只補該項1PASS24.8秒。精確.9／.75窗口与反擊一次核心不放寬。原始失敗、每輪log、V雷射實圖及20PNG與v1.1.2同hash保存在docs/gameplay-1.2.0/results。
+實作完成，完整unit369PASS後追加兩項（舊召喚遷移、交錯來源）以相關53／39PASS核驗。check／build／format PASS；新三browser首輪2PASS／1FAIL，連續落擊補驗首次仍沿用36基傷（測試資料漏改，實際已blockHit=true）；修正為指定低傷fixture後只補該項1PASS24.8秒。精確.9／.75窗口与反擊一次核心不放寬。原始失敗、每輪log、20PNG與v1.1.2同hash保存在docs/gameplay-1.2.0/results。
 
 正式更新將由本工作分支正常fast-forward整合main，提交skip ci只為避免push／Development重複長套件，明確替代為同來源手動Pages full完整core／browser／deploy一次；此時尚未推送或發布PASS。main与固定refs核對均原來源。正式站及舊檔驗證隨部署成功後補記。
+
+## 1.2.0 草原特效保持補正（2026-10-12 16:08:08 UTC）
+
+最後對照1.1.2發現共用Boss入口未將wolf-hunt設為thunder，會改掉原落爪雷光；已補回原FX與來源ID，新增實際Visual回歸。相關44unit、check／buildPASS。e8bf8e2的Pages38274859361已核心／格式／build成功，但完整browser未完，為防發布被取代來源取消；不能稱完整browserPASS或已部署。修正版即將正常推main並重新執行同來源完整Pages；同版尚未對外發布，不改1.2.0版號。

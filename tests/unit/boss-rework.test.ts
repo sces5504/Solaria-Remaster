@@ -241,3 +241,23 @@ it("交錯兩招的彈體保留自己的wave來源，不誤用另一招的美術
     expect(shots.every((p) => p.bossAttackId === m.attackId)).toBe(true);
   }
 });
+
+it("狼王沿共用Boss入口後仍保留1.1.2落爪雷光，而非換成通用爆裂", () => {
+  const r = newRun("sword", 42);
+  r.obstacles = [];
+  const e = actor(900, 6, 600, 320);
+  r.enemies = [e];
+  beginBossAttack(r, e, { ...bosses[10].attacks[0][2], id: "wolf-hunt" });
+  expect(
+    r.areas.every(
+      (a) => a.effect === "thunder" && a.eventAbility === "wolf-hunt",
+    ),
+  ).toBe(true);
+  r.time = 0.6;
+  updateAreas(r);
+  expect(
+    r.visuals.some(
+      (v) => v.kind === "thunder" && v.eventAbility === "wolf-hunt",
+    ),
+  ).toBe(true);
+});

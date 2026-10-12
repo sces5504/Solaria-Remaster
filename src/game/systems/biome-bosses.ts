@@ -133,7 +133,7 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
         {
           owner: e.id,
           eventAbility: attack.id,
-          effect: /witch-thunder|brain-storm/.test(attack.id)
+          effect: /wolf-hunt|witch-thunder|brain-storm/.test(attack.id)
             ? "thunder"
             : undefined,
           wave: id,
