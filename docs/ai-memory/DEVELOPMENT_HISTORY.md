@@ -656,3 +656,11 @@ S12準備但尚未引用：profile/records/profile-store/run-store/checkpoint-sc
 ## 1.1.2 視線與勝利呈現修正，待發布（2026-10-12 14:24:13 UTC）
 
 主人要求怪物／障礙殘片、六事件中央2秒及短句淡出、光環主角置前與敵彈清晰、索拉里斯動畫接感謝字幕，少跑測試。已完成實際像素距離的actors／props取樣清理、主角與武器前景層／敵彈最高可見層及雙輪廓、事件2秒＋0.8秒淡出、6秒勝利全景＋16秒字幕＋略過／原下一周目；不改核心數值、碰撞與存檔schema。四相關browser PASS2.0分鐘，障礙fixture補maxDurability後只補驗該項PASS13.7秒，新輪廓unit與既有呈現unit PASS。詳細見docs/visibility-feedback，發布scope與線上核對待完成。
+
+## 1.1.2 視線與勝利呈現已發布（2026-10-12 14:33:34 UTC）
+
+PR6已合併，發布來源7cff9de9ea3a1f0ace3aec735a1dfb3437158a74；Pages38262913407以visibility-feedback scope成功，check／332unit／format／build／4相關Chromium2.4分鐘／deploy通過。提交與合併訊息skip ci避免重複長套件，未改full預設。
+
+正式 https://sces5504.github.io/Solaria-Remaster/?v=1.1.2 線上核對2026-10-12T14:32:02.149Z PASS：20PNG SHA256、WebGL移動／普攻／8:5、無pageerror；另以RUN_END匯入fixture核對線上勝利配字→字幕、正式Pages背景URL與略過後原下一周目操作。不能將該fixture稱作自然打完索拉里斯戰鬥。
+
+怪物／障礙以實際像素距離隔離鄰格碎片，沙柱及砂地法師圖例已實機確認；光環主角與武器置前、敵彈更前及深／亮雙輪廓；六事件2秒提示＋0.8秒淡出；6秒日光重臨動畫配字＋16秒感謝字幕、可略過，原下一周目／完成本局維持。核心、數值、碰撞、CD、存檔schema未改；真GPU與自然全流程等原未測界線仍維持。結果與圖見docs/visibility-feedback。
