@@ -1,5 +1,9 @@
 # PROJECT_STATUS — v1接續開發與發布驗證
 
+## 1.1.1 美術回饋修正，已本地驗證、待發布（2026-10-12 13:28:16 UTC）
+
+主人要求減少爆炸遮擋、重畫獨立紫袍尖帽法師、藍色格擋斬、逐招修正特效語義、清理怪物鄰格殘片；只跑相關browser。新法師六姿態與24格專用FX已接入，Visual追加可選來源／週期資訊，未改戰鬥數值或存檔schema。10相關browser首輪9PASS／1FAIL（測試重複dialog handler），修正helper後只補驗失敗項1PASS；unit首輪330PASS／1FAIL（既有5000seed測試並行超時），只以1worker補驗該項1PASS。check／build／format通過。來源及審核表見docs/art-feedback，Pages針對性scope與線上驗證待完成。
+
 ## 1.1.0全遊戲精雕冒險像素已發布（線上核對：2026-10-12 12:01:35 UTC）
 
 主人選定精雕冒險像素並要求直接更新全遊戲，現已交付正式[遊玩站](https://sces5504.github.io/Solaria-Remaster/?v=1.1.0)。PR4合併de37e6bc487f92799df19e453ee943423d6db55a，全屏測試相容修正後發布來源34406cce2660244d8999afd2593cc133ab22bfe6／implement。Pages38243697393成功，check／327unit／format／build／完整98Chromium16.0分鐘與deploy成功；同來源Development38243697400／38243702171亦成功。不force、不reset、不merge main，原作未動。

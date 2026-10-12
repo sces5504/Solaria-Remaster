@@ -1,3 +1,4 @@
+import { isolateActor } from "./actor-isolation";
 import { Assets, Rectangle, Texture } from "pixi.js";
 import type { Run } from "../game/core/types";
 import type { BiomeId } from "../game/data/biomes";
@@ -20,9 +21,27 @@ export class AdventureArt {
   }
   async load(asset: (path: string) => string) {
     for (let batch = 0; batch < 8; batch++) {
-      const atlas = await Assets.load<Texture>(
-        asset(`assets/adventure/actors-${batch}.png`),
-      );
+      const image = new Image();
+      image.src = asset(`assets/adventure/actors-${batch}.png`);
+      await image.decode();
+      const isolated = document.createElement("canvas");
+      isolated.width = image.width;
+      isolated.height = image.height;
+      const ctx = isolated.getContext("2d")!;
+      ctx.drawImage(image, 0, 0);
+      const cellSize = image.width / 6;
+      for (let row = 0; row < 4; row++)
+        for (let col = 0; col < 6; col++) {
+          const data = ctx.getImageData(
+            col * cellSize,
+            row * cellSize,
+            cellSize,
+            cellSize,
+          );
+          isolateActor(data.data, cellSize, cellSize);
+          ctx.putImageData(data, col * cellSize, row * cellSize);
+        }
+      const atlas = Texture.from(isolated);
       atlas.source.scaleMode = "nearest";
       const cell = atlas.width / 6;
       catalog.actors.slice(batch * 8, batch * 8 + 8).forEach(([name], i) => {
@@ -190,6 +209,43 @@ export class AdventureArt {
                 )
               : new Rectangle(x, y, cell, cell);
       this.effects[name] = new Texture({ source: atlas.source, frame });
+    });
+    const semantic = await Assets.load<Texture>(
+      asset("assets/adventure/semantic-effects.png"),
+    );
+    semantic.source.scaleMode = "nearest";
+    const names = [
+      "snowflake",
+      "frost-wind",
+      "ice-spike",
+      "water-swirl",
+      "electric-arc",
+      "electric-ring",
+      "phoenix",
+      "sword-wave",
+      "star-blade",
+      "star-echo",
+      "charged-splash",
+      "arcane-pulse",
+      "fire-ring",
+      "frostfire-ring",
+      "gravity-swirl",
+      "meteor-trail",
+      "ice-flash",
+      "water-splash",
+      "leaf-blades",
+      "gift-impact",
+      "blood-splash",
+      "void-pulse",
+      "blue-slash",
+      "snowflakes",
+    ];
+    const sc = semantic.width / 6;
+    names.forEach((name, i) => {
+      this.effects[name] = new Texture({
+        source: semantic.source,
+        frame: new Rectangle((i % 6) * sc, Math.floor(i / 6) * sc, sc, sc),
+      });
     });
   }
   drawGround(r: Run) {

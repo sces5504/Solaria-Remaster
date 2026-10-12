@@ -1,0 +1,34 @@
+
+> solaria-remaster@1.1.1 test
+> vitest run
+
+
+ RUN  v5.0.3 /workspace/solaria-art
+
+ ❯ tests/unit/equipment-integration.test.ts (13 tests | 1 failed) 5511ms
+   × 一般掉落含8橘／3普通紅、紅兩詞橘三詞，事件不入池，地形與周目成長不放大吸血 5346ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/equipment-integration.test.ts > 一般掉落含8橘／3普通紅、紅兩詞橘三詞，事件不入池，地形與周目成長不放大吸血
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/unit/equipment-integration.test.ts:168:1
+    166|   ).toThrow("特殊裝備");
+    167| });
+    168| it("一般掉落含8橘／3普通紅、紅兩詞橘三詞，事件不入池，地形與周目成長不放大吸血", () => {
+       | ^
+    169|   const seen = new Set<string>();
+    170|   for (let seed = 1; seed <= 5000; seed++) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 31 passed (32)
+      Tests  1 failed | 330 passed (331)
+   Start at  13:24:14
+   Duration  41.38s (tests 84%, import 10%, transform 6%, worker 1%)
+
+    Isolate  32 workers spawned · ~210ms startup each (spawn + environment, per file)
+             at least ~6.51s faster with isolate: false — reuses workers across files instead of one per file
+

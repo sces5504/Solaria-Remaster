@@ -108,8 +108,8 @@ export function sceneLights(r: Run): LightSource[] {
         : v.kind === "steam"
           ? 0xb9f5ff
           : themeLightColor(v.enemyTheme, v.color),
-      fade,
-      0.65,
+      fade * (v.kind === "burst" ? (v.periodic ? 0.35 : 0.72) : 1),
+      v.kind === "burst" ? 0.25 : 0.65,
     );
     if (v.kind === "arc")
       add(

@@ -6,7 +6,7 @@
   "engineStates": 6,
   "stateMap": ["ready", "ready", "step", "attack", "ready", "attack"],
   "sourceAtlases": "tools/adventure/source-atlases",
-  "sampling": "Nearest-neighbour 128px cells; original RGBA retained unchanged in source archive.",
+  "sampling": "Nearest-neighbour 128px cells; original RGBA sources archived. Actor loader isolates disconnected neighbouring-cell debris without modifying source PNGs.",
   "catalog": "tools/adventure/catalog.json",
   "assets": [
     {
@@ -55,7 +55,7 @@
     },
     {
       "name": "heroes.png",
-      "sha256": "c37fad3bcab12fcbcda7c8e4442dfa8044a9e7795090c2e7a2726576110eedb2"
+      "sha256": "cfdedbff9b69ed48d7c9f2ec8efcc66c813df891f297aa96615d8191f25bcb08"
     },
     {
       "name": "landmarks.png",
@@ -63,7 +63,7 @@
     },
     {
       "name": "mage.png",
-      "sha256": "cfa5e2b2e381357a1b568ae59552101f869562383445537814d44361453c23fc"
+      "sha256": "7e42bd2be0b897c1b1ce03f273acca520c54e26a19c425a7b7a4d5d0a54c6177"
     },
     {
       "name": "menu.png",
@@ -80,9 +80,13 @@
     {
       "name": "world-1.png",
       "sha256": "0d647ac24046bd6086e6dd58338b445c2d92fae38a5a4943a5a880b6fb814816"
+    },
+    {
+      "name": "semantic-effects.png",
+      "sha256": "f13314f1f3a18e96b93803284169c075217dfbe5473ee86a1f5e492ea4ea5357"
     }
   ],
-  "version": "1.1.0",
+  "version": "1.1.1",
   "ground": "Quiet primary/alternate tiles for nine biomes, separate from luminous obstacle/monster/ability art.",
   "authoredPoses": {
     "ordinaryAndBossIdentities": 60,
@@ -99,7 +103,10 @@
     "hurt",
     "fallen"
   ],
-  "portraitSource": "tools/adventure/source-atlases/heroes-authored-weapons.png",
+  "portraitSource": {
+    "swordAndBow": "tools/adventure/source-atlases/heroes-authored-weapons.png",
+    "mage": "tools/adventure/source-atlases/heroes-mage-final.png"
+  },
   "effectSourceWindows": "src/render/adventure-art.ts explicit source rectangles exclude adjacent glows.",
   "sourceAssets": [
     {
@@ -169,6 +176,19 @@
     {
       "name": "world-1.png",
       "sha256": "6f010c52ba322c845f8671ca59180486eba4f2799386a13f4d83e3bec7daed0c"
+    },
+    {
+      "name": "heroes-mage-final.png",
+      "sha256": "b13d5b5abc9521ccd13efd29c6a51bfdb803fdf37b35fe70c7d0e5f74ba6c432"
+    },
+    {
+      "name": "mage-redesign.png",
+      "sha256": "71ab4a5cfa180ade4a0e5a5469c82e776a3cb91d0c0a240b1b78201a13be9af0"
+    },
+    {
+      "name": "semantic-effects.png",
+      "sha256": "260da75d40e62eb98120374daab215e8e428cb3ff507fbf5486bcb3a8cb8fee7"
     }
-  ]
+  ],
+  "feedback": "Distinct indigo/purple mage six-pose redesign; semantic ability effects and open-centred fields; blue counterattack; translucent compact explosions."
 }

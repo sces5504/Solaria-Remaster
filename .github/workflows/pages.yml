@@ -4,6 +4,12 @@ on:
     branches: [implement/s00-s05, main]
     paths-ignore: ["**/*.md", "docs/**"]
   workflow_dispatch:
+    inputs:
+      validation:
+        description: "Browser validation scope (visual-only feedback patches)"
+        type: choice
+        default: full
+        options: [full, art-feedback]
 permissions:
   contents: read
 concurrency:
@@ -21,7 +27,16 @@ jobs:
       - run: npm ci
       - run: npm run check && npm test && npm run format:check
       - run: npx playwright install --with-deps chromium
-      - run: npm run build && npm run test:browser
+      - run: npm run build
+      - name: Browser validation
+        env:
+          VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
+        run: |
+          if [ "$VALIDATION_SCOPE" = "art-feedback" ]; then
+            npm run test:browser -- tests/browser/adventure-art.spec.ts tests/browser/last-polish.spec.ts --grep '短FX|美術回饋|精雕冒險 (meadow|volcano|castle)：|發光藍雷|扇形噴火'
+          else
+            npm run test:browser
+          fi
       - run: npm run build
         env:
           SOLARIA_PAGES: "1"

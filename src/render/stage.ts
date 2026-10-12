@@ -1298,7 +1298,7 @@ export class Stage {
       }
     }
     for (const a of r.areas) {
-      this.artEffects?.area(r, a);
+      this.artEffects?.area(r, a, a.enemy ? d : f);
       if (a.ability === 215) {
         const phase = (r.time - a.starts) / 2;
         for (let i = 0; i < 4; i++) {
@@ -1418,7 +1418,14 @@ export class Stage {
           v.y,
           Math.min(220, v.radius + 45),
           glowColor,
-          progress * (["burst", "thunder"].includes(v.kind) ? 0.7 : 0.25),
+          progress *
+            (v.kind === "burst"
+              ? v.periodic
+                ? 0.12
+                : 0.32
+              : v.kind === "thunder"
+                ? 0.6
+                : 0.25),
         );
       }
     }

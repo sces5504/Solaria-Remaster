@@ -642,3 +642,7 @@ S12準備但尚未引用：profile/records/profile-store/run-store/checkpoint-sc
 線上實機PASS：18PNG全部SHA256吻合、menu與持武器三肖像decode、真正WebGL／精雕冒險像素／147素材身份索引、8:5、D移動與普攻、tick推進、沒有請求舊四atlas、無pageerror；正常匯出current亦核對玩家移動x>113。全64身份／204有效姿態、九地形／事件／最終王、弱自然光與native火／熔岩／魔法受光、更強局部反射、大樹柱與遮擋淡出、多數繪製FX已使用。核心／数值／碰撞／存檔schema維持，舊旅程可接續；三款歷史演示仍保留。
 
 確切來源／生成／manifest、全部失敗與修正、真正擷取與成功log見docs/art-upgrade。先前de37／4b各97PASS／1FAIL只因新版Chrome不准native fullscreen中改視窗；已退出→改尺寸→重新進全屏，同CI Chromium156五項PASS，未跳過或弱化8:5斷言。不要把旧「尚未選定」「正式遊戲仍原素材」當現況。原S13真GPU60FPS／跨瀏覽器／人工與自然30＋1未測界線仍保持，這是本輪美術交付，不冒稱全遊戲驗收全部完成。未來連線／合作計畫已取消，不加網路預留。
+
+## 1.1.1 美術回饋修正，已本地驗證、待發布（2026-10-12 13:28:16 UTC）
+
+主人要求減少爆炸遮擋、重畫獨立紫袍尖帽法師、藍色格擋斬、逐招修正特效語義、清理怪物鄰格殘片；只跑相關browser。新法師六姿態與24格專用FX已接入，Visual追加可選來源／週期資訊，未改戰鬥數值或存檔schema。10相關browser首輪9PASS／1FAIL（測試重複dialog handler），修正helper後只補驗失敗項1PASS；unit首輪330PASS／1FAIL（既有5000seed測試並行超時），只以1worker補驗該項1PASS。check／build／format通過。來源及審核表見docs/art-feedback，Pages針對性scope與線上驗證待完成。
