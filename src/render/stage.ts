@@ -60,6 +60,10 @@ const hash = (x: number, y: number, seed: number) => {
   return n - Math.floor(n);
 };
 export class Stage {
+  constructor(private assetResolver?: (path: string) => string) {}
+  private asset(path: string) {
+    return this.assetResolver?.(path) ?? `${import.meta.env.BASE_URL}${path}`;
+  }
   app = new Application();
   private terrain = new Graphics();
   private objects = new Container();
@@ -75,6 +79,16 @@ export class Stage {
   private glowTexture!: Texture;
   private texts = new Map<number, BitmapText>();
   private textures: Record<string, Texture[]> = {};
+  private previewTextures: Record<string, Texture> = {};
+  private previewGround = new Sprite(Texture.EMPTY);
+  /** Isolated art-review entry only; the ordinary game never calls this. */
+  setPreviewArt(textures: Record<string, Texture>, ground: Texture | null) {
+    this.previewTextures = textures;
+    this.previewGround.texture = ground ?? Texture.EMPTY;
+    this.previewGround.visible = ground !== null;
+    this.previewGround.width = 1024;
+    this.previewGround.height = 640;
+  }
   private spritePool = new RetainedPool(
     () => new Sprite(Texture.EMPTY),
     (s) => {
@@ -125,7 +139,7 @@ export class Stage {
     host.appendChild(this.app.canvas);
     this.app.canvas.setAttribute("aria-label", "Solaria 遊戲畫布");
     const atlas = await Assets.load<Texture>(
-      `${import.meta.env.BASE_URL}assets/solaria-atlas.png`,
+      this.asset("assets/solaria-atlas.png"),
     );
     atlas.source.scaleMode = "nearest";
     for (let row = 0; row < names.length; row++)
@@ -139,10 +153,10 @@ export class Stage {
       );
     for (const prefix of ["biome", "boss", "event"]) {
       const expansion = await Assets.load<Texture>(
-        `${import.meta.env.BASE_URL}assets/${prefix}-atlas.png`,
+        this.asset(`assets/${prefix}-atlas.png`),
       );
       const metadata = await fetch(
-        `${import.meta.env.BASE_URL}assets/${prefix}-atlas.json`,
+        this.asset(`assets/${prefix}-atlas.json`),
       ).then(async (response) => {
         if (!response.ok) throw new Error("無法載入圖像索引");
         return (await response.json()) as { names: string[] };
@@ -179,6 +193,7 @@ export class Stage {
     this.objects.sortableChildren = true;
     this.app.stage.addChild(
       this.terrain,
+      this.previewGround,
       this.shadows,
       this.objects,
       this.lighting.sprite,
@@ -226,7 +241,7 @@ export class Stage {
       this.sprites.set(key, s);
     }
     s.visible = true;
-    s.texture = this.textures[name][frame];
+    s.texture = this.previewTextures[name] ?? this.textures[name][frame];
     s.position.set(x, y);
     s.width = w;
     s.height = h;

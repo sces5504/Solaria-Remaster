@@ -1,0 +1,319 @@
+{
+  "result": "PASS",
+  "errors": [],
+  "externalRequests": [],
+  "captures": [
+    {
+      "biome": "meadow",
+      "style": "adventure",
+      "tick": 198,
+      "time": 3.299999999999993,
+      "enemies": [
+        {
+          "id": 116,
+          "kind": 6,
+          "phase": 1
+        },
+        {
+          "id": 117,
+          "kind": 1,
+          "phase": 1
+        },
+        {
+          "id": 118,
+          "kind": 2,
+          "phase": 1
+        },
+        {
+          "id": 120,
+          "kind": 2,
+          "phase": 1
+        }
+      ]
+    },
+    {
+      "biome": "meadow",
+      "style": "gothic",
+      "tick": 198,
+      "time": 3.299999999999993,
+      "enemies": [
+        {
+          "id": 116,
+          "kind": 6,
+          "phase": 1
+        },
+        {
+          "id": 117,
+          "kind": 1,
+          "phase": 1
+        },
+        {
+          "id": 118,
+          "kind": 2,
+          "phase": 1
+        },
+        {
+          "id": 120,
+          "kind": 2,
+          "phase": 1
+        }
+      ]
+    },
+    {
+      "biome": "meadow",
+      "style": "sculpted",
+      "tick": 198,
+      "time": 3.299999999999993,
+      "enemies": [
+        {
+          "id": 116,
+          "kind": 6,
+          "phase": 1
+        },
+        {
+          "id": 117,
+          "kind": 1,
+          "phase": 1
+        },
+        {
+          "id": 118,
+          "kind": 2,
+          "phase": 1
+        },
+        {
+          "id": 120,
+          "kind": 2,
+          "phase": 1
+        }
+      ]
+    },
+    {
+      "biome": "volcano",
+      "style": "adventure",
+      "tick": 197,
+      "time": 3.2833333333333266,
+      "enemies": [
+        {
+          "id": 120,
+          "kind": 6,
+          "bossId": 7,
+          "phase": 1
+        },
+        {
+          "id": 121,
+          "kind": 3,
+          "monsterId": 12,
+          "phase": 1
+        },
+        {
+          "id": 122,
+          "kind": 4,
+          "monsterId": 13,
+          "phase": 1
+        },
+        {
+          "id": 123,
+          "kind": 5,
+          "monsterId": 14,
+          "phase": 1
+        },
+        {
+          "id": 124,
+          "kind": 3,
+          "monsterId": 12,
+          "phase": 1
+        }
+      ]
+    },
+    {
+      "biome": "volcano",
+      "style": "gothic",
+      "tick": 197,
+      "time": 3.2833333333333266,
+      "enemies": [
+        {
+          "id": 120,
+          "kind": 6,
+          "bossId": 7,
+          "phase": 1
+        },
+        {
+          "id": 121,
+          "kind": 3,
+          "monsterId": 12,
+          "phase": 1
+        },
+        {
+          "id": 122,
+          "kind": 4,
+          "monsterId": 13,
+          "phase": 1
+        },
+        {
+          "id": 123,
+          "kind": 5,
+          "monsterId": 14,
+          "phase": 1
+        },
+        {
+          "id": 124,
+          "kind": 3,
+          "monsterId": 12,
+          "phase": 1
+        }
+      ]
+    },
+    {
+      "biome": "volcano",
+      "style": "sculpted",
+      "tick": 197,
+      "time": 3.2833333333333266,
+      "enemies": [
+        {
+          "id": 120,
+          "kind": 6,
+          "bossId": 7,
+          "phase": 1
+        },
+        {
+          "id": 121,
+          "kind": 3,
+          "monsterId": 12,
+          "phase": 1
+        },
+        {
+          "id": 122,
+          "kind": 4,
+          "monsterId": 13,
+          "phase": 1
+        },
+        {
+          "id": 123,
+          "kind": 5,
+          "monsterId": 14,
+          "phase": 1
+        },
+        {
+          "id": 124,
+          "kind": 3,
+          "monsterId": 12,
+          "phase": 1
+        }
+      ]
+    },
+    {
+      "biome": "castle",
+      "style": "adventure",
+      "tick": 198,
+      "time": 3.299999999999993,
+      "enemies": [
+        {
+          "id": 126,
+          "kind": 6,
+          "bossId": 17,
+          "phase": 1
+        },
+        {
+          "id": 127,
+          "kind": 3,
+          "monsterId": 27,
+          "phase": 1
+        },
+        {
+          "id": 128,
+          "kind": 4,
+          "monsterId": 28,
+          "phase": 1
+        },
+        {
+          "id": 129,
+          "kind": 5,
+          "monsterId": 29,
+          "phase": 1
+        },
+        {
+          "id": 130,
+          "kind": 3,
+          "monsterId": 27,
+          "phase": 1
+        }
+      ]
+    },
+    {
+      "biome": "castle",
+      "style": "gothic",
+      "tick": 198,
+      "time": 3.299999999999993,
+      "enemies": [
+        {
+          "id": 126,
+          "kind": 6,
+          "bossId": 17,
+          "phase": 1
+        },
+        {
+          "id": 127,
+          "kind": 3,
+          "monsterId": 27,
+          "phase": 1
+        },
+        {
+          "id": 128,
+          "kind": 4,
+          "monsterId": 28,
+          "phase": 1
+        },
+        {
+          "id": 129,
+          "kind": 5,
+          "monsterId": 29,
+          "phase": 1
+        },
+        {
+          "id": 130,
+          "kind": 3,
+          "monsterId": 27,
+          "phase": 1
+        }
+      ]
+    },
+    {
+      "biome": "castle",
+      "style": "sculpted",
+      "tick": 198,
+      "time": 3.299999999999993,
+      "enemies": [
+        {
+          "id": 126,
+          "kind": 6,
+          "bossId": 17,
+          "phase": 1
+        },
+        {
+          "id": 127,
+          "kind": 3,
+          "monsterId": 27,
+          "phase": 1
+        },
+        {
+          "id": 128,
+          "kind": 4,
+          "monsterId": 28,
+          "phase": 1
+        },
+        {
+          "id": 129,
+          "kind": 5,
+          "monsterId": 29,
+          "phase": 1
+        },
+        {
+          "id": 130,
+          "kind": 3,
+          "monsterId": 27,
+          "phase": 1
+        }
+      ]
+    }
+  ]
+}
