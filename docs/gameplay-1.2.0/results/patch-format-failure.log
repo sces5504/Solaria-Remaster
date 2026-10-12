@@ -1,0 +1,251 @@
+build	Set up job	﻿2026-10-12T16:47:47.5481617Z Current runner version: '2.337.0'
+build	Set up job	2026-10-12T16:47:47.5500509Z ##[group]Runner Image Provisioner
+build	Set up job	2026-10-12T16:47:47.5501076Z Hosted Compute Agent
+build	Set up job	2026-10-12T16:47:47.5501479Z Version: 20261002.596
+build	Set up job	2026-10-12T16:47:47.5501900Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+build	Set up job	2026-10-12T16:47:47.5502331Z Build Date: 2026-10-02T22:28:27Z
+build	Set up job	2026-10-12T16:47:47.5502778Z Worker ID: {b6e7bd36-dba2-40d5-9957-2a22662a6a8c}
+build	Set up job	2026-10-12T16:47:47.5503202Z Region: southcentralus
+build	Set up job	2026-10-12T16:47:47.5503603Z Cloud: Azure
+build	Set up job	2026-10-12T16:47:47.5503978Z ##[endgroup]
+build	Set up job	2026-10-12T16:47:47.5504808Z ##[group]Operating System
+build	Set up job	2026-10-12T16:47:47.5505208Z Ubuntu
+build	Set up job	2026-10-12T16:47:47.5505525Z 24.04.5
+build	Set up job	2026-10-12T16:47:47.5505823Z LTS
+build	Set up job	2026-10-12T16:47:47.5506213Z ##[endgroup]
+build	Set up job	2026-10-12T16:47:47.5506565Z ##[group]Runner Image
+build	Set up job	2026-10-12T16:47:47.5506990Z Image: ubuntu-24.04
+build	Set up job	2026-10-12T16:47:47.5507396Z Version: 20261004.327.1
+build	Set up job	2026-10-12T16:47:47.5508020Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+build	Set up job	2026-10-12T16:47:47.5509192Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+build	Set up job	2026-10-12T16:47:47.5509779Z ##[endgroup]
+build	Set up job	2026-10-12T16:47:47.5510454Z ##[group]GITHUB_TOKEN Permissions
+build	Set up job	2026-10-12T16:47:47.5511965Z Contents: read
+build	Set up job	2026-10-12T16:47:47.5512324Z Metadata: read
+build	Set up job	2026-10-12T16:47:47.5512643Z ##[endgroup]
+build	Set up job	2026-10-12T16:47:47.5514297Z Secret source: Actions
+build	Set up job	2026-10-12T16:47:47.5514862Z Cache mode: write
+build	Set up job	2026-10-12T16:47:47.5515397Z Prepare workflow directory
+build	Set up job	2026-10-12T16:47:47.5720548Z Prepare all required actions
+build	Set up job	2026-10-12T16:47:47.5751782Z Getting action download info
+build	Set up job	2026-10-12T16:47:47.8436827Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+build	Set up job	2026-10-12T16:47:47.9432281Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+build	Set up job	2026-10-12T16:47:48.0943310Z Download action repository 'actions/upload-pages-artifact@v3' (SHA:56afc609e74202658d3ffba0e8f6dda462b719fa)
+build	Set up job	2026-10-12T16:47:48.3195662Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+build	Set up job	2026-10-12T16:47:48.5140499Z Getting action download info
+build	Set up job	2026-10-12T16:47:48.6241721Z Complete job name: build
+build	Run actions/checkout@v4	﻿2026-10-12T16:47:48.6693572Z ##[group]Run actions/checkout@v4
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6693995Z with:
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6694240Z   repository: sces5504/Solaria-Remaster
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6696302Z   token: ***
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6696529Z   ssh-strict: true
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6696758Z   ssh-user: git
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6696997Z   persist-credentials: true
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6697253Z   clean: true
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6697489Z   sparse-checkout-cone-mode: true
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6697763Z   fetch-depth: 1
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6697991Z   fetch-tags: false
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6698229Z   show-progress: true
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6698467Z   lfs: false
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6698687Z   submodules: false
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6699093Z   set-safe-directory: true
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6699381Z   allow-unsafe-pr-checkout: false
+build	Run actions/checkout@v4	2026-10-12T16:47:48.6699735Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7350095Z Syncing repository: sces5504/Solaria-Remaster
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7351286Z ##[group]Getting Git version info
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7351708Z Working directory is '/home/runner/work/Solaria-Remaster/Solaria-Remaster'
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7352431Z [command]/usr/bin/git version
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7402187Z git version 2.55.0
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7416884Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7428714Z Temporarily overriding HOME='/home/runner/work/_temp/18fefa86-94ee-4942-976a-7059b021a27a' before making global git config changes
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7430055Z Adding repository directory to the temporary git global config as a safe directory
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7432873Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Solaria-Remaster/Solaria-Remaster
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7476989Z Deleting the contents of '/home/runner/work/Solaria-Remaster/Solaria-Remaster'
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7480000Z ##[group]Initializing the repository
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7488816Z [command]/usr/bin/git init /home/runner/work/Solaria-Remaster/Solaria-Remaster
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7571749Z hint: Using 'master' as the name for the initial branch. This default branch name
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7572690Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7573503Z hint: to use in all of your new repositories, which will suppress this warning,
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7574479Z hint: call:
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7574812Z hint:
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7575246Z hint: 	git config --global init.defaultBranch <name>
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7575782Z hint:
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7576298Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7577113Z hint: 'development'. The just-created branch can be renamed via this command:
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7577755Z hint:
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7578116Z hint: 	git branch -m <name>
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7578521Z hint:
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7579179Z hint: Disable this message with "git config set advice.defaultBranchName false"
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7580121Z Initialized empty Git repository in /home/runner/work/Solaria-Remaster/Solaria-Remaster/.git/
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7583199Z [command]/usr/bin/git remote add origin https://github.com/sces5504/Solaria-Remaster
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7623600Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7624298Z ##[group]Disabling automatic garbage collection
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7626980Z [command]/usr/bin/git config --local gc.auto 0
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7654478Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7655022Z ##[group]Setting up auth
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7661253Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7689033Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build	Run actions/checkout@v4	2026-10-12T16:47:48.7977040Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build	Run actions/checkout@v4	2026-10-12T16:47:48.8005340Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build	Run actions/checkout@v4	2026-10-12T16:47:48.8179146Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build	Run actions/checkout@v4	2026-10-12T16:47:48.8206051Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build	Run actions/checkout@v4	2026-10-12T16:47:48.8378458Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+build	Run actions/checkout@v4	2026-10-12T16:47:48.8411004Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-12T16:47:48.8411626Z ##[group]Fetching the repository
+build	Run actions/checkout@v4	2026-10-12T16:47:48.8416872Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +892cad847d8138e7726ae1c7d6acdbd5539a536e:refs/remotes/origin/main
+build	Run actions/checkout@v4	2026-10-12T16:47:54.2614185Z From https://github.com/sces5504/Solaria-Remaster
+build	Run actions/checkout@v4	2026-10-12T16:47:54.2615176Z  * [new ref]         892cad847d8138e7726ae1c7d6acdbd5539a536e -> origin/main
+build	Run actions/checkout@v4	2026-10-12T16:47:54.2617465Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-12T16:47:54.2617917Z ##[group]Determining the checkout info
+build	Run actions/checkout@v4	2026-10-12T16:47:54.2620187Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-12T16:47:54.2624728Z [command]/usr/bin/git sparse-checkout disable
+build	Run actions/checkout@v4	2026-10-12T16:47:54.2956821Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+build	Run actions/checkout@v4	2026-10-12T16:47:54.3375601Z ##[group]Checking out the ref
+build	Run actions/checkout@v4	2026-10-12T16:47:54.3379765Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+build	Run actions/checkout@v4	2026-10-12T16:47:54.7265579Z Switched to a new branch 'main'
+build	Run actions/checkout@v4	2026-10-12T16:47:54.7267322Z branch 'main' set up to track 'origin/main'.
+build	Run actions/checkout@v4	2026-10-12T16:47:54.7297430Z ##[endgroup]
+build	Run actions/checkout@v4	2026-10-12T16:47:54.7337665Z [command]/usr/bin/git log -1 --format=%H
+build	Run actions/checkout@v4	2026-10-12T16:47:54.7360709Z 892cad847d8138e7726ae1c7d6acdbd5539a536e
+build	Run actions/setup-node@v4	﻿2026-10-12T16:47:54.7894295Z ##[group]Run actions/setup-node@v4
+build	Run actions/setup-node@v4	2026-10-12T16:47:54.7894584Z with:
+build	Run actions/setup-node@v4	2026-10-12T16:47:54.7894730Z   node-version: 24
+build	Run actions/setup-node@v4	2026-10-12T16:47:54.7894881Z   cache: npm
+build	Run actions/setup-node@v4	2026-10-12T16:47:54.7895025Z   always-auth: false
+build	Run actions/setup-node@v4	2026-10-12T16:47:54.7895180Z   check-latest: false
+build	Run actions/setup-node@v4	2026-10-12T16:47:54.7896843Z   token: ***
+build	Run actions/setup-node@v4	2026-10-12T16:47:54.7896993Z ##[endgroup]
+build	Run actions/setup-node@v4	2026-10-12T16:47:54.8847918Z Found in cache @ /opt/hostedtoolcache/node/24.21.0/x64
+build	Run actions/setup-node@v4	2026-10-12T16:47:54.8851718Z (node:2116) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build	Run actions/setup-node@v4	2026-10-12T16:47:54.8852572Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build	Run actions/setup-node@v4	2026-10-12T16:47:54.8859638Z ##[group]Environment details
+build	Run actions/setup-node@v4	2026-10-12T16:47:55.1897739Z node: v24.21.0
+build	Run actions/setup-node@v4	2026-10-12T16:47:55.1898133Z npm: 11.19.0
+build	Run actions/setup-node@v4	2026-10-12T16:47:55.1898547Z yarn: 1.22.22
+build	Run actions/setup-node@v4	2026-10-12T16:47:55.1900395Z ##[endgroup]
+build	Run actions/setup-node@v4	2026-10-12T16:47:55.1931915Z [command]/opt/hostedtoolcache/node/24.21.0/x64/bin/npm config get cache
+build	Run actions/setup-node@v4	2026-10-12T16:47:55.2833671Z /home/runner/.npm
+build	Run actions/setup-node@v4	2026-10-12T16:47:55.4510103Z Cache hit for: node-cache-Linux-x64-npm-b663fbdf74fadb18e3933133c226cef5c2643eddaf0352f026bd07839429edd7
+build	Run actions/setup-node@v4	2026-10-12T16:47:55.4581585Z (node:2116) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+build	Run actions/setup-node@v4	2026-10-12T16:47:56.4764371Z Received 66497307 of 66497307 (100.0%), 73.7 MBs/sec
+build	Run actions/setup-node@v4	2026-10-12T16:47:56.4765112Z Cache Size: ~63 MB (66497307 B)
+build	Run actions/setup-node@v4	2026-10-12T16:47:56.4787526Z [command]/usr/bin/tar -xf /home/runner/work/_temp/be45993b-bd97-48a5-8820-2a5862a39c47/cache.tzst -P -C /home/runner/work/Solaria-Remaster/Solaria-Remaster --use-compress-program unzstd
+build	Run actions/setup-node@v4	2026-10-12T16:47:56.5523087Z Cache restored successfully
+build	Run actions/setup-node@v4	2026-10-12T16:47:56.5556702Z Cache restored from key: node-cache-Linux-x64-npm-b663fbdf74fadb18e3933133c226cef5c2643eddaf0352f026bd07839429edd7
+build	Run npm ci	﻿2026-10-12T16:47:56.6286760Z ##[group]Run npm ci
+build	Run npm ci	2026-10-12T16:47:56.6287063Z [36;1mnpm ci[0m
+build	Run npm ci	2026-10-12T16:47:56.6698669Z shell: /usr/bin/bash -e {0}
+build	Run npm ci	2026-10-12T16:47:56.6699126Z ##[endgroup]
+build	Run npm ci	2026-10-12T16:47:58.9779843Z 
+build	Run npm ci	2026-10-12T16:47:58.9786432Z added 57 packages, and audited 58 packages in 2s
+build	Run npm ci	2026-10-12T16:47:58.9786827Z 
+build	Run npm ci	2026-10-12T16:47:58.9787070Z 15 packages are looking for funding
+build	Run npm ci	2026-10-12T16:47:58.9787382Z   run `npm fund` for details
+build	Run npm ci	2026-10-12T16:47:58.9788660Z 
+build	Run npm ci	2026-10-12T16:47:58.9789039Z found 0 vulnerabilities
+build	Run npm run check && npm test && npm run format:check	﻿2026-10-12T16:47:59.0299384Z ##[group]Run npm run check && npm test && npm run format:check
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:47:59.0299704Z [36;1mnpm run check && npm test && npm run format:check[0m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:47:59.0353352Z shell: /usr/bin/bash -e {0}
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:47:59.0353523Z ##[endgroup]
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:47:59.1040902Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:47:59.1041673Z > solaria-remaster@1.2.0 check
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:47:59.1042028Z > tsc --noEmit
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:47:59.1042211Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:47:59.5574129Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:47:59.5574941Z > solaria-remaster@1.2.0 test
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:47:59.5575484Z > vitest run
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:47:59.5575637Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:47:59.8080602Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:47:59.8083287Z [1m[30m[46m RUN [49m[39m[22m [36mv5.0.3 [39m[90m/home/runner/work/Solaria-Remaster/Solaria-Remaster[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:47:59.8083772Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:00.2402632Z  [32m✓[39m tests/unit/cards.test.ts [2m([22m[2m61 tests[22m[2m)[22m[32m 97[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:00.2671143Z  [32m✓[39m tests/unit/boss-rework.test.ts [2m([22m[2m43 tests[22m[2m)[22m[32m 93[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:00.3162266Z  [32m✓[39m tests/unit/advanced-cards.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 140[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:00.7230532Z  [32m✓[39m tests/unit/events.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 227[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:00.9511040Z  [32m✓[39m tests/unit/feedback-cover.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 61[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:01.0048648Z  [32m✓[39m tests/unit/simulation.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 580[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:01.0050714Z    [32m✓[39m C10–18 元素、卡池、地圖与 Boss [2m(9)[22m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:01.0051369Z      [33m[2m✓[22m[39m 三選一先色後池、不同卡、職業與資格，持續卡不重抽[33m 410[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:01.1809945Z  [32m✓[39m tests/unit/equipment-abilities.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 31[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:01.4824280Z  [32m✓[39m tests/unit/last-polish.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 110[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:01.7157293Z  [32m✓[39m tests/unit/feedback.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 379[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:01.7200857Z  [32m✓[39m tests/unit/radiance.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 111[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:02.0121118Z  [32m✓[39m tests/unit/resonance.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 100[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:02.0260951Z  [32m✓[39m tests/unit/journey.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 146[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:02.2586470Z  [32m✓[39m tests/unit/monster-details.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 64[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:03.3751257Z  [32m✓[39m tests/unit/equipment-integration.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 2929[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:03.3759939Z    [33m[2m✓[22m[39m 一般掉落含8橘／3普通紅、紅兩詞橘三詞，事件不入池，地形與周目成長不放大吸血[33m 2869[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:04.0333527Z  [32m✓[39m tests/unit/polish.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 509[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:04.0334331Z    [33m[2m✓[22m[39m 程序生成全部可走格連通、種子可重現，普通房及王房有足夠實體掩體[33m 387[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:04.1924647Z  [32m✓[39m tests/unit/ability-presentation.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:04.2871443Z  [32m✓[39m tests/unit/biome-bosses.test.ts [2m([22m[2m35 tests[22m[2m)[22m[33m 1869[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:04.3837026Z  [32m✓[39m tests/unit/profile.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 31[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:04.4754668Z  [32m✓[39m tests/unit/conditional-cards.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 41[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:04.5424947Z  [32m✓[39m tests/unit/contact-timeline.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:04.6255132Z  [32m✓[39m tests/unit/handoff-regressions.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:04.8161205Z  [32m✓[39m tests/unit/stress.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.0401172Z  [32m✓[39m tests/unit/milestone.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 68[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.1822652Z  [32m✓[39m tests/unit/collision-time.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.2250825Z  [32m✓[39m tests/unit/playability.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 523[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.3195787Z  [32m✓[39m tests/unit/projectile-pool.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 11[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.5917644Z  [32m✓[39m tests/unit/bosses.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 212[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.7660216Z  [32m✓[39m tests/unit/adventure-lighting.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 19[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.8223296Z  [32m✓[39m tests/unit/biomes.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 3622[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.8243420Z    [33m[2m✓[22m[39m desert 六程序房型保留通路、掩體及合法原生怪[33m 534[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.8258364Z    [33m[2m✓[22m[39m icefield 六程序房型保留通路、掩體及合法原生怪[33m 374[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.8259369Z    [33m[2m✓[22m[39m volcano 六程序房型保留通路、掩體及合法原生怪[33m 355[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.8260036Z    [33m[2m✓[22m[39m jungle 六程序房型保留通路、掩體及合法原生怪[33m 382[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.8260719Z    [33m[2m✓[22m[39m corruption 六程序房型保留通路、掩體及合法原生怪[33m 432[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.8262114Z    [33m[2m✓[22m[39m crimson 六程序房型保留通路、掩體及合法原生怪[33m 383[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.8262764Z    [33m[2m✓[22m[39m stars 六程序房型保留通路、掩體及合法原生怪[33m 375[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.8263392Z    [33m[2m✓[22m[39m castle 六程序房型保留通路、掩體及合法原生怪[33m 410[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:05.9513816Z  [32m✓[39m tests/unit/boss-distribution.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 211[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.0721156Z  [32m✓[39m tests/unit/clock.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.2116601Z  [32m✓[39m tests/unit/solar-arena.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 291[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.6372761Z  [32m✓[39m tests/unit/pathing.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 664[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.6373656Z    [33m[2m✓[22m[39m 50 seeded ordinary rooms progress without AI pathing stalls[33m 662[2mms[22m[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.6431558Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.6435948Z [2m Test Files [22m [1m[32m33 passed[39m[22m[90m (33)[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.6436826Z [2m      Tests [22m [1m[32m375 passed[39m[22m[90m (375)[39m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.6437370Z [2m   Start at [22m 16:47:59
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.6441316Z [2m   Duration [22m 6.83s[2m (tests 83%, import 11%, transform 6%, worker 1%)[22m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.6454388Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.6455118Z [2m    Isolate [22m [33m33 workers spawned[39m[2m · ~91ms startup each (spawn + environment, per file)[22m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.6455887Z [2m            [22m [2mat least ~910ms faster with [22m[33misolate: false[39m[2m — reuses workers across files instead of one per file[22m
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.6456169Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.7402120Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.7402861Z > solaria-remaster@1.2.0 format:check
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.7403243Z > prettier --check .
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.7403375Z 
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:06.7981369Z Checking formatting...
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:08.2138846Z [[33mwarn[39m] docs/gameplay-1.2.0/results/full-pages.json
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:12.2207617Z [[33mwarn[39m] Code style issues found in the above file. Run Prettier with --write to fix.
+build	Run npm run check && npm test && npm run format:check	2026-10-12T16:48:12.2935986Z ##[error]Process completed with exit code 1.
+build	Run actions/upload-artifact@v4	﻿2026-10-12T16:48:12.3017812Z ##[group]Run actions/upload-artifact@v4
+build	Run actions/upload-artifact@v4	2026-10-12T16:48:12.3018000Z with:
+build	Run actions/upload-artifact@v4	2026-10-12T16:48:12.3018128Z   name: pages-browser-failures
+build	Run actions/upload-artifact@v4	2026-10-12T16:48:12.3018277Z   path: test-results/
+build	Run actions/upload-artifact@v4	2026-10-12T16:48:12.3018407Z   if-no-files-found: warn
+build	Run actions/upload-artifact@v4	2026-10-12T16:48:12.3018543Z   compression-level: 6
+build	Run actions/upload-artifact@v4	2026-10-12T16:48:12.3018667Z   overwrite: false
+build	Run actions/upload-artifact@v4	2026-10-12T16:48:12.3018794Z   include-hidden-files: false
+build	Run actions/upload-artifact@v4	2026-10-12T16:48:12.3019095Z ##[endgroup]
+build	Run actions/upload-artifact@v4	2026-10-12T16:48:12.4081270Z (node:2492) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build	Run actions/upload-artifact@v4	2026-10-12T16:48:12.4082079Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build	Run actions/upload-artifact@v4	2026-10-12T16:48:12.4104131Z ##[warning]No files were found with the provided path: test-results/. No artifacts will be uploaded.
+build	Post Run actions/checkout@v4	﻿2026-10-12T16:48:12.4343533Z Post job cleanup.
+build	Post Run actions/checkout@v4	2026-10-12T16:48:12.4901986Z [command]/usr/bin/git version
+build	Post Run actions/checkout@v4	2026-10-12T16:48:12.4934342Z git version 2.55.0
+build	Post Run actions/checkout@v4	2026-10-12T16:48:12.4960339Z Temporarily overriding HOME='/home/runner/work/_temp/2cdeea8e-6e09-4d8d-b9e6-13b937081ff9' before making global git config changes
+build	Post Run actions/checkout@v4	2026-10-12T16:48:12.4960937Z Adding repository directory to the temporary git global config as a safe directory
+build	Post Run actions/checkout@v4	2026-10-12T16:48:12.4964426Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Solaria-Remaster/Solaria-Remaster
+build	Post Run actions/checkout@v4	2026-10-12T16:48:12.4995281Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build	Post Run actions/checkout@v4	2026-10-12T16:48:12.5033709Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build	Post Run actions/checkout@v4	2026-10-12T16:48:12.5232741Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build	Post Run actions/checkout@v4	2026-10-12T16:48:12.5258376Z http.https://github.com/.extraheader
+build	Post Run actions/checkout@v4	2026-10-12T16:48:12.5269233Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+build	Post Run actions/checkout@v4	2026-10-12T16:48:12.5311042Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build	Post Run actions/checkout@v4	2026-10-12T16:48:12.5507575Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build	Post Run actions/checkout@v4	2026-10-12T16:48:12.5536932Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build	Complete job	﻿2026-10-12T16:48:12.5847472Z Cleaning up orphan processes
+build	Complete job	2026-10-12T16:48:12.6060592Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

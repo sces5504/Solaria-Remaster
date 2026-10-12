@@ -712,3 +712,9 @@ PR6已合併，發布來源7cff9de9ea3a1f0ace3aec735a1dfb3437158a74；Pages38262
 主體b23d85b的Pages38276107983完整流程与deploy已success，原未測硬體／人工界線保持；完整core與browser精確計數由full-pages.log保存核對，不把舊來源冒稱最終補丁全套。舊掃射補丁相關57unit／1browserPASS；另發現原草原狼群缺bossOwner，已遷移為原王owner，維持召喚上限3，防升精英後額外召三隻。追加實際召喚上限對照后相關58unit、check／buildPASS。
 
 舊檔補丁将合併main，Pages gameplay-feedback只跑5相關browser＋完整便宜core／格式／build後部署，不重跑完整107。再以線上6案例、全bundle／20PNG SHA256與固定refs核對最終來源；目前這些最終線上檢查待完成。
+
+## 1.2.0 補丁格式阻擋與修正（2026-10-12 16:53:39 UTC）
+
+主體b23d85b／Pages38276107983確認373unit与完整107Chromium26.4分鐘、check／format／build／deploy全部PASS。補丁892cad8／Pages38279877633的check／375unit已PASS，但full-pages.json是新保存的未格式化CLI JSON，format失敗，browser與deploy未跑；原legacy-pack-format.log同樣FAIL，前一提交命令未啟用set -e而繼續提交，這是記錄／提交流程錯誤，不是遊戲或通過結果。
+
+現在格式化該JSON，命令前置失敗立即停；只補格式，保留所有失敗与界線。随后以相同遊戲程式的gameplay-feedback5相關browser發布與線上6案例；不能把未跑的5項稱PASS。
