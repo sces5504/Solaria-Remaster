@@ -6,7 +6,7 @@
   "engineStates": 6,
   "stateMap": ["ready", "ready", "step", "attack", "ready", "attack"],
   "sourceAtlases": "tools/adventure/source-atlases",
-  "sampling": "Nearest-neighbour 128px cells; original RGBA sources archived. Actor loader isolates disconnected neighbouring-cell debris without modifying source PNGs.",
+  "sampling": "Nearest-neighbour cells; original RGBA retained. Actor and obstacle texture sampling uses actual silhouette proximity to isolate neighbouring-cell debris.",
   "catalog": "tools/adventure/catalog.json",
   "assets": [
     {
@@ -84,9 +84,13 @@
     {
       "name": "semantic-effects.png",
       "sha256": "f13314f1f3a18e96b93803284169c075217dfbe5473ee86a1f5e492ea4ea5357"
+    },
+    {
+      "name": "ending.png",
+      "sha256": "7e21b3f3e5fada28ed5df5a93c2672990750f5791b08bc6b50b00ad22a63a743"
     }
   ],
-  "version": "1.1.1",
+  "version": "1.1.2",
   "ground": "Quiet primary/alternate tiles for nine biomes, separate from luminous obstacle/monster/ability art.",
   "authoredPoses": {
     "ordinaryAndBossIdentities": 60,
@@ -188,6 +192,10 @@
     {
       "name": "semantic-effects.png",
       "sha256": "260da75d40e62eb98120374daab215e8e428cb3ff507fbf5486bcb3a8cb8fee7"
+    },
+    {
+      "name": "ending.png",
+      "sha256": "7e21b3f3e5fada28ed5df5a93c2672990750f5791b08bc6b50b00ad22a63a743"
     }
   ],
   "feedback": "Distinct indigo/purple mage six-pose redesign; semantic ability effects and open-centred fields; blue counterattack; translucent compact explosions."

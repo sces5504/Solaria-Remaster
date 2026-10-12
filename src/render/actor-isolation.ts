@@ -55,16 +55,26 @@ export function isolateActor(
     a.pixels.length > b.pixels.length ? a : b,
   );
   const keep = new Uint8Array(width * height);
+  const nearBody = new Uint8Array(width * height);
+  // Actual silhouette distance, not bounding boxes with large empty corners.
+  // Detached weapons within three source pixels remain part of the actor.
+  for (const index of body.pixels) {
+    const x = index % width,
+      y = Math.floor(index / width);
+    for (let dy = -3; dy <= 3; dy++)
+      for (let dx = -3; dx <= 3; dx++) {
+        if (dx * dx + dy * dy > 9) continue;
+        const nx = x + dx,
+          ny = y + dy;
+        if (nx >= 0 && nx < width && ny >= 0 && ny < height)
+          nearBody[ny * width + nx] = 1;
+      }
+  }
   let removed = 0;
   for (const part of components) {
-    const gap = Math.hypot(
-      Math.max(0, body.minX - part.maxX, part.minX - body.maxX),
-      Math.max(0, body.minY - part.maxY, part.minY - body.maxY),
-    );
     const attached =
       part === body ||
-      (gap <= 3 && part.pixels.length >= 2) ||
-      (gap <= 7 && part.pixels.length >= body.pixels.length * 0.1);
+      (part.pixels.length >= 4 && part.pixels.some((index) => nearBody[index]));
     if (attached) for (const index of part.pixels) keep[index] = 1;
     else removed += part.pixels.length;
   }

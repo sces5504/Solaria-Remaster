@@ -9,7 +9,7 @@ on:
         description: "Browser validation scope (visual-only feedback patches)"
         type: choice
         default: full
-        options: [full, art-feedback]
+        options: [full, art-feedback, visibility-feedback]
 permissions:
   contents: read
 concurrency:
@@ -34,6 +34,8 @@ jobs:
         run: |
           if [ "$VALIDATION_SCOPE" = "art-feedback" ]; then
             npm run test:browser -- tests/browser/adventure-art.spec.ts tests/browser/last-polish.spec.ts --grep '短FX|美術回饋|精雕冒險 (meadow|volcano|castle)：|發光藍雷|扇形噴火'
+          elif [ "$VALIDATION_SCOPE" = "visibility-feedback" ]; then
+            npm run test:browser -- tests/browser/visibility-feedback.spec.ts
           else
             npm run test:browser
           fi

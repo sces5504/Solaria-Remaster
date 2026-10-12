@@ -138,9 +138,7 @@
       "artEffects": {
         "retained": 1,
         "active": 1,
-        "names": [
-          "weapon-mage"
-        ]
+        "names": ["weapon-mage"]
       },
       "renderer": "webgl"
     },
@@ -175,11 +173,7 @@
       "artEffects": {
         "retained": 5,
         "active": 4,
-        "names": [
-          "weapon-mage",
-          "arcane-orb",
-          "spark"
-        ]
+        "names": ["weapon-mage", "arcane-orb", "spark"]
       },
       "renderer": "webgl"
     },
