@@ -132,3 +132,7 @@ Keep game modules under src/; add pure gameplay tests under tests/unit/ and brow
 [程式／驗證事實] CSS与機關貼圖Bug及Boss條件相關已确診；旧首周目火山全7、叢林全10，混合專流後兩候选近50%、512組合。旧route保留、不加强制交替；能力家族圖色有設計保留。共享耐久20扣5／4、半徑110×range，元規則見GAME_SPEC末尾。326unit与target4browserPASS，完整81與發布結果以CURRENT_STATE最新首節為準。
 
 [交接] docs/handoff兩全文prompt自包含；游戏chat負責core与整合Pages，美術chat sprite／FX／UI独立分支提交，不競争覆盖main／implement。保留所有历史与S13未測界線，源碼事實不等於舊用户批准。
+
+## 新美術風格選樣授權（2026-10-12 06:57:43 UTC）
+
+[使用者明示] 第一地形與後續地形美術品質不一致，第一地形亦未達標。要求像素保留但更精緻有質感，全遊戲風格一致；先製作三款實機範例，可切换地形／怪物／Boss，不預製全部，查驗選定後才重繪全遊戲。這取代舊「方向已接受、不為風格重畫」限制，其他玩法與Steam品質要求保持。主人後續明确回答「允許發布獨立演示頁」，只授權獨立Pages選樣入口，非選定風格或直接替換正式貼圖。

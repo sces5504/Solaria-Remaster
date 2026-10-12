@@ -1,0 +1,21 @@
+
+> solaria-remaster@1.0.1 test
+> vitest run --maxWorkers=2
+
+
+ RUN  v5.0.3 /workspace/solaria-publish
+
+
+ Test Files  30 passed (30)
+      Tests  326 passed (326)
+   Start at  07:01:28
+   Duration  11.22s (tests 86%, import 8%, transform 5%, worker 1%)
+
+    Isolate  30 workers spawned · ~114ms startup each (spawn + environment, per file)
+             at least ~1.60s faster with isolate: false — reuses workers across files instead of one per file
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
