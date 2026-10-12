@@ -1,5 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
-import { castSkill } from "../../src/game/systems/skills";
+import { castSkill, updateSkills } from "../../src/game/systems/skills";
 import { actor } from "../../src/game/data/world";
 import { newRun, idleCommand } from "../../src/game/core/run";
 import { populate } from "../../src/game/data/world";
@@ -8,6 +8,7 @@ import { biomes, type BiomeId } from "../../src/game/data/biomes";
 import type { Run } from "../../src/game/core/types";
 
 async function load(page: Page, r: Run) {
+  page.removeAllListeners("dialog");
   page.on("dialog", (d) => d.accept());
   await page.goto("./");
   await page.getByRole("button", { name: "匯入存檔", exact: true }).click();
@@ -124,7 +125,11 @@ for (const mode of ["planet", "lightning", "burn"] as const) {
           { intervals: [10, 20, 30] },
         )
         .toEqual(
-          expect.arrayContaining([expect.stringMatching(/^explosion-/)]),
+          expect.arrayContaining([
+            expect.stringMatching(
+              mode === "lightning" ? /^ability-electric$/ : /^explosion-/,
+            ),
+          ]),
         );
     await page.keyboard.press("Escape");
     await expect(page.locator('[data-action="resume"]')).toBeVisible();
@@ -136,7 +141,13 @@ for (const mode of ["planet", "lightning", "burn"] as const) {
         await page.evaluate(
           () => (window as any).solariaDiagnostics().render.artEffects.names,
         ),
-      ).toEqual(expect.arrayContaining([expect.stringMatching(/^explosion-/)]));
+      ).toEqual(
+        expect.arrayContaining([
+          expect.stringMatching(
+            mode === "lightning" ? /^ability-electric$/ : /^explosion-/,
+          ),
+        ]),
+      );
     await page
       .getByLabel("Solaria 遊戲畫布")
       .screenshot({ path: info.outputPath(`${mode}-active.png`) });
@@ -162,3 +173,95 @@ for (const mode of ["planet", "lightning", "burn"] as const) {
     expect(errors).toEqual([]);
   });
 }
+
+// Frozen snapshots from real skill execution isolate meaning and readability.
+test("美術回饋：元素領域按招式呈現，不再每次跳爆炸", async ({ page }, info) => {
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  for (const [label, ids, names] of [
+    [
+      "ice-electric",
+      [17, 18, 30],
+      [
+        "ability-hail",
+        "ability-snow",
+        "ability-electric",
+        "snowflake",
+        "electric-ring",
+      ],
+    ],
+    [
+      "water-fire",
+      [22, 26, 36],
+      [
+        "ability-fire-ring",
+        "ability-vortex",
+        "ability-storm-vortex",
+        "water-swirl",
+      ],
+    ],
+    ["frostfire-arcane", [39, 59], ["ability-frostfire", "frostfire-ring"]],
+  ] as const) {
+    const r = newRun("mage", 987);
+    r.phase = "ROOM_INTRO";
+    r.enemies = [];
+    r.reserves = [];
+    r.obstacles = [];
+    r.cards = Object.fromEntries(ids.map((id) => [id, 1]));
+    castSkill(r, { ...idleCommand(r), pointerWorld: { x: 720, y: 330 } });
+    r.time = 1.2;
+    r.visuals = [];
+    r.areas = r.areas.filter((a) => a.ends > r.time);
+    r.areas.forEach((a, i) => {
+      a.follow = false;
+      a.x = 240 + i * 270;
+      a.y = 350;
+    });
+    await load(page, r);
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () => (window as any).solariaDiagnostics().render.artEffects.names,
+        ),
+      )
+      .toEqual(expect.arrayContaining([...names]));
+    const active = await page.evaluate(
+      () => (window as any).solariaDiagnostics().render.artEffects.names,
+    );
+    expect(active.some((n: string) => n.startsWith("explosion-"))).toBe(false);
+    await page
+      .locator("#overlay")
+      .evaluate((el) => (el.style.visibility = "hidden"));
+    await page
+      .getByLabel("Solaria 遊戲畫布")
+      .screenshot({ path: info.outputPath(`${label}.png`) });
+  }
+  expect(errors).toEqual([]);
+});
+
+test("美術回饋：成功格擋反擊使用藍色專用斬擊", async ({ page }, info) => {
+  const r = newRun("sword", 988);
+  r.phase = "ROOM_INTRO";
+  r.enemies = [];
+  r.reserves = [];
+  r.obstacles = [];
+  r.player.x = 480;
+  r.player.y = 330;
+  r.time = 1;
+  r.player.counterAt = 0.5;
+  updateSkills(r, { ...idleCommand(r), pointerWorld: { x: 700, y: 330 } });
+  await load(page, r);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => (window as any).solariaDiagnostics().render.artEffects.names,
+      ),
+    )
+    .toEqual(expect.arrayContaining(["blue-slash", "counter-slash-blue"]));
+  await page
+    .locator("#overlay")
+    .evaluate((el) => (el.style.visibility = "hidden"));
+  await page
+    .getByLabel("Solaria 遊戲畫布")
+    .screenshot({ path: info.outputPath("blue-counter.png") });
+});

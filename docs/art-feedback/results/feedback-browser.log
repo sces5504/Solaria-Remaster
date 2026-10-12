@@ -1,0 +1,64 @@
+
+Running 10 tests using 1 worker
+
+(node:43083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/adventure-art.spec.ts:25:3 › 精雕冒險 meadow：明亮地面、完整角色、較大障礙與光源 (12.5s)
+  ✓   2 tests/browser/adventure-art.spec.ts:25:3 › 精雕冒險 volcano：明亮地面、完整角色、較大障礙與光源 (15.0s)
+  ✓   3 tests/browser/adventure-art.spec.ts:25:3 › 精雕冒險 castle：明亮地面、完整角色、較大障礙與光源 (10.7s)
+  ✓   4 tests/browser/adventure-art.spec.ts:65:3 › 精雕冒險短FX planet：原核心觸發、繪製粒子與到期清理 (16.8s)
+  ✓   5 tests/browser/adventure-art.spec.ts:65:3 › 精雕冒險短FX lightning：原核心觸發、繪製粒子與到期清理 (20.4s)
+  ✓   6 tests/browser/adventure-art.spec.ts:65:3 › 精雕冒險短FX burn：原核心觸發、繪製粒子與到期清理 (20.8s)
+  ✘   7 tests/browser/adventure-art.spec.ts:177:1 › 美術回饋：元素領域按招式呈現，不再每次跳爆炸 (14.0s)
+(node:43804) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 tests/browser/adventure-art.spec.ts:241:1 › 美術回饋：成功格擋反擊使用藍色專用斬擊 (11.5s)
+  ✓   9 tests/browser/last-polish.spec.ts:67:1 › 發光藍雷實際照亮附近地面，長時間就緒冷卻條不超出角色腳下 (13.8s)
+  ✓  10 tests/browser/last-polish.spec.ts:91:1 › 扇形噴火、蒸氣水柱、強光藍雷與無黑邊石門的實際畫面 (6.9s)
+
+
+  1) tests/browser/adventure-art.spec.ts:177:1 › 美術回饋：元素領域按招式呈現，不再每次跳爆炸 ────────────────────────────
+
+    Error: dialog.accept: Cannot accept dialog which is already handled!
+
+       9 |
+      10 | async function load(page: Page, r: Run) {
+    > 11 |   page.on("dialog", (d) => d.accept());
+         |                              ^
+      12 |   await page.goto("./");
+      13 |   await page.getByRole("button", { name: "匯入存檔", exact: true }).click();
+      14 |   await page.locator("#import-file").setInputFiles({
+        at _Page.<anonymous> (/workspace/solaria-art/tests/browser/adventure-art.spec.ts:11:30)
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('status')
+    Expected substring: "匯入成功"
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" getByRole('status') with timeout 5000ms
+      - waiting for getByRole('status')
+      - Test ended.
+
+
+      19 |     ),
+      20 |   });
+    > 21 |   await expect(page.getByRole("status")).toContainText("匯入成功");
+         |                                          ^
+      22 |   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+      23 | }
+      24 | for (const id of Object.keys(biomes) as BiomeId[]) {
+        at load (/workspace/solaria-art/tests/browser/adventure-art.spec.ts:21:42)
+        at /workspace/solaria-art/tests/browser/adventure-art.spec.ts:219:5
+
+    Error Context: ../art-qa/feedback-results/adventure-art-美術回饋：元素領域按招式呈現，不再每次跳爆炸/error-context.md
+
+  1 failed
+    tests/browser/adventure-art.spec.ts:177:1 › 美術回饋：元素領域按招式呈現，不再每次跳爆炸 ─────────────────────────────
+  9 passed (2.4m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

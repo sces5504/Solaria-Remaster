@@ -19,12 +19,16 @@ const files = [
   "world-0.png",
   "world-1.png",
   "effects.png",
+  "semantic-effects.png",
   "landmarks.png",
   "menu.png",
 ];
 const report = [];
 for (const file of files) {
-  const source = resolve(archive, file);
+  const source = resolve(
+    archive,
+    file === "heroes.png" ? "heroes-mage-final.png" : file,
+  );
   try {
     await stat(source);
   } catch {
@@ -71,6 +75,10 @@ for (const [name, col, row] of [
   ["bow", 0, 1],
   ["mage", 0, 2],
 ]) {
+  const portraitSource =
+    name === "mage"
+      ? await readFile(resolve(archive, "heroes-mage-final.png"))
+      : actors;
   const png = await page.evaluate(
     async ({ base64, col, row }) => {
       const im = new Image();
@@ -93,7 +101,7 @@ for (const [name, col, row] of [
       );
       return c.toDataURL("image/png").split(",")[1];
     },
-    { base64: actors.toString("base64"), col, row },
+    { base64: portraitSource.toString("base64"), col, row },
   );
   await writeFile(resolve(root, `${name}.png`), Buffer.from(png, "base64"));
 }

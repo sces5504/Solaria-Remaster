@@ -275,6 +275,9 @@ export interface Drop extends Vec {
   value: number;
 }
 export interface Visual extends Vec {
+  /** Presentation provenance; optional for older saves. */
+  sourceAbilityId?: number;
+  periodic?: boolean;
   eventAbility?: string;
   enemyTheme?: BiomeId | "sun";
   duration?: number;

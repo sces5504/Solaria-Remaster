@@ -2,7 +2,10 @@
   "actors": [
     ["sword", "silver-haired knight ivory armor teal cape gold sword shield"],
     ["bow", "auburn female ranger forest green hood leather armor ornate bow"],
-    ["mage", "silver-haired mage teal gold coat violet crystal staff"],
+    [
+      "mage",
+      "dark indigo hair pointed purple crescent wizard hat long amethyst embroidered cloth robe lilac scarf violet crystal staff"
+    ],
     ["wolf", "grey timber wolf"],
     ["slime", "translucent emerald slime glowing core"],
     ["knife", "brown hooded rogue dual knives"],

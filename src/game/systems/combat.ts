@@ -77,6 +77,8 @@ export function visual(
   radius = 20,
   a = 0,
   options: {
+    sourceAbilityId?: number;
+    periodic?: boolean;
     elements?: Element[];
     enemy?: boolean;
     duration?: number;
@@ -535,7 +537,7 @@ export function burst(
     ctx.elementMask.includes("fire") ? 0xffac69 : 0xbde8ff,
     radius * r.stats.range,
     0,
-    { elements: ctx.elementMask },
+    { elements: ctx.elementMask, sourceAbilityId: ctx.sourceAbilityId },
   );
   for (const e of [...r.enemies])
     if (distance(p, e) <= radius * r.stats.range + e.radius)
@@ -550,7 +552,16 @@ export function cone(
   damage: number,
   ctx: DamageContext,
 ) {
-  visual(r, "slash", p, width, 0xffe4a9, radius * r.stats.range, a);
+  visual(
+    r,
+    "slash",
+    p,
+    width,
+    ctx.sourceAbilityId === 144 ? 0x64ceff : 0xffe4a9,
+    radius * r.stats.range,
+    a,
+    { sourceAbilityId: ctx.sourceAbilityId },
+  );
   let successful = false;
   for (const e of r.enemies)
     if (coneHit(p, e, radius * r.stats.range, a, width, e.radius)) {
@@ -768,6 +779,9 @@ export function updateAreas(r: Run) {
             enemy: true,
             eventAbility: a.eventAbility,
             enemyTheme: a.enemyTheme,
+            elements:
+              a.enemyElements ?? (a.enemyElement ? [a.enemyElement] : []),
+            periodic: a.ends - a.starts > 0.1,
             duration: 0.65,
           },
         );
@@ -851,6 +865,8 @@ export function updateAreas(r: Run) {
         0,
         {
           elements: a.context.elementMask,
+          sourceAbilityId: a.context.sourceAbilityId,
+          periodic: a.ends - a.starts > 0.1,
           duration:
             a.effect === "steam" ? 0.7 : a.ends - a.starts > 0.1 ? 0.28 : 0.8,
         },
