@@ -355,12 +355,18 @@ async function boot() {
     };
     audio.setVolume(0);
     el("fullscreen").onclick = async () => {
-      if (document.fullscreenElement) await document.exitFullscreen();
-      else await el("viewport").requestFullscreen();
+      try {
+        if (comparison) setComparison(false);
+        if (document.fullscreenElement) await document.exitFullscreen();
+        else await el("viewport").requestFullscreen();
+      } catch {
+        el("style-caption").textContent =
+          "此瀏覽器尚未開放全螢幕；可繼續在此比較。";
+      }
     };
     window.addEventListener("keydown", (e) => {
       if (
-        (e.target as HTMLElement).matches("select,input,button") ||
+        (e.target as HTMLElement).matches("select,input,textarea") ||
         el<HTMLDialogElement>("details").open
       )
         return;

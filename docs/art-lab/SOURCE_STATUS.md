@@ -11,3 +11,9 @@ PASS：check、326unit、完整85Chromium26.2分鐘（共享renderer版本；此
 本分支可供後續維護demo與選定風格後取用原創素材，不應直接以merge替換正式美術。發布狀態與最新URL驗證看implement分支CURRENT_STATE與docs/art-lab/REVIEW。
 
 重建單檔：`node tools/art-lab/standalone.mjs /workspace/art-delivery`。普通開發入口：`art-lab.html`；此入口新增Vite多entry。正式公開頁是獨立嵌入產物，保留官方bundle不變。
+
+## 展示操作補正
+
+維護來源71d5d16兩輪GitHub Development CI完整85Chromium均PASS（38217069707／38217279702）。後續只补正按钮焦點下1／2／3快捷鍵、並排進fullscreen先回單款、Canvas與HUD共同置中8:5與拒絕fullscreen的簡短回饋；最終獨立HTML五項ChromiumPASS27.1秒，新增fullscreen兩尺寸回歸，未把前一85當此新增第86項已全輪通過。正式新版入口發布來源d772980，部署狀態以implement分支CURRENT_STATE為準。
+
+主人已取消未來多人連線／合作邀請房規劃，後續單人目標；來源分支從正式規格接續此新決定，保留現有單人核心／渲染／保存所需邊界。

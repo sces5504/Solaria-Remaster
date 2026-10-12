@@ -199,7 +199,7 @@ main {
   image-rendering: pixelated;
 }
 #viewport:fullscreen {
-  height: 100vh;
+  height: min(100vh, 62.5vw);
   width: min(100vw, 160vh);
   margin: auto;
 }
@@ -585,4 +585,23 @@ dialog select {
 
 .viewer {
   align-self: start;
+}
+/* The browser owns the fullscreen element's outer dimensions. Letterbox the
+   actual canvas and HUD together so pointer coordinates keep their 8:5 scale. */
+#viewport:fullscreen #stage {
+  position: absolute;
+  width: min(100vw, 160vh);
+  height: min(100vh, 62.5vw);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+#viewport:fullscreen #hud {
+  width: min(100vw, 160vh);
+  left: 50%;
+  top: max(0px, calc(50vh - 31.25vw));
+  transform: translateX(-50%);
+}
+#viewport:fullscreen #paused-label {
+  bottom: max(13px, calc(50vh - 31.25vw + 13px));
 }

@@ -163,3 +163,28 @@ test("窄與寬畫面都保持8:5且控制項可用", async ({ page }) => {
     ).toBe(true);
   }
 });
+
+test("點風格按鈕後快捷鍵可用，並排進入全螢幕保持畫布8:5", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await ready(page);
+  await page.locator("[data-style=gothic]").click();
+  await page.keyboard.press("Digit3");
+  expect((await diagnostics(page)).style).toBe("sculpted");
+  await page.getByRole("button", { name: "三款並排", exact: true }).click();
+  await page.getByRole("button", { name: "全螢幕", exact: true }).click();
+  await expect
+    .poll(() => page.evaluate(() => Boolean(document.fullscreenElement)))
+    .toBe(true);
+  expect((await diagnostics(page)).comparison).toBe(false);
+  for (const size of [
+    { width: 1280, height: 900 },
+    { width: 1920, height: 1080 },
+  ]) {
+    await page.setViewportSize(size);
+    const box = (await page.locator("#stage canvas").boundingBox())!;
+    expect(box.width / box.height).toBeCloseTo(1.6, 2);
+  }
+  await page.evaluate(() => document.exitFullscreen());
+  expect(errors).toEqual([]);
+});
