@@ -27,3 +27,11 @@ PASS：check、326unit、完整85Chromium26.2分鐘（共享renderer版本；此
 維護來源71d5d16兩輪GitHub Development CI完整85Chromium均PASS（38217069707／38217279702）。後續只补正按钮焦點下1／2／3快捷鍵、並排進fullscreen先回單款、Canvas與HUD共同置中8:5與拒絕fullscreen的簡短回饋；最終獨立HTML五項ChromiumPASS27.1秒，新增fullscreen兩尺寸回歸，未把前一85當此新增第86項已全輪通過。正式新版入口發布來源d772980，部署狀態以implement分支CURRENT_STATE為準。
 
 主人已取消未來多人連線／合作邀請房規劃，後續單人目標；來源分支從正式規格接續此新決定，保留現有單人核心／渲染／保存所需邊界。
+
+## 1.1.0全遊戲精雕冒險像素已發布（線上核對：2026-10-12 12:01:35 UTC）
+
+主人選定精雕冒險像素並要求直接更新全遊戲，現已交付正式[遊玩站](https://sces5504.github.io/Solaria-Remaster/?v=1.1.0)。PR4合併de37e6bc487f92799df19e453ee943423d6db55a，全屏測試相容修正後發布來源34406cce2660244d8999afd2593cc133ab22bfe6／implement。Pages38243697393成功，check／327unit／format／build／完整98Chromium16.0分鐘與deploy成功；同來源Development38243697400／38243702171亦成功。不force、不reset、不merge main，原作未動。
+
+線上實機PASS：18PNG全部SHA256吻合、menu與持武器三肖像decode、真正WebGL／精雕冒險像素／147素材身份索引、8:5、D移動與普攻、tick推進、沒有請求舊四atlas、無pageerror；正常匯出current亦核對玩家移動x>113。全64身份／204有效姿態、九地形／事件／最終王、弱自然光與native火／熔岩／魔法受光、更強局部反射、大樹柱與遮擋淡出、多數繪製FX已使用。核心／数值／碰撞／存檔schema維持，舊旅程可接續；三款歷史演示仍保留。
+
+確切來源／生成／manifest、全部失敗與修正、真正擷取與成功log見docs/art-upgrade。先前de37／4b各97PASS／1FAIL只因新版Chrome不准native fullscreen中改視窗；已退出→改尺寸→重新進全屏，同CI Chromium156五項PASS，未跳過或弱化8:5斷言。不要把旧「尚未選定」「正式遊戲仍原素材」當現況。原S13真GPU60FPS／跨瀏覽器／人工與自然30＋1未測界線仍保持，這是本輪美術交付，不冒稱全遊戲驗收全部完成。未來連線／合作計畫已取消，不加網路預留。

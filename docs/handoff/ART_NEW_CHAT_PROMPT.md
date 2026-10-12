@@ -1,5 +1,7 @@
 # New chat prompt：美術修正／Sprite／特效／UI呈現
 
+正式1.1.0精雕冒險像素已上線：34406cce2660244d8999afd2593cc133ab22bfe6／Pages38243697393成功，327unit／98Chromium與正式URL實機PASS。後續以CURRENT_STATE最新首節為準，歷史三款演示與旧提示只作來源紀錄。
+
 2026-10-12新指示：主人已選定精雕冒險像素，要求本美術chat直接更新全遊戲；三款選樣等待選定的舊狀態已取代。完整美術與渲染已接入art/style-lab／PR4，正式發布與最終checks以CURRENT_STATE最新首節及docs/art-upgrade/VALIDATION.md為準；不要恢復多人預留計畫，不把歷史演示當全遊戲新版。
 
 請將本檔全文貼到負責美術的new chat。這是你的任務授權與上下文：
