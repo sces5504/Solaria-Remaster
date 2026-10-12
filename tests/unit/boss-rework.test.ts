@@ -290,3 +290,22 @@ it("反彈衝撞在反射前命中玩家附近掩體一次，沿用Boss5點／�
   moveBossRush(r, e, m);
   expect(r.obstacles[0].durability).toBe(15);
 });
+
+it("舊存檔掃射沒有beamMotion仍繼續原角速度，新編排不重複旋轉", () => {
+  const { r, e, a, m } = launch(3, "pyramid-rotate");
+  for (const beam of r.areas) delete beam.beamMotion;
+  const initial = r.areas[0].angle;
+  r.time = a.warning;
+  for (let i = 0; i < 60; i++) {
+    updateModes(r);
+    r.time += DT;
+  }
+  expect(r.areas[0].angle - initial).toBeCloseTo(a.rotation / a.duration);
+  const modern = launch(3, "pyramid-rotate");
+  modern.r.time = modern.a.warning + 1;
+  updateModes(modern.r);
+  updateAreas(modern.r);
+  expect(modern.r.areas[0].angle - modern.m.angle).toBeCloseTo(
+    modern.a.rotation / modern.a.duration,
+  );
+});

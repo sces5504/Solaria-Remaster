@@ -117,3 +117,5 @@ Boss data/journey只對Boss抽選seed非線性混合；路線與模板局部stre
 ## 1.2.0 招式編排接口
 
 BossAttack追加可選beamAngles／beamTurn／beamStagger、rushSpeed／rushTime／ricochet、volley與mineDistance。Area.beamMotion保留基角／總轉角／時間，各束按自身starts計算，caster或mode消失仍由區域自然結束；舊檔缺省可讀。普通及反彈王衝撞共用moveBossRush，舊草原王使用同一BossAttack執行入口並保留ID。bossMinion統一正確類型／精英HP及能力；normalizeBossMinions在schema1的current／entry作比例遷移，缺能力用ID專流、不改旅程rng。投射source身份按wave取對應mode，避免兩模式交錯讀錯。Renderer只同步原預警箭頭距離，素材与UI保持。
+
+1.2.0舊實驗checkpoint相容：active sweep若Area缺少beamMotion，沿原mode／DT繼續轉動；新光束按自己的絕對时间，不套兩次旋轉。一般COMBAT仍回入口；此接口兼顧測試給卡保存的進行中快照。

@@ -1,0 +1,30 @@
+
+> solaria-remaster@1.2.0 test
+> vitest run --maxWorkers=1 tests/unit/boss-rework.test.ts tests/unit/feedback-cover.test.ts
+
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/boss-rework.test.ts (42 tests | 1 failed) 108ms
+   × 舊存檔掃射沒有beamMotion仍繼續原角速度，新編排不重複旋轉 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/boss-rework.test.ts > 舊存檔掃射沒有beamMotion仍繼續原角速度，新編排不重複旋轉
+AssertionError: expected 1.43989663289533 to be close to 1.5707963267948966, received difference is 0.13089969389956657, but expected 0.005
+ ❯ tests/unit/boss-rework.test.ts:302:38
+    300|     updateModes(r);
+    301|   }
+    302|   expect(r.areas[0].angle - initial).toBeCloseTo(a.rotation / a.durati…
+       |                                      ^
+    303|   const modern = launch(3, "pyramid-rotate");
+    304|   modern.r.time = modern.a.warning + 1;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 56 passed (57)
+   Start at  16:33:44
+   Duration  1.30s (transform 74%, tests 15%, import 10%, worker 1%)
+

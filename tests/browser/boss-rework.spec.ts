@@ -135,3 +135,21 @@ test("1.2.0 劍士真實右鍵格擋連續落擊，成功後保護與單次反�
   expect(p.blockUntil).toBeGreaterThanOrEqual(p.skillCast + 0.9);
   expect(p.counterAt).toBe(0);
 });
+
+test("1.2.0 舊實驗存檔中的無beamMotion掃射仍以正式RAF繼續", async ({
+  page,
+}) => {
+  const { r, e } = arena(3);
+  const a = { ...bosses[3].attacks[0][0], rotation: Math.PI / 2, duration: 5 };
+  beginBossAttack(r, e, a);
+  for (const beam of r.areas) delete beam.beamMotion;
+  const initial = r.areas[0].angle;
+  await load(page, r);
+  await elapsed(page, 2);
+  const saved = await exported(page);
+  const beam = saved.current.areas.find((a: any) => a.shape === "beam");
+  expect(beam.angle - initial).toBeCloseTo(
+    ((saved.current.time - 0.8) * Math.PI) / 10,
+    1,
+  );
+});

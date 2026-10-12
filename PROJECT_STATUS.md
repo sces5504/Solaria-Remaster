@@ -1,5 +1,11 @@
 # PROJECT_STATUS — v1接續開發與發布驗證
 
+## 1.2.0 舊掃射實驗存檔相容補正（2026-10-12 16:39:44 UTC）
+
+在主體完整Pages38276107983繼續執行時，補上舊實驗checkpoint的active sweep缺少beamMotion仍按原模式時鐘轉動；新光束保持絕對時間計算，不重複旋轉。相關57unit与check／buildPASS，正式RAF舊存檔browser1PASS20.1秒。初輪unit56PASS／1FAIL為用 .8+i*DT組時刻造成與next浮點偏差；改用正式累加DT時鐘后57PASS，不放寬角速度斷言。
+
+此補丁不改主體Boss資料、數值或素材。新增Pages gameplay-feedback只驗四新機制／旧掃射案例与既有recovery，合計5browser；主體完整107仍保留其確切b23來源，不反覆完整套件或拼成新來源全套PASS。後續正常整合main、針對發布及線上6案例核對，未提前標發布成功。
+
 ## 1.2.0 反彈掩體接口補正（2026-10-12 16:14:36 UTC）
 
 最終碰撞對照發現反彈衝撞先改方向再檢查掩體，會漏掉迎面接觸；已改成原方向判定掩體再反射。新增近玩家／同波／2秒保護實際對照，相關56unit、check／buildPASS。Pages38275489868的372unit／格式／build已成功，browser未完；为避免發布漏扣掩體版本取消，沒有標完整browserPASS。最新修正版將完整Pages验证，原e8与e4两次皆取消、未部署；尚未對外發布1.2.0。

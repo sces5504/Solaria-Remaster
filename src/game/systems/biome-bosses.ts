@@ -314,7 +314,13 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
     return;
   }
   if (a.pattern === "sweep") {
-    m.next = m.ends + 1;
+    // Older test checkpoints can contain active sweeping beams without the
+    // new persistent motion metadata. Continue their original mode clock.
+    const legacy = r.areas.filter(
+      (beam) => beam.wave === m.id && beam.shape === "beam" && !beam.beamMotion,
+    );
+    for (const beam of legacy) beam.angle += (a.rotation / a.duration) * DT;
+    m.next = legacy.length ? r.time + DT : m.ends + 1;
     return;
   }
   if (a.pattern === "rush") {

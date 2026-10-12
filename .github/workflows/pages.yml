@@ -6,10 +6,10 @@ on:
   workflow_dispatch:
     inputs:
       validation:
-        description: "Browser validation scope (visual-only feedback patches)"
+        description: "Browser validation scope (full or focused feedback patches)"
         type: choice
         default: full
-        options: [full, art-feedback, visibility-feedback]
+        options: [full, art-feedback, visibility-feedback, gameplay-feedback]
 permissions:
   contents: read
 concurrency:
@@ -36,6 +36,8 @@ jobs:
             npm run test:browser -- tests/browser/adventure-art.spec.ts tests/browser/last-polish.spec.ts --grep '短FX|美術回饋|精雕冒險 (meadow|volcano|castle)：|發光藍雷|扇形噴火'
           elif [ "$VALIDATION_SCOPE" = "visibility-feedback" ]; then
             npm run test:browser -- tests/browser/visibility-feedback.spec.ts
+          elif [ "$VALIDATION_SCOPE" = "gameplay-feedback" ]; then
+            npm run test:browser -- tests/browser/boss-rework.spec.ts tests/browser/recovery.spec.ts
           else
             npm run test:browser
           fi
