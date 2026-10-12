@@ -6,7 +6,7 @@
 
 沿用Node24、npm及package-lock、TypeScript、Vite、Vitest、Playwright Chromium、Prettier。新增PixiJS v8依賴於開發S01，安裝時確認相容並鎖定實際版本；本次文件提交不安裝遊戲依賴。正式畫面用WebGL，無WebGPU或Canvas fallback承諾。Pixi負責視覺，戰鬥核心不可import Pixi／DOM／音效。
 
-選擇理由：固定全房、高頻彈幕、原創atlas與程式特效需要掌握批次繪圖；獨立核心也支援確定性測試與未來合作。代價是自行整合輸入、音效、場景與生命週期，已納入分階段計畫。
+選擇理由：固定全房、高頻彈幕、原創atlas與程式特效需要掌握批次繪圖；獨立核心支援單人固定步進、確定性測試與可靠存檔。代價是自行整合輸入、音效、場景與生命週期，已納入分階段計畫。
 
 ## 預定目錄
 
@@ -64,11 +64,11 @@ IndexedDB內run與profile分離，用revision及transaction保存；settings小�
 
 音效由事件映射，只解鎖一次AudioContext；音量／靜音跨局保存。預留music channel但不放背景音樂。
 
-## 靜態部署與未來合作
+## 靜態部署與單人目標
 
 Vite build到dist，專案Pages base為/Solaria-Remaster/，資源不硬寫根路徑。Actions建置、artifact→Pages；採pages:write、id-token:write與github-pages environment。第一里程碑若無可分享Cloud預覽可提前部署Pages試玩版，正式v1在S14更新；本地文件階段不變更可見性或發布。
 
-後續2–4人合作採用權威核心狀態、command tick與穩定ID。無網路code/房間backend/重連協議第一版；future房間服務單獨托管，Pages只托管前端。可序列化資料和owner/faction欄位先保留，不導入未使用同步SDK。
+主人在2026-10-12明確取消未來多人連線／合作邀請房計畫。專案以單人遊戲為目標，不再規劃房間backend、同步SDK、網路權威狀態或重連協議。固定60Hz、input/state/render分離、可序列化資料、穩定ID與實際傷害來源／陣營欄位仍服務單人玩法、測試與存檔；不因取消規劃而重構正在使用的核心。GitHub Pages繼續托管瀏覽器版遊戲與獨立美術選樣。
 
 ## 雲端與測試
 
@@ -92,7 +92,7 @@ projectile-pool的WeakMap只存暫態退休物件，queue全部消耗後才釋�
 
 RunStore／checkpoint-schema／profile-store／records替代舊Checkpoints實作但保留公開入口與schema1兼容。兩分頁revision以交易檢查及清除墓碑防ABA；永久星典／前版／壞資料分開保存，壞檔先保留原文。profile只有收藏／外觀／教學，沒有永久戰力。UI保存busy串行選擇／import，beforeunload保護交易；取消／拒絕／配額錯誤皆解除忙碌但保留備份流程。
 
-SoundController讀核心事件及UI動作，合成原創分層音效；renderer只讀Run與視覺事件，不修改數值。solariaDiagnostics回傳新建的計數快照，不暴露Run或寫入入口。多人邊界仍保留，沒有提前實作網路。
+SoundController讀核心事件及UI動作，合成原創分層音效；renderer只讀Run與視覺事件，不修改數值。solariaDiagnostics回傳新建的計數快照，不暴露Run或寫入入口。未來多人邊界規劃已由2026-10-12主人要求取消；既有單人核心分離維持。
 
 實際CloudJS物件重用／碰撞順序與重啟已驗證，真GPU效能尚NOT_RUN；不能以架構接入推論60FPS。
 
@@ -103,3 +103,7 @@ core/cover-rules共用20耐久、2秒與靜電110基半徑；systems/cover處理
 Obstacle增加可選invulnerableUntil，schema1兼容；checkpoint-schema在current／entry都遷移耐久比例與既有伙伴250上限，保留波次／時間／journey。Actor的四封印柱仍獨立1500基HP，不是20耐久環境掩體。伙伴沿原Player類型／穩定ID與来源分類，不因固定250改甲／吸血或复活时间。
 
 Boss data/journey只對Boss抽選seed非線性混合；路線與模板局部stream保持，舊journey不重算。render/hazard-markers只畫可走雕像地面印記，不創造碰撞。遊戲chat維護src/game与穩定接口／整合，美術chat render／UI／assets，獨立worktree、由遊戲窗口合併已核對commit後部署implement。共同資料保持可序列化，Visual與geometry是一個規則的呈現，不能在render藏新的傷害判定。
+
+## 取消未來連線計畫（2026-10-12 07:57:13 UTC）
+
+取代舊「未來2–4人合作／邀請房、預留多人邊界」決策。原取捨保留於DECISION_HISTORY等歷史記錄，不再作為後續新增架構的需求。主人沒有取消GitHub Pages託管或現有單人遊戲；本輪只更新規格與記憶，沒有刪除單人效能／保存需要的模組。

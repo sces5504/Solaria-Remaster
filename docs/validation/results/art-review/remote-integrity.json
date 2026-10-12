@@ -1,0 +1,75 @@
+{
+  "result": "PASS",
+  "url": "https://sces5504.github.io/Solaria-Remaster/art-review/",
+  "artifactSHA256": "74346a6b929b63080f0264fcac49116c643487e4b2972339828278e55404871f",
+  "errors": [],
+  "externalDemoRequests": [],
+  "gameMenu": "SOLARIA",
+  "demo": {
+    "style": "sculpted",
+    "paused": true,
+    "comparison": false,
+    "biome": "castle",
+    "subject": "boss18",
+    "tick": 0,
+    "time": 0,
+    "player": {
+      "x": 220,
+      "y": 320
+    },
+    "enemies": [
+      {
+        "id": 126,
+        "kind": 6,
+        "bossId": 18,
+        "phase": 2
+      }
+    ],
+    "projectiles": 0,
+    "renderer": {
+      "sprites": 15,
+      "cachedSprites": 21,
+      "createdSprites": 36,
+      "texts": 0,
+      "cachedTexts": 0,
+      "createdTexts": 0,
+      "glows": 7,
+      "activeGlows": 7,
+      "positions": 2,
+      "renderer": "webgl"
+    },
+    "textures": [
+      "mage",
+      "wolf",
+      "slime",
+      "wolfking",
+      "goatking",
+      "tree",
+      "mon12",
+      "mon13",
+      "mon14",
+      "boss07",
+      "boss08",
+      "volcano-rock",
+      "mon27",
+      "mon28",
+      "mon29",
+      "boss17",
+      "boss18",
+      "castle-pillar",
+      "floor-meadow",
+      "floor-volcano",
+      "floor-castle",
+      "rock",
+      "lake",
+      "door",
+      "pillar",
+      "mon01",
+      "mon02",
+      "castle-rock",
+      "volcano-lake",
+      "castle-tree",
+      "volcano-pillar"
+    ]
+  }
+}

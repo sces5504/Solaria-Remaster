@@ -620,3 +620,7 @@ PASS：最新295unit（288已接入遊戲／事件回歸＋4未接入profile＋3
 S12準備但尚未引用：profile/records/profile-store/run-store/checkpoint-schema、journal/room-copy、SoundController；S13準備但尚未引用：collision-time/spatial-grid、boss-projectiles。特別RunStore新revision墓碑／profile備份尚未實際替代舊Checkpoints，不能宣稱已解決清除旅程的兩分頁ABA或永久紀錄壞檔。只有前三項component單測不能替代整合驗收。
 
 前一已保存檢查點ba94447於遠端backup/v1-progress-2026-10-11。本次檢查點來源commit以git log核對，持續同備份分支保存，不部署部分v1。正式仍53691bf/Pages，遠端implement仍9f88061。接著立即S12整合UI／教學／成就／外觀／音效／保存錯誤與遷移→S07專屬FX剩餘核對→S13平衡效能→S14完整Pages。硬體GPU60FPS／600真GPU／10restart真設備、Firefox/Safari、人工構築周目平衡NOT_RUN。
+
+## 取消未來連線規劃（2026-10-12 07:57:13 UTC）
+
+[使用者明示]「不用管線上遊戲的空間了，我決定取消這遊戲未來連線功能的計劃。」取代舊2–4多人合作／邀請房與連線邊界預留。現行單人遊戲、Web託管、固定核心與渲染分離／保存所需字段維持。這是新正式方向，不恢復已取消的連線計畫；歷史快照中的合作條文只作被取代記錄。
