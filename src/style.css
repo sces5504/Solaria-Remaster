@@ -978,12 +978,12 @@ footer {
 #overlay[data-screen="confirm"] {
   background:
     linear-gradient(#09181ca6, #09181ccc),
-    url("/assets/twilight.svg") center/cover;
+    url("/assets/adventure/menu.png") center/cover;
 }
 .menu {
   background:
     radial-gradient(ellipse at 50% 46%, #0c202c96, #08131bad),
-    url("/assets/twilight.svg") center/cover;
+    url("/assets/adventure/menu.png") center/cover;
 }
 .menu h1 {
   font-size: clamp(56px, 7vw, 96px);

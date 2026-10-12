@@ -1,0 +1,15 @@
+
+Running 3 tests using 1 worker
+
+(node:30108) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/journal.spec.ts:355:1 › 美術資源失敗可重試，既有存檔保持 (7.8s)
+  ✓  2 tests/browser/last-polish.spec.ts:67:1 › 發光藍雷實際照亮附近地面，長時間就緒冷卻條不超出角色腳下 (12.4s)
+  ✓  3 tests/browser/resonance.spec.ts:22:1 › 背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不能重用 (22.3s)
+
+  3 passed (43.4s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

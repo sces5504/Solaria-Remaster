@@ -78,7 +78,7 @@ export function classSelect() {
     bow: "100 生命 / 10 甲<br>精準箭矢 · 一秒五箭快射",
     mage: "90 生命 / 5 甲<br>星火彈 · 指定位置行星爆",
   };
-  return `<section class="panel wide"><div class="eyebrow">選擇你的旅人</div><h2>踏入暮光草原</h2><div class="cards">${(["sword", "bow", "mage"] as ClassId[]).map((id) => `<button class="class-card" data-action="class:${id}"><img src="${import.meta.env.BASE_URL}assets/${id}.png" alt="${zh.classes[id]}"><h3>${zh.classes[id]}</h3><span class="gold">${zh.titles[id]}</span><p>${desc[id]}</p></button>`).join("")}</div>${button("返回主選單", "menu")}</section>`;
+  return `<section class="panel wide"><div class="eyebrow">選擇你的旅人</div><h2>踏入暮光草原</h2><div class="cards">${(["sword", "bow", "mage"] as ClassId[]).map((id) => `<button class="class-card" data-action="class:${id}"><img src="${import.meta.env.BASE_URL}assets/adventure/${id}.png" alt="${zh.classes[id]}"><h3>${zh.classes[id]}</h3><span class="gold">${zh.titles[id]}</span><p>${desc[id]}</p></button>`).join("")}</div>${button("返回主選單", "menu")}</section>`;
 }
 export function choiceView(r: Run, selected: number) {
   return `<section class="panel wide"><div class="eyebrow">世界暫停 · 升級 ${r.level - r.pendingLevels + 1}</div><h2>選擇一份力量</h2><p>${r.pendingLevels > 1 ? "還有 " + r.pendingLevels + " 次選擇" : "循光而行，選擇你的共鳴"} · ${r.elements.map((e) => zh.elements[e]).join(" / ") || `覺醒 ${r.elements.length} / ${r.cards[80] ? 3 : 2}`}</p><div class="cards">${r.choices

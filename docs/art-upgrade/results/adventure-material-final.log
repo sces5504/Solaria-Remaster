@@ -1,0 +1,31 @@
+
+Running 19 tests using 1 worker
+
+(node:37026) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/adventure-art.spec.ts:25:3 › 精雕冒險 meadow：明亮地面、完整角色、較大障礙與光源 (10.0s)
+  ✓   2 tests/browser/adventure-art.spec.ts:25:3 › 精雕冒險 desert：明亮地面、完整角色、較大障礙與光源 (9.0s)
+  ✓   3 tests/browser/adventure-art.spec.ts:25:3 › 精雕冒險 icefield：明亮地面、完整角色、較大障礙與光源 (9.3s)
+  ✓   4 tests/browser/adventure-art.spec.ts:25:3 › 精雕冒險 volcano：明亮地面、完整角色、較大障礙與光源 (11.4s)
+  ✓   5 tests/browser/adventure-art.spec.ts:25:3 › 精雕冒險 jungle：明亮地面、完整角色、較大障礙與光源 (10.2s)
+  ✓   6 tests/browser/adventure-art.spec.ts:25:3 › 精雕冒險 corruption：明亮地面、完整角色、較大障礙與光源 (11.2s)
+  ✓   7 tests/browser/adventure-art.spec.ts:25:3 › 精雕冒險 crimson：明亮地面、完整角色、較大障礙與光源 (9.9s)
+  ✓   8 tests/browser/adventure-art.spec.ts:25:3 › 精雕冒險 stars：明亮地面、完整角色、較大障礙與光源 (10.7s)
+  ✓   9 tests/browser/adventure-art.spec.ts:25:3 › 精雕冒險 castle：明亮地面、完整角色、較大障礙與光源 (10.0s)
+  ✓  10 tests/browser/adventure-art.spec.ts:65:3 › 精雕冒險短FX planet：原核心觸發、繪製粒子與到期清理 (15.4s)
+  ✓  11 tests/browser/adventure-art.spec.ts:65:3 › 精雕冒險短FX lightning：原核心觸發、繪製粒子與到期清理 (16.0s)
+  ✓  12 tests/browser/adventure-art.spec.ts:65:3 › 精雕冒險短FX burn：原核心觸發、繪製粒子與到期清理 (13.0s)
+  ✓  13 tests/browser/last-polish.spec.ts:67:1 › 發光藍雷實際照亮附近地面，長時間就緒冷卻條不超出角色腳下 (12.0s)
+  ✓  14 tests/browser/last-polish.spec.ts:91:1 › 扇形噴火、蒸氣水柱、強光藍雷與無黑邊石門的實際畫面 (6.7s)
+  ✓  15 tests/browser/resonance.spec.ts:22:1 › 背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不能重用 (18.6s)
+  ✓  16 tests/browser/resonance.spec.ts:102:1 › 戰鬥可 E 收裝備到背包，裝備整理仍需清關 (6.6s)
+  ✓  17 tests/browser/resonance.spec.ts:134:1 › 爆炸、雷柱、冰火場及衝鋒拖尾在 WebGL 可呈現 (5.6s)
+  ✓  18 tests/browser/resonance.spec.ts:182:1 › 音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔 (12.4s)
+  ✓  19 tests/browser/resonance.spec.ts:224:1 › 冰緩速、冰凍、電麻痺與粗連鎖分開呈現，遺跡柱與門没有切圖底框 (5.8s)
+
+  19 passed (3.4m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

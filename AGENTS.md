@@ -39,3 +39,7 @@ Keep game modules under src/; add pure gameplay tests under tests/unit/ and brow
 ## v1發布後維護入口（2026-10-12）
 
 使用者本輪指定遊戲調整与美術兩new chat全文交接，docs/handoff為入口；目前實作非startup scaffold，確切來源／PASS／未測看CURRENT_STATE首節。本輪新掩體／南瓜／Boss條件抽選與色彩修復以GAME_SPEC、UI_UX_SPEC最新末節為準，不恢復旧耐久／伙伴3倍HP。兩窗口獨立worktree／分支，gameplay負責整合Pages、art交commit／PR与视觉證據，不競爭推implement／main；不自動建立chat或spawn agents。正式發布仍用既有implement分支完整checks，純文件更新按格式與已驗證發布来源核對。
+
+## 已選定全遊戲美術更新（2026-10-12）
+
+主人明示「精雕冒險像素」「就直接幫我把整個遊戲更新成這個畫面風格」，取代尚待風格選擇／只交選樣的狀態。本chat接續art/style-lab／PR4，完成既有完整checks後將選定美術整合既有implement／Pages；原作與main保持、不force、不reset、不spawn agents。玩法／數值／存檔規則由原權威規格維持；本輪只重繪／調整渲染、自然光與發光、FX、樹柱尺寸。歷史三款演示保留，不代表正式遊戲仍未選風格。

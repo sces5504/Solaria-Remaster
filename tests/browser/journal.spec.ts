@@ -354,13 +354,13 @@ test("瀏覽器拒絕IndexedDB時顯示存檔錯誤而非WebGL，恢復存取可
 });
 test("美術資源失敗可重試，既有存檔保持", async ({ page }) => {
   await load(page, equipmentRun());
-  await page.route("**/boss-atlas.png", (route) => route.abort());
+  await page.route("**/adventure/heroes.png", (route) => route.abort());
   await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
   await expect(
     page.getByRole("heading", { name: "無法載入遊戲" }),
   ).toBeVisible();
-  await page.unroute("**/boss-atlas.png");
+  await page.unroute("**/adventure/heroes.png");
   await page.getByRole("button", { name: "重試", exact: true }).click();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
   await expect(page.locator("#hud .status")).toBeVisible();
