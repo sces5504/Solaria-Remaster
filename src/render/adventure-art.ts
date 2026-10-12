@@ -10,6 +10,7 @@ import catalog from "../../tools/adventure/catalog.json";
 export class AdventureArt {
   readonly textures: Record<string, Texture[]> = {};
   readonly effects: Record<string, Texture> = {};
+  readonly isolatedPixels: Record<string, number> = {};
   private floors: Record<string, HTMLCanvasElement[]> = {};
   private canvas = document.createElement("canvas");
   readonly ground: Texture;
@@ -38,7 +39,11 @@ export class AdventureArt {
             cellSize,
             cellSize,
           );
-          isolateActor(data.data, cellSize, cellSize);
+          const actorIndex = batch * 8 + row * 2 + Math.floor(col / 3);
+          const name = catalog.actors[actorIndex][0];
+          this.isolatedPixels[name] =
+            (this.isolatedPixels[name] ?? 0) +
+            isolateActor(data.data, cellSize, cellSize);
           ctx.putImageData(data, col * cellSize, row * cellSize);
         }
       const atlas = Texture.from(isolated);
@@ -91,12 +96,25 @@ export class AdventureArt {
     const props = [...catalog.props, ...catalog.floors];
     for (let batch = 0; batch < 2; batch++) {
       const url = asset(`assets/adventure/world-${batch}.png`);
-      const atlas = await Assets.load<Texture>(url);
-      atlas.source.scaleMode = "nearest";
-      const cell = atlas.width / 6;
       const image = new Image();
       image.src = url;
       await image.decode();
+      const isolated = document.createElement("canvas");
+      isolated.width = image.width;
+      isolated.height = image.height;
+      const ctx = isolated.getContext("2d")!;
+      ctx.drawImage(image, 0, 0);
+      const cell = image.width / 6;
+      props.slice(batch * 24, batch * 24 + 24).forEach(([name], i) => {
+        if (name.startsWith("floor-")) return;
+        const x = (i % 6) * cell,
+          y = Math.floor(i / 6) * cell;
+        const data = ctx.getImageData(x, y, cell, cell);
+        this.isolatedPixels[name] = isolateActor(data.data, cell, cell);
+        ctx.putImageData(data, x, y);
+      });
+      const atlas = Texture.from(isolated);
+      atlas.source.scaleMode = "nearest";
       props.slice(batch * 24, batch * 24 + 24).forEach(([name], i) => {
         const x = (i % 6) * cell,
           y = Math.floor(i / 6) * cell;

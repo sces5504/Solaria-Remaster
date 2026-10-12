@@ -1,0 +1,16 @@
+
+Running 4 tests using 1 worker
+
+(node:46241) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/visibility-feedback.spec.ts:29:1 › 殘片清理：砂柱／火山障礙及施法怪物保持完整本體 (12.7s)
+  ✓  2 tests/browser/visibility-feedback.spec.ts:64:1 › 光環主角與敵彈：主角在光環前，敵彈在主角前，三地形可辨 (25.7s)
+  ✓  3 tests/browser/visibility-feedback.spec.ts:111:1 › 事件提示：六事件名稱與短句、兩秒後淡出，保持戰鬥輸入 (47.9s)
+  ✓  4 tests/browser/visibility-feedback.spec.ts:138:1 › 日光重臨：勝利動畫配字→捲動感謝字幕→原下一周目流程 (34.1s)
+
+  4 passed (2.0m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

@@ -84,6 +84,10 @@ export class Stage {
   private friendly = new Graphics();
   private danger = new Graphics();
   private numbers = new Container();
+  private heroFront = new Container();
+  private heroEffects: AdventureEffects | null = null;
+  private projectileContrast = new Graphics();
+  private hostileCount = 0;
   private sprites = new Map<string, Sprite>();
   private glows: Sprite[] = [];
   private glowCount = 0;
@@ -138,6 +142,9 @@ export class Stage {
         ? Object.keys(this.adventure.textures).length
         : 0,
       artEffects: this.artEffects?.inspect() ?? null,
+      heroForeground: this.sprites.get("player")?.parent === this.heroFront,
+      hostileMarkers: this.hostileCount,
+      isolatedPixels: this.adventure?.isolatedPixels ?? {},
       renderer: this.app.renderer.name,
     };
   }
@@ -162,6 +169,7 @@ export class Stage {
       this.ground.width = 1024;
       this.ground.height = 640;
       this.artEffects = new AdventureEffects(this.adventure.effects);
+      this.heroEffects = new AdventureEffects(this.adventure.effects);
     } else {
       const atlas = await Assets.load<Texture>(
         this.asset("assets/solaria-atlas.png"),
@@ -227,7 +235,11 @@ export class Stage {
       this.lights,
       this.friendly,
       ...(this.artEffects ? [this.artEffects.layer] : []),
+      this.heroFront,
+      ...(this.heroEffects ? [this.heroEffects.layer] : []),
       this.danger,
+      this.projectileContrast,
+      ...(this.artEffects ? [this.artEffects.hostileLayer] : []),
       this.numbers,
     );
   }
@@ -391,7 +403,10 @@ export class Stage {
       const x = p.x + Math.cos(aim) * 26,
         y = p.y + Math.sin(aim) * 26;
       const name = `weapon-${r.classId}`;
-      this.artEffects.stamp(
+      (this.sprites.get("player")?.parent === this.heroFront
+        ? this.heroEffects!
+        : this.artEffects
+      ).stamp(
         name,
         x,
         y,
@@ -501,6 +516,9 @@ export class Stage {
     f.clear();
     d.clear();
     this.artEffects?.begin();
+    this.heroEffects?.begin();
+    this.projectileContrast.clear();
+    this.hostileCount = 0;
     this.ground.visible = !!r;
     for (const s of this.sprites.values()) s.visible = false;
     for (const s of this.glows) s.visible = false;
@@ -815,6 +833,16 @@ export class Stage {
       this.adventure ? 72 : 60,
       frame,
     );
+    const auraActive = r.areas.some(
+      (a) =>
+        !a.enemy &&
+        a.follow &&
+        a.shape === "circle" &&
+        r.time >= a.starts &&
+        r.time <= a.ends,
+    );
+    const playerLayer = auraActive ? this.heroFront : this.objects;
+    if (ps.parent !== playerLayer) playerLayer.addChild(ps);
     ps.scale.x = Math.abs(ps.scale.x) * (Math.cos(p.aim || 0) < 0 ? -1 : 1);
     ps.alpha =
       p.invulnerable > r.time && Math.floor(r.time * 20) % 2 ? 0.55 : 1;
@@ -1210,6 +1238,15 @@ export class Stage {
       );
     }
     for (const b of r.projectiles) {
+      if (b.enemy) {
+        this.hostileCount++;
+        // Dual contour works on sand, lava, snow and dark starfield alike.
+        // Visual radius only; collision and original element colours unchanged.
+        this.projectileContrast
+          .circle(b.x, b.y, b.radius + 3)
+          .fill({ color: 0x10212d, alpha: 0.9 })
+          .stroke({ color: 0xfff4da, width: 1.7, alpha: 0.95 });
+      }
       if (this.artEffects?.projectile(b, r)) continue;
       if (eventProjectile(d, b, r.time)) {
         this.glow(

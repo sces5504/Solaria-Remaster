@@ -10,12 +10,15 @@ import { elementColor, bolt } from "./effects";
 /** Retained pixel illustrations complement exact, unobscured danger geometry. */
 export class AdventureEffects {
   readonly layer = new Container();
+  readonly hostileLayer = new Container();
+  private target = this.layer;
   private sprites: Sprite[] = [];
   private used = 0;
   private activeNames = new Set<string>();
   constructor(private textures: Record<string, Texture>) {}
   begin() {
     for (const sprite of this.sprites) sprite.visible = false;
+    this.target = this.layer;
     this.used = 0;
     this.activeNames.clear();
   }
@@ -44,6 +47,7 @@ export class AdventureEffects {
       this.sprites.push(s);
       this.layer.addChild(s);
     }
+    if (s.parent !== this.target) this.target.addChild(s);
     s.texture = this.textures[name];
     s.position.set(x, y);
     s.width = w;
@@ -97,6 +101,7 @@ export class AdventureEffects {
       r.enemies.find((e) => e.id === b.owner)?.kind === 4
     )
       return false;
+    this.target = b.enemy ? this.hostileLayer : this.layer;
     const theme = b.enemyTheme;
     const source = b.context?.sourceAbilityId;
     const authoredProjectile: Record<number, string> = {
@@ -167,6 +172,7 @@ export class AdventureEffects {
             ? 0xffc38c
             : 0xd8ddff,
       );
+    this.target = this.layer;
     return true;
   }
   area(r: Run, a: Area, g: Graphics) {

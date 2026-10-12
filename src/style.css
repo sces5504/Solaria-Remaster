@@ -1524,3 +1524,243 @@ button {
 .test-card.紅 {
   --card-accent: #ef8799;
 }
+
+#event-arrival {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(85%, 620px);
+  padding: 20px 28px;
+  text-align: center;
+  pointer-events: none;
+  z-index: 3;
+  color: #fff3d3;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #10202cd9 25%,
+    #10202cd9 75%,
+    transparent
+  );
+  text-shadow:
+    0 2px 3px #08111c,
+    0 0 12px #08111c;
+}
+#event-arrival[hidden] {
+  display: none;
+}
+#event-arrival strong {
+  font-size: clamp(20px, 3vw, 36px);
+  letter-spacing: 0.08em;
+}
+#event-arrival p {
+  margin: 9px 0 0;
+  color: #e7e6de;
+}
+.ending {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: url("/assets/adventure/ending.png") center / cover;
+  image-rendering: pixelated;
+  color: #fff1cb;
+  text-align: center;
+  text-shadow: 0 2px 8px #0a172a;
+}
+.ending-night,
+.ending-eclipse,
+.ending-rays {
+  position: absolute;
+  pointer-events: none;
+}
+.ending-night {
+  inset: 0;
+  background: #080d25;
+  animation: ending-dawn 6s both;
+  animation-delay: var(--ending-age);
+}
+.ending-eclipse {
+  width: 12%;
+  aspect-ratio: 1;
+  left: 44%;
+  top: 10%;
+  border-radius: 50%;
+  background: #101628;
+  box-shadow: 0 0 24px #ffde8c;
+  animation: ending-eclipse 6s both;
+  animation-delay: var(--ending-age);
+}
+.ending-rays {
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 22%, #ffeab94a, transparent 60%);
+  animation: ending-light 6s both;
+  animation-delay: var(--ending-age);
+}
+.ending-caption {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 14%;
+  height: 75px;
+}
+.ending-line {
+  position: absolute;
+  width: 100%;
+  font-size: clamp(18px, 2.6vw, 28px);
+  font-weight: 600;
+  padding: 15px 4px;
+  margin: 0;
+  background: linear-gradient(90deg, transparent, #142635bb, transparent);
+  animation: ending-caption 6s both;
+  animation-delay: var(--ending-age);
+}
+.line-two {
+  animation-name: ending-caption-two;
+}
+.line-three {
+  animation-name: ending-caption-three;
+}
+.ending-controls {
+  position: absolute;
+  bottom: 18px;
+  right: 18px;
+}
+.ending-controls button {
+  background: #102332dc;
+  font-size: 13px;
+}
+.ending.credits::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #0a16235e;
+  pointer-events: none;
+}
+.credits-window {
+  position: absolute;
+  inset: 12% 15% 15%;
+  overflow: hidden;
+  z-index: 1;
+  background: linear-gradient(90deg, transparent, #101f2bb8, transparent);
+  mask-image: linear-gradient(transparent, black 10%, black 85%, transparent);
+}
+.credits-roll {
+  animation: ending-credits 16s linear both;
+  padding-top: 15px;
+}
+.credits-roll p {
+  margin: 18px 0;
+  font-size: clamp(14px, 2vw, 22px);
+}
+.credits-roll h2 {
+  font-size: clamp(26px, 3vw, 38px);
+}
+.credits-roll .credit-label {
+  padding-top: 28px;
+  color: #cae4dc;
+  font-size: 14px;
+}
+.ending.credits .ending-controls {
+  z-index: 2;
+}
+@keyframes ending-dawn {
+  from {
+    opacity: 0.9;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes ending-eclipse {
+  0%,
+  15% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  80%,
+  100% {
+    transform: translateX(-100%) scale(0.4);
+    opacity: 0;
+  }
+}
+@keyframes ending-light {
+  0%,
+  20% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+@keyframes ending-caption {
+  0% {
+    opacity: 0;
+  }
+  8%,
+  26% {
+    opacity: 1;
+  }
+  33%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes ending-caption-two {
+  0%,
+  33% {
+    opacity: 0;
+  }
+  40%,
+  60% {
+    opacity: 1;
+  }
+  67%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes ending-caption-three {
+  0%,
+  67% {
+    opacity: 0;
+  }
+  74%,
+  94% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes ending-credits {
+  from {
+    transform: translateY(10%);
+  }
+  to {
+    transform: translateY(-70%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ending-eclipse {
+    animation: none;
+    opacity: 0;
+  }
+  .ending-night {
+    animation: none;
+    opacity: 0;
+  }
+  .ending-rays {
+    animation: none;
+  }
+  .credits-roll {
+    animation: none;
+  }
+  .credits-window {
+    overflow-y: auto;
+    mask-image: none;
+  }
+}

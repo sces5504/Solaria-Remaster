@@ -1,0 +1,9 @@
+
+ RUN  v5.0.3 /workspace/solaria-art
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 4 skipped (5)
+   Start at  14:22:05
+   Duration  471ms (transform 84%, import 14%, tests 1%, worker 1%)
+

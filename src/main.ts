@@ -1,3 +1,4 @@
+import { endingView, type EndingPhase } from "./ui/ending";
 import { journal, tutorial } from "./ui/journal";
 import { roomTitle, roomStory } from "./ui/room-copy";
 import { eventDefinitions } from "./game/data/events";
@@ -25,7 +26,7 @@ import { zh } from "./i18n/zh-TW";
 import * as view from "./ui/view";
 const root = document.querySelector<HTMLDivElement>("#app")!;
 root.innerHTML =
-  '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>日蝕之後 · 尋回日光</span><div class="sound"><button id="fullscreen" title="Esc 離開全螢幕">全螢幕</button><button id="testing">測試</button><label for="volume">音量</label><input id="volume" type="range" min="0" max="1" step="0.05" aria-label="音效音量"><button id="mute">音效</button></div></header><main><div class="game-layout"><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="world-hints" aria-live="polite"></div><div id="overlay"></div><div id="toast" role="status"></div></div><aside id="sidebar" aria-label="角色屬性與裝備"></aside></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · E 拾取／進門 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
+  '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>日蝕之後 · 尋回日光</span><div class="sound"><button id="fullscreen" title="Esc 離開全螢幕">全螢幕</button><button id="testing">測試</button><label for="volume">音量</label><input id="volume" type="range" min="0" max="1" step="0.05" aria-label="音效音量"><button id="mute">音效</button></div></header><main><div class="game-layout"><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="world-hints" aria-live="polite"></div><div id="event-arrival" aria-live="polite" aria-atomic="true" hidden></div><div id="overlay"></div><div id="toast" role="status"></div></div><aside id="sidebar" aria-label="角色屬性與裝備"></aside></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · E 拾取／進門 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
 const stage = new Stage(),
   saves = new Checkpoints(),
   audio = new AudioMixer(),
@@ -50,6 +51,46 @@ let run: Run | null = null,
   lastHud = 0,
   warningId = 0,
   wasSkillReady = false;
+let endingKey = "",
+  endingStarted = 0,
+  endingPhase: EndingPhase = "cinematic";
+let eventArrivalKey = "",
+  eventArrivalStarted = 0;
+const eventArrival = document.querySelector<HTMLDivElement>("#event-arrival")!;
+const eventPhrases = {
+  christmas: "冰鈴響起，雪夜裡的禮物藏著危機。",
+  bloodmoon: "赤月升起，暮色之中傳來獵者的低鳴。",
+  halloween: "鬼火甦醒，今夜的墓園不再寂靜。",
+  alien: "天外來客降臨，陌生的光劃破長夜。",
+  meteor: "繁星墜落，抬頭之時也別忘了腳下。",
+  army: "軍旗獵獵，遠方的腳步聲正在逼近。",
+};
+function presentation(ms: number) {
+  if (run?.phase === "RUN_END") {
+    const key = `${run.runId}-${run.loop ?? 1}`;
+    if (endingKey !== key) {
+      endingKey = key;
+      endingStarted = ms;
+      endingPhase = "cinematic";
+    }
+    const age = (ms - endingStarted) / 1000;
+    endingPhase = age < 6 ? "cinematic" : age < 22 ? "credits" : "done";
+  } else endingKey = "";
+  if (run?.event && screen === "game" && run.phase === "COMBAT") {
+    const key = `${run.runId}-${run.loop ?? 1}-${run.room}-${run.event.id}`;
+    if (eventArrivalKey !== key) {
+      eventArrivalKey = key;
+      eventArrivalStarted = ms;
+      eventArrival.innerHTML = `<strong>遭遇事件 · ${eventDefinitions[run.event.id].name}</strong><p>${eventPhrases[run.event.id]}</p>`;
+    }
+    const age = (ms - eventArrivalStarted) / 1000;
+    eventArrival.style.opacity = `${age <= 2 ? 1 : Math.max(0, 1 - (age - 2) / 0.8)}`;
+    eventArrival.hidden = age >= 2.8;
+  } else {
+    eventArrival.hidden = true;
+    if (!run?.event) eventArrivalKey = "";
+  }
+}
 let toastTimeout: ReturnType<typeof setTimeout>;
 function download(text: string, name: string) {
   const url = URL.createObjectURL(
@@ -97,8 +138,17 @@ function pause() {
   }
 }
 function refresh(force = false) {
+  if (run?.phase === "RUN_END") {
+    const key = `${run.runId}-${run.loop ?? 1}`;
+    if (endingKey !== key) {
+      endingKey = key;
+      endingStarted = performance.now();
+      endingPhase = "cinematic";
+    }
+  }
   const sig = [
     screen,
+    run?.phase === "RUN_END" ? endingPhase : "",
     run?.phase,
     run?.room,
     run?.choices.join(","),
@@ -146,7 +196,11 @@ function refresh(force = false) {
     if (run.phase === "DEAD")
       html = `<section class="panel"><div class="eyebrow">旅程紀錄</div><h2>暮光收留了你</h2><p>${zh.classes[run.classId]} · Lv.${run.level}<br>抵達第 ${run.room} 房 · ${Math.floor(run.time / 60)} 分 ${Math.floor(run.time % 60)} 秒</p><p>這次的構築告一段落，下一次旅程仍有所有職業與卡片。</p>${view.button("再踏旅途", "new")}${view.button("主選單", "menu")}</section>`;
     if (run.phase === "RUN_END")
-      html = `<section class="panel"><div class="eyebrow">日光重臨 · 第 ${run.loop ?? 1} 周目</div><h2>旅人，謝謝你</h2><p>${zh.classes[run.classId]} · Lv.${run.level}<br>${Math.floor(run.time / 60)} 分 ${Math.floor(run.time % 60)} 秒 · 擊敗索拉里斯神</p><p>製作者：Mori Fang</p><p class="fine">下一周目保留本局構築，秘境將重新展開。</p>${view.button("下一周目", "nextLoop")}${view.button("完成本局", "finish")}${view.button("匯出構築", "export")}</section>`;
+      html = endingView(
+        run,
+        endingPhase,
+        (performance.now() - endingStarted) / 1000,
+      );
   }
   const wasModal = !overlay.classList.contains("hidden");
   overlay.innerHTML = html;
@@ -260,6 +314,9 @@ async function action(value: string) {
       screen = "menu";
       run = null;
       saved = await saves.load();
+    } else if (act === "skipEnding" && run?.phase === "RUN_END") {
+      endingStarted = performance.now() - 22001;
+      endingPhase = "done";
     } else if (act === "nextLoop" && run && !saveBusy) {
       if (nextLoop(run)) persist(true);
     } else if (act === "finish" && run) {
@@ -555,6 +612,7 @@ function frame(ms: number) {
       : view.sidebarIntro();
     lastHud = ms;
   }
+  presentation(ms);
   refresh();
   requestAnimationFrame(frame);
 }
