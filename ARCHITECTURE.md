@@ -113,3 +113,7 @@ Boss data/journey只對Boss抽選seed非線性混合；路線與模板局部stre
 主人已接受美術，明示「後面就不要動了」及「從下個AI開始，遊戲的更新都放到repo的main」。1.1.2已保存固定tag v1.1.2／archive/v1.1.2（9abc6d8），同版整合到main。後續唯一正式分支及Pages來源是main；可用工作分支，但成果合併main。禁止改備份、reset／force push，原作只讀。美術素材／風格／配色／光影／FX／UI外觀定稿；機制資料與確診跨層Bug只作維持外觀的最小修正。取消未來多人計畫仍有效。小修只跑相关檢查，不反覆完整套件。
 
 本節取代舊「main尚未合併／不得merge main／implement正式分支／雙美術與機制窗口」等規則；舊節保留歷史，不能阻止當前授權。完整接續入口docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md與BASELINE_1.1.2.md。
+
+## 1.2.0 招式編排接口
+
+BossAttack追加可選beamAngles／beamTurn／beamStagger、rushSpeed／rushTime／ricochet、volley與mineDistance。Area.beamMotion保留基角／總轉角／時間，各束按自身starts計算，caster或mode消失仍由區域自然結束；舊檔缺省可讀。普通及反彈王衝撞共用moveBossRush，舊草原王使用同一BossAttack執行入口並保留ID。bossMinion統一正確類型／精英HP及能力；normalizeBossMinions在schema1的current／entry作比例遷移，缺能力用ID專流、不改旅程rng。投射source身份按wave取對應mode，避免兩模式交錯讀錯。Renderer只同步原預警箭頭距離，素材与UI保持。

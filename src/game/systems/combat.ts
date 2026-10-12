@@ -458,7 +458,7 @@ export function hurt(
       visual(r, "block", p, 0, 0xa8f2dd, 48, p.aim || 0);
       p.blockHit = true;
       p.counterAt = r.time + 0.3;
-      p.blockUntil = Math.max(p.blockUntil, r.time + 0.4);
+      p.blockUntil = Math.max(p.blockUntil, r.time + 0.75);
     }
     return false;
   }
@@ -617,9 +617,7 @@ export function shoot(
           })()
         : undefined,
       bossAttackId: enemy
-        ? (r.modes.find(
-            (m) => m.actor === owner && m.starts <= r.time && m.ends >= r.time,
-          )?.attackId ??
+        ? (r.modes.find((m) => m.actor === owner && m.id === wave)?.attackId ??
           (r.enemies.find((e) => e.id === owner)?.sealPillar
             ? "solaris-seal"
             : undefined))
@@ -757,6 +755,15 @@ export function updateAreas(r: Run) {
     }
     // A one-shot may begin AND expire between fixed ticks. Resolve its first
     // scheduled strike once, rather than silently discarding the entire event.
+    if (a.beamMotion) {
+      const elapsed = Math.max(
+        0,
+        Math.min(a.beamMotion.duration, r.time - a.starts),
+      );
+      a.angle =
+        a.beamMotion.angle +
+        (a.beamMotion.rotation * elapsed) / a.beamMotion.duration;
+    }
     const pendingInstant = a.ends - a.starts < 1 / 60 && a.next === a.starts;
     if (
       r.time < a.starts ||

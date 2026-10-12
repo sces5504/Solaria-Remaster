@@ -1,0 +1,4 @@
+Initial core: 331/332 PASS, 1 equipment-integration 5000-seed timeout at 5607ms (5000ms limit). Isolated same assertions: PASS, target-unit-retry.log.
+Initial added core batch: 93/96 PASS. Three fixture failures: float exact equality 1.2000000000000002 vs1.2; final net position185.33 was not maximum pursuit distance (three dashes reverse); validate received JSON string instead of parsed object. Corrected observation and input type; target-unit-retry.log 50 PASS. No gameplay weakening or assertion removal.
+Initial browser: 2/3 PASS, real-input single fixed strike arrived before block, player107/150 and blockHitfalse. Retained browser-initial.log; change fixture to repeated low-damage incoming hits, exact0.9/0.75 remains core assertion. Retry result recorded separately.
+Block retry fixture still had36 damage (blockHit true, HP106.8); corrected intended damage1 and starts.4 in test only. browser-block-final.log: 1 PASS24.8s.

@@ -156,3 +156,9 @@ Keep game modules under src/; add pure gameplay tests under tests/unit/ and brow
 主人明示本美術工作完成，後續由唯一機制／數值／Bug窗口接續，美術不要再動，正式更新都在main。已保存tag v1.1.2／archive/v1.1.2到9abc6d8ce90bcde5ef292f0db6202dd38d993e05（遊戲來源7cff9de），並保存原始碼與Pages下載包。重建Pages的HTML／全JS-CSS／20PNG與原線上1.1.2逐位元匹配PASS。GitHub ruleset API403，未啟用防寫鎖；固定SHA、下載副本與不得移動refs規則作恢復依據。
 
 同版將以不丟歷史的fast-forward整合main，Pages push改只main。此次不改遊戲版本、程式、素材／美術；舊implement正式分支／main未合併／雙窗口分工已被主人新指示取代。完整新prompt docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md，備份與回復 docs/handoff/BASELINE_1.1.2.md，原舊稿完整留archive。332unit／4相關browser為原版證據，不冒稱自然全程或GPU驗收；main部署與線上核對待補結果。
+
+## 1.2.0 新試玩方向（2026-10-12 16:01:36 UTC）
+
+[主人明示] 接手機制／數值／Bug，先讀最新main與全文交接，不重做骨架、不依舊Chat；保持1.1.2美術，必要新增招式／UI可按要求補素材。正式更新main；v1.1.2／archive/v1.1.2／archive/v1.1.2-files與下載備份不得改，不reset／force，無新Chat／agent，小修只驗相關。
+
+[主人明示] 近戰Boss距離／移速稍增，绝大部分王需不同且有威脅的攻擊；雷射角度、整周、十字、V型收攏、逐條等，彈幕參考東方／雷霆，近戰多段／反彈／瞬移／旋轉／跳斬／撼地等是可使用的方向，並非每招皆必須逐個新增。避免把落雷放王身邊白給。召喚小怪必精英、HP是一般精英2倍；提高劍士格擋窗口與成功保護。版本從1.2.0起。具体 .9／.75與各王參數由AI在授權內細化，不能宣稱主人逐數口授。

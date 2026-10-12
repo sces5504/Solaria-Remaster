@@ -268,7 +268,7 @@ export function castSkill(r: Run, c: Command, echo = false) {
   const at = targetPoint(r, c),
     a = angle(p, c.pointerWorld);
   if (!echo && r.classId === "sword") {
-    p.blockUntil = r.time + 0.6;
+    p.blockUntil = r.time + 0.9;
     p.blockHit = false;
   }
   if (!echo && r.classId === "bow") {

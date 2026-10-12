@@ -49,7 +49,7 @@ describe("C01–09 時鐘、職業與來源", () => {
     step(r, idleCommand(r), true);
     expect(r).toEqual(before);
   });
-  it("格擋早擋 .6；成功 .3 反擊一次；晚擋延長至 .4", () => {
+  it("格擋早擋 .9；成功 .3 反擊一次；晚擋延長至 .75", () => {
     const r = arena("sword"),
       cmd = idleCommand(r);
     castSkill(r, cmd);
@@ -63,9 +63,9 @@ describe("C01–09 時鐘、職業與來源", () => {
     expect(r.enemies[0].hp).toBe(hp);
     r.time = 8;
     castSkill(r, cmd);
-    r.time = 8.55;
+    r.time = 8.85;
     hurt(r, 30);
-    expect(r.player.blockUntil).toBeCloseTo(8.95);
+    expect(r.player.blockUntil).toBeCloseTo(9.6);
   });
   it("快射每箭獨立計數，副箭不計；右場只一次", () => {
     const r = arena("bow");

@@ -1,0 +1,13 @@
+
+> solaria-remaster@1.2.0 test
+> vitest run --maxWorkers=1 tests/unit/boss-rework.test.ts tests/unit/persistence.test.ts tests/unit/feedback-cover.test.ts
+
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+
+ Test Files  2 passed (2)
+      Tests  53 passed (53)
+   Start at  15:55:10
+   Duration  1.47s (transform 76%, tests 13%, import 10%, worker 1%)
+

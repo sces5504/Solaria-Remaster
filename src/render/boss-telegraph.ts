@@ -15,7 +15,7 @@ export function bossTelegraph(g: Graphics, r: Run, e: Actor, m: Mode): boolean {
     y: e.y + Math.sin(m.angle) * forward + Math.cos(m.angle) * side,
   });
   if (attack.pattern === "rush") {
-    const length = e.solarisBar ? 210 : 186,
+    const length = (attack.rushSpeed ?? 350) * (attack.rushTime ?? 0.8),
       width = e.radius + 8;
     const pts = [
       local(0, -width),

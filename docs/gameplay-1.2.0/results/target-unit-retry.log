@@ -1,0 +1,13 @@
+
+> solaria-remaster@1.2.0 test
+> vitest run --maxWorkers=1 tests/unit/boss-rework.test.ts tests/unit/equipment-integration.test.ts
+
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+
+ Test Files  2 passed (2)
+      Tests  50 passed (50)
+   Start at  15:51:56
+   Duration  5.60s (tests 79%, transform 19%, import 2%)
+

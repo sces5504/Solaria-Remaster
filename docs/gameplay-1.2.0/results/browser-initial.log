@@ -1,0 +1,45 @@
+
+> solaria-remaster@1.2.0 test:browser
+> playwright test tests/browser/boss-rework.spec.ts --workers=1
+
+[WebServer] (node:2478) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:2497) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/boss-rework.spec.ts:56:1 › 1.2.0 V型雷射在正式RAF旋轉且存檔保留幾何，既有素材與WebGL正常 (21.4s)
+  ✓  2 tests/browser/boss-rework.spec.ts:85:1 › 1.2.0 正式Boss AI召喚兩倍精英HP、可保存與再次讀入 (24.9s)
+  ✘  3 tests/browser/boss-rework.spec.ts:117:1 › 1.2.0 劍士真實右鍵在0.9秒窗口格擋延遲落击，成功後保護與單次反擊 (18.1s)
+
+
+  1) tests/browser/boss-rework.spec.ts:117:1 › 1.2.0 劍士真實右鍵在0.9秒窗口格擋延遲落击，成功後保護與單次反擊 ────────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      129 |   const saved = await exported(page),
+      130 |     p = saved.current.player;
+    > 131 |   expect(p.blockHit).toBe(true);
+          |                      ^
+      132 |   expect(p.hp).toBe(150);
+      133 |   expect(p.blockUntil).toBeGreaterThanOrEqual(2.34);
+      134 |   expect(p.counterAt).toBe(0);
+        at /workspace/Solaria-Remaster/tests/browser/boss-rework.spec.ts:131:22
+
+    Error Context: test-results/boss-rework-1-2-0-劍士真實右鍵在0-9秒窗口格擋延遲落击，成功後保護與單次反擊/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/boss-rework-1-2-0-劍士真實右鍵在0-9秒窗口格擋延遲落击，成功後保護與單次反擊/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/boss-rework-1-2-0-劍士真實右鍵在0-9秒窗口格擋延遲落击，成功後保護與單次反擊/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/browser/boss-rework.spec.ts:117:1 › 1.2.0 劍士真實右鍵在0.9秒窗口格擋延遲落击，成功後保護與單次反擊 ─────────────────
+  2 passed (1.2m)

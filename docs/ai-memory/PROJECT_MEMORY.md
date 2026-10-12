@@ -878,3 +878,11 @@ PR6已合併，發布來源7cff9de9ea3a1f0ace3aec735a1dfb3437158a74；Pages38262
 固定tag v1.1.2／archive/v1.1.2維持9abc6d8ce90bcde5ef292f0db6202dd38d993e05；遊戲下載封存archive/v1.1.2-files固定0400546bc23cd7f3d176fa2f739ebfc705ba0ad2，ZIP SHA256 69fe09cfc5fb3b96e3cd4d2ea002b16cc1234a69516b7edd86c59d9d60ce68d5，下載HTTP200。Release已公開https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.1.2，列tag自動來源下載與固定遊戲ZIP連結。ruleset403／Release附件上傳401，未啟用平台防寫鎖／未稱附件已上傳；以固定Git內容／下載與禁止變更規則保存。主美術工作結束，後續只改非美術機制、數值與Bug，最小接口修正維持外觀。
 
 完整新prompt：docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md；備份／回復：BASELINE_1.1.2.md；短貼用入口：docs/handoff/README.md。主人原1.0.1 prompt完整保留於archive/GAMEPLAY_PROMPT_PRE_ART_1.0.1.txt，不以其舊main／多人／雙窗口規則覆蓋最新要求。證據docs/handoff/results。原GPU、自然全流程等未測界線維持，沒有把同版發布当新平衡驗收；未spawn agent／new chat。
+
+## 1.2.0 Boss 機制改版接續（2026-10-12 16:01:36 UTC）
+
+本 Chat 從最新遠端 main 7573460 安全快轉，完整讀交接、六記憶與正式規格，未依賴舊 Chat；沒有建立 Chat／agent、reset／force 或修改封存。主人四項新回饋正式授權 Boss 差異化與近戰威脅、召喚精英雙倍 HP、劍士格擋增強；版本由 1.2.0 起。美術固定 1.1.2，沿用全部素材／FX／UI，只讓既有衝刺預警同步真實距離與修正交錯招式來源身份。
+
+18 地形王、兩事件王、索拉里斯均增加實際不同的軌跡／時序：360 度、十字／X／Y、V 收攏／逐條雷射，波形／花瓣／追疊／交替彈幕，多段鎖向衝刺／反彈／旋斬與遠端地雷。近戰追擊移速／距離適量提高，不加厚 Boss HP。召喚戰鬥小怪按正確類型建立精英、HP=一般精英×2，維持召喚上限／無 XP 裝備及補包；圖騰／血球／柱是既有目標物，保持原規格。劍士窗口／無敵 .6→.9、成功後 .4→.75，延遲 .3 反擊一次／來源／CD5不變。
+
+舊檔 current／entry 召喚小怪按受傷比例遷移，不復活、不重抽旅程 RNG；schema1、20耐久掩體、250南瓜、Boss抽選、永久收藏保持。M01–07已修／已裁定，不重做；M08仍未確診。改版詳細、逐王表與失敗／補驗在 docs/gameplay-1.2.0。核心一次完整369PASS，後續新增遷移／來源以相關53／39PASS核驗；瀏覽器首輪2PASS／1固定落击與輸入時序FAIL，補驗中。最終CI及發布尚待，不把部分當發布完成。原真GPU／自然全流程／跨瀏覽器NOT_RUN與密集SwiftShader60FPS FAIL仍維持。

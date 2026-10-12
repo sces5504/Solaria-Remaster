@@ -33,6 +33,14 @@ export interface BossAttack {
   damage: number;
   speed: number;
   rotation: number;
+  beamAngles?: number[];
+  beamTurn?: number[];
+  beamStagger?: number;
+  rushSpeed?: number;
+  rushTime?: number;
+  ricochet?: boolean;
+  volley?: "petals" | "sine" | "alternating" | "stack";
+  mineDistance?: number;
   summon?: "minion" | "totem" | "blood";
 }
 export interface BossDefinition {
@@ -515,3 +523,148 @@ export function bossArena(id: number, seed: number) {
     ],
   };
 }
+
+// v1.2.0: identity-specific geometry and timing, using the existing art contract.
+const tune = (id: number, attackId: string, change: Partial<BossAttack>) => {
+  const attack = bosses[id].attacks.flat().find((a) => a.id === attackId)!;
+  Object.assign(attack, change);
+};
+const pi = Math.PI;
+tune(3, "pyramid-rotate", { duration: 4, rotation: pi * 2 });
+tune(3, "pyramid-rays", {
+  pattern: "sweep",
+  arms: 4,
+  beamAngles: [0, pi / 2, pi, -pi / 2],
+  beamStagger: 0,
+  rotation: pi / 2,
+  duration: 2.4,
+});
+tune(3, "pyramid-rings", { volley: "stack", rotation: pi / 12 });
+tune(4, "assassin-dash", {
+  groups: 3,
+  rushSpeed: 390,
+  rushTime: 0.7,
+  duration: 3.2,
+});
+tune(4, "assassin-blades", { volley: "sine", groups: 3, interval: 0.3 });
+tune(4, "assassin-swap", { radius: 165, spread: 140, duration: 3 });
+tune(5, "dragon-breath", { radius: 190, groups: 3, interval: 0.3 });
+tune(5, "dragon-spears", { volley: "stack", groups: 3, interval: 0.3 });
+tune(5, "dragon-dive", { rushSpeed: 370, rushTime: 0.95, duration: 1.05 });
+tune(6, "troll-slam", { radius: 160, spread: 300 });
+tune(6, "troll-block", { volley: "stack", groups: 3, interval: 0.35 });
+tune(6, "troll-spikes", { volley: "alternating", rotation: pi / 4 });
+tune(7, "furnace-balls", { volley: "alternating", interval: 0.3 });
+tune(7, "furnace-ray", {
+  beamAngles: [-pi / 3, pi / 3],
+  beamTurn: [pi / 3, -pi / 3],
+  beamStagger: 0,
+  duration: 2.4,
+});
+tune(7, "furnace-rings", { volley: "stack" });
+tune(8, "beast-firepath", {
+  rushSpeed: 360,
+  rushTime: 1.6,
+  duration: 1.7,
+  ricochet: true,
+});
+tune(8, "beast-tail", {
+  radius: 180,
+  groups: 5,
+  spread: 110,
+  rotation: pi / 2,
+  interval: 0.3,
+  duration: 1.5,
+});
+tune(8, "beast-ring", { volley: "petals", rotation: pi / 10 });
+tune(9, "flower-vine", { radius: 205, groups: 2, interval: 0.5 });
+tune(9, "flower-seeds", { volley: "sine", groups: 4, interval: 0.3 });
+tune(9, "flower-lashes", {
+  radius: 205,
+  rotation: (pi * 2) / 3,
+  interval: 0.45,
+});
+tune(10, "witch-bolts", { volley: "alternating", rotation: pi / 7 });
+tune(10, "witch-spiral", { volley: "sine", rotation: -pi / 9 });
+tune(11, "worm-acid", { volley: "sine", groups: 3, interval: 0.3 });
+tune(11, "worm-rays", {
+  beamAngles: [pi / 4, (pi * 3) / 4, (pi * 5) / 4, (pi * 7) / 4],
+  beamStagger: 0,
+  arms: 4,
+});
+tune(12, "eye-charge", { rushSpeed: 365, rushTime: 0.9, duration: 1 });
+tune(12, "eye-double", {
+  groups: 2,
+  rushSpeed: 365,
+  rushTime: 0.7,
+  duration: 2.2,
+});
+tune(12, "eye-complement", { volley: "alternating" });
+tune(12, "eye-beams", { beamAngles: [0, pi], arms: 2, beamStagger: 0.45 });
+tune(13, "brain-needles", { volley: "stack", groups: 3, interval: 0.35 });
+tune(13, "brain-diamond", { rotation: pi / 8, volley: "alternating" });
+tune(13, "brain-network", {
+  beamAngles: [0, pi / 2, pi, -pi / 2],
+  arms: 4,
+  beamStagger: 0.3,
+});
+tune(14, "dracula-lunge", {
+  groups: 2,
+  rushSpeed: 380,
+  rushTime: 0.75,
+  duration: 2.3,
+});
+tune(14, "dracula-blades", { volley: "sine", groups: 3, interval: 0.3 });
+tune(14, "dracula-moon", {
+  beamAngles: [0, pi],
+  beamStagger: 0,
+  rotation: -pi,
+  duration: 3,
+});
+tune(15, "queen-spiral", { volley: "petals", rotation: pi / 11 });
+tune(15, "queen-shifted", {
+  beamAngles: [-pi / 3, 0, pi / 3],
+  beamStagger: 0.4,
+});
+tune(15, "queen-cross", { rotation: pi / 10, volley: "alternating" });
+tune(16, "whale-ram", {
+  rushSpeed: 350,
+  rushTime: 1.4,
+  duration: 1.5,
+  ricochet: true,
+});
+tune(16, "whale-wave", { volley: "sine" });
+tune(16, "whale-tail", { radius: 195, spread: 250 });
+tune(16, "whale-sweep", {
+  beamAngles: [pi / 2, -pi / 2],
+  arms: 2,
+  beamStagger: 0,
+  rotation: pi,
+  duration: 3,
+});
+tune(17, "regent-sweep", {
+  radius: 180,
+  groups: 4,
+  spread: 120,
+  rotation: pi / 2,
+  interval: 0.35,
+  duration: 1.5,
+});
+tune(17, "regent-spear", { volley: "stack", groups: 3, interval: 0.35 });
+tune(17, "regent-charge", {
+  groups: 3,
+  rushSpeed: 385,
+  rushTime: 0.65,
+  duration: 3,
+});
+tune(17, "regent-heavy", { radius: 195, spread: 300 });
+tune(18, "archmage-rings", { volley: "petals" });
+tune(18, "archmage-rays", {
+  pattern: "sweep",
+  beamAngles: [0, (pi * 2) / 3, (pi * 4) / 3],
+  beamStagger: 0,
+  rotation: -pi,
+  duration: 3,
+});
+tune(18, "archmage-star", { volley: "petals", rotation: -pi / 13 });
+for (const id of [4, 5, 6, 8, 11, 12, 14, 16, 17]) bosses[id].speed *= 1.18;

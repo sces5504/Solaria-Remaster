@@ -1,0 +1,42 @@
+
+> solaria-remaster@1.2.0 test:browser
+> playwright test tests/browser/boss-rework.spec.ts --grep 劍士真實 --workers=1
+
+[WebServer] (node:2828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:2847) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/browser/boss-rework.spec.ts:117:1 › 1.2.0 劍士真實右鍵格擋連續落擊，成功後保護與單次反擊 (25.6s)
+
+
+  1) tests/browser/boss-rework.spec.ts:117:1 › 1.2.0 劍士真實右鍵格擋連續落擊，成功後保護與單次反擊 ───────────────────────
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 145
+    Received:    106.8
+
+      132 |     p = saved.current.player;
+      133 |   expect(p.blockHit).toBe(true);
+    > 134 |   expect(p.hp).toBeGreaterThanOrEqual(145);
+          |                ^
+      135 |   expect(p.blockUntil).toBeGreaterThanOrEqual(p.skillCast + 0.9);
+      136 |   expect(p.counterAt).toBe(0);
+      137 | });
+        at /workspace/Solaria-Remaster/tests/browser/boss-rework.spec.ts:134:16
+
+    Error Context: test-results/boss-rework-1-2-0-劍士真實右鍵格擋連續落擊，成功後保護與單次反擊/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/boss-rework-1-2-0-劍士真實右鍵格擋連續落擊，成功後保護與單次反擊/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/boss-rework-1-2-0-劍士真實右鍵格擋連續落擊，成功後保護與單次反擊/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/browser/boss-rework.spec.ts:117:1 › 1.2.0 劍士真實右鍵格擋連續落擊，成功後保護與單次反擊 ────────────────────────

@@ -429,3 +429,50 @@ export function assignElite(r: Run, e: Actor) {
       Math.floor(random(r) * 4)
     ];
 }
+
+// Same archetype, biome and loop as a natural elite, with twice its final HP.
+export function bossMinion(
+  r: Run,
+  monsterId: number,
+  x: number,
+  y: number,
+): Actor {
+  const definition = monsters[monsterId];
+  const e = actor(
+    r.nextId++,
+    definition?.archetype ?? monsterId,
+    x,
+    y,
+    true,
+    true,
+  );
+  if (definition) {
+    e.monsterId = monsterId;
+    e.radius = definition.radius;
+    e.element = definition.element;
+  }
+  e.hp = e.maxHP *= enemyHPScale(r) * 2;
+  e.xpReward = 0;
+  assignElite(r, e);
+  e.nextAttack = r.time + 1.2;
+  return e;
+}
+
+// Preserve wounded/dead state when an older save contains ordinary Boss minions.
+export function normalizeBossMinions(r: Run) {
+  for (const e of r.enemies) {
+    if (!e.summoned || e.kind > 5 || e.sealPillar || e.summonRole) continue;
+    e.kind = monsters[e.monsterId ?? 0]?.archetype ?? e.kind;
+    const base =
+      actor(e.id, e.kind, e.x, e.y, true).maxHP * enemyHPScale(r) * 2;
+    if (e.maxHP !== base) {
+      const ratio = Math.min(1, Math.max(0, e.hp / e.maxHP));
+      if (e.enemyShield) e.enemyShield *= base / e.maxHP;
+      e.maxHP = base;
+      e.hp = base * ratio;
+    }
+    e.elite = true;
+    e.xpReward = 0;
+    if (!e.eliteAbility) assignElite({ ...r, rng: seedFor(r.seed, e.id) }, e);
+  }
+}

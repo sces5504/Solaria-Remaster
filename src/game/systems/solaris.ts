@@ -3,7 +3,7 @@ import type { Actor, Run } from "../core/types";
 import type { BossAttack, BossPattern } from "../data/bosses";
 import { actor, roomXPBudget } from "../data/world";
 import { angle, distance, DT } from "../core/primitives";
-import { beginBossAttack } from "./biome-bosses";
+import { beginBossAttack, moveBossRush } from "./biome-bosses";
 import { hurt, shoot, visual } from "./combat";
 import { move } from "./geometry";
 const health = [18000, 22000, 28000];
@@ -31,11 +31,16 @@ const attack = (
 });
 export const solarisAttacks: BossAttack[][] = [
   [
-    attack("solaris-rush", "日輪突進", "rush", { damage: 30, duration: 0.65 }),
+    attack("solaris-rush", "日輪突進", "rush", {
+      damage: 30,
+      duration: 0.95,
+      rushSpeed: 375,
+      rushTime: 0.9,
+    }),
     attack("solaris-leap", "天日躍擊", "mark", { damage: 36 }),
     attack("solaris-flare", "日焰", "slash", {
       damage: 30,
-      radius: 180,
+      radius: 205,
       spread: 100,
     }),
   ],
@@ -59,10 +64,13 @@ export const solarisAttacks: BossAttack[][] = [
     }),
   ],
   [
-    attack("solaris-rays", "日冕雷射", "laser", {
+    attack("solaris-rays", "日冕雷射", "sweep", {
       damage: 24,
       arms: 3,
-      duration: 1.5,
+      beamAngles: [0, (Math.PI * 2) / 3, (Math.PI * 4) / 3],
+      beamStagger: 0,
+      rotation: Math.PI * 2,
+      duration: 3,
     }),
     attack("solaris-falling-stars", "群星墜落", "mark", {
       damage: 36,
@@ -72,7 +80,10 @@ export const solarisAttacks: BossAttack[][] = [
     }),
     attack("solaris-final-rush", "終日突進", "rush", {
       damage: 30,
-      duration: 0.65,
+      groups: 3,
+      duration: 3.4,
+      rushSpeed: 390,
+      rushTime: 0.8,
     }),
   ],
 ];
@@ -167,6 +178,19 @@ export function solarisAI(r: Run, e: Actor) {
   }
   if (e.transition > r.time || e.controlUntil > r.time) return;
   const active = r.modes.filter((m) => m.actor === e.id && m.ends > r.time);
+  for (const m of active) {
+    if (
+      m.bossAttack?.pattern === "rush" &&
+      m.count > 0 &&
+      m.count < m.bossAttack.groups &&
+      e.rushUntil <= r.time &&
+      m.starts < e.rushUntil
+    ) {
+      m.angle = angle(e, r.player);
+      m.target = { ...r.player };
+      m.starts = m.next;
+    }
+  }
   if (r.time >= e.nextAttack && active.length < 2) {
     const a = solarisAttacks[e.solarisBar! - 1][e.attackOrdinal++ % 3];
     beginBossAttack(r, e, a);
@@ -183,12 +207,10 @@ export function solarisAI(r: Run, e: Actor) {
     e.nextAttack = r.time + 2.6;
   }
   if (e.rushUntil > r.time) {
-    move(
+    moveBossRush(
       r,
       e,
-      Math.cos(e.moveAngle) * 310 * DT,
-      Math.sin(e.moveAngle) * 310 * DT,
-      e.radius,
+      active.find((m) => m.bossAttack?.pattern === "rush"),
     );
     if (
       distance(e, r.player) < e.radius + r.player.radius &&
@@ -202,6 +224,6 @@ export function solarisAI(r: Run, e: Actor) {
     distance(e, r.player) > 190
   ) {
     const a = angle(e, r.player);
-    move(r, e, Math.cos(a) * 65 * DT, Math.sin(a) * 65 * DT, e.radius);
+    move(r, e, Math.cos(a) * 77 * DT, Math.sin(a) * 77 * DT, e.radius);
   }
 }

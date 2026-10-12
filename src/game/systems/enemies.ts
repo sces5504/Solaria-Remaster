@@ -17,9 +17,11 @@ import type { Run, Actor, Mode } from "../core/types";
 import { angle, distance, DT, random } from "../core/primitives";
 import { legal, lineBlocked, move, coneHit, segmentDistance } from "./geometry";
 import { shoot, area, hurt, damageCover, visual } from "./combat";
-import { actor } from "../data/world";
+import { actor, bossMinion } from "../data/world";
 import { enemyDamageScale } from "../data/biomes";
 import {
+  beginBossAttack,
+  moveBossRush,
   biomeBossAI,
   updateBossLeap,
   executeBossMode,
@@ -38,13 +40,15 @@ export const bossAttacks = {
 function navigate(r: Run, e: Actor, speed: number) {
   const orbit = (e.id * 2.399963) % (Math.PI * 2);
   const radius =
-    e.kind > 3
-      ? e.monsterId
-        ? preferredRange(e.monsterId)
-        : 185
-      : e.kind === 2
-        ? 60
-        : 32;
+    e.kind > 5
+      ? 80
+      : e.kind > 3
+        ? e.monsterId
+          ? preferredRange(e.monsterId)
+          : 185
+        : e.kind === 2
+          ? 60
+          : 32;
   const target = {
     x: enemyTarget(r, e).x + Math.cos(orbit) * radius,
     y: enemyTarget(r, e).y + Math.sin(orbit) * radius,
@@ -206,40 +210,79 @@ function bossAI(r: Run, e: Actor) {
   if (e.transition > r.time || e.controlUntil > r.time) return;
   const active = r.modes.filter((m) => m.actor === e.id && m.ends > r.time);
   if (r.time >= e.nextAttack && active.length < 2) {
-    const index = Math.floor(e.attackOrdinal++ % 3),
-      attack = bossAttacks[e.kind as 6][e.phase - 1][index];
-    const types: Mode["type"][] =
+    const index = e.attackOrdinal++ % 3;
+    const id = bossAttacks[e.kind as 6][e.phase - 1][index];
+    const pattern =
       e.kind === 6
-        ? e.phase === 1
-          ? ["rush", "fan", "mark"]
-          : ["rush", "spiral", "summon"]
-        : e.phase === 1
-          ? ["rush", "ring", "mine"]
-          : ["rush", "laser", "fan"];
-    const type = types[index];
-    addMode(
-      r,
-      e,
-      type,
-      attack,
-      type === "rush" ? 0.8 : type === "laser" ? 0.8 : 0.6,
-      type === "rush"
-        ? e.phase === 2
-          ? 3.0
-          : 0.65
-        : type === "spiral"
-          ? 1.8
-          : type === "fan"
-            ? 1.2
-            : type === "ring"
-              ? 1.4
-              : 1.5,
-      type === "rush" && e.phase === 2 ? 3 : 1,
-    );
+        ? (e.phase === 1
+            ? ["rush", "fan", "mark"]
+            : ["rush", "spiral", "summon"])[index]
+        : (e.phase === 1 ? ["rush", "ring", "mine"] : ["rush", "sweep", "fan"])[
+            index
+          ];
+    beginBossAttack(r, e, {
+      id,
+      name: id,
+      pattern: pattern as import("../data/bosses").BossPattern,
+      warning: pattern === "rush" || pattern === "sweep" ? 0.8 : 0.6,
+      duration:
+        pattern === "rush"
+          ? e.phase === 2
+            ? 3.8
+            : 0.95
+          : pattern === "sweep"
+            ? 2.4
+            : 1.8,
+      interval: pattern === "spiral" ? 0.14 : 0.3,
+      shots: pattern === "ring" ? 14 : 6,
+      groups:
+        pattern === "rush"
+          ? e.phase === 2
+            ? 3
+            : 1
+          : pattern === "summon"
+            ? 3
+            : 4,
+      arms: pattern === "sweep" ? 4 : 2,
+      spread: 110,
+      radius: 65,
+      damage:
+        pattern === "rush"
+          ? 30
+          : pattern === "sweep"
+            ? 24
+            : pattern === "mark" || pattern === "mine"
+              ? 36
+              : 18,
+      speed: 235,
+      rotation: pattern === "sweep" ? Math.PI / 2 : Math.PI / 10,
+      rushSpeed: e.kind === 6 ? 365 : 345,
+      rushTime: 0.85,
+      beamAngles:
+        pattern === "sweep"
+          ? [0, Math.PI / 2, Math.PI, -Math.PI / 2]
+          : undefined,
+      beamStagger: 0,
+      summon: "minion",
+      volley: e.kind === 6 ? "sine" : "alternating",
+    });
     e.nextAttack = r.time + 2.4;
   }
-  if (!active.some((m) => m.type === "rush"))
-    navigate(r, e, (e.kind === 6 ? 85 : 48) * (e.iceUntil > r.time ? 0.8 : 1));
+  for (const m of active) {
+    if (
+      m.bossAttack?.pattern === "rush" &&
+      m.count > 0 &&
+      m.count < m.bossAttack.groups &&
+      e.rushUntil <= r.time &&
+      m.starts < e.rushUntil
+    ) {
+      m.angle = angle(e, enemyTarget(r, e));
+      m.target = { ...enemyTarget(r, e) };
+      m.starts = m.next;
+    }
+  }
+  if (!active.some((m) => m.starts > r.time) && e.rushUntil <= r.time)
+    navigate(r, e, (e.kind === 6 ? 100 : 57) * (e.iceUntil > r.time ? 0.8 : 1));
 }
 export function refillEnemies(r: Run) {
   const cap = Math.max(4, Math.min(10, r.encounterCap ?? 6));
@@ -612,14 +655,8 @@ export function updateModes(r: Run) {
       const count = r.enemies.filter((e) => e.summoned && e.hp > 0).length;
       if (count < 3)
         for (let i = count; i < 3; i++) {
-          const summoned = actor(
-            r.nextId++,
-            1,
-            e.x + (i - 1) * 55,
-            e.y + 70,
-            false,
-            true,
-          );
+          const summoned = bossMinion(r, 1, e.x + (i - 1) * 55, e.y + 70);
+          summoned.bossOwner = e.id;
           if (!legal(r, summoned, summoned.radius)) {
             summoned.x = 800;
             summoned.y = 300 + i * 40;
@@ -666,23 +703,7 @@ export function updateModes(r: Run) {
       e.transition <= r.time
     ) {
       const m = r.modes.find((m) => m.actor === e.id && m.type === "rush");
-      if (m)
-        damageCover(r, e, 0, m.id, "boss", (o) =>
-          coverInRush(
-            o,
-            e,
-            Math.cos(e.moveAngle) * 310 * DT,
-            Math.sin(e.moveAngle) * 310 * DT,
-            e.radius,
-          ),
-        );
-      move(
-        r,
-        e,
-        Math.cos(e.moveAngle) * 310 * DT,
-        Math.sin(e.moveAngle) * 310 * DT,
-        e.radius,
-      );
+      moveBossRush(r, e, m);
       contactRush(r, e, 30, enemyElements(e));
     }
   r.modes = r.modes.filter(

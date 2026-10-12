@@ -76,3 +76,7 @@ Firefox／Safari桌面功能煙測，viewport縮放與fullscreen檢查指針準�
 新增post-v1-feedback Chromium：五色裝備背包／側欄特殊名、六色構築／已知圖鑑／未知不揭名、橘紅選卡背景／hover光色且保留能力家族圖案、魔王城機關可跨越與真柱碰撞、舊南瓜快照250且玩家生命强化仍有效。原本Boss測試改在整個模擬過程觀測實際攻擊活動，仍核對各階段三種attackId與模式上限；不能要求玩家遠離所有掩體時也必須扣耐久。
 
 回歸基線為上一版307unit／77Chromium與正式站2案例；本輪完整結果、部署來源和失敗保留見PROJECT_STATUS最新首節與docs/validation/results。全局S13硬體與人工NOT_RUN不因這輪Bug回歸而變PASS。
+
+## 1.2.0 回歸
+
+boss-rework.test.ts實際執行V收攏／全周／同步十字／逐條雷射，死後自然旋轉／掩體來源、多段衝刺鎖向／距離／碰牆、反彈合法位置、每類及高周目召喚HP／能力／無XP、舊檔比例／死怪／RNG、遠端雷擊／地雷、旋斬傷害、花瓣速度／波形保存、交錯模式來源與.9／.75格擋精確邊界。boss-rework.spec.ts以正式RAF、真實右鍵／export／import驗旋轉、召喚與格擋，等核心時間、不用牆鐘當模擬時序。版本改動較廣，發布CI完整core／browser一次；小修後僅補失敗／受影響case。保留失敗與未測，詳docs/gameplay-1.2.0。

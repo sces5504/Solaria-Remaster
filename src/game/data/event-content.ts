@@ -145,7 +145,7 @@ export const eventBosses: Record<number, BossDefinition> = {
     name: "霜鈴老人",
     biome: "icefield",
     hp: 3900,
-    speed: 80,
+    speed: 94,
     radius: 34,
     layout: "lanes",
     attacks: [
@@ -161,9 +161,11 @@ export const eventBosses: Record<number, BossDefinition> = {
           damage: 24,
         }),
         spell("santa-slide", "滑行撞擊", "rush", {
-          duration: 0.6,
+          duration: 1.8,
           damage: 32,
-          speed: 520,
+          rushSpeed: 350,
+          rushTime: 1.7,
+          ricochet: true,
         }),
       ],
       [
@@ -182,6 +184,8 @@ export const eventBosses: Record<number, BossDefinition> = {
         }),
         spell("santa-lasers", "交錯鈴光", "laser", {
           arms: 3,
+          beamAngles: [-Math.PI / 3, 0, Math.PI / 3],
+          beamStagger: 0.4,
           groups: 3,
           radius: 10,
           damage: 24,
@@ -226,7 +230,9 @@ export const eventBosses: Record<number, BossDefinition> = {
           groups: 2,
           radius: 12,
           duration: 2.2,
-          rotation: 0.9,
+          rotation: Math.PI,
+          beamAngles: [0, Math.PI],
+          beamStagger: 0,
           damage: 26,
         }),
         spell("pumpkin-leap", "躍地爆破", "mark", {

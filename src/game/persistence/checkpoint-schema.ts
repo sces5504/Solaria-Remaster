@@ -1,3 +1,4 @@
+import { normalizeBossMinions } from "../data/world";
 import { normalizePumpkinHealth } from "../systems/companion";
 import { normalizeCover } from "../systems/cover";
 import { parseProfile, type Profile } from "./profile";
@@ -255,6 +256,7 @@ export function validate(value: unknown): Saved {
     restoreJourney(r);
     normalizeCover(r);
     normalizePumpkinHealth(r);
+    normalizeBossMinions(r);
   }
   // JSON roundtrip strips prototypes. Strings are never inserted as HTML by UI.
   return migrated;

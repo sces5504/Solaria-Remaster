@@ -1,12 +1,12 @@
 import { coverInCone, coverInRush } from "./cover";
 import { enemyTarget, contactRush, meleeBodies } from "./companion";
-import { enemyElements } from "./monster-details";
+import { attachSine, enemyElements } from "./monster-details";
 import type { Actor, Mode, Run } from "../core/types";
 import { angle, distance, DT, type Vec } from "../core/primitives";
 import type { BossAttack } from "../data/bosses";
 import { combatBosses as bosses } from "../data/combat-content";
 import { currentBiome, enemyDamageScale, enemyHPScale } from "../data/biomes";
-import { actor } from "../data/world";
+import { actor, bossMinion } from "../data/world";
 import { area, damageCover, hurt, shoot, visual } from "./combat";
 import { legal, move, coneHit } from "./geometry";
 
@@ -84,7 +84,12 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
       : "mark") as Mode["type"],
     attackId: attack.id,
     starts,
-    ends: starts + duration,
+    ends:
+      starts +
+      duration +
+      (attack.pattern === "laser" || attack.pattern === "sweep"
+        ? (attack.arms - 1) * (attack.beamStagger ?? 0.3)
+        : 0),
     next: starts,
     count: 0,
     angle: angle(e, enemyTarget(r, e)),
@@ -148,7 +153,11 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
   if (attack.pattern === "mine")
     for (let i = 0; i < attack.groups; i++) {
       const a = (i * Math.PI * 2) / attack.groups + m.angle;
-      const p = { x: e.x + Math.cos(a) * 130, y: e.y + Math.sin(a) * 130 };
+      const radius = attack.mineDistance ?? 215;
+      const p = {
+        x: Math.max(72, Math.min(950, m.target.x + Math.cos(a) * radius)),
+        y: Math.max(100, Math.min(570, m.target.y + Math.sin(a) * radius)),
+      };
       area(r, p, attack.radius, damage, 1.3, 4.01, 1, null, {
         owner: e.id,
         eventAbility: attack.id,
@@ -164,7 +173,7 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
         m.origin!,
         1100,
         damage,
-        attack.warning + i * 0.3,
+        attack.warning + i * (attack.beamStagger ?? 0.3),
         attack.duration,
         0.15,
         null,
@@ -173,7 +182,21 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
           wave: id,
           shape: "beam",
           width: 10,
-          angle: m.angle + (i * Math.PI * 2) / attack.arms,
+          angle:
+            m.angle +
+            (attack.beamAngles?.[i] ?? (i * Math.PI * 2) / attack.arms),
+          eventAbility: attack.id,
+          ...(attack.pattern === "sweep"
+            ? {
+                beamMotion: {
+                  angle:
+                    m.angle +
+                    (attack.beamAngles?.[i] ?? (i * Math.PI * 2) / attack.arms),
+                  rotation: attack.beamTurn?.[i] ?? attack.rotation,
+                  duration: attack.duration,
+                },
+              }
+            : {}),
         },
       );
     }
@@ -201,6 +224,19 @@ export function biomeBossAI(r: Run, e: Actor) {
   const b = bosses[e.bossId!];
   if (e.transition > r.time || e.controlUntil > r.time) return;
   const active = r.modes.filter((m) => m.actor === e.id && m.ends > r.time);
+  for (const m of active) {
+    if (
+      m.bossAttack?.pattern === "rush" &&
+      m.count > 0 &&
+      m.count < m.bossAttack.groups &&
+      e.rushUntil <= r.time &&
+      m.starts < e.rushUntil
+    ) {
+      m.angle = angle(e, enemyTarget(r, e));
+      m.target = { ...enemyTarget(r, e) };
+      m.starts = m.next;
+    }
+  }
   const groupActive = e.splitGroup
     ? r.modes.filter((m) =>
         r.enemies.some(
@@ -230,27 +266,11 @@ export function biomeBossAI(r: Run, e: Actor) {
   }
   if (e.rushUntil > r.time) {
     const m = active.find((m) => m.bossAttack?.pattern === "rush");
-    if (m)
-      damageCover(r, e, 0, m.id, "boss", (o) =>
-        coverInRush(
-          o,
-          e,
-          Math.cos(e.moveAngle) * 310 * DT,
-          Math.sin(e.moveAngle) * 310 * DT,
-          e.radius,
-        ),
-      );
-    move(
-      r,
-      e,
-      Math.cos(e.moveAngle) * 310 * DT,
-      Math.sin(e.moveAngle) * 310 * DT,
-      e.radius,
-    );
+    moveBossRush(r, e, m);
     contactRush(
       r,
       e,
-      30 * enemyDamageScale(r),
+      (m?.bossAttack?.damage ?? 30) * enemyDamageScale(r),
       enemyElements(e),
       e.bossId === 14,
     );
@@ -262,15 +282,20 @@ export function biomeBossAI(r: Run, e: Actor) {
       });
   } else if (
     !active.some((m) => m.starts > r.time) &&
-    distance(e, r.player) > 160 &&
+    distance(e, r.player) >
+      (b.attacks
+        .flat()
+        .some((a) => a.pattern === "rush" || a.pattern === "slash")
+        ? 110
+        : 190) &&
     b.speed > 0
   ) {
     const a = angle(e, enemyTarget(r, e));
     move(
       r,
       e,
-      Math.cos(a) * b.speed * DT,
-      Math.sin(a) * b.speed * DT,
+      Math.cos(a) * b.speed * (e.iceUntil > r.time ? 0.8 : 1) * DT,
+      Math.sin(a) * b.speed * (e.iceUntil > r.time ? 0.8 : 1) * DT,
       e.radius,
     );
   }
@@ -289,18 +314,21 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
     return;
   }
   if (a.pattern === "sweep") {
-    for (const beam of r.areas.filter(
-      (area) => area.wave === m.id && area.shape === "beam",
-    ))
-      beam.angle += (a.rotation / a.duration) * DT;
-    m.next = r.time + DT;
+    m.next = m.ends + 1;
     return;
   }
   if (a.pattern === "rush") {
+    if (m.count >= a.groups) {
+      m.next = m.ends + 1;
+      return;
+    }
     e.moveAngle = m.angle;
-    e.rushUntil = r.time + 0.6;
+    e.rushUntil = r.time + (a.rushTime ?? 0.8);
     e.rushHits = [];
-    m.next = m.ends + 1;
+    m.count++;
+    if (m.count < a.groups) {
+      m.next = r.time + (a.rushTime ?? 0.8) + 0.5;
+    } else m.next = m.ends + 1;
     return;
   }
   if (a.pattern === "slash") {
@@ -308,7 +336,7 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
       m.next = m.ends + 1;
       return;
     }
-    const direction = m.angle + (m.count * Math.PI) / 3;
+    const direction = m.angle + m.count * (a.rotation || Math.PI / 3);
     meleeBodies(
       r,
       e,
@@ -338,7 +366,7 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
       },
     );
     m.count++;
-    m.next = r.time + 0.4;
+    m.next = r.time + Math.max(0.3, a.interval);
     return;
   }
   if (a.pattern === "teleport" || a.pattern === "burrow") {
@@ -346,7 +374,11 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
     Object.assign(e, target);
     visual(r, "phase", e, 0, currentBiome(r).palette[2], 80);
     if (a.pattern === "teleport")
-      area(r, e, 65, damage, 0.6, 0.01, 1, null, { owner: e.id, wave: m.id });
+      area(r, e, a.radius, damage, 0.6, 0.01, 1, null, {
+        owner: e.id,
+        wave: m.id,
+        eventAbility: a.id,
+      });
     if (++m.count < a.groups) {
       m.target = { ...enemyTarget(r, e) };
       m.next = r.time + 1.4;
@@ -385,17 +417,16 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
         (a.summon === "minion" ? !s.summonRole : s.summonRole === a.summon),
     ).length;
     for (let i = active; i < a.groups; i++) {
-      const summon = actor(
-        r.nextId++,
-        a.summon === "totem" || a.summon === "blood" ? 2 : 1,
-        e.x + (i - 1) * 55,
-        e.y + 80,
-        false,
-        true,
-      );
       const biome = currentBiome(r);
-      summon.monsterId = biome.monsters[e.bossId === 9 ? 2 : 0];
-      summon.hp = summon.maxHP = 120 * enemyHPScale(r);
+      const summon =
+        a.summon === "minion"
+          ? bossMinion(
+              r,
+              biome.monsters[e.bossId === 9 ? 2 : 0],
+              e.x + (i - 1) * 55,
+              e.y + 80,
+            )
+          : actor(r.nextId++, 2, e.x + (i - 1) * 55, e.y + 80, false, true);
       summon.bossOwner = e.id;
       summon.nextAttack = r.time + 1;
       if (a.summon === "totem") {
@@ -431,7 +462,9 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
     let off = 0,
       p = { x: e.x, y: e.y };
     if (a.pattern === "fan")
-      off = ((-0.5 + i / (n - 1)) * a.spread * Math.PI) / 180;
+      off =
+        ((n === 1 ? 0 : -0.5 + i / (n - 1)) * a.spread * Math.PI) / 180 +
+        m.count * a.rotation;
     if (a.pattern === "ring")
       off = (i * Math.PI * 2) / n + m.count * a.rotation;
     if (a.pattern === "spiral")
@@ -466,7 +499,19 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
           Math.sin(aim) * forward,
       };
     }
-    shoot(r, p, aim + off, damage, a.speed, 1100, null, 1, true, e.id, m.id);
+    if (a.volley === "petals")
+      off += Math.sin(((i * Math.PI * 2) / n) * 5 + m.count * 0.4) * 0.16;
+    if (a.volley === "alternating") off += (m.count % 2 ? 1 : -1) * 0.12;
+    const speed =
+      a.speed *
+      (a.volley === "stack"
+        ? 1 + m.count * 0.12
+        : a.volley === "petals"
+          ? 1 + 0.15 * Math.cos(((i * Math.PI * 2) / n) * 5)
+          : 1);
+    shoot(r, p, aim + off, damage, speed, 1100, null, 1, true, e.id, m.id);
+    if (a.volley === "sine")
+      attachSine(r.projectiles.at(-1)!, (i * Math.PI) / 3 + m.count);
   }
   m.count++;
   m.next = r.time + a.interval;
@@ -504,4 +549,26 @@ export function updateHealingSummon(r: Run, e: Actor) {
       e.summoned = true;
     }
   }
+}
+
+export function moveBossRush(r: Run, e: Actor, m?: Mode) {
+  const speed = m?.bossAttack?.rushSpeed ?? 350;
+  let dx = Math.cos(e.moveAngle) * speed * DT,
+    dy = Math.sin(e.moveAngle) * speed * DT;
+  if (m?.bossAttack?.ricochet) {
+    if (!legal(r, { x: e.x + dx, y: e.y }, e.radius)) dx = -dx;
+    if (!legal(r, { x: e.x, y: e.y + dy }, e.radius)) dy = -dy;
+    e.moveAngle = Math.atan2(dy, dx);
+  }
+  if (m)
+    damageCover(r, e, 0, m.id, "boss", (o) =>
+      coverInRush(o, e, dx, dy, e.radius),
+    );
+  const before = { x: e.x, y: e.y };
+  move(r, e, dx, dy, e.radius);
+  if (
+    !m?.bossAttack?.ricochet &&
+    distance(before, e) < Math.hypot(dx, dy) * 0.5
+  )
+    e.rushUntil = r.time;
 }

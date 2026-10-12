@@ -225,6 +225,7 @@ export interface Area extends Vec {
   heavy: boolean;
   mine?: boolean;
   triggerAt?: number;
+  beamMotion?: { angle: number; rotation: number; duration: number };
   effect?: "thunder" | "steam";
 }
 export interface Mode {
