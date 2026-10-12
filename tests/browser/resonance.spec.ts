@@ -28,7 +28,7 @@ test("背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不�
     await page
       .locator(".menu")
       .evaluate((n) => getComputedStyle(n).backgroundImage),
-  ).toContain("twilight.svg");
+  ).toContain("assets/adventure/menu.png");
   await page.screenshot({ path: "test-results/dusk-menu.png" });
   await page
     .getByRole("button", { name: `卡片圖鑑 · ${cards.length}` })
@@ -37,6 +37,20 @@ test("背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不�
   await expect(page.locator(".catalog")).not.toContainText("衝鋒斬");
   await page.getByRole("button", { name: "返回", exact: true }).click();
   await page.getByRole("button", { name: "開始新局", exact: true }).click();
+  await expect(page.locator(".class-card img")).toHaveCount(3);
+  await expect
+    .poll(() =>
+      page
+        .locator(".class-card img")
+        .evaluateAll((images) =>
+          images.every(
+            (image) =>
+              (image as HTMLImageElement).complete &&
+              (image as HTMLImageElement).naturalWidth === 128,
+          ),
+        ),
+    )
+    .toBe(true);
   await page.screenshot({ path: "test-results/armed-portraits.png" });
   const r = newRun("sword", 754);
   r.phase = "UPGRADE_CHOICE";

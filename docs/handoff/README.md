@@ -1,5 +1,7 @@
 # 兩個new chat交接入口
 
+2026-10-12新指示：主人已選定精雕冒險像素，要求本美術chat直接更新全遊戲；三款選樣等待選定的舊狀態已取代。完整美術與渲染已接入art/style-lab／PR4，正式發布與最終checks以CURRENT_STATE最新首節及docs/art-upgrade/VALIDATION.md為準；不要恢復多人預留計畫，不把歷史演示當全遊戲新版。
+
 使用者在2026-10-12明示：本輪五項修正完成後準備兩份完整prompt，分開遊戲調整與美術。這不是自動建立chat或啟動代理。
 
 - 遊戲調整：全文複製 `GAMEPLAY_NEW_CHAT_PROMPT.md`，數值／機制／Bug與兩邊整合／GitHub Pages發布。

@@ -1,3 +1,5 @@
+import { AdventureArt } from "./adventure-art";
+import { AdventureEffects } from "./adventure-effects";
 import { castleStatueMark } from "./hazard-markers";
 import { RetainedPool } from "./retained-pool";
 import { bossBeam } from "./boss-beams";
@@ -33,7 +35,13 @@ import {
   elementMotif,
   visualEffect,
 } from "./effects";
-import { MeadowLighting, sceneLights, skillCooldownProgress } from "./lighting";
+import {
+  MeadowLighting,
+  sceneLights,
+  skillCooldownProgress,
+  creatureEmission,
+  themeLightColor,
+} from "./lighting";
 import { cameraFeedback } from "./feedback";
 import { biomeLandscape } from "./biome-landscape";
 const names = [
@@ -60,6 +68,13 @@ const hash = (x: number, y: number, seed: number) => {
   return n - Math.floor(n);
 };
 export class Stage {
+  constructor(private assetResolver?: (path: string) => string) {}
+  private asset(path: string) {
+    return this.assetResolver?.(path) ?? `${import.meta.env.BASE_URL}${path}`;
+  }
+  private adventure: AdventureArt | null = null;
+  private artEffects: AdventureEffects | null = null;
+  private ground = new Sprite(Texture.EMPTY);
   app = new Application();
   private terrain = new Graphics();
   private objects = new Container();
@@ -75,6 +90,16 @@ export class Stage {
   private glowTexture!: Texture;
   private texts = new Map<number, BitmapText>();
   private textures: Record<string, Texture[]> = {};
+  private previewTextures: Record<string, Texture> = {};
+  private previewGround = new Sprite(Texture.EMPTY);
+  /** Isolated art-review entry only; the ordinary game never calls this. */
+  setPreviewArt(textures: Record<string, Texture>, ground: Texture | null) {
+    this.previewTextures = textures;
+    this.previewGround.texture = ground ?? Texture.EMPTY;
+    this.previewGround.visible = ground !== null;
+    this.previewGround.width = 1024;
+    this.previewGround.height = 640;
+  }
   private spritePool = new RetainedPool(
     () => new Sprite(Texture.EMPTY),
     (s) => {
@@ -108,6 +133,11 @@ export class Stage {
       glows: this.glows.length,
       activeGlows: this.glowCount,
       positions: this.positions.size,
+      artStyle: this.adventure ? "精雕冒險像素" : "選樣",
+      artIdentities: this.adventure
+        ? Object.keys(this.adventure.textures).length
+        : 0,
+      artEffects: this.artEffects?.inspect() ?? null,
       renderer: this.app.renderer.name,
     };
   }
@@ -124,40 +154,50 @@ export class Stage {
     });
     host.appendChild(this.app.canvas);
     this.app.canvas.setAttribute("aria-label", "Solaria 遊戲畫布");
-    const atlas = await Assets.load<Texture>(
-      `${import.meta.env.BASE_URL}assets/solaria-atlas.png`,
-    );
-    atlas.source.scaleMode = "nearest";
-    for (let row = 0; row < names.length; row++)
-      this.textures[names[row]] = Array.from(
-        { length: 6 },
-        (_, i) =>
-          new Texture({
-            source: atlas.source,
-            frame: new Rectangle(i * 96, row * 96, 96, 96),
-          }),
+    if (!this.assetResolver) {
+      this.adventure = new AdventureArt();
+      await this.adventure.load((path) => this.asset(path));
+      this.textures = this.adventure.textures;
+      this.ground.texture = this.adventure.ground;
+      this.ground.width = 1024;
+      this.ground.height = 640;
+      this.artEffects = new AdventureEffects(this.adventure.effects);
+    } else {
+      const atlas = await Assets.load<Texture>(
+        this.asset("assets/solaria-atlas.png"),
       );
-    for (const prefix of ["biome", "boss", "event"]) {
-      const expansion = await Assets.load<Texture>(
-        `${import.meta.env.BASE_URL}assets/${prefix}-atlas.png`,
-      );
-      const metadata = await fetch(
-        `${import.meta.env.BASE_URL}assets/${prefix}-atlas.json`,
-      ).then(async (response) => {
-        if (!response.ok) throw new Error("無法載入圖像索引");
-        return (await response.json()) as { names: string[] };
-      });
-      expansion.source.scaleMode = "nearest";
-      metadata.names.forEach((name, row) => {
-        this.textures[name] = Array.from(
+      atlas.source.scaleMode = "nearest";
+      for (let row = 0; row < names.length; row++)
+        this.textures[names[row]] = Array.from(
           { length: 6 },
           (_, i) =>
             new Texture({
-              source: expansion.source,
+              source: atlas.source,
               frame: new Rectangle(i * 96, row * 96, 96, 96),
             }),
         );
-      });
+      for (const prefix of ["biome", "boss", "event"]) {
+        const expansion = await Assets.load<Texture>(
+          this.asset(`assets/${prefix}-atlas.png`),
+        );
+        const metadata = await fetch(
+          this.asset(`assets/${prefix}-atlas.json`),
+        ).then(async (response) => {
+          if (!response.ok) throw new Error("無法載入圖像索引");
+          return (await response.json()) as { names: string[] };
+        });
+        expansion.source.scaleMode = "nearest";
+        metadata.names.forEach((name, row) => {
+          this.textures[name] = Array.from(
+            { length: 6 },
+            (_, i) =>
+              new Texture({
+                source: expansion.source,
+                frame: new Rectangle(i * 96, row * 96, 96, 96),
+              }),
+          );
+        });
+      }
     }
     BitmapFont.install({
       name: "SolariaNumbers",
@@ -178,12 +218,15 @@ export class Stage {
     this.lighting = new MeadowLighting();
     this.objects.sortableChildren = true;
     this.app.stage.addChild(
+      this.ground,
       this.terrain,
+      this.previewGround,
       this.shadows,
       this.objects,
       this.lighting.sprite,
       this.lights,
       this.friendly,
+      ...(this.artEffects ? [this.artEffects.layer] : []),
       this.danger,
       this.numbers,
     );
@@ -226,14 +269,17 @@ export class Stage {
       this.sprites.set(key, s);
     }
     s.visible = true;
-    s.texture = this.textures[name][frame];
+    s.texture =
+      this.previewTextures[name] ??
+      this.textures[name]?.[frame] ??
+      Texture.EMPTY;
     s.position.set(x, y);
     s.width = w;
     s.height = h;
     s.alpha = 1;
     s.rotation = 0;
     s.tint = 0xffffff;
-    s.zIndex = name === "lake" ? 0 : y;
+    s.zIndex = name.endsWith("lake") ? 0 : y;
     return s;
   }
   private pose(key: string, x: number, y: number, time: number) {
@@ -244,6 +290,11 @@ export class Stage {
   }
   private landscape(r: Run) {
     const g = this.terrain;
+    if (this.adventure) {
+      g.clear();
+      this.adventure.drawGround(r);
+      return;
+    }
     if (r.biome && r.biome !== "meadow") {
       biomeLandscape(g, r);
       return;
@@ -336,6 +387,21 @@ export class Stage {
     const p = r.player,
       g = this.friendly,
       aim = p.aim || 0;
+    if (this.adventure && this.artEffects) {
+      const x = p.x + Math.cos(aim) * 26,
+        y = p.y + Math.sin(aim) * 26;
+      const name = `weapon-${r.classId}`;
+      this.artEffects.stamp(
+        name,
+        x,
+        y,
+        r.classId === "bow" ? 36 : 50,
+        r.classId === "bow" ? 52 : 30,
+        1,
+        aim,
+      );
+      return;
+    }
     const slash = [...r.visuals]
       .reverse()
       .find(
@@ -434,6 +500,8 @@ export class Stage {
       d = this.danger;
     f.clear();
     d.clear();
+    this.artEffects?.begin();
+    this.ground.visible = !!r;
     for (const s of this.sprites.values()) s.visible = false;
     for (const s of this.glows) s.visible = false;
     this.glowCount = 0;
@@ -456,8 +524,49 @@ export class Stage {
       this.roomKey = key;
       this.positions.clear();
       this.landscape(r.event ? { ...r, biome: r.event.theme } : r);
-      eventLandscape(this.terrain, r);
-      solarLandscape(this.terrain, r);
+      if (!this.adventure) {
+        eventLandscape(this.terrain, r);
+        solarLandscape(this.terrain, r);
+      }
+    }
+    if (this.adventure) {
+      const eventArt: Record<string, string[]> = {
+        christmas: ["event-pine", "gift"],
+        bloodmoon: ["blood-crystal"],
+        halloween: ["gravestone", "pumpkin-lantern"],
+        alien: ["alien-beacon", "alien-landing"],
+        meteor: ["meteor-crater"],
+        army: ["camp-tent", "camp-banner"],
+      };
+      const decor = r.event ? (eventArt[r.event.id] ?? ["camp-tent"]) : [];
+      for (let i = 0; i < (decor.length ? 8 : 0); i++) {
+        const x = 190 + i * 95 + Math.sin(r.seed + i * 3) * 18,
+          y = i % 2 ? 553 : 106;
+        this.sprite(`landmark-${i}`, decor[i % decor.length], x, y, 74, 88);
+      }
+      // Quiet boundary architecture establishes size without creating collision.
+      if (!r.event && theme && this.textures[`banner-${theme}`])
+        for (let i = 0; i < 4; i++)
+          this.sprite(
+            `border-${i}`,
+            `banner-${theme}`,
+            i % 2 ? 978 : 46,
+            i < 2 ? 120 : 568,
+            60,
+            94,
+          );
+      if (theme === "volcano" && this.artEffects)
+        for (const o of r.obstacles)
+          if (o.durability > 0 && o.kind === "lake")
+            for (let i = 0; i < 3; i++)
+              this.artEffects.flame(
+                o.x + o.w * (0.2 + i * 0.3),
+                o.y + o.h * 0.6,
+                24,
+                r.time,
+                0.55,
+                o.id + i,
+              );
     }
     for (const o of r.obstacles) {
       if (o.durability > 0 && o.kind !== "lake") {
@@ -499,27 +608,53 @@ export class Stage {
           o.h + 6,
           Math.floor(r.time * 2) % 3,
         );
-      else
-        for (let y = 0; y < o.h; y += 32)
-          for (let x = 0; x < o.w; x += 32) {
-            const s = this.sprite(
-              `ob-${o.id}-${x}-${y}`,
-              theme && theme !== "meadow" ? `${theme}-${o.kind}` : o.kind,
-              o.x + x + 16,
-              o.y + y + 16,
-              o.kind === "tree" ? 56 : 48,
-              o.kind === "tree" ? 60 : 48,
-            );
-            const ratio = o.durability / o.maxDurability;
-            s.tint =
-              ratio > 0.65 ? 0xffffff : ratio > 0.3 ? 0xb0a394 : 0x827a75;
-            if (ratio < 0.65) {
-              f.moveTo(o.x + x + 12, o.y + y + 4)
-                .lineTo(o.x + x + 18, o.y + y + 12)
-                .lineTo(o.x + x + 13, o.y + y + 20)
-                .stroke({ color: 0x22313b, width: 2 });
-            }
-          }
+      else {
+        const tall = o.kind === "tree" || o.kind === "pillar";
+        const width = this.adventure
+          ? o.kind === "tree"
+            ? Math.max(96, o.w + 48)
+            : o.kind === "pillar"
+              ? Math.max(68, o.w + 24)
+              : Math.max(60, o.w + 18)
+          : o.kind === "tree"
+            ? 56
+            : 48;
+        const height = this.adventure
+          ? o.kind === "tree"
+            ? 120
+            : o.kind === "pillar"
+              ? 108
+              : Math.max(56, o.h + 16)
+          : o.kind === "tree"
+            ? 60
+            : 48;
+        const s = this.sprite(
+          `ob-${o.id}`,
+          theme && theme !== "meadow" ? `${theme}-${o.kind}` : o.kind,
+          o.x + o.w / 2,
+          o.y + o.h / 2 - (this.adventure && tall ? height * 0.26 : 0),
+          width,
+          height,
+        );
+        s.zIndex = o.y + o.h / 2;
+        // Canopies fade around actors underneath; warning geometry stays above.
+        const underCanopy = (x: number, y: number) =>
+          Math.abs(x - s.x) < width * 0.45 && y < o.y && y > o.y - height * 0.7;
+        if (
+          this.adventure &&
+          tall &&
+          (underCanopy(r.player.x, r.player.y) ||
+            r.enemies.some((e) => e.hp > 0 && underCanopy(e.x, e.y)))
+        )
+          s.alpha = 0.58;
+        const ratio = o.durability / o.maxDurability;
+        s.tint = ratio > 0.65 ? 0xffffff : ratio > 0.3 ? 0xb0a394 : 0x827a75;
+        if (ratio < 0.65)
+          f.moveTo(o.x + o.w * 0.4, o.y + 4)
+            .lineTo(o.x + o.w * 0.6, o.y + 12)
+            .lineTo(o.x + o.w * 0.42, o.y + o.h - 4)
+            .stroke({ color: 0x22313b, width: 2 });
+      }
       if (
         o.kind !== "lake" &&
         (r.room % 5 === 0 || r.room === 31 || o.durability < o.maxDurability)
@@ -533,6 +668,8 @@ export class Stage {
     }
     for (const h of r.hazards ?? []) {
       const pulse = 0.6 + Math.sin(r.time * 2) * 0.15;
+      if (this.artEffects && h.kind === "vent")
+        this.artEffects.flame(h.x, h.y, 28, r.time, 0.8, h.x + h.y);
       if (h.kind === "sand") {
         for (let i = 0; i < 4; i++)
           f.ellipse(
@@ -669,7 +806,15 @@ export class Stage {
           );
       }
     }
-    const ps = this.sprite("player", r.classId, p.x, p.y, 60, 60, frame);
+    const ps = this.sprite(
+      "player",
+      r.classId,
+      p.x,
+      p.y,
+      this.adventure ? 72 : 60,
+      this.adventure ? 72 : 60,
+      frame,
+    );
     ps.scale.x = Math.abs(ps.scale.x) * (Math.cos(p.aim || 0) < 0 ? -1 : 1);
     ps.alpha =
       p.invulnerable > r.time && Math.floor(r.time * 20) % 2 ? 0.55 : 1;
@@ -683,34 +828,45 @@ export class Stage {
         const hp = e.hp / e.maxHP,
           pulse = 0.7 + Math.sin(r.time * 4 + e.id) * 0.2;
         this.glow(e.x, e.y, 70, 0xffe2a2, pulse * 0.6);
-        f.poly([
-          e.x - 23,
-          e.y + 20,
-          e.x - 17,
-          e.y - 30,
-          e.x,
-          e.y - 53,
-          e.x + 17,
-          e.y - 30,
-          e.x + 23,
-          e.y + 20,
-        ])
-          .fill(0x4b4849)
-          .stroke({ color: 0xffda91, width: 3 });
-        f.poly([
-          e.x - 8,
-          e.y - 23,
-          e.x,
-          e.y - 37,
-          e.x + 8,
-          e.y - 23,
-          e.x,
-          e.y + 9,
-        ]).fill({ color: 0xfff0bd, alpha: pulse });
-        for (let i = 0; i < 3; i++)
-          f.moveTo(e.x - 14, e.y - 15 + i * 11)
-            .lineTo(e.x + 14, e.y - 15 + i * 11)
-            .stroke({ color: 0xfbd399, width: 2, alpha: pulse });
+        if (this.adventure)
+          this.sprite(
+            `enemy-pillar-${e.id}`,
+            "solar-pillar",
+            e.x,
+            e.y - 22,
+            84,
+            132,
+          );
+        else {
+          f.poly([
+            e.x - 23,
+            e.y + 20,
+            e.x - 17,
+            e.y - 30,
+            e.x,
+            e.y - 53,
+            e.x + 17,
+            e.y - 30,
+            e.x + 23,
+            e.y + 20,
+          ])
+            .fill(0x4b4849)
+            .stroke({ color: 0xffda91, width: 3 });
+          f.poly([
+            e.x - 8,
+            e.y - 23,
+            e.x,
+            e.y - 37,
+            e.x + 8,
+            e.y - 23,
+            e.x,
+            e.y + 9,
+          ]).fill({ color: 0xfff0bd, alpha: pulse });
+          for (let i = 0; i < 3; i++)
+            f.moveTo(e.x - 14, e.y - 15 + i * 11)
+              .lineTo(e.x + 14, e.y - 15 + i * 11)
+              .stroke({ color: 0xfbd399, width: 2, alpha: pulse });
+        }
         f.ellipse(e.x, e.y + 22, 31, 10).stroke({
           color: 0xffde96,
           width: 2,
@@ -734,7 +890,16 @@ export class Stage {
           .stroke({ color: 0xffecbe, width: 3 });
       }
       const active = r.modes.find((m) => m.actor === e.id),
-        size = e.kind > 5 ? 128 : e.elite ? 74 : 58;
+        size =
+          e.kind > 5
+            ? this.adventure
+              ? 148
+              : 128
+            : e.elite
+              ? 78
+              : this.adventure
+                ? 66
+                : 58;
       const frame =
         e.transition > r.time || e.controlUntil > r.time
           ? 4
@@ -743,18 +908,22 @@ export class Stage {
             : this.pose(`e-${e.id}`, e.x, e.y, r.time);
       const s = this.sprite(
         `enemy-${e.id}`,
-        e.solarisBar
-          ? "boss19"
-          : e.bossId
-            ? e.bossId === 20
-              ? "frost-santa"
-              : e.bossId === 21
-                ? "pumpkin-lord"
-                : `boss${String(e.bossId).padStart(2, "0")}`
-            : e.monsterId
-              ? (eventMonsters[e.monsterId]?.art ??
-                `mon${String(e.monsterId).padStart(2, "0")}`)
-              : names[e.kind + 2],
+        e.summonRole === "totem"
+          ? "totem"
+          : e.summonRole === "blood"
+            ? "blood-relic"
+            : e.solarisBar
+              ? "boss19"
+              : e.bossId
+                ? e.bossId === 20
+                  ? "frost-santa"
+                  : e.bossId === 21
+                    ? "pumpkin-lord"
+                    : `boss${String(e.bossId).padStart(2, "0")}`
+                : e.monsterId
+                  ? (eventMonsters[e.monsterId]?.art ??
+                    `mon${String(e.monsterId).padStart(2, "0")}`)
+                  : names[e.kind + 2],
         e.x,
         e.y -
           (e.leap
@@ -790,7 +959,28 @@ export class Stage {
               : 0xffffff;
       if (e.burn.some((b) => b.until > r.time)) {
         this.glow(e.x, e.y, e.radius + 22, 0xff8c41, 0.45);
-        elementMotif(f, e.x, e.y, e.radius * 0.8, ["fire"], r.time, 0.55);
+        if (this.artEffects)
+          for (let i = 0; i < 3; i++)
+            this.artEffects.flame(
+              e.x + (i - 1) * e.radius * 0.6,
+              e.y + e.radius * 0.6,
+              30,
+              r.time,
+              0.75,
+              e.id + i,
+            );
+        else elementMotif(f, e.x, e.y, e.radius * 0.8, ["fire"], r.time, 0.55);
+      }
+      const body = creatureEmission(e.monsterId, e.bossId, !!e.solarisBar);
+      if (this.artEffects && body?.color === 0xff9b45) {
+        this.artEffects.flame(
+          e.x,
+          e.y - e.radius * 0.25,
+          e.bossId ? 28 : 18,
+          r.time,
+          0.7,
+          e.id,
+        );
       }
       const frozen = (e.freezeUntil || 0) > r.time;
       if (e.iceUntil > r.time) {
@@ -894,7 +1084,7 @@ export class Stage {
             0.7,
           );
       }
-      if (e.burn.length) {
+      if (!this.adventure && e.burn.length) {
         this.glow(e.x, e.y, 35, 0xffa15c, 0.35);
         for (let i = 0; i < 6; i++) {
           const y = e.y + 10 - ((r.time * 40 + i * 11) % 42),
@@ -1020,6 +1210,7 @@ export class Stage {
       );
     }
     for (const b of r.projectiles) {
+      if (this.artEffects?.projectile(b, r)) continue;
       if (eventProjectile(d, b, r.time)) {
         this.glow(
           b.x,
@@ -1107,6 +1298,7 @@ export class Stage {
       }
     }
     for (const a of r.areas) {
+      this.artEffects?.area(r, a);
       if (a.ability === 215) {
         const phase = (r.time - a.starts) / 2;
         for (let i = 0; i < 4; i++) {
@@ -1127,7 +1319,7 @@ export class Stage {
         f.ellipse(a.x, a.y, 18, 9).fill({ color: 0x131c36, alpha: 0.9 });
         diamond(f, a.x, a.y, 7, 0xe1ffcf, 0.9);
       } else if (!bossBeam(a.enemy ? d : f, r, a))
-        areaEffect(a.enemy ? d : f, r, a);
+        areaEffect(a.enemy ? d : f, r, a, !!this.adventure);
       if (r.time >= a.starts && a.shape !== "cone")
         this.glow(
           a.x,
@@ -1171,9 +1363,9 @@ export class Stage {
       this.glow(
         light.x,
         light.y,
-        light.radius * 0.8,
+        light.radius * 1.1,
         light.color,
-        light.strength * 0.19,
+        light.strength * (light.bloom ?? 0.22),
       );
     const active = new Set<number>();
     for (const v of r.visuals) {
@@ -1196,7 +1388,12 @@ export class Stage {
         text.position.set(v.x + 6, v.y - 16 - (1 - progress) * 22);
         text.alpha = progress;
       } else {
+        const glowColor =
+          v.kind === "thunder" || v.kind === "arc"
+            ? 0x49baff
+            : themeLightColor(v.enemyTheme, v.color);
         if (
+          this.artEffects?.visual(r, v, v.enemy ? d : f) ||
           bossAction(v.enemy ? d : f, v, r.time) ||
           eventImpact(v.enemy ? d : f, v, r.time) ||
           equipmentEffect(v.enemy ? d : f, v, r.time) ||
@@ -1212,7 +1409,7 @@ export class Stage {
               v.x + Math.sin(i * 13 + r.time * 29) * 9,
               y,
               24 + progress * 15,
-              v.color,
+              glowColor,
               progress * 0.35,
             );
           }
@@ -1220,7 +1417,7 @@ export class Stage {
           v.x,
           v.y,
           Math.min(220, v.radius + 45),
-          v.color,
+          glowColor,
           progress * (["burst", "thunder"].includes(v.kind) ? 0.7 : 0.25),
         );
       }

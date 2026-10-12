@@ -1,0 +1,122 @@
+[
+  {
+    "file": "actors-0.png",
+    "width": 768,
+    "height": 512,
+    "clearFraction": 0.4842783610026042,
+    "sourceBytes": 2774491,
+    "runtimeBytes": 648939
+  },
+  {
+    "file": "actors-1.png",
+    "width": 768,
+    "height": 512,
+    "clearFraction": 0.3632456461588542,
+    "sourceBytes": 3037103,
+    "runtimeBytes": 754331
+  },
+  {
+    "file": "actors-2.png",
+    "width": 768,
+    "height": 512,
+    "clearFraction": 0.4229329427083333,
+    "sourceBytes": 3113453,
+    "runtimeBytes": 747128
+  },
+  {
+    "file": "actors-3.png",
+    "width": 768,
+    "height": 512,
+    "clearFraction": 0.42005157470703125,
+    "sourceBytes": 2892553,
+    "runtimeBytes": 704108
+  },
+  {
+    "file": "actors-4.png",
+    "width": 768,
+    "height": 512,
+    "clearFraction": 0.3561248779296875,
+    "sourceBytes": 3354832,
+    "runtimeBytes": 832639
+  },
+  {
+    "file": "actors-5.png",
+    "width": 768,
+    "height": 512,
+    "clearFraction": 0.29557037353515625,
+    "sourceBytes": 3314560,
+    "runtimeBytes": 859672
+  },
+  {
+    "file": "actors-6.png",
+    "width": 768,
+    "height": 512,
+    "clearFraction": 0.3459370930989583,
+    "sourceBytes": 3230625,
+    "runtimeBytes": 821779
+  },
+  {
+    "file": "actors-7.png",
+    "width": 768,
+    "height": 512,
+    "clearFraction": 0.33368682861328125,
+    "sourceBytes": 3211633,
+    "runtimeBytes": 817862
+  },
+  {
+    "file": "heroes.png",
+    "width": 768,
+    "height": 512,
+    "clearFraction": 0.5331700642903646,
+    "sourceBytes": 2694704,
+    "runtimeBytes": 606062
+  },
+  {
+    "file": "floors.png",
+    "width": 768,
+    "height": 512,
+    "clearFraction": 0,
+    "sourceBytes": 3914604,
+    "runtimeBytes": 1166503
+  },
+  {
+    "file": "world-0.png",
+    "width": 768,
+    "height": 512,
+    "clearFraction": 0.36616261800130206,
+    "sourceBytes": 3112532,
+    "runtimeBytes": 785151
+  },
+  {
+    "file": "world-1.png",
+    "width": 768,
+    "height": 512,
+    "clearFraction": 0.2829132080078125,
+    "sourceBytes": 3433668,
+    "runtimeBytes": 893808
+  },
+  {
+    "file": "effects.png",
+    "width": 768,
+    "height": 512,
+    "clearFraction": 0.39303843180338544,
+    "sourceBytes": 2694854,
+    "runtimeBytes": 686483
+  },
+  {
+    "file": "landmarks.png",
+    "width": 768,
+    "height": 512,
+    "clearFraction": 0.5083796183268229,
+    "sourceBytes": 2772725,
+    "runtimeBytes": 620114
+  },
+  {
+    "file": "menu.png",
+    "width": 1152,
+    "height": 768,
+    "clearFraction": 0,
+    "sourceBytes": 3712166,
+    "runtimeBytes": 2514108
+  }
+]

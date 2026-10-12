@@ -169,7 +169,7 @@ export function elementMotif(
     }
   }
 }
-export function areaEffect(g: Graphics, r: Run, a: Area) {
+export function areaEffect(g: Graphics, r: Run, a: Area, textured = false) {
   const warning = r.time < a.starts,
     els = a.context?.elementMask || [],
     color = a.enemy ? (warning ? 0xffc795 : 0xff8877) : elementColor(els);
@@ -197,7 +197,7 @@ export function areaEffect(g: Graphics, r: Run, a: Area) {
       .closePath()
       .fill({ color, alpha: warning ? 0.04 : 0.12 })
       .stroke({ color, width: 2, alpha: 0.8 });
-    if (!warning)
+    if (!warning && !textured)
       for (let i = 0; i < 32; i++) {
         const phase = ((r.time - a.starts) * 2.6 + i * 0.137) % 1;
         const angle = a.angle + Math.sin(i * 2.4) * a.width * 0.46 + sweep;
@@ -274,6 +274,7 @@ export function areaEffect(g: Graphics, r: Run, a: Area) {
     }
     return;
   }
+  if (textured) return;
   const age = r.time - a.starts;
   elementMotif(g, a.x, a.y, a.radius * 0.85, els, r.time, 0.65);
   if (a.ends - a.starts < 0.1) {
