@@ -555,15 +555,15 @@ export function moveBossRush(r: Run, e: Actor, m?: Mode) {
   const speed = m?.bossAttack?.rushSpeed ?? 350;
   let dx = Math.cos(e.moveAngle) * speed * DT,
     dy = Math.sin(e.moveAngle) * speed * DT;
+  if (m)
+    damageCover(r, e, 0, m.id, "boss", (o) =>
+      coverInRush(o, e, dx, dy, e.radius),
+    );
   if (m?.bossAttack?.ricochet) {
     if (!legal(r, { x: e.x + dx, y: e.y }, e.radius)) dx = -dx;
     if (!legal(r, { x: e.x, y: e.y + dy }, e.radius)) dy = -dy;
     e.moveAngle = Math.atan2(dy, dx);
   }
-  if (m)
-    damageCover(r, e, 0, m.id, "boss", (o) =>
-      coverInRush(o, e, dx, dy, e.radius),
-    );
   const before = { x: e.x, y: e.y };
   move(r, e, dx, dy, e.radius);
   if (

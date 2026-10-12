@@ -261,3 +261,32 @@ it("狼王沿共用Boss入口後仍保留1.1.2落爪雷光，而非換成通用�
     ),
   ).toBe(true);
 });
+
+it("反彈衝撞在反射前命中玩家附近掩體一次，沿用Boss5點／同波／2秒保護", () => {
+  const { r, e, m } = launch(8, "beast-firepath");
+  r.player.x = 450;
+  r.player.y = 340;
+  e.x = 512;
+  e.moveAngle = Math.PI;
+  r.obstacles = [
+    {
+      id: 88,
+      x: 440,
+      y: 280,
+      w: 32,
+      h: 80,
+      kind: "pillar",
+      durability: 20,
+      maxDurability: 20,
+      waves: [],
+    },
+  ];
+  moveBossRush(r, e, m);
+  expect(r.obstacles[0].durability).toBe(15);
+  expect(r.obstacles[0].invulnerableUntil).toBe(2);
+  expect(Math.cos(e.moveAngle)).toBeGreaterThan(0);
+  e.x = 512;
+  e.moveAngle = Math.PI;
+  moveBossRush(r, e, m);
+  expect(r.obstacles[0].durability).toBe(15);
+});
