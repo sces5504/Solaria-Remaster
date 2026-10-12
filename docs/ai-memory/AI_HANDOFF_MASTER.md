@@ -1,5 +1,9 @@
 # AI_HANDOFF_MASTER — 長期記憶入口（未來交接專用）
 
+## 1.2.0 正式標籤與交付收束（2026-10-12 17:18:03 UTC）
+
+新annotated tag v1.2.0固定239cac7a342944a10bcacadce977f77fdf57d983，Release已公開 https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.2.0 。同一程式與已核驗部署683d3da逐檔相同；後續純文件main記錄不另發相同遊戲，不冒充新一次測試。正式網址與6線上／19bundle及20素材SHA證據見前節。原v1.1.2／两archive refs最後再次核對均不變。主人四項任務完成，工作乾淨；下一次從最新遠端main接新回饋，維持原未測界線，無新Chat／agent。
+
 ## 1.2.0 已發布並完成線上核對（2026-10-12 17:09:17 UTC）
 
 正式遊玩 https://sces5504.github.io/Solaria-Remaster/?v=1.2.0 。最終部署來源683d3da200fedc76cb4a51c773edd31a10db037c（遊戲程式与892cad8相同，只補格式／記錄）；Pages38280747615的check／375unit／format／build／5相關Chromium1.2分鐘／deploy全部PASS，無flaky。主體b23d85b／Pages38276107983的373unit／完整107Chromium26.4分鐘／deployPASS分開保留，不把不同來源拼成最終完整108項。

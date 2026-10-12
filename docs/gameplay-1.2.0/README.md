@@ -93,3 +93,7 @@ schema 維持 1。新 `BossAttack` 可選編排欄位及 `Area.beamMotion` 都�
 固定tag v1.1.2與archive/v1.1.2仍9abc6d8ce90bcde5ef292f0db6202dd38d993e05；archive/v1.1.2-files仍0400546bc23cd7f3d176fa2f739ebfc705ba0ad2；原下載與Release未修改。所有正式程式正常fast-forward整合main，無reset／force／new Chat／agent。工作目錄/workspace/Solaria-Remaster，本地gameplay/v1.2.0-boss-rework；最新純記錄main SHA用git log／遠端核對，與已驗證遊戲樹相同，沒有靠版本字樣假定來源。
 
 主人四項回饋完成：21王按定位增加不同幾何／時序、近戰追擊與範圍、遠端威脅；戰鬥召喚小怪必精英与一般精英2倍HP，舊HP比例／owner／上限兼容；劍士.9窗口及成功後.75保護、.3反擊一次與CD5保留。詳細逐王／數值權威GAME_SPEC與docs/gameplay-1.2.0。M01–07原修復／裁定保持，M08仍候選；保留真GPU／Firefox-Safari／三職自然30＋1及高周目／人工聆聽NOT_RUN与原密集SwiftShader60FPS FAIL，不把自動fixture當自然完整平衡PASS。後續直接接主人新回饋、最新main與相關驗證。
+
+## 1.2.0 正式標籤與交付收束（2026-10-12 17:18:03 UTC）
+
+新annotated tag v1.2.0固定239cac7a342944a10bcacadce977f77fdf57d983，Release已公開 https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.2.0 。同一程式與已核驗部署683d3da逐檔相同；後續純文件main記錄不另發相同遊戲，不冒充新一次測試。正式網址與6線上／19bundle及20素材SHA證據見前節。原v1.1.2／两archive refs最後再次核對均不變。主人四項任務完成，工作乾淨；下一次從最新遠端main接新回饋，維持原未測界線，無新Chat／agent。
