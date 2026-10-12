@@ -1,5 +1,11 @@
 # Solaria Remaster
 
+## 主人最新授權：main接續、美術定稿、1.1.2固定備份（2026-10-12）
+
+主人已接受美術，明示「後面就不要動了」及「從下個AI開始，遊戲的更新都放到repo的main」。1.1.2已保存固定tag v1.1.2／archive/v1.1.2（9abc6d8），同版整合到main。後續唯一正式分支及Pages來源是main；可用工作分支，但成果合併main。禁止改備份、reset／force push，原作只讀。美術素材／風格／配色／光影／FX／UI外觀定稿；機制資料與確診跨層Bug只作維持外觀的最小修正。取消未來多人計畫仍有效。小修只跑相关檢查，不反覆完整套件。
+
+本節取代舊「main尚未合併／不得merge main／implement正式分支／雙美術與機制窗口」等規則；舊節保留歷史，不能阻止當前授權。完整接續入口docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md與BASELINE_1.1.2.md。
+
 Use Traditional Chinese for discussions with the owner.
 
 This is a clean remaster workspace. The original sces5504/Solaria is read-only reference material. Do not delete, reset, or push changes to the original repository. Do not migrate the original monolithic HTML wholesale.

@@ -132,20 +132,18 @@ try {
   page.on("dialog", (d) => d.accept());
   await page.getByRole("button", { name: "回主選單", exact: true }).click();
   await page.getByRole("button", { name: "匯入存檔", exact: true }).click();
-  await page
-    .locator("#import-file")
-    .setInputFiles({
-      name: "ending-check.json",
-      mimeType: "application/json",
-      buffer: Buffer.from(
-        JSON.stringify({
-          version: 1,
-          revision: 0,
-          current: finale,
-          entry: finale,
-        }),
-      ),
-    });
+  await page.locator("#import-file").setInputFiles({
+    name: "ending-check.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(
+      JSON.stringify({
+        version: 1,
+        revision: 0,
+        current: finale,
+        entry: finale,
+      }),
+    ),
+  });
   await page.getByRole("status").filter({ hasText: "匯入成功" }).waitFor();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
   await page.locator(".ending.cinematic").waitFor();

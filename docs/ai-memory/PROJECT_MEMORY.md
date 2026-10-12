@@ -864,3 +864,9 @@ PR6已合併，發布來源7cff9de9ea3a1f0ace3aec735a1dfb3437158a74；Pages38262
 正式 https://sces5504.github.io/Solaria-Remaster/?v=1.1.2 線上核對2026-10-12T14:32:02.149Z PASS：20PNG SHA256、WebGL移動／普攻／8:5、無pageerror；另以RUN_END匯入fixture核對線上勝利配字→字幕、正式Pages背景URL與略過後原下一周目操作。不能將該fixture稱作自然打完索拉里斯戰鬥。
 
 怪物／障礙以實際像素距離隔離鄰格碎片，沙柱及砂地法師圖例已實機確認；光環主角與武器置前、敵彈更前及深／亮雙輪廓；六事件2秒提示＋0.8秒淡出；6秒日光重臨動畫配字＋16秒感謝字幕、可略過，原下一周目／完成本局維持。核心、數值、碰撞、CD、存檔schema未改；真GPU與自然全流程等原未測界線仍維持。結果與圖見docs/visibility-feedback。
+
+## 最新指示：main接續、美術定稿與固定1.1.2備份（2026-10-12 15:22:54 UTC）
+
+主人明示本美術工作完成，後續由唯一機制／數值／Bug窗口接續，美術不要再動，正式更新都在main。已保存tag v1.1.2／archive/v1.1.2到9abc6d8ce90bcde5ef292f0db6202dd38d993e05（遊戲來源7cff9de），並保存原始碼與Pages下載包。重建Pages的HTML／全JS-CSS／20PNG與原線上1.1.2逐位元匹配PASS。GitHub ruleset API403，未啟用防寫鎖；固定SHA、下載副本與不得移動refs規則作恢復依據。
+
+同版將以不丟歷史的fast-forward整合main，Pages push改只main。此次不改遊戲版本、程式、素材／美術；舊implement正式分支／main未合併／雙窗口分工已被主人新指示取代。完整新prompt docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md，備份與回復 docs/handoff/BASELINE_1.1.2.md，原舊稿完整留archive。332unit／4相關browser為原版證據，不冒稱自然全程或GPU驗收；main部署與線上核對待補結果。

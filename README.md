@@ -1,5 +1,7 @@
 # Solaria Remaster
 
+正式版本1.1.2，美術已定稿；後續機制／數值／Bug更新從main接續。固定備份：[v1.1.2 Release](https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.1.2)。交接入口：[完整prompt](docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md)及[備份說明](docs/handoff/BASELINE_1.1.2.md)。
+
 日蝕之後，穿越秘境尋回日光。三職業、九地形、29普通怪、18地形王、索拉里斯三血四柱、85卡、17特殊裝備與六事件。30＋1關完成後可保留構築進入下一周目。製作者：Mori Fang。v1發布狀態與實際驗證以PROJECT_STATUS為準。
 
 正式需求見 GAME_SPEC.md、ARCHITECTURE.md、DEVELOPMENT_PLAN.md、DECISIONS.md、UI_UX_SPEC.md、TEST_PLAN.md、AGENTS.md、PROJECT_STATUS.md。第一次／第二次交付規則見 CLOUD_START_PROMPT.md。
@@ -31,7 +33,7 @@ WASD 移動，滑鼠瞄準；按住左鍵普攻、右鍵職技、空白閃避（
 
 原創像素素材與合成音效來源在 public/assets/manifest.json。已執行／未執行的測試與託管狀態見 PROJECT_STATUS.md，headless 不代表實體 GPU 60FPS。
 
-GitHub Pages：https://sces5504.github.io/Solaria-Remaster/ 。由 `.github/workflows/pages.yml` 在 `implement/s00-s05` 推送通過驗證後部署；已發布修正版與線上驗證紀錄見 PROJECT_STATUS.md。
+GitHub Pages：https://sces5504.github.io/Solaria-Remaster/ 。由 `.github/workflows/pages.yml` 在 `main` 推送通過驗證後部署；已發布修正版與線上驗證紀錄見 PROJECT_STATUS.md。
 
 ## 專案長期記憶
 

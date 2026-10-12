@@ -1,7 +1,7 @@
 name: Solaria GitHub Pages
 on:
   push:
-    branches: [implement/s00-s05, main]
+    branches: [main]
     paths-ignore: ["**/*.md", "docs/**"]
   workflow_dispatch:
     inputs:

@@ -1,3 +1,7 @@
+# 歷史S06–S14啟動稿，現行入口已更新
+
+請以docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md為完整接續prompt，main已接入1.1.2、美術定稿；以下保留原授權歷史，不再用implement為新任務起點。
+
 # 第二次任務：可直接貼入新 Chat 的完整交接 Prompt
 
 更新：2026-10-11 15:11:21 UTC。以下正文是新 Chat 的使用者啟動指令；本次只保存交接文件，不在舊 Chat 開始 S06–S14。

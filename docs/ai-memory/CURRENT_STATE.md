@@ -1,5 +1,11 @@
 # CURRENT_STATE — 最新工作斷點
 
+## 最新指示：main接續、美術定稿與固定1.1.2備份（2026-10-12 15:22:54 UTC）
+
+主人明示本美術工作完成，後續由唯一機制／數值／Bug窗口接續，美術不要再動，正式更新都在main。已保存tag v1.1.2／archive/v1.1.2到9abc6d8ce90bcde5ef292f0db6202dd38d993e05（遊戲來源7cff9de），並保存原始碼與Pages下載包。重建Pages的HTML／全JS-CSS／20PNG與原線上1.1.2逐位元匹配PASS。GitHub ruleset API403，未啟用防寫鎖；固定SHA、下載副本與不得移動refs規則作恢復依據。
+
+同版將以不丟歷史的fast-forward整合main，Pages push改只main。此次不改遊戲版本、程式、素材／美術；舊implement正式分支／main未合併／雙窗口分工已被主人新指示取代。完整新prompt docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md，備份與回復 docs/handoff/BASELINE_1.1.2.md，原舊稿完整留archive。332unit／4相關browser為原版證據，不冒稱自然全程或GPU驗收；main部署與線上核對待補結果。
+
 ## 1.1.2 視線與勝利呈現已發布（2026-10-12 14:33:34 UTC）
 
 PR6已合併，發布來源7cff9de9ea3a1f0ace3aec735a1dfb3437158a74；Pages38262913407以visibility-feedback scope成功，check／332unit／format／build／4相關Chromium2.4分鐘／deploy通過。提交與合併訊息skip ci避免重複長套件，未改full預設。

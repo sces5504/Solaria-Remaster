@@ -150,3 +150,9 @@ Keep game modules under src/; add pure gameplay tests under tests/unit/ and brow
 全64角色／敵人：60類各ready／step／attack三張原創姿態，三職業與南瓜夥伴四類另繪六狀態，共204有效原創姿態。六引擎狀態、翻面、蓄力、跳躍、受擊表現均接入，不能說64類全部新增六張獨立姿態。九地形地面／四類場景物、事件地標、封印柱、武器、主選單與職業肖像重繪。新火／電／冰／水／秘法／爆炸／鬼影／符文FX，正確的危險幾何與既有蒸氣保留。
 
 狀態：實作中，已check／build／format與327unit、初版九地形和三短FX實機PASS；完整98Chromium仍在執行。初版火山地面過亮且重複，已另繪低對比地面，最終地面補驗與發布尚待完成。真GPU60FPS、Firefox／Safari、人工聆聽與原S13驗收界線不冒稱PASS。
+
+## 最新指示：main接續、美術定稿與固定1.1.2備份（2026-10-12 15:22:54 UTC）
+
+主人明示本美術工作完成，後續由唯一機制／數值／Bug窗口接續，美術不要再動，正式更新都在main。已保存tag v1.1.2／archive/v1.1.2到9abc6d8ce90bcde5ef292f0db6202dd38d993e05（遊戲來源7cff9de），並保存原始碼與Pages下載包。重建Pages的HTML／全JS-CSS／20PNG與原線上1.1.2逐位元匹配PASS。GitHub ruleset API403，未啟用防寫鎖；固定SHA、下載副本與不得移動refs規則作恢復依據。
+
+同版將以不丟歷史的fast-forward整合main，Pages push改只main。此次不改遊戲版本、程式、素材／美術；舊implement正式分支／main未合併／雙窗口分工已被主人新指示取代。完整新prompt docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md，備份與回復 docs/handoff/BASELINE_1.1.2.md，原舊稿完整留archive。332unit／4相關browser為原版證據，不冒稱自然全程或GPU驗收；main部署與線上核對待補結果。

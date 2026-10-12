@@ -1,12 +1,15 @@
-# 兩個new chat交接入口
+# 新 Chat 交接入口
 
-正式1.1.0精雕冒險像素已上線：34406cce2660244d8999afd2593cc133ab22bfe6／Pages38243697393成功，327unit／98Chromium與正式URL實機PASS。後續以CURRENT_STATE最新首節為準，歷史三款演示與旧提示只作來源紀錄。
+主人最新指示：美術定稿於1.1.2，後續只由遊戲調整窗口處理機制、數值與Bug，正式整合及發布轉為main。
 
-2026-10-12新指示：主人已選定精雕冒險像素，要求本美術chat直接更新全遊戲；三款選樣等待選定的舊狀態已取代。完整美術與渲染已接入art/style-lab／PR4，正式發布與最終checks以CURRENT_STATE最新首節及docs/art-upgrade/VALIDATION.md為準；不要恢復多人預留計畫，不把歷史演示當全遊戲新版。
+- 完整交接prompt：[GAMEPLAY_NEW_CHAT_PROMPT.md](GAMEPLAY_NEW_CHAT_PROMPT.md)。可全文貼到新Chat，或用下方短指示讓AI先讀此檔。
+- 固定1.1.2備份與恢复：[BASELINE_1.1.2.md](BASELINE_1.1.2.md)。不得修改tag、archive分支與Release附件。
+- 現況／證據：docs/ai-memory/CURRENT_STATE.md、AI_HANDOFF_MASTER.md、PROJECT_STATUS.md。
+- 原主人提供的1.0.1舊稿完整保留於archive/GAMEPLAY_PROMPT_PRE_ART_1.0.1.txt，只作歷史，已被新版取代。
+- ART_NEW_CHAT_PROMPT.md與其他雙窗口敘述是歷史。不要另啟美術窗口或重做風格選擇。
 
-使用者在2026-10-12明示：本輪五項修正完成後準備兩份完整prompt，分開遊戲調整與美術。這不是自動建立chat或啟動代理。
+可直接貼用：
 
-- 遊戲調整：全文複製 `GAMEPLAY_NEW_CHAT_PROMPT.md`，數值／機制／Bug與兩邊整合／GitHub Pages發布。
-- 美術：全文複製 `ART_NEW_CHAT_PROMPT.md`，sprite／專屬FX／UI／音效呈現，獨立art分支交遊戲窗口整合。
-
-兩份皆自包含背景與完整必讀索引，不需舊聊天。確切最新部署commit／結果看PROJECT_STATUS與CURRENT_STATE首節，不回退旧hash。兩邊使用獨立worktree／分支，不競爭推implement，不force／merge main；共享記憶由整合窗口納入增量。未完成S13硬體與人工仍明示保留，不能因接手或本輪Bug修復把NOT_RUN寫PASS。
+```text
+你接手 Solaria Remaster 的機制、數值及 Bug 調整。請先取得 https://github.com/sces5504/Solaria-Remaster 的遠端最新 main，完整讀 docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md、docs/handoff/BASELINE_1.1.2.md 及六份 ai-memory，再依其中要求接續實際工作，不從骨架重做。美術已定稿於1.1.2，後面維持目前素材、風格與呈現；只處理美術以外的調整。所有正式更新合併、發布到 main。v1.1.2 tag／archive/v1.1.2／Release 是固定備份，不得改動。保留他人工作，不reset或force push，不自動開Chat或agent。小修只跑相符的驗證，已有證據的事項不重做，未測不得寫PASS。先核驗現況與已知候選，持續完成可獨立處理的非美術工作，並接續我的新回饋。
+```

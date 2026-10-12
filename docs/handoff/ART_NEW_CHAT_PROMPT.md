@@ -1,3 +1,7 @@
+# 歷史美術窗口提示，已由1.1.2定稿取代
+
+主人已結束美術工作；後續不得另啟美術窗口或改风格。正式main與接續規則見GAMEPLAY_NEW_CHAT_PROMPT.md。以下原文只作歷史。
+
 # New chat prompt：美術修正／Sprite／特效／UI呈現
 
 正式1.1.0精雕冒險像素已上線：34406cce2660244d8999afd2593cc133ab22bfe6／Pages38243697393成功，327unit／98Chromium與正式URL實機PASS。後續以CURRENT_STATE最新首節為準，歷史三款演示與旧提示只作來源紀錄。
