@@ -309,3 +309,34 @@ it("舊存檔掃射沒有beamMotion仍繼續原角速度，新編排不重複旋
     modern.a.rotation / modern.a.duration,
   );
 });
+
+it("舊狼群補上原王owner，升精英後不會再額外召三隻突破上限", () => {
+  const r = newRun("mage", 42);
+  r.room = 5;
+  r.boss = 1;
+  r.biome = "meadow";
+  r.nextId = 1000;
+  r.obstacles = [];
+  const wolf = actor(900, 6, 600, 320);
+  wolf.phase = 2;
+  wolf.nextAttack = 0;
+  wolf.attackOrdinal = 2;
+  r.enemies = [
+    wolf,
+    ...[901, 902, 903].map((id) => actor(id, 1, 500, 400, false, true)),
+  ];
+  const saved = validate(
+    JSON.parse(
+      JSON.stringify({ version: 1, revision: 0, current: r, entry: r }),
+    ),
+  );
+  const resumed = saved.current;
+  expect(
+    resumed.enemies.filter((e) => e.summoned).every((e) => e.bossOwner === 900),
+  ).toBe(true);
+  resumed.phase = "COMBAT";
+  step(resumed, idleCommand(resumed));
+  resumed.time = 1;
+  updateModes(resumed);
+  expect(resumed.enemies.filter((e) => e.summoned)).toHaveLength(3);
+});

@@ -1,5 +1,11 @@
 # AI_HANDOFF_MASTER — 長期記憶入口（未來交接專用）
 
+## 1.2.0 主體已部署，舊檔補丁收束（2026-10-12 16:46:21 UTC）
+
+主體b23d85b的Pages38276107983完整流程与deploy已success，原未測硬體／人工界線保持；完整core與browser精確計數由full-pages.log保存核對，不把舊來源冒稱最終補丁全套。舊掃射補丁相關57unit／1browserPASS；另發現原草原狼群缺bossOwner，已遷移為原王owner，維持召喚上限3，防升精英後額外召三隻。追加實際召喚上限對照后相關58unit、check／buildPASS。
+
+舊檔補丁将合併main，Pages gameplay-feedback只跑5相關browser＋完整便宜core／格式／build後部署，不重跑完整107。再以線上6案例、全bundle／20PNG SHA256與固定refs核對最終來源；目前這些最終線上檢查待完成。
+
 ## 1.2.0 舊掃射實驗存檔相容補正（2026-10-12 16:39:44 UTC）
 
 在主體完整Pages38276107983繼續執行時，補上舊實驗checkpoint的active sweep缺少beamMotion仍按原模式時鐘轉動；新光束保持絕對時間計算，不重複旋轉。相關57unit与check／buildPASS，正式RAF舊存檔browser1PASS20.1秒。初輪unit56PASS／1FAIL為用 .8+i*DT組時刻造成與next浮點偏差；改用正式累加DT時鐘后57PASS，不放寬角速度斷言。

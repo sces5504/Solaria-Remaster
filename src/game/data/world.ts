@@ -462,6 +462,8 @@ export function bossMinion(
 export function normalizeBossMinions(r: Run) {
   for (const e of r.enemies) {
     if (!e.summoned || e.kind > 5 || e.sealPillar || e.summonRole) continue;
+    // The old meadow pack did not record its owner; retain the existing cap.
+    e.bossOwner ??= r.enemies.find((b) => b.kind > 5 && !b.summoned)?.id;
     e.kind = monsters[e.monsterId ?? 0]?.archetype ?? e.kind;
     const base =
       actor(e.id, e.kind, e.x, e.y, true).maxHP * enemyHPScale(r) * 2;
