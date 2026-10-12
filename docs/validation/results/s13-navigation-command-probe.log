@@ -1,0 +1,9 @@
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  20:11:31
+   Duration  23.01s (tests 97%, transform 2%, import 1%)
+

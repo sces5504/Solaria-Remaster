@@ -6,7 +6,7 @@
 
 沿用Node24、npm及package-lock、TypeScript、Vite、Vitest、Playwright Chromium、Prettier。新增PixiJS v8依賴於開發S01，安裝時確認相容並鎖定實際版本；本次文件提交不安裝遊戲依賴。正式畫面用WebGL，無WebGPU或Canvas fallback承諾。Pixi負責視覺，戰鬥核心不可import Pixi／DOM／音效。
 
-選擇理由：固定全房、高頻彈幕、原創atlas與程式特效需要掌握批次繪圖；獨立核心也支援確定性測試與未來合作。代價是自行整合輸入、音效、場景與生命週期，已納入分階段計畫。
+選擇理由：固定全房、高頻彈幕、原創atlas與程式特效需要掌握批次繪圖；獨立核心支援單人固定步進、確定性測試與可靠存檔。代價是自行整合輸入、音效、場景與生命週期，已納入分階段計畫。
 
 ## 預定目錄
 
@@ -64,12 +64,46 @@ IndexedDB內run與profile分離，用revision及transaction保存；settings小�
 
 音效由事件映射，只解鎖一次AudioContext；音量／靜音跨局保存。預留music channel但不放背景音樂。
 
-## 靜態部署與未來合作
+## 靜態部署與單人目標
 
 Vite build到dist，專案Pages base為/Solaria-Remaster/，資源不硬寫根路徑。Actions建置、artifact→Pages；採pages:write、id-token:write與github-pages environment。第一里程碑若無可分享Cloud預覽可提前部署Pages試玩版，正式v1在S14更新；本地文件階段不變更可見性或發布。
 
-後續2–4人合作採用權威核心狀態、command tick與穩定ID。無網路code/房間backend/重連協議第一版；future房間服務單獨托管，Pages只托管前端。可序列化資料和owner/faction欄位先保留，不導入未使用同步SDK。
+主人在2026-10-12明確取消未來多人連線／合作邀請房計畫。專案以單人遊戲為目標，不再規劃房間backend、同步SDK、網路權威狀態或重連協議。固定60Hz、input/state/render分離、可序列化資料、穩定ID與實際傷害來源／陣營欄位仍服務單人玩法、測試與存檔；不因取消規劃而重構正在使用的核心。GitHub Pages繼續托管瀏覽器版遊戲與獨立美術選樣。
 
 ## 雲端與測試
 
 環境執行bash scripts/cloud-setup.sh，Node24、npm ci、Chromium及檢查命令沿用。檢查結果不能由本機套件狀態推斷。新資料先做schema／invariant測試，核心直接用seed+command trace測試，瀏覽器只測交互與資源／視覺。完整品質門檻見TEST_PLAN。
+
+## 第一里程碑第五輪渲染增量
+
+`src/render/lighting.ts` 提供只讀state的發光源清單、腳下冷卻顯示夾限與重用512×320暗部／光照texture。地形／投影／actors之後套暗部，後續柔光、友方FX、敵方危險與HUD不被蓋住。樹岩附近柔暗，發光源以radial destination-out照亮世界，色光add混合；裝飾光源上限64，不删攻擊或變更RNG。暫停相同光源不重建上傳。這是2D藝術光影，不承諾精確3D遮蔽或全v1效能已驗收。技能steam視覺事件與Area可選steam effect向後相容；一般來源／序列化邊界保持。
+
+## S12 實際接入補充（2026-10-11）
+
+Checkpoints 公開入口沿用既有 import 路徑，內部由 checkpoint-schema 與 RunStore 分離。IndexedDB schema 保持1，run store 新增 revision 墓碑鍵；即使清除旅程，另一分頁也不能用先前 revision 復活舊局。永久 profile 獨立 journal、discovered、records，皆保存 previous；坏資料保留 damaged。讀檔無有效前版時不造空收藏，顯示可下載原始備份與匯入有效備份的流程。公開 profile 格式只保留收藏、外觀、教學欄位，排除未知欄位；不存在永久戰鬥屬性。
+
+音效由 SoundController → sound-bank 合成，保留 AudioContext 手勢解鎖；缺少音訊介面不阻止旅程。音量／上次非零音量獨立小型設定，mute 不清除玩家音量。每個合成聲的節點結束後解除連接，噪聲buffer按context重用。波形自動檢查與人工聆聽分開記錄。
+
+## v1實際模組接入（2026-10-11）
+
+core/run維持固定60Hz；旅程／地形／王／事件定義放data，systems各自處理專屬行為。combat實際引用projectile-sweep，以collision-time解析圓／矩形接觸，SpatialGrid查局部目標、ContactQueue按接觸秒／projectile ID／target ID決定全彈順序。追加彈保留同tick剩餘時間；命中後再求下一接觸，保留掩體破壞／穿透／彈射。
+
+projectile-pool的WeakMap只存暫態退休物件，queue全部消耗後才釋放；清空所有舊可選欄位再重用。State內仍有完整有效projectile與穩定ID，可序列化，不把池寫進save。Stage退休Sprite／BitmapText池不限制活躍數，傷字各別ID與文字，不合併；回menu釋放活躍物件及位置表，閒置快取有上限。glows不刪有效攻擊；既有半解析度装饰光照budget保持。
+
+RunStore／checkpoint-schema／profile-store／records替代舊Checkpoints實作但保留公開入口與schema1兼容。兩分頁revision以交易檢查及清除墓碑防ABA；永久星典／前版／壞資料分開保存，壞檔先保留原文。profile只有收藏／外觀／教學，沒有永久戰力。UI保存busy串行選擇／import，beforeunload保護交易；取消／拒絕／配額錯誤皆解除忙碌但保留備份流程。
+
+SoundController讀核心事件及UI動作，合成原創分層音效；renderer只讀Run與視覺事件，不修改數值。solariaDiagnostics回傳新建的計數快照，不暴露Run或寫入入口。未來多人邊界規劃已由2026-10-12主人要求取消；既有單人核心分離維持。
+
+實際CloudJS物件重用／碰撞順序與重啟已驗證，真GPU效能尚NOT_RUN；不能以架構接入推論60FPS。
+
+## v1.0.1掩體與雙chat接口（2026-10-12）
+
+core/cover-rules共用20耐久、2秒與靜電110基半徑；systems/cover處理附近圓、矩形／扇形／掃掠幾何與舊耐久遷移，combat.damageCover單入口施加Boss5／monster4。Projectile／Area保存可選coverSource，來源者死亡仍可判定；湖泊／我方／無敵人來源地形機關不損。接觸隊列依真碰撞時間，只有真掩體接觸傷掩體，不在任意彈道結束旁邊扣血。雷射以半線寬做整段矩形掃掠，避免取樣漏薄牆或全寬誤傷；衝撞以預計實際步進與身體範圍碰壁判定，不需先穿牆，也不攻擊正離開的背後牆。
+
+Obstacle增加可選invulnerableUntil，schema1兼容；checkpoint-schema在current／entry都遷移耐久比例與既有伙伴250上限，保留波次／時間／journey。Actor的四封印柱仍獨立1500基HP，不是20耐久環境掩體。伙伴沿原Player類型／穩定ID與来源分類，不因固定250改甲／吸血或复活时间。
+
+Boss data/journey只對Boss抽選seed非線性混合；路線與模板局部stream保持，舊journey不重算。render/hazard-markers只畫可走雕像地面印記，不創造碰撞。遊戲chat維護src/game与穩定接口／整合，美術chat render／UI／assets，獨立worktree、由遊戲窗口合併已核對commit後部署implement。共同資料保持可序列化，Visual與geometry是一個規則的呈現，不能在render藏新的傷害判定。
+
+## 取消未來連線計畫（2026-10-12 07:57:13 UTC）
+
+取代舊「未來2–4人合作／邀請房、預留多人邊界」決策。原取捨保留於DECISION_HISTORY等歷史記錄，不再作為後續新增架構的需求。主人沒有取消GitHub Pages託管或現有單人遊戲；本輪只更新規格與記憶，沒有刪除單人效能／保存需要的模組。

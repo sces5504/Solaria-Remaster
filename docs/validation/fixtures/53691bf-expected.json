@@ -1,0 +1,10 @@
+{
+  "source": "53691bf925df3c39a5f20613ff7acdba900b1bb7",
+  "seed": 5504,
+  "cards": { "15": 1, "50": 1 },
+  "elements": ["ice"],
+  "hp": 100,
+  "room": 1,
+  "phase": "ROOM_INTRO",
+  "testing": true
+}

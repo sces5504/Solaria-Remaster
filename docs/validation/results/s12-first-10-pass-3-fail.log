@@ -1,0 +1,131 @@
+[WebServer] (node:31342) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:31355) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 13 tests using 1 worker
+
+(node:31374) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:31374) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+  ✘   1 tests/browser/audio.spec.ts:5:1 › 實際音效合成以OfflineAudioContext核對職業、蒸氣、雷電、格擋與結局波形 (520ms)
+(node:31460) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 tests/browser/journal.spec.ts:19:1 › 首局導引可跳過並重看；成就外觀重載與星典備份，下一新局無永久戰力 (1.5m)
+(node:31588) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 tests/browser/journal.spec.ts:89:1 › 兩分頁換裝revision衝突保留唯一物件，錯誤可匯出目前工作備份 (19.5s)
+  ✓   4 tests/browser/journal.spec.ts:121:1 › 另一分頁清除旅程後，舊分頁不能復活舊局或重寫新局 (18.5s)
+  ✓   5 tests/browser/journal.spec.ts:147:1 › 永久星典壞檔回退有提示、無備份則保留且可下載原始檔 (2.4s)
+  ✘   6 tests/browser/journal.spec.ts:207:1 › 模擬配額失敗保留交易前存檔，匯出含目前工作狀態 (11.1s)
+(node:31802) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 tests/browser/journal.spec.ts:232:1 › 全螢幕保持8:5與返回尺寸、音量靜音重載後恢復原值 (3.0s)
+  ✓   8 tests/browser/journal.spec.ts:257:1 › 瀏覽器拒絕IndexedDB時顯示存檔錯誤而非WebGL，恢復存取可重試 (863ms)
+  ✓   9 tests/browser/journal.spec.ts:295:1 › 美術資源失敗可重試，既有存檔保持 (5.5s)
+  ✓  10 tests/browser/recovery.spec.ts:4:1 › M01 最新壞檔自動回退，提示並繼續保存，不清圖鑑 (6.1s)
+  ✓  11 tests/browser/startup.spec.ts:3:1 › WebGL 主選單、三職業、輸入、暫停與入口重載 (11.0s)
+  ✓  12 tests/browser/startup.spec.ts:37:1 › 圖鑑完整、音效設定持續 (1.6s)
+  ✓  13 tests/browser/startup.spec.ts:49:1 › 真實 IndexedDB 選卡不重抽、清關穿戴保存與匯入損壞保護 (13.4s)
+
+
+  1) tests/browser/audio.spec.ts:5:1 › 實際音效合成以OfflineAudioContext核對職業、蒸氣、雷電、格擋與結局波形 ────────────────
+
+    Error: cast:sword
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0.001
+    Received:   0.0009561545237546483
+
+      56 |     expect(r.peak, r.key).toBeGreaterThan(0.005);
+      57 |     expect(r.peak, r.key).toBeLessThan(1);
+    > 58 |     expect(r.rms, r.key).toBeGreaterThan(0.001);
+         |                          ^
+      59 |   }
+      60 | });
+      61 |
+        at /workspace/Solaria-Remaster/tests/browser/audio.spec.ts:58:26
+
+    Error Context: test-results/audio-實際音效合成以OfflineAudioContext核對職業、蒸氣、雷電、格擋與結局波形/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/audio-實際音效合成以OfflineAudioContext核對職業、蒸氣、雷電、格擋與結局波形/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/audio-實際音效合成以OfflineAudioContext核對職業、蒸氣、雷電、格擋與結局波形/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/browser/journal.spec.ts:19:1 › 首局導引可跳過並重看；成就外觀重載與星典備份，下一新局無永久戰力 ─────────────────────────
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '旅人手冊', exact: true })
+        - locator resolved to <button data-action="tutorial">旅人手冊</button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+      - element was detached from the DOM, retrying
+
+
+      30 |   await expect(page.locator(".first-tip")).toHaveCount(0);
+      31 |   await page.keyboard.press("Escape");
+    > 32 |   await page.getByRole("button", { name: "旅人手冊", exact: true }).click();
+         |                                                                 ^
+      33 |   await expect(page.getByRole("heading", { name: "循光而行" })).toBeVisible();
+      34 |   await expect(page.locator(".tutorial")).toContainText("兩者可同時使用");
+      35 |   const r = newRun("sword", 881);
+        at /workspace/Solaria-Remaster/tests/browser/journal.spec.ts:32:65
+
+    Error Context: test-results/journal-首局導引可跳過並重看；成就外觀重載與星典備份，下一新局無永久戰力/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/journal-首局導引可跳過並重看；成就外觀重載與星典備份，下一新局無永久戰力/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/journal-首局導引可跳過並重看；成就外觀重載與星典備份，下一新局無永久戰力/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/browser/journal.spec.ts:207:1 › 模擬配額失敗保留交易前存檔，匯出含目前工作狀態 ─────────────────────────────────
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('status')
+    Expected substring: "儲存空間不足"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" getByRole('status') with timeout 5000ms
+      - waiting for getByRole('status')
+        11 × locator resolved to <div id="toast" role="status">無法保存；上一份紀錄保留，請匯出備份。</div>
+           - unexpected value "無法保存；上一份紀錄保留，請匯出備份。"
+
+
+      220 |     page.getByRole("heading", { name: "存檔需要處理" }),
+      221 |   ).toBeVisible();
+    > 222 |   await expect(page.getByRole("status")).toContainText("儲存空間不足");
+          |                                          ^
+      223 |   const download = page.waitForEvent("download");
+      224 |   await page.getByRole("button", { name: "匯出備份", exact: true }).click();
+      225 |   const raw = JSON.parse(
+        at /workspace/Solaria-Remaster/tests/browser/journal.spec.ts:222:42
+
+    Error Context: test-results/journal-模擬配額失敗保留交易前存檔，匯出含目前工作狀態/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/journal-模擬配額失敗保留交易前存檔，匯出含目前工作狀態/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/journal-模擬配額失敗保留交易前存檔，匯出含目前工作狀態/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    tests/browser/audio.spec.ts:5:1 › 實際音效合成以OfflineAudioContext核對職業、蒸氣、雷電、格擋與結局波形 ─────────────────
+    tests/browser/journal.spec.ts:19:1 › 首局導引可跳過並重看；成就外觀重載與星典備份，下一新局無永久戰力 ──────────────────────────
+    tests/browser/journal.spec.ts:207:1 › 模擬配額失敗保留交易前存檔，匯出含目前工作狀態 ──────────────────────────────────
+  10 passed (3.2m)

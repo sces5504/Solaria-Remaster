@@ -1,0 +1,25 @@
+{
+  "tileSize": 96,
+  "frames": 6,
+  "names": [
+    "boss03",
+    "boss04",
+    "boss05",
+    "boss06",
+    "boss07",
+    "boss08",
+    "boss09",
+    "boss10",
+    "boss11",
+    "boss12",
+    "boss13",
+    "boss14",
+    "boss15",
+    "boss16",
+    "boss17",
+    "boss18",
+    "boss19"
+  ],
+  "license": "CC0-1.0",
+  "source": "tools/create-boss-atlas.py"
+}

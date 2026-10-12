@@ -1,0 +1,24 @@
+Production game spell FX atlas, exactly reference refined adventure PIXEL ART, crisp pixels, NOT basic geometric icons, NOT circles or diamonds. Transparent background 1536x1024 strict6columns4rows uniform256x256cells NO labels NO text NO grid. Every effect isolated within its cell minimum24px clear border, preserve transparency between wisps. Rich varied organic hand-painted pixel clusters, luminous cores, layered color ramps and detailed emission edges. Readable at 40-120pixels in game. Explosion frames9-14 form a consistent six-frame expanding blast animation. Row1 cell1: tall richly textured orange flame layered golden yellow white core curling tongues.
+Row1 cell2: smaller differently shaped orange animated flame with separate curling tongues.
+Row1 cell3: cluster of bright warm individual ember flecks on transparent.
+Row1 cell4: RIGHTWARD flying elongated orange fireball white golden head and trailing textured flame left.
+Row1 cell5: RIGHTWARD blue electric lightning projectile brilliant white-blue spherical core uneven branching blue sparks textured plasma tail LEFT.
+Row1 cell6: RIGHTWARD flying beautifully faceted pale cyan ice shard icy vapor tail LEFT.
+Row2 cell1: RIGHTWARD flying turquoise water orb white liquid highlight curling splash tail LEFT.
+Row2 cell2: RIGHTWARD violet arcane magic orb ivory center violet swirling streaks tail LEFT.
+Row2 cell3: explosion animation frame 1 small concentrated ivory pale gold core and sparks.
+Row2 cell4: explosion animation frame 2 expanding textured pale gold ivory plasma billows.
+Row2 cell5: explosion animation frame 3 full radial explosion gold ivory blooming cloud detailed ragged edge.
+Row2 cell6: explosion animation frame 4 large textured radial pale golden explosion billowing plumes and bright rim.
+Row3 cell1: explosion animation frame 5 expanding pale gold grey dissipating explosion wisps sparks.
+Row3 cell2: explosion animation frame 6 late golden glowing dust airy fading smoky cloud transparent holes.
+Row3 cell3: layered voluminous grey blue smoke cloud tuft soft pixel clustered edge.
+Row3 cell4: layered luminous pale cyan white steam cloud tuft.
+Row3 cell5: RIGHTWARD curling silver ivory blade slash sweeping crescent with textured spark trail LEFT.
+Row3 cell6: violet spectral armored swordsman ghost silhouette wispy trailing cape.
+Row4 cell1: ornate translucent ivory teal shield rim engraved gold with magical texture.
+Row4 cell2: ornate circular ancient rune disk violet teal golden engraving shimmering energy.
+Row4 cell3: RIGHTWARD flying textured charcoal meteor with molten golden tail LEFT.
+Row4 cell4: RIGHTWARD flying violet void orb black core and luminous purple fissures tail LEFT.
+Row4 cell5: RIGHTWARD flying crimson blood magic orb liquid spiral tail LEFT.
+Row4 cell6: irregular brilliant white luminous impact spark tuft many tiny clustered pixel rays.

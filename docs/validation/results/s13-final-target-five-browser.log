@@ -1,0 +1,21 @@
+
+> solaria-remaster@1.0.0 test:browser
+> playwright test --workers=1 --grep 吸血鬼|清算先吸附|全螢幕|WebGL 主選單|真實 IndexedDB
+
+
+Running 5 tests using 1 worker
+
+(node:45550) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/advanced-cards.spec.ts:93:1 › 吸血鬼以灰色標明不可回復區，保留真實七成生命與四成上限 (2.9s)
+  ✓  2 tests/browser/feedback.spec.ts:125:1 › 清算先吸附再選卡，地面裝備與出口提示可互動 (14.0s)
+  ✓  3 tests/browser/journal.spec.ts:276:1 › 全螢幕保持8:5與返回尺寸、音量靜音重載後恢復原值 (3.0s)
+  ✓  4 tests/browser/startup.spec.ts:3:1 › WebGL 主選單、三職業、輸入、暫停與入口重載 (10.7s)
+  ✓  5 tests/browser/startup.spec.ts:51:1 › 真實 IndexedDB 選卡不重抽、清關穿戴保存與匯入損壞保護 (13.3s)
+
+  5 passed (45.1s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

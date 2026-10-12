@@ -1,0 +1,77 @@
+
+Running 4 tests using 1 worker
+
+(node:54825) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/post-v1-feedback.spec.ts:61:1 › 五色裝備背包／側欄名稱、六色構築與已知圖鑑，不揭未知卡名 (17.1s)
+  ✘  2 tests/browser/post-v1-feedback.spec.ts:120:1 › 橘紅選卡整張與圖案／hover亮光顏色正確 (8.8s)
+(node:54933) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 tests/browser/post-v1-feedback.spec.ts:152:1 › 魔王城雷射機關呈地面印記且可跨越，真石柱仍碰撞 (11.4s)
+  ✘  4 tests/browser/post-v1-feedback.spec.ts:190:1 › 舊鬼甲快照的南瓜250上限，玩家生命強化不再放大 (6.2s)
+
+
+  1) tests/browser/post-v1-feedback.spec.ts:120:1 › 橘紅選卡整張與圖案／hover亮光顏色正確 ──────────────────────────
+
+    Error: expect(locator).toHaveCSS(expected) failed
+
+    Locator:  locator('.card.橘 .card-art')
+    Expected: "rgb(255, 186, 114)"
+    Received: "rgb(213, 216, 170)"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCSS" locator('.card.橘 .card-art') with timeout 5000ms
+      - waiting for locator('.card.橘 .card-art')
+        12 × locator resolved to <svg fill="none" aria-hidden="true" stroke-width="2.4" viewBox="0 0 104 104" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="card-art family-traveler">…</svg>
+           - unexpected value "rgb(213, 216, 170)"
+
+
+      134 |     ).toBe(true);
+      135 |   await load(page, r);
+    > 136 |   await expect(page.locator(".card.橘 .card-art")).toHaveCSS(
+          |                                                   ^
+      137 |     "color",
+      138 |     "rgb(255, 186, 114)",
+      139 |   );
+        at /workspace/Solaria-Remaster/tests/browser/post-v1-feedback.spec.ts:136:51
+
+    Error Context: test-results/post-v1-feedback-橘紅選卡整張與圖案／hover亮光顏色正確/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/post-v1-feedback-橘紅選卡整張與圖案／hover亮光顏色正確/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/post-v1-feedback-橘紅選卡整張與圖案／hover亮光顏色正確/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/browser/post-v1-feedback.spec.ts:190:1 › 舊鬼甲快照的南瓜250上限，玩家生命強化不再放大 ───────────────────────
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 250
+    Received:   90
+
+      211 |   expect(saved.current.companion.maximum).toBe(250);
+      212 |   expect(saved.current.companion.hp).toBeLessThanOrEqual(250);
+    > 213 |   expect(saved.current.stats.maxHP).toBeGreaterThan(250);
+          |                                     ^
+      214 | });
+      215 |
+        at /workspace/Solaria-Remaster/tests/browser/post-v1-feedback.spec.ts:213:37
+
+    Error Context: test-results/post-v1-feedback-舊鬼甲快照的南瓜250上限，玩家生命強化不再放大/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/post-v1-feedback-舊鬼甲快照的南瓜250上限，玩家生命強化不再放大/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/post-v1-feedback-舊鬼甲快照的南瓜250上限，玩家生命強化不再放大/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/browser/post-v1-feedback.spec.ts:120:1 › 橘紅選卡整張與圖案／hover亮光顏色正確 ───────────────────────────
+    tests/browser/post-v1-feedback.spec.ts:190:1 › 舊鬼甲快照的南瓜250上限，玩家生命強化不再放大 ────────────────────────
+  2 passed (45.8s)

@@ -1,0 +1,350 @@
+{
+  "actors": [
+    ["sword", "silver-haired knight ivory armor teal cape gold sword shield"],
+    ["bow", "auburn female ranger forest green hood leather armor ornate bow"],
+    [
+      "mage",
+      "dark indigo hair pointed purple crescent wizard hat long amethyst embroidered cloth robe lilac scarf violet crystal staff"
+    ],
+    ["wolf", "grey timber wolf"],
+    ["slime", "translucent emerald slime glowing core"],
+    ["knife", "brown hooded rogue dual knives"],
+    ["archer", "mustard hood enemy archer red cloth wooden bow"],
+    ["shaman", "green tribal meadow shaman antler headdress green staff"],
+    ["mon06", "sand blade assassin desert turban curved daggers"],
+    ["mon07", "sand scorpion articulated carapace amber stinger"],
+    ["mon08", "ancient sand priest linen gold jackal headdress sun staff"],
+    ["mon09", "frost fang white wolf icy blue paws"],
+    ["mon10", "ice crystal sentinel humanoid crystalline armor bow"],
+    ["mon11", "snow shroud ghost flowing icy blue spectral cloak"],
+    [
+      "mon12",
+      "lava armored quadruped beast basalt plates glowing orange fissures"
+    ],
+    ["mon13", "flame breathing orange lizard flaming dorsal crest and tail"],
+    ["mon14", "ash sorcerer black robe gold trim orange flame in palms"],
+    ["mon15", "thorn spotted jungle leopard vines along spine"],
+    [
+      "mon16",
+      "leaf blade hunter green feather headdress woven armor leaf throwing blades"
+    ],
+    ["mon17", "spore flower rooted bulb many pink petals glowing spores"],
+    [
+      "mon18",
+      "void burrowing worm dark violet segmented shell luminous purple mouth"
+    ],
+    [
+      "mon19",
+      "corrupted archer twisted purple wooden bow tattered lilac cloak"
+    ],
+    [
+      "mon20",
+      "rift warden horned black violet ceremonial armor luminous purple staff"
+    ],
+    ["mon21", "blood claw scarlet hunting hound"],
+    ["mon22", "blood spear crimson armored retainer with long spear"],
+    [
+      "mon23",
+      "crimson floating eye demon organic red membrane luminous central eye"
+    ],
+    [
+      "mon24",
+      "meteor predator obsidian quadruped with cyan crystal protrusions"
+    ],
+    ["mon25", "starlight patrol sleek silver alien scout glowing blue rifle"],
+    ["mon26", "orbital jellyfish transparent navy bell cyan glowing tentacles"],
+    ["mon27", "bone knight skull silver plate teal scarf sword and shield"],
+    ["mon28", "castle crossbowman dark navy hood gold trim heavy crossbow"],
+    ["mon29", "obsidian warlock purple black robe violet flaming hands"],
+    ["wolfking", "majestic grey wolf king emerald gold armor crown reference"],
+    [
+      "goatking",
+      "brown ram king enormous curled horns emerald gold saddle crown reference"
+    ],
+    [
+      "boss03",
+      "pyramid sun god ancient floating layered gold stone pyramid radiant eye"
+    ],
+    ["boss04", "sandstorm assassin long ochre cloak dual bronze sickle blades"],
+    ["boss05", "ice dragon pale blue scales broad wings crystalline horns"],
+    ["boss06", "glacier troll huge muscular blue furry giant frost stone club"],
+    [
+      "boss07",
+      "volcano furnace golem black stone thick limbs glowing molten cracks furnace chest reference"
+    ],
+    [
+      "boss08",
+      "fire lion beast basalt black fur brilliant orange flame mane reference"
+    ],
+    ["boss09", "giant carnivorous flower crimson toothed blossom thick roots"],
+    [
+      "boss10",
+      "evil witch doctor feather mask bone necklace glowing jade staff"
+    ],
+    ["boss11", "void worm huge black purple segmented body violet mouth"],
+    ["boss12", "giant floating eyeball purple tentacles glowing violet iris"],
+    [
+      "boss13",
+      "floating crimson brain red folds ivory horns crackling cyan synapses"
+    ],
+    ["boss14", "Dracula vampire noble dark crimson black gold coat bat wings"],
+    ["boss15", "alien queen silver violet chitin crown cyan crystalline staff"],
+    [
+      "boss16",
+      "alien space whale floating huge dark blue celestial whale pale cyan fins"
+    ],
+    [
+      "boss17",
+      "bone regent skull king black gold armor enormous sword reference"
+    ],
+    [
+      "boss18",
+      "eclipse archmage black purple gold mantle orbiting violet eclipse orb reference"
+    ],
+    [
+      "boss19",
+      "Solaris final sun god radiant ivory gold winged armored deity flaming solar crown spear"
+    ],
+    ["gift-goblin", "green goblin red winter cap ornate gift box"],
+    ["snow-brute", "white fur snow brute blue frost club"],
+    ["blood-bat", "crimson bat black webbed wings"],
+    [
+      "blood-berserker",
+      "red horned berserker dark steel axe glowing red scars"
+    ],
+    ["grave-ghost", "translucent turquoise grave ghost hood spectral lantern"],
+    [
+      "pumpkin-knight",
+      "jack o lantern helmet armored knight orange glowing face"
+    ],
+    ["alien-ranger", "lime green alien silver suit cyan plasma rifle"],
+    [
+      "alien-saucer",
+      "silver hovering saucer purple glass canopy cyan thruster"
+    ],
+    ["landing-mech", "silver teal angular landing mech cyan core gun arms"],
+    ["star-dust", "floating clustered luminous blue gold star dust sprite"],
+    ["comet-whelp", "small dark blue celestial canine cyan comet flame tail"],
+    [
+      "frost-santa",
+      "large winter boss bearded frost santa red fur robe ice bells"
+    ],
+    [
+      "pumpkin-lord",
+      "large pumpkin boss flaming jack o lantern face dark regal mantle tangled vine arms"
+    ]
+  ],
+  "props": [
+    [
+      "meadow-tree",
+      "meadow tree using this biome material description: lush oak leafy clusters moss grey stone carved ancient mossy column turquoise stone basin"
+    ],
+    [
+      "meadow-rock",
+      "meadow rock using this biome material description: lush oak leafy clusters moss grey stone carved ancient mossy column turquoise stone basin"
+    ],
+    [
+      "meadow-pillar",
+      "meadow pillar using this biome material description: lush oak leafy clusters moss grey stone carved ancient mossy column turquoise stone basin"
+    ],
+    [
+      "meadow-lake",
+      "meadow lake using this biome material description: lush oak leafy clusters moss grey stone carved ancient mossy column turquoise stone basin"
+    ],
+    [
+      "desert-tree",
+      "desert tree using this biome material description: desert date palm ochre sandstone carved sun god column oasis"
+    ],
+    [
+      "desert-rock",
+      "desert rock using this biome material description: desert date palm ochre sandstone carved sun god column oasis"
+    ],
+    [
+      "desert-pillar",
+      "desert pillar using this biome material description: desert date palm ochre sandstone carved sun god column oasis"
+    ],
+    [
+      "desert-lake",
+      "desert lake using this biome material description: desert date palm ochre sandstone carved sun god column oasis"
+    ],
+    [
+      "icefield-tree",
+      "icefield tree using this biome material description: snow covered pine blue ice boulder crystalline ice obelisk frozen blue lake"
+    ],
+    [
+      "icefield-rock",
+      "icefield rock using this biome material description: snow covered pine blue ice boulder crystalline ice obelisk frozen blue lake"
+    ],
+    [
+      "icefield-pillar",
+      "icefield pillar using this biome material description: snow covered pine blue ice boulder crystalline ice obelisk frozen blue lake"
+    ],
+    [
+      "icefield-lake",
+      "icefield lake using this biome material description: snow covered pine blue ice boulder crystalline ice obelisk frozen blue lake"
+    ],
+    [
+      "volcano-tree",
+      "volcano tree using this biome material description: charred petrified tree glowing ember branches cracked basalt rock lava fissures black basalt furnace pillar bright molten lava pool"
+    ],
+    [
+      "volcano-rock",
+      "volcano rock using this biome material description: charred petrified tree glowing ember branches cracked basalt rock lava fissures black basalt furnace pillar bright molten lava pool"
+    ],
+    [
+      "volcano-pillar",
+      "volcano pillar using this biome material description: charred petrified tree glowing ember branches cracked basalt rock lava fissures black basalt furnace pillar bright molten lava pool"
+    ],
+    [
+      "volcano-lake",
+      "volcano lake using this biome material description: charred petrified tree glowing ember branches cracked basalt rock lava fissures black basalt furnace pillar bright molten lava pool"
+    ],
+    [
+      "jungle-tree",
+      "jungle tree using this biome material description: tall jungle tree broad clustered leaves layered vines mossy stone ancient jade vine column luminous turquoise lily pond"
+    ],
+    [
+      "jungle-rock",
+      "jungle rock using this biome material description: tall jungle tree broad clustered leaves layered vines mossy stone ancient jade vine column luminous turquoise lily pond"
+    ],
+    [
+      "jungle-pillar",
+      "jungle pillar using this biome material description: tall jungle tree broad clustered leaves layered vines mossy stone ancient jade vine column luminous turquoise lily pond"
+    ],
+    [
+      "jungle-lake",
+      "jungle lake using this biome material description: tall jungle tree broad clustered leaves layered vines mossy stone ancient jade vine column luminous turquoise lily pond"
+    ],
+    [
+      "corruption-tree",
+      "corruption tree using this biome material description: twisted violet dead tree amethyst corrupted rock ruined purple rune pillar luminous violet rift pool"
+    ],
+    [
+      "corruption-rock",
+      "corruption rock using this biome material description: twisted violet dead tree amethyst corrupted rock ruined purple rune pillar luminous violet rift pool"
+    ],
+    [
+      "corruption-pillar",
+      "corruption pillar using this biome material description: twisted violet dead tree amethyst corrupted rock ruined purple rune pillar luminous violet rift pool"
+    ],
+    [
+      "corruption-lake",
+      "corruption lake using this biome material description: twisted violet dead tree amethyst corrupted rock ruined purple rune pillar luminous violet rift pool"
+    ],
+    [
+      "crimson-tree",
+      "crimson tree using this biome material description: scarlet foliage tree red mineral rock bone white crimson column deep crimson blood pool"
+    ],
+    [
+      "crimson-rock",
+      "crimson rock using this biome material description: scarlet foliage tree red mineral rock bone white crimson column deep crimson blood pool"
+    ],
+    [
+      "crimson-pillar",
+      "crimson pillar using this biome material description: scarlet foliage tree red mineral rock bone white crimson column deep crimson blood pool"
+    ],
+    [
+      "crimson-lake",
+      "crimson lake using this biome material description: scarlet foliage tree red mineral rock bone white crimson column deep crimson blood pool"
+    ],
+    [
+      "stars-tree",
+      "stars tree using this biome material description: blue silver celestial crystal tree navy star crystal rock tall silver cyan celestial column blue luminous star pool"
+    ],
+    [
+      "stars-rock",
+      "stars rock using this biome material description: blue silver celestial crystal tree navy star crystal rock tall silver cyan celestial column blue luminous star pool"
+    ],
+    [
+      "stars-pillar",
+      "stars pillar using this biome material description: blue silver celestial crystal tree navy star crystal rock tall silver cyan celestial column blue luminous star pool"
+    ],
+    [
+      "stars-lake",
+      "stars lake using this biome material description: blue silver celestial crystal tree navy star crystal rock tall silver cyan celestial column blue luminous star pool"
+    ],
+    [
+      "castle-tree",
+      "castle tree using this biome material description: golden autumn courtyard tree grey carved stone black gold gothic tall column turquoise enchanted stone basin"
+    ],
+    [
+      "castle-rock",
+      "castle rock using this biome material description: golden autumn courtyard tree grey carved stone black gold gothic tall column turquoise enchanted stone basin"
+    ],
+    [
+      "castle-pillar",
+      "castle pillar using this biome material description: golden autumn courtyard tree grey carved stone black gold gothic tall column turquoise enchanted stone basin"
+    ],
+    [
+      "castle-lake",
+      "castle lake using this biome material description: golden autumn courtyard tree grey carved stone black gold gothic tall column turquoise enchanted stone basin"
+    ],
+    ["door", "tall gothic gold grey stone portal turquoise swirling magic"],
+    ["heal", "ornate glass healing potion emerald fluid golden stopper"],
+    ["xp", "luminous faceted teal experience crystal"]
+  ],
+  "floors": [
+    [
+      "floor-meadow",
+      "perfectly square top-down seamless edge-to-edge ground material tile for meadow lush oak leafy clusters moss grey stone carved ancient mossy column turquoise stone basin ONLY ground no large objects no trees or pillars, muted readable natural material colors"
+    ],
+    [
+      "floor-desert",
+      "perfectly square top-down seamless edge-to-edge ground material tile for desert desert date palm ochre sandstone carved sun god column oasis ONLY ground no large objects no trees or pillars, muted readable natural material colors"
+    ],
+    [
+      "floor-icefield",
+      "perfectly square top-down seamless edge-to-edge ground material tile for icefield snow covered pine blue ice boulder crystalline ice obelisk frozen blue lake ONLY ground no large objects no trees or pillars, muted readable natural material colors"
+    ],
+    [
+      "floor-volcano",
+      "perfectly square top-down seamless edge-to-edge ground material tile for volcano charred petrified tree glowing ember branches cracked basalt rock lava fissures black basalt furnace pillar bright molten lava pool ONLY ground no large objects no trees or pillars, muted readable natural material colors"
+    ],
+    [
+      "floor-jungle",
+      "perfectly square top-down seamless edge-to-edge ground material tile for jungle tall jungle tree broad clustered leaves layered vines mossy stone ancient jade vine column luminous turquoise lily pond ONLY ground no large objects no trees or pillars, muted readable natural material colors"
+    ],
+    [
+      "floor-corruption",
+      "perfectly square top-down seamless edge-to-edge ground material tile for corruption twisted violet dead tree amethyst corrupted rock ruined purple rune pillar luminous violet rift pool ONLY ground no large objects no trees or pillars, muted readable natural material colors"
+    ],
+    [
+      "floor-crimson",
+      "perfectly square top-down seamless edge-to-edge ground material tile for crimson scarlet foliage tree red mineral rock bone white crimson column deep crimson blood pool ONLY ground no large objects no trees or pillars, muted readable natural material colors"
+    ],
+    [
+      "floor-stars",
+      "perfectly square top-down seamless edge-to-edge ground material tile for stars blue silver celestial crystal tree navy star crystal rock tall silver cyan celestial column blue luminous star pool ONLY ground no large objects no trees or pillars, muted readable natural material colors"
+    ],
+    [
+      "floor-castle",
+      "perfectly square top-down seamless edge-to-edge ground material tile for castle golden autumn courtyard tree grey carved stone black gold gothic tall column turquoise enchanted stone basin ONLY ground no large objects no trees or pillars, muted readable natural material colors"
+    ]
+  ],
+  "fx": [
+    "flame",
+    "flame-small",
+    "ember",
+    "fireball",
+    "electric-orb",
+    "ice-shard",
+    "water-orb",
+    "arcane-orb",
+    "explosion-0",
+    "explosion-1",
+    "explosion-2",
+    "explosion-3",
+    "explosion-4",
+    "explosion-5",
+    "smoke",
+    "steam",
+    "slash",
+    "ghost",
+    "shield",
+    "rune",
+    "meteor",
+    "void-orb",
+    "blood-orb",
+    "spark"
+  ]
+}

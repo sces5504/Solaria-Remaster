@@ -1,0 +1,66 @@
+
+Running 2 tests using 1 worker
+
+(node:49338) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tools/validation/pages.spec.ts:7:1 › 正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續 (201ms)
+(node:49436) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tools/validation/pages.spec.ts:99:1 › 正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存 (195ms)
+
+
+  1) tools/validation/pages.spec.ts:7:1 › 正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續 ──────────────────────────
+
+    Error: page.goto: net::ERR_CERT_AUTHORITY_INVALID at https://sces5504.github.io/Solaria-Remaster/
+    Call log:
+      - navigating to "https://sces5504.github.io/Solaria-Remaster/", waiting until "load"
+
+
+      17 |     if (q.status() >= 400) failures.push(`${q.status()} ${q.url()}`);
+      18 |   });
+    > 19 |   await page.goto("./");
+         |              ^
+      20 |   await expect(
+      21 |     page.getByRole("button", { name: "開始新局", exact: true }),
+      22 |   ).toBeEnabled();
+        at /workspace/Solaria-Remaster/tools/validation/pages.spec.ts:19:14
+
+    Error Context: ../../tmp/solaria-pages-results/pages-正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/solaria-pages-results/pages-正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/solaria-pages-results/pages-正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tools/validation/pages.spec.ts:99:1 › 正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存 ───────────────
+
+    Error: page.goto: net::ERR_CERT_AUTHORITY_INVALID at https://sces5504.github.io/Solaria-Remaster/
+    Call log:
+      - navigating to "https://sces5504.github.io/Solaria-Remaster/", waiting until "load"
+
+
+      100 |   page,
+      101 | }, info) => {
+    > 102 |   await page.goto("./");
+          |              ^
+      103 |   await expect(
+      104 |     page.getByRole("button", { name: "開始新局", exact: true }),
+      105 |   ).toBeEnabled();
+        at /workspace/Solaria-Remaster/tools/validation/pages.spec.ts:102:14
+
+    Error Context: ../../tmp/solaria-pages-results/pages-正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/solaria-pages-results/pages-正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/solaria-pages-results/pages-正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tools/validation/pages.spec.ts:7:1 › 正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續 ───────────────────────────
+    tools/validation/pages.spec.ts:99:1 › 正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存 ────────────────

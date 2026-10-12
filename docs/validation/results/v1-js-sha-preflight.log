@@ -1,0 +1,9 @@
+
+Running 2 tests using 1 worker
+
+(node:46455) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tools/validation/pages.spec.ts:7:1 › 正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續 (11.9s)
+  ✓  2 tools/validation/pages.spec.ts:94:1 › 正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存 (5.7s)
+
+  2 passed (18.3s)

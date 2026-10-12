@@ -1,0 +1,28 @@
+{
+  "source": "c07e63f800530264149347436f6ed73a0e22c519",
+  "version": "1.0.1",
+  "sha256": {
+    "dist/assets/CanvasPool-CTz6W2rm.js": "0dbc5a71c65dd8ae8cdc3dde6ae0e11f85f55cd0fbaa9064baffc2c21b01523d",
+    "dist/assets/canvasUtils-B5KrsTsU.js": "572546d1625d86d938f6c61bcd56c0be058707169c3894f0dca30db132e3375c",
+    "dist/assets/GraphicsContext-BdlONEsd.js": "87b48df0f3f5782128537acbdec82399c3c364cf4b5844843d1f3abdedaad6f5",
+    "dist/assets/RenderTargetSystem-LneVKNDZ.js": "403b27f6c5294b3037f561935f21dc2e31d854b6cd896f78d2333f39e25968e0",
+    "dist/assets/Filter-xcuLdGR1.js": "2744bd41d015cd1d2ba49ee74aeac574feee34aa4143a62c96233668e7cc6d7b",
+    "dist/assets/getTextureBatchBindGroup-BOmbyaNZ.js": "06c699beb10ceb7fed76cd38e7c4ecf35d1f046e006409337e7282d0e1c766e3",
+    "dist/assets/Cache-D0EC7riK.js": "dbabb6e1f43eb6d837201109d732bf3f67f19aa71687bb63cdb6a7fd721640ad",
+    "dist/assets/getTexelRangeRects-CpZ5iCZB.js": "6b59b3c7636917f10b57587993be4e2d64ae59a54978f8406585ba01788759f6",
+    "dist/assets/browserAll-wZm78W-2.js": "5b42fb7ba8df893593346a6955d1d213cba5cc11a8eb577d34089911d6a6bc8c",
+    "dist/assets/index-RGCOH5Lt.js": "3c4e3897e97757a74b3514ddfb6b837f89e28bded0222e3ad5a60158e425a275",
+    "dist/assets/init-CmGhBQvh.js": "8411f0dc41921179884f82af28b815ac3adef4a164c0c6725caf1098a8f9e64f",
+    "dist/assets/webworkerAll-D-_0x1hs.js": "7423b0a3e66cb6bf1c30c960b8cf84d3222731bd55a3547742379570ff11f0d2",
+    "dist/assets/GCManagedHash-Ap6rl--7.js": "90f7d33c480d46b42fcc058be236f3a7503ca6c9d3f58d181def37afcf6a738f",
+    "dist/assets/index-BfJ_YUBd.css": "84c2e0b89c178e704c85696f9a34916bdc4d30256a74883d48313edb9863eaa6",
+    "public/assets/biome-atlas.png": "7a230f19ed0057a1727cdd09976817b98cdd5bb15a3bf198019f30af8cb0b0d6",
+    "public/assets/sword.png": "731e209effc6ba8e76a34861dee4f50f148fa327e12c325722cb0944a0ab8392",
+    "public/assets/solaria-atlas.png": "34b9e16836a4087c090568ad1c9fd70177aa0561ad51c9d8ffc9c4c1301cf66e",
+    "public/assets/event-atlas.png": "a76a85896f94e6e24de56a7fd210fd41011813dfd9e0a632f5cae50bc1688e4a",
+    "public/assets/bow.png": "ebf63169477e25258a25c807c7188f6fbcbf4ff82d450f4e2ea3e4a7c606edd7",
+    "public/assets/mage.png": "9dc6376960196c292ad41381af6f2ebb720bb1c26c5c5f09d5df5abaeb9f5555",
+    "public/assets/boss-atlas.png": "bbf02972dca6809643d256f8bfc5487df1286637d66cf2b396b84dd7aea4c5f2",
+    "public/assets/manifest.json": "8e4874d86b7de4ae8e281b5624caf787b77132e1dba80ef24d343eaa5f6137cc"
+  }
+}

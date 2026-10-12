@@ -1,0 +1,16 @@
+
+> solaria-remaster@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+
+ Test Files  24 passed (24)
+      Tests  297 passed (297)
+   Start at  18:59:55
+   Duration  14.01s (tests 86%, import 8%, transform 5%, worker 1%)
+
+    Isolate  24 workers spawned · ~84ms startup each (spawn + environment, per file)
+             at least ~1.93s faster with isolate: false — reuses workers across files instead of one per file
+

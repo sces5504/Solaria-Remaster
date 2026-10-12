@@ -1,0 +1,40 @@
+
+> solaria-remaster@1.0.0 test
+> vitest run
+
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/feedback-cover.test.ts (13 tests | 1 failed) 41ms
+   × 小怪衝撞嘗試跨越實體時傷掩體，不必先穿牆才命中 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/feedback-cover.test.ts > 小怪衝撞嘗試跨越實體時傷掩體，不必先穿牆才命中
+AssertionError: expected 20 to be 16 // Object.is equality
+
+- Expected
++ Received
+
+- 16
++ 20
+
+ ❯ tests/unit/feedback-cover.test.ts:265:37
+    263|   ];
+    264|   updateEnemies(r);
+    265|   expect(r.obstacles[0].durability).toBe(16);
+       |                                     ^
+    266|   expect(e.x).toBeLessThan(170);
+    267|   updateEnemies(r);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 29 passed (30)
+      Tests  1 failed | 323 passed (324)
+   Start at  04:11:54
+   Duration  15.34s (tests 86%, import 9%, transform 4%, worker 1%)
+
+    Isolate  30 workers spawned · ~78ms startup each (spawn + environment, per file)
+             at least ~2.25s faster with isolate: false — reuses workers across files instead of one per file
+

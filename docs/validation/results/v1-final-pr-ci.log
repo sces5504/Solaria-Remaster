@@ -1,0 +1,504 @@
+verify	Set up job	﻿2026-10-11T21:08:39.8452048Z Current runner version: '2.337.0'
+verify	Set up job	2026-10-11T21:08:39.8470527Z ##[group]Runner Image Provisioner
+verify	Set up job	2026-10-11T21:08:39.8471240Z Hosted Compute Agent
+verify	Set up job	2026-10-11T21:08:39.8471608Z Version: 20261002.596
+verify	Set up job	2026-10-11T21:08:39.8471981Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+verify	Set up job	2026-10-11T21:08:39.8472479Z Build Date: 2026-10-02T22:28:27Z
+verify	Set up job	2026-10-11T21:08:39.8472933Z Worker ID: {1fd35c26-3f02-42f7-a62c-be5be17c3071}
+verify	Set up job	2026-10-11T21:08:39.8473395Z Region: westus3
+verify	Set up job	2026-10-11T21:08:39.8473750Z Cloud: Azure
+verify	Set up job	2026-10-11T21:08:39.8474345Z ##[endgroup]
+verify	Set up job	2026-10-11T21:08:39.8475229Z ##[group]Operating System
+verify	Set up job	2026-10-11T21:08:39.8475613Z Ubuntu
+verify	Set up job	2026-10-11T21:08:39.8476032Z 24.04.5
+verify	Set up job	2026-10-11T21:08:39.8476371Z LTS
+verify	Set up job	2026-10-11T21:08:39.8476695Z ##[endgroup]
+verify	Set up job	2026-10-11T21:08:39.8477067Z ##[group]Runner Image
+verify	Set up job	2026-10-11T21:08:39.8477472Z Image: ubuntu-24.04
+verify	Set up job	2026-10-11T21:08:39.8477814Z Version: 20261004.327.1
+verify	Set up job	2026-10-11T21:08:39.8478493Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+verify	Set up job	2026-10-11T21:08:39.8479586Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+verify	Set up job	2026-10-11T21:08:39.8480204Z ##[endgroup]
+verify	Set up job	2026-10-11T21:08:39.8480920Z ##[group]GITHUB_TOKEN Permissions
+verify	Set up job	2026-10-11T21:08:39.8482319Z Contents: read
+verify	Set up job	2026-10-11T21:08:39.8482669Z Metadata: read
+verify	Set up job	2026-10-11T21:08:39.8483074Z ##[endgroup]
+verify	Set up job	2026-10-11T21:08:39.8484552Z Secret source: Actions
+verify	Set up job	2026-10-11T21:08:39.8485181Z Cache mode: write
+verify	Set up job	2026-10-11T21:08:39.8485602Z Prepare workflow directory
+verify	Set up job	2026-10-11T21:08:39.8693671Z Prepare all required actions
+verify	Set up job	2026-10-11T21:08:39.8725760Z Getting action download info
+verify	Set up job	2026-10-11T21:08:40.1601928Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+verify	Set up job	2026-10-11T21:08:40.2440181Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+verify	Set up job	2026-10-11T21:08:40.3501803Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+verify	Set up job	2026-10-11T21:08:40.5413213Z Complete job name: verify
+verify	Run actions/checkout@v4	﻿2026-10-11T21:08:40.5910966Z ##[group]Run actions/checkout@v4
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5911393Z with:
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5911644Z   repository: sces5504/Solaria-Remaster
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5913989Z   token: ***
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5914232Z   ssh-strict: true
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5914480Z   ssh-user: git
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5914729Z   persist-credentials: true
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5915003Z   clean: true
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5915253Z   sparse-checkout-cone-mode: true
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5915543Z   fetch-depth: 1
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5915783Z   fetch-tags: false
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5916030Z   show-progress: true
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5916282Z   lfs: false
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5916514Z   submodules: false
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5916766Z   set-safe-directory: true
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5917050Z   allow-unsafe-pr-checkout: false
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.5917412Z ##[endgroup]
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6592287Z Syncing repository: sces5504/Solaria-Remaster
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6595828Z ##[group]Getting Git version info
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6597033Z Working directory is '/home/runner/work/Solaria-Remaster/Solaria-Remaster'
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6598655Z [command]/usr/bin/git version
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6712319Z git version 2.55.0
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6732399Z ##[endgroup]
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6750566Z Temporarily overriding HOME='/home/runner/work/_temp/f59d2321-e1b0-4f91-a293-5b9c3ffb1514' before making global git config changes
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6751894Z Adding repository directory to the temporary git global config as a safe directory
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6755188Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Solaria-Remaster/Solaria-Remaster
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6799956Z Deleting the contents of '/home/runner/work/Solaria-Remaster/Solaria-Remaster'
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6805638Z ##[group]Initializing the repository
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6809160Z [command]/usr/bin/git init /home/runner/work/Solaria-Remaster/Solaria-Remaster
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6960053Z hint: Using 'master' as the name for the initial branch. This default branch name
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6961463Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6962275Z hint: to use in all of your new repositories, which will suppress this warning,
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6962915Z hint: call:
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6963267Z hint:
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6963720Z hint: 	git config --global init.defaultBranch <name>
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6964373Z hint:
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6964871Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6965686Z hint: 'development'. The just-created branch can be renamed via this command:
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6966360Z hint:
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6966718Z hint: 	git branch -m <name>
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6967128Z hint:
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6967669Z hint: Disable this message with "git config set advice.defaultBranchName false"
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6968628Z Initialized empty Git repository in /home/runner/work/Solaria-Remaster/Solaria-Remaster/.git/
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.6971955Z [command]/usr/bin/git remote add origin https://github.com/sces5504/Solaria-Remaster
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.7116095Z ##[endgroup]
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.7116975Z ##[group]Disabling automatic garbage collection
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.7120124Z [command]/usr/bin/git config --local gc.auto 0
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.7167113Z ##[endgroup]
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.7167809Z ##[group]Setting up auth
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.7172755Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.7206867Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.7719011Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.7749688Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.7929369Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.7958577Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.8140705Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.8332026Z ##[endgroup]
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.8332785Z ##[group]Fetching the repository
+verify	Run actions/checkout@v4	2026-10-11T21:08:40.8339986Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +b8f8a5e9a8e24b0964045e038b054780c4700e99:refs/remotes/pull/2/merge
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9307881Z From https://github.com/sces5504/Solaria-Remaster
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9309903Z  * [new ref]         b8f8a5e9a8e24b0964045e038b054780c4700e99 -> pull/2/merge
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9313701Z ##[endgroup]
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9315244Z ##[group]Determining the checkout info
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9316808Z ##[endgroup]
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9317797Z [command]/usr/bin/git sparse-checkout disable
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9372797Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9399458Z ##[group]Checking out the ref
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9401197Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/2/merge
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9603648Z Note: switching to 'refs/remotes/pull/2/merge'.
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9604575Z 
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9605189Z You are in 'detached HEAD' state. You can look around, make experimental
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9606415Z changes and commit them, and you can discard any commits you make in this
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9607624Z state without impacting any branches by switching back to a branch.
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9608369Z 
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9608863Z If you want to create a new branch to retain commits you create, you may
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9610214Z do so (now or later) by using -c with the switch command. Example:
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9610865Z 
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9611131Z   git switch -c <new-branch-name>
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9611566Z 
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9611859Z Or undo this operation with:
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9612503Z 
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9612948Z   git switch -
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9613398Z 
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9614133Z Turn off this advice by setting config variable advice.detachedHead to false
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9615098Z 
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9616195Z HEAD is now at b8f8a5e Merge cc6f32eff2ba1484e2f2b94bdf2e2565f74333bc into 6399276ee2cb62ff56fbf3bb97319f0936143b4b
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9619311Z ##[endgroup]
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9648024Z [command]/usr/bin/git log -1 --format=%H
+verify	Run actions/checkout@v4	2026-10-11T21:08:41.9669752Z b8f8a5e9a8e24b0964045e038b054780c4700e99
+verify	Run actions/setup-node@v4	﻿2026-10-11T21:08:41.9995500Z ##[group]Run actions/setup-node@v4
+verify	Run actions/setup-node@v4	2026-10-11T21:08:41.9996264Z with:
+verify	Run actions/setup-node@v4	2026-10-11T21:08:41.9996792Z   node-version: 24
+verify	Run actions/setup-node@v4	2026-10-11T21:08:41.9997355Z   cache: npm
+verify	Run actions/setup-node@v4	2026-10-11T21:08:41.9997918Z   always-auth: false
+verify	Run actions/setup-node@v4	2026-10-11T21:08:41.9998511Z   check-latest: false
+verify	Run actions/setup-node@v4	2026-10-11T21:08:42.0004828Z   token: ***
+verify	Run actions/setup-node@v4	2026-10-11T21:08:42.0005393Z ##[endgroup]
+verify	Run actions/setup-node@v4	2026-10-11T21:08:42.0912050Z Found in cache @ /opt/hostedtoolcache/node/24.21.0/x64
+verify	Run actions/setup-node@v4	2026-10-11T21:08:42.0915782Z (node:2087) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+verify	Run actions/setup-node@v4	2026-10-11T21:08:42.0918362Z (Use `node --trace-deprecation ...` to show where the warning was created)
+verify	Run actions/setup-node@v4	2026-10-11T21:08:42.0920621Z ##[group]Environment details
+verify	Run actions/setup-node@v4	2026-10-11T21:08:42.3819212Z node: v24.21.0
+verify	Run actions/setup-node@v4	2026-10-11T21:08:42.3819595Z npm: 11.19.0
+verify	Run actions/setup-node@v4	2026-10-11T21:08:42.3819861Z yarn: 1.22.22
+verify	Run actions/setup-node@v4	2026-10-11T21:08:42.3820293Z ##[endgroup]
+verify	Run actions/setup-node@v4	2026-10-11T21:08:42.3831754Z [command]/opt/hostedtoolcache/node/24.21.0/x64/bin/npm config get cache
+verify	Run actions/setup-node@v4	2026-10-11T21:08:42.4617592Z /home/runner/.npm
+verify	Run actions/setup-node@v4	2026-10-11T21:08:42.6677604Z npm cache is not found
+verify	Run bash scripts/cloud-setup.sh	﻿2026-10-11T21:08:42.6801551Z ##[group]Run bash scripts/cloud-setup.sh
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:42.6801897Z [36;1mbash scripts/cloud-setup.sh[0m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:42.7070354Z shell: /usr/bin/bash -e {0}
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:42.7070569Z ##[endgroup]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:45.6618958Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:45.6626374Z added 57 packages, and audited 58 packages in 3s
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:45.6626864Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:45.6627054Z 15 packages are looking for funding
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:45.6627377Z   run `npm fund` for details
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:45.6627533Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:45.6627666Z found 0 vulnerabilities
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.1845765Z Installing dependencies...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.1946601Z Switching to root user to install dependencies...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.2778068Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.3215357Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.3395640Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.3397468Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.3417070Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.3447822Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.3970924Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.3 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.4069086Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [548 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.4183571Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [492 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.4247463Z Get:10 https://packages.microsoft.com/ubuntu/24.04/prod noble/main all Packages [640 B]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.4907056Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1375 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.4965635Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [306 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.4995658Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1702 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.5087443Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [342 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.5114623Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1761 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.5175583Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [401 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.5199566Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [55.0 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.5224690Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.3 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.5766755Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1121 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.5810244Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [228 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.6238150Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1220 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.6284937Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [245 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.6299499Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1669 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.6368355Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [383 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.6394620Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [49.8 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:46.6410897Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse Translation-en [12.4 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:51.8242232Z Fetched 12.3 MB in 1s (11.8 MB/s)
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.3330357Z Reading package lists...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.3515279Z Reading package lists...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.4781530Z Building dependency tree...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.4786930Z Reading state information...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5781368Z libasound2t64 is already the newest version (1.2.11-1ubuntu0.3).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5782464Z libasound2t64 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5782844Z libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5783225Z libatk-bridge2.0-0t64 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5783611Z libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5785555Z libatk1.0-0t64 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5785776Z libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5785991Z libatspi2.0-0t64 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5786200Z libcairo2 is already the newest version (1.18.0-3build1).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5786404Z libcairo2 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5786616Z libcups2t64 is already the newest version (2.4.7-1.2ubuntu7.14).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5786825Z libcups2t64 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5787038Z libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5787250Z libdbus-1-3 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5787469Z libdrm2 is already the newest version (2.4.125-1ubuntu0.1~24.04.2).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5787677Z libdrm2 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5787881Z libgbm1 is already the newest version (25.2.8-0ubuntu0.24.04.4).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5788082Z libgbm1 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5788292Z libglib2.0-0t64 is already the newest version (2.80.0-6ubuntu3.9).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5788528Z libglib2.0-0t64 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5788750Z libnspr4 is already the newest version (2:4.35-1.1build1).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5788948Z libnspr4 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5789148Z libnss3 is already the newest version (2:3.98-1ubuntu0.2).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5789340Z libnss3 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5789551Z libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5789765Z libpango-1.0-0 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5790036Z libx11-6 is already the newest version (2:1.8.7-1build1).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5790364Z libx11-6 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5790721Z libxcb1 is already the newest version (1.15-1ubuntu2).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5790907Z libxcb1 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5791145Z libxcomposite1 is already the newest version (1:0.4.5-1build3).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5791361Z libxcomposite1 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5791572Z libxdamage1 is already the newest version (1:1.1.6-1build1).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5791775Z libxdamage1 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5791974Z libxext6 is already the newest version (2:1.3.4-1build2).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5792164Z libxext6 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5792363Z libxfixes3 is already the newest version (1:6.0.0-2build1).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5792565Z libxfixes3 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5792795Z libxkbcommon0 is already the newest version (1.6.0-1build1).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5793006Z libxkbcommon0 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5793218Z libxrandr2 is already the newest version (2:1.5.2-2build1).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5793417Z libxrandr2 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5793617Z xvfb is already the newest version (2:21.1.12-1ubuntu1.8).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5794048Z fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5794343Z libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5794556Z libfontconfig1 set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5794769Z fonts-liberation is already the newest version (1:2.1.5-3).
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5794978Z fonts-liberation set to manually installed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5795184Z The following additional packages will be installed:
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5795374Z   xfonts-encodings xfonts-utils
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5795521Z Recommended packages:
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5795670Z   fonts-ipafont-mincho fonts-tlwg-loma
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5916102Z The following NEW packages will be installed:
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5916807Z   fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5918314Z   fonts-wqy-zenhei xfonts-cyrillic xfonts-encodings xfonts-scalable
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5918558Z   xfonts-utils
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5920311Z The following packages will be upgraded:
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.5922725Z   libfreetype6
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.6042150Z 1 upgraded, 9 newly installed, 0 to remove and 22 not upgraded.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.6042536Z Need to get 21.5 MB of archives.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.6042897Z After this operation, 79.5 MB of additional disk space will be used.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.6043320Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.6962778Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.8269481Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:52.9717330Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:53.0366677Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:53.1595412Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:53.3730985Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libfreetype6 amd64 2.13.2+dfsg-1ubuntu0.2 [403 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:53.4470966Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:53.5171265Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:53.5818585Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:53.6524835Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:53.9880405Z Fetched 21.5 MB in 1s (20.2 MB/s)
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.0057918Z Selecting previously unselected package fonts-ipafont-gothic.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.0317579Z (Reading database ... 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.0317884Z (Reading database ... 5%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.0318105Z (Reading database ... 10%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.0318316Z (Reading database ... 15%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.0318516Z (Reading database ... 20%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.0318656Z (Reading database ... 25%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.0318790Z (Reading database ... 30%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.0318927Z (Reading database ... 35%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.0319403Z (Reading database ... 40%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.0319679Z (Reading database ... 45%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.0319900Z (Reading database ... 50%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.0358001Z (Reading database ... 55%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.1410207Z (Reading database ... 60%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.3315533Z (Reading database ... 65%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.5355064Z (Reading database ... 70%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.7362387Z (Reading database ... 75%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:54.8869423Z (Reading database ... 80%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.0327171Z (Reading database ... 85%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.2303299Z (Reading database ... 90%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.3865545Z (Reading database ... 95%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.3865937Z (Reading database ... 100%
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.3866189Z (Reading database ... 203191 files and directories currently installed.)
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.3907719Z Preparing to unpack .../0-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.4065312Z Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.6540253Z Selecting previously unselected package fonts-freefont-ttf.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.6635133Z Preparing to unpack .../1-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.6643159Z Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.7543674Z Selecting previously unselected package fonts-tlwg-loma-otf.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.7642327Z Preparing to unpack .../2-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.7650905Z Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.7840961Z Selecting previously unselected package fonts-unifont.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.7936593Z Preparing to unpack .../3-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:55.7944100Z Unpacking fonts-unifont (1:15.1.01-1build1) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.2081629Z Selecting previously unselected package fonts-wqy-zenhei.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.2176694Z Preparing to unpack .../4-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.2262314Z Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.6661691Z Preparing to unpack .../5-libfreetype6_2.13.2+dfsg-1ubuntu0.2_amd64.deb ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.6703387Z Unpacking libfreetype6:amd64 (2.13.2+dfsg-1ubuntu0.2) over (2.13.2+dfsg-1ubuntu0.1) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.7364918Z Selecting previously unselected package xfonts-encodings.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.7520122Z Preparing to unpack .../6-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.7527325Z Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.7753045Z Selecting previously unselected package xfonts-utils.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.7850957Z Preparing to unpack .../7-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.7858946Z Unpacking xfonts-utils (1:7.7+6build3) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.8168718Z Selecting previously unselected package xfonts-cyrillic.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.8263724Z Preparing to unpack .../8-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.8271219Z Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.8527649Z Selecting previously unselected package xfonts-scalable.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.8622461Z Preparing to unpack .../9-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.8630445Z Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.8982934Z Setting up fonts-wqy-zenhei (0.9.45-8) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.9187724Z Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.9205379Z Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.9221012Z Setting up libfreetype6:amd64 (2.13.2+dfsg-1ubuntu0.2) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.9237539Z Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.9254598Z Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.9309412Z update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.9324010Z Setting up fonts-unifont (1:15.1.01-1build1) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.9340003Z Setting up xfonts-utils (1:7.7+6build3) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.9377958Z Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:56.9605712Z Setting up xfonts-scalable (1:1.0.3-1.3) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:57.0001953Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:57.6464392Z Processing triggers for man-db (2.12.0-4build2) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:57.6639609Z Not building database; man-db/auto-update is not 'true'.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:57.7121876Z Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:58.4373691Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:58.4374307Z Running kernel seems to be up-to-date.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:58.4374487Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:58.4374556Z Restarting services...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:58.4434913Z  systemctl restart php8.3-fpm.service
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:58.6224804Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:58.6244948Z No containers need to be restarted.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:58.6254191Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:58.6254353Z No user sessions are running outdated binaries.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:58.6254535Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:58.6254772Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:59.5588370Z Downloading Chrome for Testing 156.0.8078.4 (playwright chromium v1248) from https://cdn.playwright.dev/builds/cft/156.0.8078.4/linux64/chrome-linux64.zip
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:08:59.8831386Z |                                                                                |   0% of 191.1 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:00.0542236Z |■■■■■■■■                                                                        |  10% of 191.1 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:00.1110926Z |■■■■■■■■■■■■■■■■                                                                |  20% of 191.1 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:00.1736979Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 191.1 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:00.2354579Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 191.1 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:00.3258591Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 191.1 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:00.4126090Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 191.1 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:00.4712287Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 191.1 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:00.5404783Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 191.1 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:00.6008407Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 191.1 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:00.6793567Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 191.1 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:02.8989936Z Chrome for Testing 156.0.8078.4 (playwright chromium v1248) downloaded to /home/runner/.cache/ms-playwright/chromium-1248
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:02.8993473Z Downloading FFmpeg (playwright ffmpeg v1013) from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1013/ffmpeg-linux.zip
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.1627979Z |                                                                                |   0% of 2.2 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.1651664Z |■■■■■■■■                                                                        |  10% of 2.2 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.1672738Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.2 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.1685898Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.2 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.1732205Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.2 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.1764955Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.2 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.1784983Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.2 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.1797162Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.2 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.1808836Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.2 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.1820608Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.2 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.1831462Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.2 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.2230388Z FFmpeg (playwright ffmpeg v1013) downloaded to /home/runner/.cache/ms-playwright/ffmpeg-1013
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.2232244Z Downloading Chrome Headless Shell 156.0.8078.4 (playwright chromium-headless-shell v1248) from https://cdn.playwright.dev/builds/cft/156.0.8078.4/linux64/chrome-headless-shell-linux64.zip
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.5326811Z |                                                                                |   0% of 120 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.6702232Z |■■■■■■■■                                                                        |  10% of 120 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.7298857Z |■■■■■■■■■■■■■■■■                                                                |  20% of 120 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.7988540Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 120 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.8749723Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 120 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.9147251Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 120 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:03.9736372Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 120 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:04.0425203Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 120 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:04.1259427Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 120 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:04.2455025Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 120 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:04.3090514Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 120 MiB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:05.8751281Z Chrome Headless Shell 156.0.8078.4 (playwright chromium-headless-shell v1248) downloaded to /home/runner/.cache/ms-playwright/chromium_headless_shell-1248
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:05.9634418Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:05.9635062Z > solaria-remaster@1.0.0 check
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:05.9635799Z > tsc --noEmit
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:05.9635932Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.3488595Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.3489293Z > solaria-remaster@1.0.0 build
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.3489620Z > tsc --noEmit && vite build
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.3489724Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.7758172Z [36mvite v8.3.4 [32mbuilding client environment for production...[36m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.7827048Z transforming...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.8742126Z ✓ 784 modules transformed.
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9134112Z rendering chunks...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9613054Z computing gzip size...
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9652725Z dist/index.html                                     1.17 kB │ gzip:   0.45 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9653093Z dist/assets/index-DVzu8Ybk.css                     19.81 kB │ gzip:   5.98 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9653431Z dist/assets/webworkerAll-jIRtB56O.js                0.05 kB │ gzip:   0.06 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9653910Z dist/assets/getTextureBatchBindGroup-BOmbyaNZ.js    0.34 kB │ gzip:   0.26 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9654554Z dist/assets/Cache-D0EC7riK.js                       1.10 kB │ gzip:   0.56 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9654890Z dist/assets/canvasUtils-B5KrsTsU.js                 6.01 kB │ gzip:   2.04 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9655223Z dist/assets/getTexelRangeRects-CpZ5iCZB.js         11.35 kB │ gzip:   2.99 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9655551Z dist/assets/init-CmGhBQvh.js                       15.20 kB │ gzip:   4.73 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9655878Z dist/assets/GCManagedHash-Ap6rl--7.js              19.33 kB │ gzip:   6.28 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9656308Z dist/assets/Filter-xcuLdGR1.js                     41.95 kB │ gzip:  12.02 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9656844Z dist/assets/browserAll-CtT2IWa2.js                 43.51 kB │ gzip:  11.25 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9657343Z dist/assets/RenderTargetSystem-LneVKNDZ.js         58.80 kB │ gzip:  16.47 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9657681Z dist/assets/GraphicsContext-BdlONEsd.js            61.68 kB │ gzip:  20.62 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9658014Z dist/assets/CanvasPool-CTz6W2rm.js                 71.18 kB │ gzip:  23.30 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9658347Z dist/assets/index-C1eSlw0f.js                     496.78 kB │ gzip: 163.88 kB
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9658495Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:06.9658652Z [32m✓ built in 189ms[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:07.0435510Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:07.0436126Z > solaria-remaster@1.0.0 test:browser
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:07.0436369Z > playwright test
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:07.0436450Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:08.7129675Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:08.7130291Z Running 77 tests using 1 worker
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:25.8715631Z (node:3036) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:09:25.8716733Z (Use `node --trace-warnings ...` to show where the warning was created)
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:19.0489729Z ·············································································
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:19.0493375Z   77 passed (14.2m)
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:19.1515746Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:19.1519497Z > solaria-remaster@1.0.0 test
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:19.1519821Z > vitest run
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:19.1519981Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:19.3737448Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:19.3739997Z [1m[30m[46m RUN [49m[39m[22m [36mv5.0.3 [39m[90m/home/runner/work/Solaria-Remaster/Solaria-Remaster[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:19.3740543Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:19.8750719Z  [32m✓[39m tests/unit/cards.test.ts [2m([22m[2m61 tests[22m[2m)[22m[32m 105[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:19.9520480Z  [32m✓[39m tests/unit/advanced-cards.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 153[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:20.3421053Z  [32m✓[39m tests/unit/events.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 215[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:20.4965774Z  [32m✓[39m tests/unit/simulation.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 699[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:20.4967066Z    [32m✓[39m C10–18 元素、卡池、地圖与 Boss [2m(9)[22m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:20.4995075Z      [33m[2m✓[22m[39m 三選一先色後池、不同卡、職業與資格，持續卡不重抽[33m 508[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:20.7287217Z  [32m✓[39m tests/unit/equipment-abilities.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 55[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:20.8111474Z  [32m✓[39m tests/unit/last-polish.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 89[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:21.1018766Z  [32m✓[39m tests/unit/radiance.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 134[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:21.3145164Z  [32m✓[39m tests/unit/feedback.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 399[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:21.3735797Z  [32m✓[39m tests/unit/journey.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 133[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:21.5725720Z  [32m✓[39m tests/unit/monster-details.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 70[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:21.6646016Z  [32m✓[39m tests/unit/resonance.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 89[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:22.9826398Z  [32m✓[39m tests/unit/equipment-integration.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 2933[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:22.9836079Z    [33m[2m✓[22m[39m 一般掉落含8橘／3普通紅、紅兩詞橘三詞，事件不入池，地形與周目成長不放大吸血[33m 2878[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:23.6455737Z  [32m✓[39m tests/unit/polish.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 482[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:23.6457173Z    [33m[2m✓[22m[39m 程序生成全部可走格連通、種子可重現，普通房及王房有足夠實體掩體[33m 345[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:23.7015971Z  [32m✓[39m tests/unit/biome-bosses.test.ts [2m([22m[2m35 tests[22m[2m)[22m[33m 1893[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:23.8297624Z  [32m✓[39m tests/unit/profile.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:23.8939520Z  [32m✓[39m tests/unit/conditional-cards.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 32[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:24.0275135Z  [32m✓[39m tests/unit/contact-timeline.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:24.0779588Z  [32m✓[39m tests/unit/handoff-regressions.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:24.3037450Z  [32m✓[39m tests/unit/stress.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 56[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:24.5509013Z  [32m✓[39m tests/unit/milestone.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 65[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:24.6619268Z  [32m✓[39m tests/unit/playability.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 497[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:24.6888017Z  [32m✓[39m tests/unit/collision-time.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:24.7970993Z  [32m✓[39m tests/unit/projectile-pool.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 10[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.0787908Z  [32m✓[39m tests/unit/bosses.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 233[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.2917164Z  [32m✓[39m tests/unit/solar-arena.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 352[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.2955716Z    [33m[2m✓[22m[39m 日輪王房跨100seed各周目保有中央通路、四封印位置與可破壞掩體[33m 351[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.4365797Z  [32m✓[39m tests/unit/clock.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.6397025Z  [32m✓[39m tests/unit/biomes.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 3899[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.6427092Z    [33m[2m✓[22m[39m desert 六程序房型保留通路、掩體及合法原生怪[33m 601[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.6438942Z    [33m[2m✓[22m[39m icefield 六程序房型保留通路、掩體及合法原生怪[33m 520[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.6439907Z    [33m[2m✓[22m[39m volcano 六程序房型保留通路、掩體及合法原生怪[33m 388[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.6440496Z    [33m[2m✓[22m[39m jungle 六程序房型保留通路、掩體及合法原生怪[33m 426[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.6441016Z    [33m[2m✓[22m[39m corruption 六程序房型保留通路、掩體及合法原生怪[33m 379[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.6441522Z    [33m[2m✓[22m[39m crimson 六程序房型保留通路、掩體及合法原生怪[33m 409[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.6442003Z    [33m[2m✓[22m[39m stars 六程序房型保留通路、掩體及合法原生怪[33m 429[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.6443147Z    [33m[2m✓[22m[39m castle 六程序房型保留通路、掩體及合法原生怪[33m 441[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.9570387Z  [32m✓[39m tests/unit/pathing.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 748[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.9570958Z    [33m[2m✓[22m[39m 50 seeded ordinary rooms progress without AI pathing stalls[33m 747[2mms[22m[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.9608084Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.9612889Z [2m Test Files [22m [1m[32m28 passed[39m[22m[90m (28)[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.9613705Z [2m      Tests [22m [1m[32m307 passed[39m[22m[90m (307)[39m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.9614433Z [2m   Start at [22m 21:23:19
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.9617554Z [2m   Duration [22m 6.57s[2m (tests 85%, import 8%, transform 6%, worker 1%)[22m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.9627525Z 
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.9628163Z [2m    Isolate [22m [33m28 workers spawned[39m[2m · ~98ms startup each (spawn + environment, per file)[22m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.9629094Z [2m            [22m [2mat least ~819ms faster with [22m[33misolate: false[39m[2m — reuses workers across files instead of one per file[22m
+verify	Run bash scripts/cloud-setup.sh	2026-10-11T21:23:25.9629645Z 
+verify	Run npm run format:check	﻿2026-10-11T21:23:25.9996103Z ##[group]Run npm run format:check
+verify	Run npm run format:check	2026-10-11T21:23:25.9996312Z [36;1mnpm run format:check[0m
+verify	Run npm run format:check	2026-10-11T21:23:26.0051794Z shell: /usr/bin/bash -e {0}
+verify	Run npm run format:check	2026-10-11T21:23:26.0051961Z ##[endgroup]
+verify	Run npm run format:check	2026-10-11T21:23:26.0777044Z 
+verify	Run npm run format:check	2026-10-11T21:23:26.0777724Z > solaria-remaster@1.0.0 format:check
+verify	Run npm run format:check	2026-10-11T21:23:26.0778098Z > prettier --check .
+verify	Run npm run format:check	2026-10-11T21:23:26.0778231Z 
+verify	Run npm run format:check	2026-10-11T21:23:26.1393716Z Checking formatting...
+verify	Run npm run format:check	2026-10-11T21:23:29.4478233Z All matched files use Prettier code style!
+verify	Post Run actions/setup-node@v4	﻿2026-10-11T21:23:29.5611950Z Post job cleanup.
+verify	Post Run actions/setup-node@v4	2026-10-11T21:23:29.6544453Z (node:5041) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+verify	Post Run actions/setup-node@v4	2026-10-11T21:23:29.6545250Z (Use `node --trace-deprecation ...` to show where the warning was created)
+verify	Post Run actions/setup-node@v4	2026-10-11T21:23:29.6711618Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/Solaria-Remaster/Solaria-Remaster --files-from manifest.txt --use-compress-program zstdmt
+verify	Post Run actions/setup-node@v4	2026-10-11T21:23:30.0068396Z Failed to save: Unable to reserve cache with key node-cache-Linux-x64-npm-7eb073fe4738be4fcc2adfca5b7264e66ac66ba4abfd901daf9c5487302cd476, another job may be creating this cache.
+verify	Post Run actions/checkout@v4	﻿2026-10-11T21:23:30.0237712Z Post job cleanup.
+verify	Post Run actions/checkout@v4	2026-10-11T21:23:30.0879334Z [command]/usr/bin/git version
+verify	Post Run actions/checkout@v4	2026-10-11T21:23:30.0914697Z git version 2.55.0
+verify	Post Run actions/checkout@v4	2026-10-11T21:23:30.1015767Z Temporarily overriding HOME='/home/runner/work/_temp/e53bb09e-fcd1-4664-b88b-f636c3179393' before making global git config changes
+verify	Post Run actions/checkout@v4	2026-10-11T21:23:30.1016769Z Adding repository directory to the temporary git global config as a safe directory
+verify	Post Run actions/checkout@v4	2026-10-11T21:23:30.1018229Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Solaria-Remaster/Solaria-Remaster
+verify	Post Run actions/checkout@v4	2026-10-11T21:23:30.1019553Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+verify	Post Run actions/checkout@v4	2026-10-11T21:23:30.1027482Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+verify	Post Run actions/checkout@v4	2026-10-11T21:23:30.1260519Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+verify	Post Run actions/checkout@v4	2026-10-11T21:23:30.1280834Z http.https://github.com/.extraheader
+verify	Post Run actions/checkout@v4	2026-10-11T21:23:30.1294656Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+verify	Post Run actions/checkout@v4	2026-10-11T21:23:30.1357020Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+verify	Post Run actions/checkout@v4	2026-10-11T21:23:30.1580226Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+verify	Post Run actions/checkout@v4	2026-10-11T21:23:30.1613610Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+verify	Complete job	﻿2026-10-11T21:23:30.1924732Z Cleaning up orphan processes
+verify	Complete job	2026-10-11T21:23:30.2206843Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

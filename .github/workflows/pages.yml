@@ -1,0 +1,64 @@
+name: Solaria GitHub Pages
+on:
+  push:
+    branches: [implement/s00-s05, main]
+    paths-ignore: ["**/*.md", "docs/**"]
+  workflow_dispatch:
+    inputs:
+      validation:
+        description: "Browser validation scope (visual-only feedback patches)"
+        type: choice
+        default: full
+        options: [full, art-feedback, visibility-feedback]
+permissions:
+  contents: read
+concurrency:
+  group: solaria-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run check && npm test && npm run format:check
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - name: Browser validation
+        env:
+          VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
+        run: |
+          if [ "$VALIDATION_SCOPE" = "art-feedback" ]; then
+            npm run test:browser -- tests/browser/adventure-art.spec.ts tests/browser/last-polish.spec.ts --grep '短FX|美術回饋|精雕冒險 (meadow|volcano|castle)：|發光藍雷|扇形噴火'
+          elif [ "$VALIDATION_SCOPE" = "visibility-feedback" ]; then
+            npm run test:browser -- tests/browser/visibility-feedback.spec.ts
+          else
+            npm run test:browser
+          fi
+      - run: npm run build
+        env:
+          SOLARIA_PAGES: "1"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: pages-browser-failures
+          path: test-results/
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

@@ -33,3 +33,7 @@
 執行：先整合使用者實際試玩回饋與必要回歸，再按相依完成八地形子節點及其16Boss、最終Boss／封印／周目、剩餘26卡與完整85矩陣、8橘裝／3普通紅／6事件紅、六事件與兩事件Boss、完整UI／圖鑑成就外觀／音效、保存／遷移／錯誤流程、平衡與效能優化、Pages正式部署。第一里程碑既有草原／兩Boss／59卡必須保留並回歸。
 
 最後以GAME_SPEC與TEST_PLAN逐項對照，不以placeholder或同招換色代替內容。交付正式網址、版本／分支／commit／PR、完整內容覆蓋與測試報告、尚未測或實際阻礙；功能、品質與未測硬體項目分開報告，未滿驗收不能宣稱全面通過。
+
+## v1發布後兩個new chat交接（2026-10-12）
+
+主人已要求本輪試玩五項修訂完成後分成兩個new chat；不是重啟第一里程碑或自動spawn agents。全文入口：docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md（數值／機制／Bug與兩邊整合／Pages）、ART_NEW_CHAT_PROMPT.md（sprite／專屬FX／UI／音效呈現）。每份自包含歷史與必讀索引，從遠端implement/s00-s05最新HEAD接續，來源與驗證看CURRENT_STATE／PROJECT_STATUS最新首節。兩邊獨立worktree／分支；美術成果交遊戲窗口安全整合，不競爭覆寫正式分支，不merge main。S13未測與SwiftShader密集FAIL仍保留，不能把完整內容發布當全項验收。

@@ -1,0 +1,22 @@
+{
+  "updatedUTC": "2026-10-11 16:27:16 UTC",
+  "scope": "internal development checkpoint, not full v1",
+  "unit": {
+    "status": "PASS",
+    "count": 215
+  },
+  "browser": {
+    "status": "PASS_AFTER_FIX",
+    "count": 46,
+    "firstRunPassed": 43,
+    "legacyTotalRoomAssertionsFailed": 3,
+    "retryPassed": 3
+  },
+  "hardwareGPU60FPS": "NOT_RUN",
+  "hardware600Projectiles": "NOT_RUN",
+  "restartMemory10": "NOT_RUN",
+  "FirefoxSafari": "NOT_RUN",
+  "humanBalance": "NOT_RUN",
+  "Pages": "unchanged milestone 1",
+  "activeCardCount": 69
+}

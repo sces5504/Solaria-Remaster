@@ -1,0 +1,87 @@
+{
+  "sword": {
+    "row": 0,
+    "frames": 6,
+    "size": 96
+  },
+  "bow": {
+    "row": 1,
+    "frames": 6,
+    "size": 96
+  },
+  "mage": {
+    "row": 2,
+    "frames": 6,
+    "size": 96
+  },
+  "wolf": {
+    "row": 3,
+    "frames": 6,
+    "size": 96
+  },
+  "slime": {
+    "row": 4,
+    "frames": 6,
+    "size": 96
+  },
+  "knife": {
+    "row": 5,
+    "frames": 6,
+    "size": 96
+  },
+  "archer": {
+    "row": 6,
+    "frames": 6,
+    "size": 96
+  },
+  "shaman": {
+    "row": 7,
+    "frames": 6,
+    "size": 96
+  },
+  "wolfking": {
+    "row": 8,
+    "frames": 6,
+    "size": 96
+  },
+  "goatking": {
+    "row": 9,
+    "frames": 6,
+    "size": 96
+  },
+  "tree": {
+    "row": 10,
+    "frames": 6,
+    "size": 96
+  },
+  "rock": {
+    "row": 11,
+    "frames": 6,
+    "size": 96
+  },
+  "pillar": {
+    "row": 12,
+    "frames": 6,
+    "size": 96
+  },
+  "lake": {
+    "row": 13,
+    "frames": 6,
+    "size": 96
+  },
+  "door": {
+    "row": 14,
+    "frames": 6,
+    "size": 96
+  },
+  "heal": {
+    "row": 15,
+    "frames": 6,
+    "size": 96
+  },
+  "xp": {
+    "row": 16,
+    "frames": 6,
+    "size": 96
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "solaria-remaster",
-  "version": "0.1.0",
+  "version": "1.1.2",
   "private": true,
   "type": "module",
   "engines": {
@@ -23,5 +23,8 @@
     "typescript": "^7.0.2",
     "vite": "^8.3.4",
     "vitest": "^5.0.3"
+  },
+  "dependencies": {
+    "pixi.js": "8.22.0"
   }
 }

@@ -1,0 +1,71 @@
+{
+  "initial": {
+    "render": {
+      "sprites": 15,
+      "cachedSprites": 0,
+      "createdSprites": 15,
+      "texts": 0,
+      "cachedTexts": 0,
+      "createdTexts": 0,
+      "glows": 602,
+      "activeGlows": 602,
+      "positions": 14,
+      "renderer": "webgl"
+    },
+    "core": {
+      "room": 1,
+      "loop": 1,
+      "phase": "ROOM_INTRO",
+      "tick": 0,
+      "time": 0,
+      "enemies": 12,
+      "enemyProjectiles": 600,
+      "projectiles": 600,
+      "visuals": 0,
+      "originalBasics": 0,
+      "damageNumbers": 0,
+      "areas": 0
+    }
+  },
+  "measurement": {
+    "kind": "CLOUD_WEBGL_SYNTHETIC_STRESS",
+    "hardwareGpuAcceptance": "NOT_RUN",
+    "fixture": "保護觀測角色並保持目標生命，僅壓力場景，不通關或當平衡驗收",
+    "seconds": 10.62879999999702,
+    "frameCount": 8,
+    "meanFrameMs": 1328.5999999996275,
+    "p95FrameMs": 1815.0999999977648,
+    "peakNumbers": 1444,
+    "peakProjectiles": 655,
+    "peakFields": 2,
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "last": {
+      "render": {
+        "sprites": 15,
+        "cachedSprites": 0,
+        "createdSprites": 15,
+        "texts": 1321,
+        "cachedTexts": 256,
+        "createdTexts": 1890,
+        "glows": 1350,
+        "activeGlows": 1350,
+        "positions": 14,
+        "renderer": "webgl"
+      },
+      "core": {
+        "room": 1,
+        "loop": 1,
+        "phase": "COMBAT",
+        "tick": 126,
+        "time": 2.0999999999999974,
+        "enemies": 12,
+        "enemyProjectiles": 600,
+        "projectiles": 655,
+        "visuals": 1927,
+        "originalBasics": 5,
+        "damageNumbers": 1321,
+        "areas": 2
+      }
+    }
+  }
+}

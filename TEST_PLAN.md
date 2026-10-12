@@ -60,3 +60,19 @@ Firefox／Safari桌面功能煙測，viewport縮放與fullscreen檢查指針準�
 ## 記錄格式
 
 每次記錄commit、階段ID、環境、命令、結果、退出碼、失敗case、未運行項目。狀態必須區分PASS／FAIL／NOT_RUN／BLOCKED；CI綠色僅代表該workflow包含的檢查，不代表完整玩法、GPUFPS或Cloud環境已Publish。更改核心輸入／來源／存檔／掉落必跑關聯case及既有回歸。
+
+## v1驗證來源與修訂優先（2026-10-11）
+
+上述scaffold及首周目20–25級為歷史；最新GAME_SPEC增量規定31關约26級，實作配額8890對照PASS，不回復舊值。現況與PASS／FAIL／NOT_RUN看PROJECT_STATUS及docs/validation各矩陣。
+
+新增實際驗證：每地形6主題×20seed連通與合法生成、全部王2×3招／索拉里斯三血、六事件一次跨周目、85卡規則矩陣、17特殊裝備卸裝／來源、真IndexedDB交易／损壞／revision／離頁／取消匯入、原版53691bf格式fixture繼續、四桌面尺寸8:5／無全頁捲動、碰撞真時間與池重用、Cloud10／30次UI重啟、600敵彈／12目標與各傷獨立字功能。實測SwiftShader壓力不達60FPS，真GPU仍NOT_RUN，不能用Cloud功能PASS代替FPS。
+
+命令旅程bot只發正常輸入、選真實候選，死亡和逾時保留。24場城堡領主fixture比較的預算、構築、1／2／5／10周目敵血與承傷／回血／CPU量測完整保存，沒有敵血／無敵作弊；fixture不等同全程三選一取得或人工試玩。人工30＋1各職一般／強構築與Firefox／Safari仍列NOT_RUN。
+
+## v1試玩後回歸（2026-10-12）
+
+新增feedback-cover：4 Boss／5小怪、混合權重、2秒邊界／同波一次、附近圓與範圍屬性、遠掩體仍擋彈、湖泊／友方不損、敵人死亡後彈／場來源保留、各房號、雷射終點／半寬、實際近戰扇形／衝撞方向、舊耐久比例及保護時間存讀、三職與生命卡／周目不增南瓜250、舊伙伴／復活。boss-distribution：每周目20,000實際路線seed，九地形條件抽選各兩王、比例.47–.53、排除僅8種固定聯合組合；不把未條件化的全Boss頻次當50%證明。
+
+新增post-v1-feedback Chromium：五色裝備背包／側欄特殊名、六色構築／已知圖鑑／未知不揭名、橘紅選卡背景／hover光色且保留能力家族圖案、魔王城機關可跨越與真柱碰撞、舊南瓜快照250且玩家生命强化仍有效。原本Boss測試改在整個模擬過程觀測實際攻擊活動，仍核對各階段三種attackId與模式上限；不能要求玩家遠離所有掩體時也必須扣耐久。
+
+回歸基線為上一版307unit／77Chromium與正式站2案例；本輪完整結果、部署來源和失敗保留見PROJECT_STATUS最新首節與docs/validation/results。全局S13硬體與人工NOT_RUN不因這輪Bug回歸而變PASS。

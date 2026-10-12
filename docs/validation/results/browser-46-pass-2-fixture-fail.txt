@@ -1,0 +1,142 @@
+
+> solaria-remaster@0.1.0 test:browser
+> playwright test --workers=1
+
+[WebServer] (node:15420) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:15434) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 48 tests using 1 worker
+
+(node:15453) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 tests/browser/advanced-cards.spec.ts:18:1 › 元素使三元素的強制融合選擇重載後仍保留、卡片圖鑑85張 (1.5m)
+(node:15731) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 tests/browser/advanced-cards.spec.ts:47:1 › 命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴 (6.5s)
+(node:15815) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-3 金字塔神 專屬布局與兩階段原創畫面 (25.1s)
+  ✓   4 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-4 沙塵暴刺客 專屬布局與兩階段原創畫面 (20.3s)
+  ✓   5 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-5 冰龍 專屬布局與兩階段原創畫面 (22.3s)
+  ✓   6 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-6 冰川巨魔 專屬布局與兩階段原創畫面 (19.5s)
+  ✓   7 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-7 火山熔爐怪 專屬布局與兩階段原創畫面 (20.5s)
+  ✓   8 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-8 火炎獸 專屬布局與兩階段原創畫面 (18.2s)
+  ✓   9 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-9 食人花怪 專屬布局與兩階段原創畫面 (25.2s)
+  ✓  10 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-10 邪惡巫醫 專屬布局與兩階段原創畫面 (23.4s)
+  ✓  11 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-11 虛空蠕蟲 專屬布局與兩階段原創畫面 (21.7s)
+  ✓  12 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-12 眼球怪 專屬布局與兩階段原創畫面 (20.7s)
+  ✓  13 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-13 血腥浮空腦袋 專屬布局與兩階段原創畫面 (21.5s)
+  ✓  14 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-14 德古拉血魔 專屬布局與兩階段原創畫面 (20.8s)
+  ✓  15 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-15 異星女王 專屬布局與兩階段原創畫面 (21.0s)
+  ✓  16 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-16 異星鯨魚 專屬布局與兩階段原創畫面 (22.5s)
+  ✓  17 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-17 白骨攝政王 專屬布局與兩階段原創畫面 (24.6s)
+  ✓  18 tests/browser/biome-bosses.spec.ts:7:3 › BOSS-18 蝕星大法師 專屬布局與兩階段原創畫面 (22.3s)
+  ✓  19 tests/browser/biomes.spec.ts:9:3 › desert 原創地形、怪物、機關與預警 WebGL 畫面 (10.7s)
+  ✓  20 tests/browser/biomes.spec.ts:9:3 › icefield 原創地形、怪物、機關與預警 WebGL 畫面 (11.3s)
+  ✓  21 tests/browser/biomes.spec.ts:9:3 › volcano 原創地形、怪物、機關與預警 WebGL 畫面 (9.6s)
+  ✓  22 tests/browser/biomes.spec.ts:9:3 › jungle 原創地形、怪物、機關與預警 WebGL 畫面 (10.4s)
+  ✓  23 tests/browser/biomes.spec.ts:9:3 › corruption 原創地形、怪物、機關與預警 WebGL 畫面 (10.1s)
+  ✓  24 tests/browser/biomes.spec.ts:9:3 › crimson 原創地形、怪物、機關與預警 WebGL 畫面 (9.9s)
+  ✓  25 tests/browser/biomes.spec.ts:9:3 › stars 原創地形、怪物、機關與預警 WebGL 畫面 (11.5s)
+  ✓  26 tests/browser/biomes.spec.ts:9:3 › castle 原創地形、怪物、機關與預警 WebGL 畫面 (12.5s)
+  ✓  27 tests/browser/feedback.spec.ts:20:3 › sword 清關後左鍵連射同時右鍵技能與 E 進門 (13.7s)
+  ✓  28 tests/browser/feedback.spec.ts:20:3 › bow 清關後左鍵連射同時右鍵技能與 E 進門 (11.0s)
+  ✓  29 tests/browser/feedback.spec.ts:20:3 › mage 清關後左鍵連射同時右鍵技能與 E 進門 (11.8s)
+  ✓  30 tests/browser/feedback.spec.ts:56:1 › 卡片整張呈現稀有度色，1920／1366／1280 視窗不需捲動 (6.6s)
+  ✓  31 tests/browser/feedback.spec.ts:95:3 › 草原 Boss 6 與元素場景 WebGL 可見 (11.0s)
+  ✓  32 tests/browser/feedback.spec.ts:95:3 › 草原 Boss 7 與元素場景 WebGL 可見 (9.7s)
+  ✓  33 tests/browser/feedback.spec.ts:125:1 › 清算先吸附再選卡，地面裝備與出口提示可互動 (12.4s)
+  ✓  34 tests/browser/last-polish.spec.ts:67:1 › 發光藍雷實際照亮附近地面，長時間就緒冷卻條不超出角色腳下 (13.8s)
+  ✓  35 tests/browser/last-polish.spec.ts:91:1 › 扇形噴火、蒸氣水柱、強光藍雷與無黑邊石門的實際畫面 (7.0s)
+  ✓  36 tests/browser/recovery.spec.ts:4:1 › M01 最新壞檔自動回退，提示並繼續保存，不清圖鑑 (6.6s)
+  ✓  37 tests/browser/resonance.spec.ts:22:1 › 背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不能重用 (22.1s)
+  ✓  38 tests/browser/resonance.spec.ts:86:1 › 戰鬥可 E 收裝備到背包，裝備整理仍需清關 (8.8s)
+  ✓  39 tests/browser/resonance.spec.ts:118:1 › 爆炸、雷柱、冰火場及衝鋒拖尾在 WebGL 可呈現 (6.1s)
+  ✓  40 tests/browser/resonance.spec.ts:166:1 › 音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔 (21.7s)
+  ✓  41 tests/browser/resonance.spec.ts:207:1 › 冰緩速、冰凍、電麻痺與粗連鎖分開呈現，遺跡柱與門没有切圖底框 (8.2s)
+  ✓  42 tests/browser/solaris.spec.ts:6:3 › 索拉里斯 first 血條、四柱與招式畫面可保存重載 (16.8s)
+  ✓  43 tests/browser/solaris.spec.ts:6:3 › 索拉里斯 sealed 血條、四柱與招式畫面可保存重載 (16.9s)
+  ✓  44 tests/browser/solaris.spec.ts:6:3 › 索拉里斯 second 血條、四柱與招式畫面可保存重載 (11.8s)
+  ✓  45 tests/browser/solaris.spec.ts:6:3 › 索拉里斯 third 血條、四柱與招式畫面可保存重載 (14.5s)
+  ✓  46 tests/browser/startup.spec.ts:3:1 › WebGL 主選單、三職業、輸入、暫停與入口重載 (11.2s)
+  ✓  47 tests/browser/startup.spec.ts:37:1 › 圖鑑完整、音效設定持續 (1.4s)
+  ✓  48 tests/browser/startup.spec.ts:49:1 › 真實 IndexedDB 選卡不重抽、清關穿戴保存與匯入損壞保護 (12.9s)
+
+
+  1) tests/browser/advanced-cards.spec.ts:18:1 › 元素使三元素的強制融合選擇重載後仍保留、卡片圖鑑85張 ───────────────────────
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '返回主選單', exact: true })
+
+
+      41 |   await expect(page.locator("#sidebar")).toContainText("冰火奧術");
+      42 |   await page.keyboard.press("Escape");
+    > 43 |   await page.getByRole("button", { name: "回主選單", exact: true }).click();
+         |                                                                  ^
+      44 |   await page.getByRole("button", { name: "卡片圖鑑 · 85" }).click();
+      45 |   await expect(page.locator(".catalog article")).toHaveCount(85);
+      46 | });
+        at /workspace/Solaria-Remaster/tests/browser/advanced-cards.spec.ts:43:66
+
+    Error Context: test-results/advanced-cards-元素使三元素的強制融合選擇重載後仍保留、卡片圖鑑85張/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/advanced-cards-元素使三元素的強制融合選擇重載後仍保留、卡片圖鑑85張/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/advanced-cards-元素使三元素的強制融合選擇重載後仍保留、卡片圖鑑85張/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/browser/advanced-cards.spec.ts:47:1 › 命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴 ────────────────────────
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('status')
+    Expected substring: "匯入成功"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" getByRole('status') with timeout 5000ms
+      - waiting for getByRole('status')
+        12 × locator resolved to <div id="toast" role="status">裝備資料損壞</div>
+           - unexpected value "裝備資料損壞"
+
+
+      13 |     ),
+      14 |   });
+    > 15 |   await expect(page.getByRole("status")).toContainText("匯入成功");
+         |                                          ^
+      16 |   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+      17 | }
+      18 | test("元素使三元素的強制融合選擇重載後仍保留、卡片圖鑑85張", async ({
+        at load (/workspace/Solaria-Remaster/tests/browser/advanced-cards.spec.ts:15:42)
+        at /workspace/Solaria-Remaster/tests/browser/advanced-cards.spec.ts:66:3
+
+    Error Context: test-results/advanced-cards-命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/advanced-cards-命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/advanced-cards-命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Slow test file: tests/browser/biome-bosses.spec.ts (5.8m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  2 failed
+    tests/browser/advanced-cards.spec.ts:18:1 › 元素使三元素的強制融合選擇重載後仍保留、卡片圖鑑85張 ────────────────────────
+    tests/browser/advanced-cards.spec.ts:47:1 › 命運賭徒選欄成本持續顯示，卸裝不複製且被封欄無法穿戴 ─────────────────────────
+  46 passed (13.2m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

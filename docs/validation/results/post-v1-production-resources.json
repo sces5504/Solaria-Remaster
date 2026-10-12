@@ -1,0 +1,238 @@
+{
+  "resources": [
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/CanvasPool-CTz6W2rm.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/getTextureBatchBindGroup-BOmbyaNZ.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/Cache-D0EC7riK.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/RenderTargetSystem-LneVKNDZ.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/Filter-xcuLdGR1.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/getTexelRangeRects-CpZ5iCZB.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/canvasUtils-B5KrsTsU.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/GCManagedHash-Ap6rl--7.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/index-RGCOH5Lt.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/index-BfJ_YUBd.css",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/GraphicsContext-BdlONEsd.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/init-CmGhBQvh.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/browserAll-wZm78W-2.js",
+      "status": 200
+    },
+    {
+      "url": "blob:https://sces5504.github.io/e9dded9a-0ecb-4899-920b-c6274985d4fc",
+      "status": 200
+    },
+    {
+      "url": "blob:https://sces5504.github.io/cc91ebe3-fbc7-4c51-8719-36d6db80142b",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/solaria-atlas.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/biome-atlas.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/biome-atlas.json",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/boss-atlas.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/boss-atlas.json",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/event-atlas.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/event-atlas.json",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/twilight.svg",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/sword.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/bow.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/mage.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/index-RGCOH5Lt.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/CanvasPool-CTz6W2rm.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/Filter-xcuLdGR1.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/canvasUtils-B5KrsTsU.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/Cache-D0EC7riK.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/GCManagedHash-Ap6rl--7.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/RenderTargetSystem-LneVKNDZ.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/getTextureBatchBindGroup-BOmbyaNZ.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/GraphicsContext-BdlONEsd.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/getTexelRangeRects-CpZ5iCZB.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/index-BfJ_YUBd.css",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/browserAll-wZm78W-2.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/init-CmGhBQvh.js",
+      "status": 200
+    },
+    {
+      "url": "blob:https://sces5504.github.io/71c25044-fc43-4ba2-abcc-e0e70a42b1af",
+      "status": 200
+    },
+    {
+      "url": "blob:https://sces5504.github.io/d0e26f05-2ec3-4d84-ba68-5e810c8d11e2",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/solaria-atlas.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/biome-atlas.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/biome-atlas.json",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/boss-atlas.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/boss-atlas.json",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/event-atlas.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/event-atlas.json",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/twilight.svg",
+      "status": 200
+    }
+  ],
+  "errors": [],
+  "failures": [],
+  "snapshot": {
+    "render": {
+      "sprites": 31,
+      "cachedSprites": 0,
+      "createdSprites": 31,
+      "texts": 0,
+      "cachedTexts": 1,
+      "createdTexts": 1,
+      "glows": 12,
+      "activeGlows": 7,
+      "positions": 7,
+      "renderer": "webgl"
+    },
+    "core": {
+      "room": 1,
+      "loop": 1,
+      "phase": "COMBAT",
+      "tick": 122,
+      "time": 2.033333333333331,
+      "enemies": 6,
+      "enemyProjectiles": 0,
+      "projectiles": 2,
+      "visuals": 0,
+      "originalBasics": 3,
+      "damageNumbers": 0,
+      "areas": 0
+    }
+  }
+}

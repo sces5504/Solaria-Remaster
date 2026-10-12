@@ -1,0 +1,167 @@
+{
+  "environment": "Cloud headless Chromium",
+  "hardwareGpuAcceptance": "NOT_RUN",
+  "method": "十次UI新局、實際攻擊、回主選單、CDP GC後JS heap；活躍視覺不設上限",
+  "samples": [
+    {
+      "restart": 1,
+      "heapBytes": 7107096,
+      "render": {
+        "sprites": 0,
+        "cachedSprites": 42,
+        "createdSprites": 42,
+        "texts": 0,
+        "cachedTexts": 0,
+        "createdTexts": 0,
+        "glows": 5,
+        "activeGlows": 0,
+        "positions": 0,
+        "renderer": "webgl"
+      }
+    },
+    {
+      "restart": 2,
+      "heapBytes": 7457384,
+      "render": {
+        "sprites": 0,
+        "cachedSprites": 42,
+        "createdSprites": 42,
+        "texts": 0,
+        "cachedTexts": 0,
+        "createdTexts": 0,
+        "glows": 11,
+        "activeGlows": 0,
+        "positions": 0,
+        "renderer": "webgl"
+      }
+    },
+    {
+      "restart": 3,
+      "heapBytes": 7623304,
+      "render": {
+        "sprites": 0,
+        "cachedSprites": 42,
+        "createdSprites": 42,
+        "texts": 0,
+        "cachedTexts": 0,
+        "createdTexts": 0,
+        "glows": 11,
+        "activeGlows": 0,
+        "positions": 0,
+        "renderer": "webgl"
+      }
+    },
+    {
+      "restart": 4,
+      "heapBytes": 7724008,
+      "render": {
+        "sprites": 0,
+        "cachedSprites": 43,
+        "createdSprites": 43,
+        "texts": 0,
+        "cachedTexts": 0,
+        "createdTexts": 0,
+        "glows": 11,
+        "activeGlows": 0,
+        "positions": 0,
+        "renderer": "webgl"
+      }
+    },
+    {
+      "restart": 5,
+      "heapBytes": 7827972,
+      "render": {
+        "sprites": 0,
+        "cachedSprites": 43,
+        "createdSprites": 43,
+        "texts": 0,
+        "cachedTexts": 2,
+        "createdTexts": 2,
+        "glows": 11,
+        "activeGlows": 0,
+        "positions": 0,
+        "renderer": "webgl"
+      }
+    },
+    {
+      "restart": 6,
+      "heapBytes": 7960996,
+      "render": {
+        "sprites": 0,
+        "cachedSprites": 44,
+        "createdSprites": 44,
+        "texts": 0,
+        "cachedTexts": 2,
+        "createdTexts": 2,
+        "glows": 11,
+        "activeGlows": 0,
+        "positions": 0,
+        "renderer": "webgl"
+      }
+    },
+    {
+      "restart": 7,
+      "heapBytes": 8053732,
+      "render": {
+        "sprites": 0,
+        "cachedSprites": 44,
+        "createdSprites": 44,
+        "texts": 0,
+        "cachedTexts": 2,
+        "createdTexts": 2,
+        "glows": 11,
+        "activeGlows": 0,
+        "positions": 0,
+        "renderer": "webgl"
+      }
+    },
+    {
+      "restart": 8,
+      "heapBytes": 8117856,
+      "render": {
+        "sprites": 0,
+        "cachedSprites": 44,
+        "createdSprites": 44,
+        "texts": 0,
+        "cachedTexts": 3,
+        "createdTexts": 3,
+        "glows": 11,
+        "activeGlows": 0,
+        "positions": 0,
+        "renderer": "webgl"
+      }
+    },
+    {
+      "restart": 9,
+      "heapBytes": 8212416,
+      "render": {
+        "sprites": 0,
+        "cachedSprites": 44,
+        "createdSprites": 44,
+        "texts": 0,
+        "cachedTexts": 3,
+        "createdTexts": 3,
+        "glows": 11,
+        "activeGlows": 0,
+        "positions": 0,
+        "renderer": "webgl"
+      }
+    },
+    {
+      "restart": 10,
+      "heapBytes": 8258532,
+      "render": {
+        "sprites": 0,
+        "cachedSprites": 44,
+        "createdSprites": 44,
+        "texts": 0,
+        "cachedTexts": 3,
+        "createdTexts": 3,
+        "glows": 11,
+        "activeGlows": 0,
+        "positions": 0,
+        "renderer": "webgl"
+      }
+    }
+  ]
+}

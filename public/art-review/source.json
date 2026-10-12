@@ -1,0 +1,36 @@
+{
+  "purpose": "Original style review samples only; no style has yet been accepted by the owner.",
+  "sourceVersion": "fa08521b7a396166823d93d482127daec683885e",
+  "source": "OpenAI image_gen; original prompts in docs/art-lab/PROMPTS.md",
+  "rights": "Original AI-generated artwork made for this project; no third-party source assets.",
+  "grid": {
+    "columns": 6,
+    "rows": 4,
+    "cellSize": 256
+  },
+  "animation": "Single-pose samples with existing runtime movement/attack feedback. Full animation not produced or accepted.",
+  "styles": [
+    {
+      "id": "adventure",
+      "name": "精雕冒險像素",
+      "file": "adventure.png",
+      "sha256": "ce607a51459bc623437c787c3a829cd9e82bb60f2bd5a9d571859c5dd6d6a515"
+    },
+    {
+      "id": "gothic",
+      "name": "暗黑哥德像素",
+      "file": "gothic.png",
+      "sha256": "985b9f1696274bfb3d6337caebb3688e470e41bff80b6f445e8453834e7fed3e"
+    },
+    {
+      "id": "sculpted",
+      "name": "立體精緻像素",
+      "file": "sculpted.png",
+      "sha256": "93e546d0277c4f9f463d438da84efe8d99ef185cc4c3404358aece15128a3fab"
+    }
+  ],
+  "artifact": "index.html",
+  "artifactSHA256": "4c014481895ac5904a3a069e71907c7b086828e9d7250935179ca76a41fe0611",
+  "sourceBranch": "art/style-lab",
+  "publication": "Independent preview only; owner explicitly authorized publication in this chat."
+}

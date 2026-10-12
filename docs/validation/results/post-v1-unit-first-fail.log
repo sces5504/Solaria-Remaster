@@ -1,0 +1,40 @@
+
+> solaria-remaster@1.0.0 test
+> vitest run
+
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/bosses.test.ts (4 tests | 1 failed) 143ms
+   × BOSS-1 阶段 1 三招独立、预警与模式上限 53ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/bosses.test.ts > BOSS-1 阶段 1 三招独立、预警与模式上限
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/unit/bosses.test.ts:38:9
+     36|           r.enemies.length > 1 ||
+     37|           r.areas.length > 0,
+     38|       ).toBe(true);
+       |         ^
+     39|     });
+     40|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 27 passed (28)
+      Tests  1 failed | 306 passed (307)
+   Start at  03:59:57
+   Duration  15.08s (tests 87%, import 9%, transform 4%, worker 1%)
+
+    Isolate  28 workers spawned · ~80ms startup each (spawn + environment, per file)
+             at least ~2.16s faster with isolate: false — reuses workers across files instead of one per file
+

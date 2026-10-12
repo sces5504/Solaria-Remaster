@@ -1,0 +1,10 @@
+
+Running 3 tests using 1 worker
+
+(node:38488) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/journal.spec.ts:406:1 › 取消覆蓋匯入後介面恢復操作，既有旅程與唯一裝備保留 (7.2s)
+  ✓  2 tests/browser/performance.spec.ts:40:1 › Cloud Chromium十次實際restart的渲染清理與GC後JS記憶體，不冒充硬體GPU驗收 (1.3m)
+  ✓  3 tests/browser/performance.spec.ts:98:1 › 失焦清除持續輸入且暫停，回來不追補隱藏時間攻擊 (8.0s)
+
+  3 passed (1.6m)

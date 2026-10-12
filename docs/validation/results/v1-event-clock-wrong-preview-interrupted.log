@@ -1,0 +1,40 @@
+
+Running 2 tests using 1 worker
+
+(node:48305) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/browser/events.spec.ts:62:3 › christmas 事件王兩階段各三招實際場景 (2.1m)
+
+
+  1) tests/browser/events.spec.ts:62:3 › christmas 事件王兩階段各三招實際場景 ───────────────────────────────────
+
+    Test was interrupted.
+
+    Error: locator.click: Test ended.
+    Call log:
+      - waiting for getByRole('button', { name: '匯入存檔', exact: true })
+
+
+      11 | async function load(page: Page, r: Run) {
+      12 |   await page.goto("/");
+    > 13 |   await page.getByRole("button", { name: "匯入存檔", exact: true }).click();
+         |                                                                 ^
+      14 |   await page.locator("#import-file").setInputFiles({
+      15 |     name: "event.json",
+      16 |     mimeType: "application/json",
+        at load (/workspace/Solaria-Remaster/tests/browser/events.spec.ts:13:65)
+        at /workspace/Solaria-Remaster/tests/browser/events.spec.ts:72:7
+
+    Error Context: test-results/events-christmas-事件王兩階段各三招實際場景/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/events-christmas-事件王兩階段各三招實際場景/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/events-christmas-事件王兩階段各三招實際場景/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 interrupted
+    tests/browser/events.spec.ts:62:3 › christmas 事件王兩階段各三招實際場景 ────────────────────────────────────
+  1 did not run
