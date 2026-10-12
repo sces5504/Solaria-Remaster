@@ -24,3 +24,9 @@ FX原圖紫色orb光暈跨進爆炸格、初期shot還可能錯過短FX；image_
 完整98Chromium全PASS23.8分鐘。其後只補元素材質輪替／敵方元素與主題、猩紅眼魔自發光色；最終build與327unit再次PASS，實際production bundle19Chromium3.4分鐘PASS，包含九地形、三短FX、光影15%原門檻、Steam／火扇／藍雷、選角背景、選卡保存、冰凍／電暈與素材底框。PNG保存gallery，完整早期失敗／後續成功log保存results。
 
 正式exact commit的CI與Pages核對待完成；不冒稱已部署。
+
+## Chromium原生fullscreen測試相容修正（2026-10-12 11:33:26 UTC）
+
+PR4已合併正式implement，來源de37e6bc487f92799df19e453ee943423d6db55a；自動Pages未觸發，明確啟動既有workflow_dispatch38239732607。該輪check／327unit／format／build通過，98browser為97PASS／1FAIL14.7分鐘；部署job跳過，未發布新版。失敗只在歷史演示的第五個fullscreen案例：新版Chromium156不允許native fullscreen狀態下setViewportSize。改測試為exitFullscreen並等恢復→調整正常視窗尺寸→重進fullscreen，保留兩尺寸、真canvas8:5、並排回單款與快捷鍵全部斷言，不跳過或減少coverage。
+
+Cloud下載同CI的Playwright Chromium156到workspace cache（不關TLS、不使用file://），五項演示production browser5PASS24.1秒，check／build／format核對。素材與正式遊戲程式未更改；重新發布完整checks待完成。Source4b的兩輪Development失敗亦保留核對，沒有選成功輪掩蓋。

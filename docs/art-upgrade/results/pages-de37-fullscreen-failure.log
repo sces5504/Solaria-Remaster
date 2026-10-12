@@ -1,0 +1,118 @@
+build	Run npm run build && npm run test:browser	﻿2026-10-12T11:00:03.0408701Z ##[group]Run npm run build && npm run test:browser
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.0408944Z [36;1mnpm run build && npm run test:browser[0m
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.0460965Z shell: /usr/bin/bash -e {0}
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.0461119Z ##[endgroup]
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.1119790Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.1120187Z > solaria-remaster@1.1.0 build
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.1120512Z > tsc --noEmit && vite build
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.1120674Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.6113133Z [36mvite v8.3.4 [32mbuilding client environment for production...[36m[39m
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.6197593Z transforming...
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.7129156Z ✓ 797 modules transformed.
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9090150Z rendering chunks...
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9596469Z computing gzip size...
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9638434Z dist/index.html                                     1.25 kB │ gzip:   0.47 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9638823Z dist/art-lab.html                                   1.30 kB │ gzip:   0.52 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9639147Z dist/assets/art-Bs_Pq1Ld.css                        7.72 kB │ gzip:   2.48 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9639833Z dist/assets/game-eG__3R7z.css                      20.18 kB │ gzip:   6.07 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9640166Z dist/assets/webworkerAll-Dizy2R9L.js                0.06 kB │ gzip:   0.07 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9640530Z dist/assets/getTextureBatchBindGroup-BOmbyaNZ.js    0.34 kB │ gzip:   0.26 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9640874Z dist/assets/Cache-D0EC7riK.js                       1.10 kB │ gzip:   0.56 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9641209Z dist/assets/canvasUtils-B5KrsTsU.js                 6.01 kB │ gzip:   2.04 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9641546Z dist/assets/getTexelRangeRects-CpZ5iCZB.js         11.35 kB │ gzip:   2.99 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9641878Z dist/assets/art-BkSPqtbJ.js                        14.95 kB │ gzip:   7.18 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9642195Z dist/assets/init-CmGhBQvh.js                       15.20 kB │ gzip:   4.73 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9642524Z dist/assets/GCManagedHash-Ap6rl--7.js              19.33 kB │ gzip:   6.28 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9642852Z dist/assets/game-DQsRNkyK.js                       34.67 kB │ gzip:  12.71 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9643315Z dist/assets/Filter-xcuLdGR1.js                     41.95 kB │ gzip:  12.02 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9643847Z dist/assets/browserAll-ts7Hd1NG.js                 43.51 kB │ gzip:  11.26 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9644403Z dist/assets/RenderTargetSystem-LneVKNDZ.js         58.80 kB │ gzip:  16.47 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9644960Z dist/assets/GraphicsContext-BdlONEsd.js            61.68 kB │ gzip:  20.62 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9645506Z dist/assets/CanvasPool-CTz6W2rm.js                 71.18 kB │ gzip:  23.30 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9646040Z dist/assets/sound-bank-CrRLMg5N.js                493.80 kB │ gzip: 161.17 kB
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9646193Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:03.9646317Z [32m✓ built in 351ms[39m
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:04.0466368Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:04.0467012Z > solaria-remaster@1.1.0 test:browser
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:04.0467350Z > playwright test
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:04.0467437Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:05.3881123Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:00:05.3881812Z Running 98 tests using 1 worker
+build	Run npm run build && npm run test:browser	2026-10-12T11:02:15.8488829Z (node:3862) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+build	Run npm run build && npm run test:browser	2026-10-12T11:02:15.8489920Z (Use `node --trace-warnings ...` to show where the warning was created)
+build	Run npm run build && npm run test:browser	2026-10-12T11:12:24.3421618Z ···················××F··························································
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5837724Z ····················
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5851270Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5857672Z   1) tests/browser/art-lab.spec.ts:167:1 › 點風格按鈕後快捷鍵可用，並排進入全螢幕保持畫布8:5 ──────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5857935Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5858256Z     Error: page.setViewportSize: Protocol error (Browser.setWindowBounds): To resize minimized/maximized/fullscreen window, restore it to normal state first.
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5858562Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5858651Z       182 |     { width: 1920, height: 1080 },
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5858820Z       183 |   ]) {
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5858974Z     > 184 |     await page.setViewportSize(size);
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5859849Z           |                ^
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5860070Z       185 |     const box = (await page.locator("#stage canvas").boundingBox())!;
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5860339Z       186 |     expect(box.width / box.height).toBeCloseTo(1.6, 2);
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5860532Z       187 |   }
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5860774Z         at /home/runner/work/Solaria-Remaster/Solaria-Remaster/tests/browser/art-lab.spec.ts:184:16
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5860973Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5861215Z     Error Context: test-results/art-lab-點風格按鈕後快捷鍵可用，並排進入全螢幕保持畫布8-5/error-context.md
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5861393Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5861614Z     attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5861933Z     test-results/art-lab-點風格按鈕後快捷鍵可用，並排進入全螢幕保持畫布8-5/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5862103Z     Usage:
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5862164Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5862369Z         npx playwright show-trace test-results/art-lab-點風格按鈕後快捷鍵可用，並排進入全螢幕保持畫布8-5/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5862556Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5862738Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5862877Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5863076Z     Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5863222Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5863518Z     Error: page.setViewportSize: Protocol error (Browser.setWindowBounds): To resize minimized/maximized/fullscreen window, restore it to normal state first.
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5863810Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5863883Z       182 |     { width: 1920, height: 1080 },
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5864032Z       183 |   ]) {
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5864174Z     > 184 |     await page.setViewportSize(size);
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5864331Z           |                ^
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5864526Z       185 |     const box = (await page.locator("#stage canvas").boundingBox())!;
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5864776Z       186 |     expect(box.width / box.height).toBeCloseTo(1.6, 2);
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5864953Z       187 |   }
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5865183Z         at /home/runner/work/Solaria-Remaster/Solaria-Remaster/tests/browser/art-lab.spec.ts:184:16
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5865374Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5865745Z     Error Context: test-results/art-lab-點風格按鈕後快捷鍵可用，並排進入全螢幕保持畫布8-5-retry1/error-context.md
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5865915Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5866118Z     attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5866439Z     test-results/art-lab-點風格按鈕後快捷鍵可用，並排進入全螢幕保持畫布8-5-retry1/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5866613Z     Usage:
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5866672Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5866879Z         npx playwright show-trace test-results/art-lab-點風格按鈕後快捷鍵可用，並排進入全螢幕保持畫布8-5-retry1/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5867059Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5867236Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5867375Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5867665Z     Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5867808Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5868096Z     Error: page.setViewportSize: Protocol error (Browser.setWindowBounds): To resize minimized/maximized/fullscreen window, restore it to normal state first.
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5868392Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5868463Z       182 |     { width: 1920, height: 1080 },
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5868608Z       183 |   ]) {
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5868750Z     > 184 |     await page.setViewportSize(size);
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5868902Z           |                ^
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5869095Z       185 |     const box = (await page.locator("#stage canvas").boundingBox())!;
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5869503Z       186 |     expect(box.width / box.height).toBeCloseTo(1.6, 2);
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5869671Z       187 |   }
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5869902Z         at /home/runner/work/Solaria-Remaster/Solaria-Remaster/tests/browser/art-lab.spec.ts:184:16
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5870088Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5870290Z     Error Context: test-results/art-lab-點風格按鈕後快捷鍵可用，並排進入全螢幕保持畫布8-5-retry2/error-context.md
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5870461Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5870676Z     attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5870998Z     test-results/art-lab-點風格按鈕後快捷鍵可用，並排進入全螢幕保持畫布8-5-retry2/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5871174Z     Usage:
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5871232Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5871438Z         npx playwright show-trace test-results/art-lab-點風格按鈕後快捷鍵可用，並排進入全螢幕保持畫布8-5-retry2/trace.zip
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5871615Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5871795Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5871934Z 
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5871977Z   1 failed
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5872242Z     tests/browser/art-lab.spec.ts:167:1 › 點風格按鈕後快捷鍵可用，並排進入全螢幕保持畫布8:5 ───────────────────────────────
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.5872456Z   97 passed (14.7m)
+build	Run npm run build && npm run test:browser	2026-10-12T11:14:46.6140756Z ##[error]Process completed with exit code 1.

@@ -181,7 +181,17 @@ test("點風格按鈕後快捷鍵可用，並排進入全螢幕保持畫布8:5",
     { width: 1280, height: 900 },
     { width: 1920, height: 1080 },
   ]) {
+    // Chromium forbids resizing a native fullscreen window. Restore it first,
+    // resize the normal window, then verify the actual canvas in fullscreen.
+    await page.evaluate(() => document.exitFullscreen());
+    await expect
+      .poll(() => page.evaluate(() => Boolean(document.fullscreenElement)))
+      .toBe(false);
     await page.setViewportSize(size);
+    await page.getByRole("button", { name: "全螢幕", exact: true }).click();
+    await expect
+      .poll(() => page.evaluate(() => Boolean(document.fullscreenElement)))
+      .toBe(true);
     const box = (await page.locator("#stage canvas").boundingBox())!;
     expect(box.width / box.height).toBeCloseTo(1.6, 2);
   }
