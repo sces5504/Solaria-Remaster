@@ -34,3 +34,7 @@ PASS：發佈工作樹check、326unit（maxWorkers=2）、build、format、最�
 保留失敗：同時跑完整WebGL回歸時，兩次額外unit重跑各325PASS／1個5000seed掉落抽樣逾5秒。暫停背景瀏覽器測試、保持規則和斷言不變後，326unit全部PASS11.22秒；未加寬timeout或改掉落程式。源碼藝術分支較早整輪瀏覽器仍在執行，不把其未完結果寫PASS。
 
 獨立入口標題改用頁內錨點，避免點擊後跳到僅在開發入口存在的art-lab.html。首輪Pages發布e37348e已在部署前取消，改發布修正後入口；不把取消流程寫成測試失敗或成功發布。
+
+## 展示操作補正與單人規劃
+
+主人已取消未來多人連線／合作計畫。既有桌面單人、Web託管與本演示維持。展示補正讓風格按鈕焦點下1／2／3仍可用、並排進全螢幕回到單款、實際canvas與HUD共同8:5置中，並處理瀏覽器拒絕fullscreen。最終單檔五項ChromiumPASS27.1秒。此前上線0fec版本線上4ChromiumPASS32.1秒與入口SHA256／原遊戲主選單核驗PASS；13MB導航response被CDP快取逐出導致首次雜湊讀取失敗，改用同一受管proxy的APIRequestContext讀取完整HTTP body後PASS，沒有忽略TLS。新版發布後再核驗五項與SHA256。
