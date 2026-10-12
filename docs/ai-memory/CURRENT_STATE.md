@@ -1,5 +1,13 @@
 # CURRENT_STATE — 最新工作斷點
 
+## 美術三風格獨立演示準備發布（2026-10-12 06:57:43 UTC）
+
+主人新要求先展示三款精緻一致像素美術，選定後才繪製全遊戲；覆蓋舊「不為改風格重畫」限制，但並未選定風格。精雕冒險／暗黑哥德／立體精緻已製作三地形、八怪、六王與法師樣本，用1.0.1真實戰鬥核心、預警、光影與FX展示；單姿態不冒稱完整動畫。
+
+主人明確批准「允許發布獨立演示頁」。新增 public/art-review/index.html 單檔於既有Pages，正式遊戲src／原素材／workflow保持，沒有合併art/style-lab渲染修改。預定 https://sces5504.github.io/Solaria-Remaster/art-review/；尚未完成部署，不提前稱已發布。詳 docs/art-lab/REVIEW.md 與source.json。
+
+最終單檔4Chromium與九張實際WebGL擷取PASS，同tick切換、全部展示物／兩階段、真實輸入、並排／放大、8:5、不污染IndexedDB與既有音量；無外部素材請求。完整發布CI與正式URL核驗待完成。file://被管理政策阻擋，只HTTP測試，真GPU／完整逐幀／人工與原S13NOT_RUN界線保持。
+
 ## v1.0.1已發布：五項修正與雙chat交接完成（2026-10-12 05:24:59 UTC）
 
 版本1.0.1／部署來源c07e63f800530264149347436f6ed73a0e22c519／implement/s00-s05已正式發布[GitHub Pages](https://sces5504.github.io/Solaria-Remaster/)。前一5856e62安全快進接續，無reset／force／merge main，原作只讀。PR2仍Draft、base docs/solaria-cloud-spec，保留全局S13未完成界線；本輪五項修正與兩prompt交付已完成。後續純文檔提交不改正式遊戲，文件HEAD看git log。

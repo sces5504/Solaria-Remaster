@@ -1,0 +1,21 @@
+
+> solaria-remaster@1.0.1 test:browser
+> playwright test --config /workspace/art-qa/standalone.config.ts --reporter=line
+
+
+Running 4 tests using 1 worker
+
+(node:8089) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/4] ../solaria-art/tests/browser/art-lab.spec.ts:30:1 › 三種原創風格在同一刻切換，三款並排與細節放大
+[2/4] ../solaria-art/tests/browser/art-lab.spec.ts:70:1 › 三地形、八種怪物與六王兩階段全部能切換
+[3/4] ../solaria-art/tests/browser/art-lab.spec.ts:106:1 › 真實核心手動移動、普攻、暫停保時且不改存檔與音量設定
+[4/4] ../solaria-art/tests/browser/art-lab.spec.ts:149:1 › 窄與寬畫面都保持8:5且控制項可用
+  4 passed (50.6s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
