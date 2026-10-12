@@ -1,0 +1,162 @@
+{
+  "verifiedAt": "2026-10-12T17:00:25.684Z",
+  "version": "1.2.0",
+  "checks": [
+    {
+      "path": "art-review/index.html",
+      "sha256": "4c014481895ac5904a3a069e71907c7b086828e9d7250935179ca76a41fe0611"
+    },
+    {
+      "path": "assets/Cache-D0EC7riK.js",
+      "sha256": "dbabb6e1f43eb6d837201109d732bf3f67f19aa71687bb63cdb6a7fd721640ad"
+    },
+    {
+      "path": "assets/CanvasPool-CTz6W2rm.js",
+      "sha256": "0dbc5a71c65dd8ae8cdc3dde6ae0e11f85f55cd0fbaa9064baffc2c21b01523d"
+    },
+    {
+      "path": "assets/Filter-xcuLdGR1.js",
+      "sha256": "2744bd41d015cd1d2ba49ee74aeac574feee34aa4143a62c96233668e7cc6d7b"
+    },
+    {
+      "path": "assets/GCManagedHash-Ap6rl--7.js",
+      "sha256": "90f7d33c480d46b42fcc058be236f3a7503ca6c9d3f58d181def37afcf6a738f"
+    },
+    {
+      "path": "assets/GraphicsContext-BdlONEsd.js",
+      "sha256": "87b48df0f3f5782128537acbdec82399c3c364cf4b5844843d1f3abdedaad6f5"
+    },
+    {
+      "path": "assets/RenderTargetSystem-LneVKNDZ.js",
+      "sha256": "403b27f6c5294b3037f561935f21dc2e31d854b6cd896f78d2333f39e25968e0"
+    },
+    {
+      "path": "assets/art-BmNj9rip.js",
+      "sha256": "ab6010f22d9ec4cb8c5613943ca7067c3ab64874898c20d088c1b32d2e5c666d"
+    },
+    {
+      "path": "assets/art-Bs_Pq1Ld.css",
+      "sha256": "1e40fd32b82bd7d94547a3b1075234289b42e9ea3acc19a852b4bd78b28ca5a1"
+    },
+    {
+      "path": "assets/browserAll-C5gYA1pj.js",
+      "sha256": "414ed72a8f0d542fbed63a7c7652da65f218927a754a3ac17fcd406383776ac6"
+    },
+    {
+      "path": "assets/canvasUtils-B5KrsTsU.js",
+      "sha256": "572546d1625d86d938f6c61bcd56c0be058707169c3894f0dca30db132e3375c"
+    },
+    {
+      "path": "assets/game-CUk9zc8O.css",
+      "sha256": "5dd8169362b21d45d04890b5c1078cc4b890e65520650509156bacfec55b9586"
+    },
+    {
+      "path": "assets/game-DQDFsTVE.js",
+      "sha256": "23ab1a531ed159ea01d118b88028ce7aa97685f515ef445295f50b2e9d411b6f"
+    },
+    {
+      "path": "assets/getTexelRangeRects-CpZ5iCZB.js",
+      "sha256": "6b59b3c7636917f10b57587993be4e2d64ae59a54978f8406585ba01788759f6"
+    },
+    {
+      "path": "assets/getTextureBatchBindGroup-BOmbyaNZ.js",
+      "sha256": "06c699beb10ceb7fed76cd38e7c4ecf35d1f046e006409337e7282d0e1c766e3"
+    },
+    {
+      "path": "assets/init-CmGhBQvh.js",
+      "sha256": "8411f0dc41921179884f82af28b815ac3adef4a164c0c6725caf1098a8f9e64f"
+    },
+    {
+      "path": "assets/sound-bank-BS8AGgBi.js",
+      "sha256": "0e4a093f4b27b347a215dd7d892c89e261f8154c465a7858cd77f7a5fbc6f265"
+    },
+    {
+      "path": "assets/webworkerAll-B3RB1Xl1.js",
+      "sha256": "bdcec07c052191648c5033d013aaaf6ef7c3ee07bf77cee85b4a10590345d664"
+    },
+    {
+      "path": "index.html",
+      "sha256": "30f2d780d4ef59189d9394358e9a57a65bee0b0bea894fc8c900724937a169f7"
+    },
+    {
+      "path": "assets/adventure/actors-0.png",
+      "sha256": "8a1ad66127c2464aa4e06e3c2ceffa9f30af801b80bc8eaa91cc9a346df1042b"
+    },
+    {
+      "path": "assets/adventure/actors-1.png",
+      "sha256": "e392a279e00ea20c4d14675c74a1fc8914062e17bc888182feff9475b1ba4a4f"
+    },
+    {
+      "path": "assets/adventure/actors-2.png",
+      "sha256": "ca3ef4c36fe7e6bea5e9af77bb7c38a236025d0d4213a8e33c191ce064346643"
+    },
+    {
+      "path": "assets/adventure/actors-3.png",
+      "sha256": "efeb07ffb65aab3722f7e5ed182f12fdce2d7377e9001a2c7d47ab029a36854d"
+    },
+    {
+      "path": "assets/adventure/actors-4.png",
+      "sha256": "cb0e5aa4b4acc65c9b3521bbdb160b7a3ac1dba31eea5df791d32c6e950a448a"
+    },
+    {
+      "path": "assets/adventure/actors-5.png",
+      "sha256": "112c9a4af70e15fddc10d4455a68de6fb58fe4b7d73d776e516a8860b20214e1"
+    },
+    {
+      "path": "assets/adventure/actors-6.png",
+      "sha256": "341bb08dc9568a5cdff068261a4401f543963612e1a8df34a56407ca073e8a0d"
+    },
+    {
+      "path": "assets/adventure/actors-7.png",
+      "sha256": "3738a8add725ff3c88c082693282c232086cc911a1d2d0896e75d5df02f24ad6"
+    },
+    {
+      "path": "assets/adventure/bow.png",
+      "sha256": "2e5a790c5b63049b81e77cec497f200c259d3fada3be3ddefcc871a491d334f0"
+    },
+    {
+      "path": "assets/adventure/effects.png",
+      "sha256": "53d3dc78a216fd0f5c77336a03c1de0aa70df29174bf145969411d529343cccd"
+    },
+    {
+      "path": "assets/adventure/ending.png",
+      "sha256": "7e21b3f3e5fada28ed5df5a93c2672990750f5791b08bc6b50b00ad22a63a743"
+    },
+    {
+      "path": "assets/adventure/floors.png",
+      "sha256": "392461206b4fd8787be1274648c60a5e3f204d30e22f4d7df91801144a3ac428"
+    },
+    {
+      "path": "assets/adventure/heroes.png",
+      "sha256": "cfdedbff9b69ed48d7c9f2ec8efcc66c813df891f297aa96615d8191f25bcb08"
+    },
+    {
+      "path": "assets/adventure/landmarks.png",
+      "sha256": "5407a8e1977f1d8c725af05b267e9a04dc226be2157b4d15ed431f010e022b3c"
+    },
+    {
+      "path": "assets/adventure/mage.png",
+      "sha256": "7e42bd2be0b897c1b1ce03f273acca520c54e26a19c425a7b7a4d5d0a54c6177"
+    },
+    {
+      "path": "assets/adventure/menu.png",
+      "sha256": "1b90c4bc9de928c15d5d0091460a84c57f0b45f2d57008d550ef13c5b5212f32"
+    },
+    {
+      "path": "assets/adventure/semantic-effects.png",
+      "sha256": "f13314f1f3a18e96b93803284169c075217dfbe5473ee86a1f5e492ea4ea5357"
+    },
+    {
+      "path": "assets/adventure/sword.png",
+      "sha256": "32dfdc93ef534a4194421dbcf45673fc1a6fd0648d4d411582a68dc981993381"
+    },
+    {
+      "path": "assets/adventure/world-0.png",
+      "sha256": "d88adc8b30e86642b70711520e6f2c01f650c5f338a75a903eb1f8bda02cc94f"
+    },
+    {
+      "path": "assets/adventure/world-1.png",
+      "sha256": "0d647ac24046bd6086e6dd58338b445c2d92fae38a5a4943a5a880b6fb814816"
+    }
+  ]
+}

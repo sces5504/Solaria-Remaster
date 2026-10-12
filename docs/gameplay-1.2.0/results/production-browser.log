@@ -1,0 +1,13 @@
+
+Running 6 tests using 1 worker
+
+(node:8560) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/boss-rework.spec.ts:56:1 › 1.2.0 V型雷射在正式RAF旋轉且存檔保留幾何，既有素材與WebGL正常 (20.4s)
+  ✓  2 tests/browser/boss-rework.spec.ts:85:1 › 1.2.0 正式Boss AI召喚兩倍精英HP、可保存與再次讀入 (17.2s)
+  ✓  3 tests/browser/boss-rework.spec.ts:117:1 › 1.2.0 劍士真實右鍵格擋連續落擊，成功後保護與單次反擊 (18.9s)
+  ✓  4 tests/browser/boss-rework.spec.ts:139:1 › 1.2.0 舊實驗存檔中的無beamMotion掃射仍以正式RAF繼續 (14.5s)
+  ✓  5 tools/validation/pages.spec.ts:7:1 › 正式Pages：子路徑資源、正常新局、同時普攻職技、保存與繼續 (20.8s)
+  ✓  6 tools/validation/pages.spec.ts:99:1 › 正式Pages：直接繼續53691bf舊IndexedDB快照，保留構築及再次保存 (14.6s)
+
+  6 passed (1.8m)

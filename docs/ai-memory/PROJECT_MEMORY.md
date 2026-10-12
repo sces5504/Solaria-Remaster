@@ -886,3 +886,13 @@ PR6已合併，發布來源7cff9de9ea3a1f0ace3aec735a1dfb3437158a74；Pages38262
 18 地形王、兩事件王、索拉里斯均增加實際不同的軌跡／時序：360 度、十字／X／Y、V 收攏／逐條雷射，波形／花瓣／追疊／交替彈幕，多段鎖向衝刺／反彈／旋斬與遠端地雷。近戰追擊移速／距離適量提高，不加厚 Boss HP。召喚戰鬥小怪按正確類型建立精英、HP=一般精英×2，維持召喚上限／無 XP 裝備及補包；圖騰／血球／柱是既有目標物，保持原規格。劍士窗口／無敵 .6→.9、成功後 .4→.75，延遲 .3 反擊一次／來源／CD5不變。
 
 舊檔 current／entry 召喚小怪按受傷比例遷移，不復活、不重抽旅程 RNG；schema1、20耐久掩體、250南瓜、Boss抽選、永久收藏保持。M01–07已修／已裁定，不重做；M08仍未確診。改版詳細、逐王表與失敗／補驗在 docs/gameplay-1.2.0。核心一次完整369PASS，後續新增遷移／來源以相關53／39PASS核驗；瀏覽器首輪2PASS／1固定落击與輸入時序FAIL，補驗中。最終CI及發布尚待，不把部分當發布完成。原真GPU／自然全流程／跨瀏覽器NOT_RUN與密集SwiftShader60FPS FAIL仍維持。
+
+## 1.2.0 已發布並完成線上核對（2026-10-12 17:09:17 UTC）
+
+正式遊玩 https://sces5504.github.io/Solaria-Remaster/?v=1.2.0 。最終部署來源683d3da200fedc76cb4a51c773edd31a10db037c（遊戲程式与892cad8相同，只補格式／記錄）；Pages38280747615的check／375unit／format／build／5相關Chromium1.2分鐘／deploy全部PASS，無flaky。主體b23d85b／Pages38276107983的373unit／完整107Chromium26.4分鐘／deployPASS分開保留，不把不同來源拼成最終完整108項。
+
+正式站實際6案例PASS1.8分鐘：真RAF V型收攏与保存、Boss精英召喚2倍精英HP与再匯入、真右鍵格擋与一次反擊、缺beamMotion旧掃射快照繼續、正常新局／同時普攻職技／8:5／保存重載、53691bf旧IndexedDB保留構築再保存繼續。正常TLS與受管代理，無pageerror／請求失敗。production-integrity.json逐一核對19個HTML／全部JS-CSS与最終本地Pages build同SHA256；20PNG与固定1.1.2完全相同，素材／風格／FX／光影／UI未重製。實圖及請求／CI／初輪FAIL／補驗已保存docs/gameplay-1.2.0/results。
+
+固定tag v1.1.2與archive/v1.1.2仍9abc6d8ce90bcde5ef292f0db6202dd38d993e05；archive/v1.1.2-files仍0400546bc23cd7f3d176fa2f739ebfc705ba0ad2；原下載與Release未修改。所有正式程式正常fast-forward整合main，無reset／force／new Chat／agent。工作目錄/workspace/Solaria-Remaster，本地gameplay/v1.2.0-boss-rework；最新純記錄main SHA用git log／遠端核對，與已驗證遊戲樹相同，沒有靠版本字樣假定來源。
+
+主人四項回饋完成：21王按定位增加不同幾何／時序、近戰追擊與範圍、遠端威脅；戰鬥召喚小怪必精英与一般精英2倍HP，舊HP比例／owner／上限兼容；劍士.9窗口及成功後.75保護、.3反擊一次與CD5保留。詳細逐王／數值權威GAME_SPEC與docs/gameplay-1.2.0。M01–07原修復／裁定保持，M08仍候選；保留真GPU／Firefox-Safari／三職自然30＋1及高周目／人工聆聽NOT_RUN与原密集SwiftShader60FPS FAIL，不把自動fixture當自然完整平衡PASS。後續直接接主人新回饋、最新main與相關驗證。

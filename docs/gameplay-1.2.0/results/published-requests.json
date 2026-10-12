@@ -1,0 +1,424 @@
+{
+  "resources": [
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/game-DQDFsTVE.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/RenderTargetSystem-LneVKNDZ.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/canvasUtils-B5KrsTsU.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/getTexelRangeRects-CpZ5iCZB.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/getTextureBatchBindGroup-BOmbyaNZ.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/game-CUk9zc8O.css",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/GCManagedHash-Ap6rl--7.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/Cache-D0EC7riK.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/GraphicsContext-BdlONEsd.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/CanvasPool-CTz6W2rm.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/Filter-xcuLdGR1.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/sound-bank-BS8AGgBi.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/browserAll-C5gYA1pj.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/init-CmGhBQvh.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-0.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-1.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-2.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-3.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-4.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-5.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-6.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-7.png",
+      "status": 200
+    },
+    {
+      "url": "blob:https://sces5504.github.io/e41a838b-e509-4acd-b861-84bffb2b9593",
+      "status": 200
+    },
+    {
+      "url": "blob:https://sces5504.github.io/717d980d-0157-4912-a8f5-ca93edc3e0bf",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/heroes.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/world-0.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/world-1.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/floors.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/landmarks.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/effects.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/semantic-effects.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/menu.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/sword.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/mage.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/bow.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/game-DQDFsTVE.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/CanvasPool-CTz6W2rm.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/Filter-xcuLdGR1.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/canvasUtils-B5KrsTsU.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/Cache-D0EC7riK.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/GCManagedHash-Ap6rl--7.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/RenderTargetSystem-LneVKNDZ.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/getTextureBatchBindGroup-BOmbyaNZ.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/GraphicsContext-BdlONEsd.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/getTexelRangeRects-CpZ5iCZB.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/sound-bank-BS8AGgBi.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/game-CUk9zc8O.css",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/browserAll-C5gYA1pj.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/init-CmGhBQvh.js",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-0.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-1.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-2.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-3.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-4.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-5.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-6.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-7.png",
+      "status": 200
+    },
+    {
+      "url": "blob:https://sces5504.github.io/d1665225-d988-41d5-9f1b-480e2e315e6d",
+      "status": 200
+    },
+    {
+      "url": "blob:https://sces5504.github.io/ae6b15be-eec4-4c74-9e1b-034a091172fe",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/heroes.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/world-0.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/world-1.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/floors.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/landmarks.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/effects.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/semantic-effects.png",
+      "status": 200
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/menu.png",
+      "status": 200
+    }
+  ],
+  "errors": [],
+  "failures": [],
+  "snapshot": {
+    "render": {
+      "sprites": 36,
+      "cachedSprites": 0,
+      "createdSprites": 36,
+      "texts": 0,
+      "cachedTexts": 3,
+      "createdTexts": 3,
+      "glows": 8,
+      "activeGlows": 5,
+      "positions": 7,
+      "artStyle": "精雕冒險像素",
+      "artIdentities": 147,
+      "artEffects": {
+        "retained": 11,
+        "active": 8,
+        "names": ["weapon-mage", "explosion-3", "spark"]
+      },
+      "heroForeground": false,
+      "hostileMarkers": 0,
+      "isolatedPixels": {
+        "sword": 52,
+        "bow": 113,
+        "mage": 475,
+        "wolf": 264,
+        "slime": 556,
+        "knife": 652,
+        "archer": 105,
+        "shaman": 1499,
+        "mon06": 562,
+        "mon07": 9,
+        "mon08": 2989,
+        "mon09": 712,
+        "mon10": 941,
+        "mon11": 407,
+        "mon12": 170,
+        "mon13": 1319,
+        "mon14": 913,
+        "mon15": 1390,
+        "mon16": 1115,
+        "mon17": 529,
+        "mon18": 1246,
+        "mon19": 1,
+        "mon20": 1421,
+        "mon21": 387,
+        "mon22": 586,
+        "mon23": 458,
+        "mon24": 395,
+        "mon25": 793,
+        "mon26": 1090,
+        "mon27": 901,
+        "mon28": 876,
+        "mon29": 2234,
+        "wolfking": 357,
+        "goatking": 765,
+        "boss03": 194,
+        "boss04": 754,
+        "boss05": 584,
+        "boss06": 659,
+        "boss07": 457,
+        "boss08": 531,
+        "boss09": 392,
+        "boss10": 591,
+        "boss11": 323,
+        "boss12": 475,
+        "boss13": 1618,
+        "boss14": 1389,
+        "boss15": 1845,
+        "boss16": 1204,
+        "boss17": 540,
+        "boss18": 750,
+        "boss19": 1602,
+        "gift-goblin": 2005,
+        "snow-brute": 864,
+        "blood-bat": 455,
+        "blood-berserker": 129,
+        "grave-ghost": 1053,
+        "pumpkin-knight": 612,
+        "alien-ranger": 334,
+        "alien-saucer": 237,
+        "landing-mech": 98,
+        "star-dust": 4869,
+        "comet-whelp": 4569,
+        "frost-santa": 1835,
+        "pumpkin-lord": 1613,
+        "meadow-tree": 0,
+        "meadow-rock": 253,
+        "meadow-pillar": 0,
+        "meadow-lake": 0,
+        "desert-tree": 26,
+        "desert-rock": 14,
+        "desert-pillar": 651,
+        "desert-lake": 557,
+        "icefield-tree": 432,
+        "icefield-rock": 651,
+        "icefield-pillar": 74,
+        "icefield-lake": 733,
+        "volcano-tree": 247,
+        "volcano-rock": 324,
+        "volcano-pillar": 206,
+        "volcano-lake": 601,
+        "jungle-tree": 1,
+        "jungle-rock": 489,
+        "jungle-pillar": 136,
+        "jungle-lake": 0,
+        "corruption-tree": 167,
+        "corruption-rock": 17,
+        "corruption-pillar": 58,
+        "corruption-lake": 0,
+        "crimson-tree": 64,
+        "crimson-rock": 84,
+        "crimson-pillar": 7,
+        "crimson-lake": 0,
+        "stars-tree": 0,
+        "stars-rock": 30,
+        "stars-pillar": 186,
+        "stars-lake": 3,
+        "castle-tree": 7,
+        "castle-rock": 21,
+        "castle-pillar": 381,
+        "castle-lake": 67,
+        "door": 790,
+        "heal": 789,
+        "xp": 779
+      },
+      "renderer": "webgl"
+    },
+    "core": {
+      "room": 1,
+      "loop": 1,
+      "phase": "COMBAT",
+      "tick": 54,
+      "time": 0.9000000000000011,
+      "enemies": 6,
+      "enemyProjectiles": 0,
+      "projectiles": 0,
+      "visuals": 1,
+      "originalBasics": 1,
+      "damageNumbers": 0,
+      "areas": 0
+    }
+  }
+}
