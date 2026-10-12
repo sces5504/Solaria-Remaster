@@ -1,0 +1,1 @@
+PASS: main Pages site matches the frozen 1.1.2 HTML, every JS/CSS bundle and all 20 art PNGs byte for byte.

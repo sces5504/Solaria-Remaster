@@ -1,5 +1,13 @@
 # CURRENT_STATE — 最新工作斷點
 
+## main接續與1.1.2封存交接完成（2026-10-12 15:36:09 UTC）
+
+主人新要求已完成：main由d97b219一般fast-forward至48265dc409f98d4a44015049bd72ab54b6740887，完整1.1.2遊戲／素材與v1.1.2固定來源逐檔相同，僅更新交接、定稿規則與Pages push只main。Pages38270610088在main成功：check／332unit／format／build／4相關browser2.4分鐘／deploy；2026-10-12T15:35:06.948Z線上HTML／全部JS-CSS／20PNG與封存版逐位元相同PASS，未改遊戲版本。此後只從遠端最新main接續，不能恢復implement正式整合或雙窗口美術分工。
+
+固定tag v1.1.2／archive/v1.1.2維持9abc6d8ce90bcde5ef292f0db6202dd38d993e05；遊戲下載封存archive/v1.1.2-files固定0400546bc23cd7f3d176fa2f739ebfc705ba0ad2，ZIP SHA256 69fe09cfc5fb3b96e3cd4d2ea002b16cc1234a69516b7edd86c59d9d60ce68d5，下載HTTP200。Release已公開https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.1.2，列tag自動來源下載與固定遊戲ZIP連結。ruleset403／Release附件上傳401，未啟用平台防寫鎖／未稱附件已上傳；以固定Git內容／下載與禁止變更規則保存。主美術工作結束，後續只改非美術機制、數值與Bug，最小接口修正維持外觀。
+
+完整新prompt：docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md；備份／回復：BASELINE_1.1.2.md；短貼用入口：docs/handoff/README.md。主人原1.0.1 prompt完整保留於archive/GAMEPLAY_PROMPT_PRE_ART_1.0.1.txt，不以其舊main／多人／雙窗口規則覆蓋最新要求。證據docs/handoff/results。原GPU、自然全流程等未測界線維持，沒有把同版發布当新平衡驗收；未spawn agent／new chat。
+
 ## 最新指示：main接續、美術定稿與固定1.1.2備份（2026-10-12 15:22:54 UTC）
 
 主人明示本美術工作完成，後續由唯一機制／數值／Bug窗口接續，美術不要再動，正式更新都在main。已保存tag v1.1.2／archive/v1.1.2到9abc6d8ce90bcde5ef292f0db6202dd38d993e05（遊戲來源7cff9de），並保存原始碼與Pages下載包。重建Pages的HTML／全JS-CSS／20PNG與原線上1.1.2逐位元匹配PASS。GitHub ruleset API403，未啟用防寫鎖；固定SHA、下載副本與不得移動refs規則作恢復依據。
