@@ -1,5 +1,11 @@
 # AI_HANDOFF_MASTER — 長期記憶入口（未來交接專用）
 
+## 1.1.1 美術回饋已發布並線上核對（2026-10-12 13:40:43 UTC）
+
+正式來源a058d46d6e8cf602ed18ac8d37c28df80488534f，PR5已合併；Pages38256291930以art-feedback scope成功：check／331unit／format／build／10相關Chromium（3.2分鐘）／deploy。主人要求避免重複長測試，因此取消合併自動重複的Pages38256288910及Development38256295434、38256288931；沒有重跑完整100browser。
+
+線上 https://sces5504.github.io/Solaria-Remaster/?v=1.1.1 核對2026-10-12T13:39:35.436Z：19張runtime PNG SHA256全符、三職業肖像解碼、新紫袍法師WebGL實機、WASD／普攻／時鐘／8:5、無pageerror，PASS。修正減少爆炸遮擋、法師六姿態辨識、藍色格擋斬、按名稱用途分派雪／水／電／火／引力等特效及八張怪物atlas鄰格浮屑取樣隔離。只追加可選呈現來源／週期資訊，未改玩法／數值／碰撞／CD／存檔schema。詳細逐招表與失敗／補驗／CI／線上證據見docs/art-feedback；原作與main未改。
+
 ## 1.1.1 美術回饋修正，已本地驗證、待發布（2026-10-12 13:28:16 UTC）
 
 主人要求減少爆炸遮擋、重畫獨立紫袍尖帽法師、藍色格擋斬、逐招修正特效語義、清理怪物鄰格殘片；只跑相關browser。新法師六姿態與24格專用FX已接入，Visual追加可選來源／週期資訊，未改戰鬥數值或存檔schema。10相關browser首輪9PASS／1FAIL（測試重複dialog handler），修正helper後只補驗失敗項1PASS；unit首輪330PASS／1FAIL（既有5000seed測試並行超時），只以1worker補驗該項1PASS。check／build／format通過。來源及審核表見docs/art-feedback，Pages針對性scope與線上驗證待完成。
