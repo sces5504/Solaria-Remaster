@@ -1,5 +1,11 @@
 # Solaria Remaster
 
+## 1.3.3 等級生命與光效小修進行中（2026-10-13 15:59:54 UTC）
+
+主人要求升級加血、Lv31約Lv1的2.5倍；回報連鎖閃電／霜鈴／傳奇可能曝亮。本輪在gameplay/v1.3.3-health-light，以平緩冪曲線成長並補生命差，旧current／entry一次移轉保留傷勢／地圖，吸血鬼硬限保持。加色光暈有局部曝光預算与半徑界限，連線距離不再作發光半徑，普通素材／光影與傷害／預警保持。
+
+本地52相關unit＋2Chromium与護甲移轉補驗9unit通過，CI同一相關範圍；不跑完整套件。版本1.3.3正式main發布尚待，詳細GAME_SPEC末節、docs/gameplay-1.3.3。1.1.2備份保护／不開Chat或agent／舊未測界線保持。
+
 ## 1.3.2 已正式發布與核驗（2026-10-13 15:17:13 UTC）
 
 遊玩：https://sces5504.github.io/Solaria-Remaster/?v=1.3.2 。固定annotated tag v1.3.2／最終遊戲来源1603d7127ca829f741b166942aed1f8a28f27be5，Release https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.3.2 。main已正常整合108房型与本輪全部Bug／戰鬥／22卡更新，舊「房型只留預覽」限制已由本輪主人發布授權取代；下一步接新回饋，不重做已完成內容。

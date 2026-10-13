@@ -1,0 +1,11 @@
+[WebServer] (node:36440) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:36459) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/health-light.spec.ts:28:1 › 生命曲線：舊Lv30保存實際升至31、加血、匯出重載不再次回血 (17.6s)
+  ✓  2 tests/browser/health-light.spec.ts:65:1 › 光效曝光：連鎖閃電＋霜鈴＋傳奇能力重疊仍保留輪廓，普通場景不壓暗 (1.2m)
+
+  2 passed (1.5m)

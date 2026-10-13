@@ -1,4 +1,8 @@
-import { derive, finishSpecialChoice } from "../systems/progression";
+import {
+  derive,
+  finishSpecialChoice,
+  normalizeLevelHealth,
+} from "../systems/progression";
 import { normalizeBossProjectileDamage } from "../systems/boss-balance";
 import { normalizeBossMinions } from "../data/world";
 import { normalizePumpkinHealth } from "../systems/companion";
@@ -322,6 +326,7 @@ export function validate(value: unknown): Saved {
       r.selectedEquipmentSlot = undefined;
       finishSpecialChoice(r);
     }
+    normalizeLevelHealth(r);
     restoreJourney(r);
     normalizeCover(r);
     normalizeBossProjectileDamage(r);

@@ -102,7 +102,13 @@ export function sceneLights(r: Run): LightSource[] {
     add(
       v.x,
       v.y,
-      Math.max(110, v.radius * 1.7),
+      Math.min(
+        240,
+        Math.max(
+          110,
+          (v.kind === "relic" && v.value === 218 ? 24 : v.radius) * 1.7,
+        ),
+      ),
       blue
         ? 0x49baff
         : v.kind === "steam"

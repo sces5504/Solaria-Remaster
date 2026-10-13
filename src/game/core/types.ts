@@ -354,6 +354,7 @@ export interface Run {
   score?: number;
   kills?: number;
   level: number;
+  healthGrowthVersion?: 1;
   xp: number;
   pendingLevels: number;
   cards: Record<number, number>;

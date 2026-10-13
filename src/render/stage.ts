@@ -1,3 +1,4 @@
+import { glowExposureScales, GLOW_GRID_SIZE } from "./glow-exposure";
 import { terrainSize } from "./terrain-presentation";
 import { AdventureArt } from "./adventure-art";
 import { AdventureEffects } from "./adventure-effects";
@@ -92,6 +93,8 @@ export class Stage {
   private sprites = new Map<string, Sprite>();
   private glows: Sprite[] = [];
   private glowCount = 0;
+  private limitedGlows = 0;
+  private glowGrid = new Float32Array(GLOW_GRID_SIZE);
   private glowTexture!: Texture;
   private texts = new Map<number, BitmapText>();
   private textures: Record<string, Texture[]> = {};
@@ -137,6 +140,7 @@ export class Stage {
       createdTexts: this.textPool.created,
       glows: this.glows.length,
       activeGlows: this.glowCount,
+      limitedGlows: this.limitedGlows,
       positions: this.positions.size,
       artStyle: this.adventure ? "精雕冒險像素" : "選樣",
       artIdentities: this.adventure
@@ -261,7 +265,7 @@ export class Stage {
     }
     s.visible = true;
     s.position.set(x, y);
-    s.width = s.height = radius * 2;
+    s.width = s.height = Math.min(264, radius) * 2;
     s.tint = color;
     s.alpha = alpha;
   }
@@ -524,6 +528,7 @@ export class Stage {
     for (const s of this.sprites.values()) s.visible = false;
     for (const s of this.glows) s.visible = false;
     this.glowCount = 0;
+    this.limitedGlows = 0;
     this.lighting.sprite.visible = !!r;
     this.numbers.visible = !!r;
     this.shadows.clear();
@@ -1471,5 +1476,15 @@ export class Stage {
         if (key.startsWith("enemy-"))
           this.positions.delete(`e-${key.slice(6)}`);
       }
+    const exposure = glowExposureScales(
+      this.glows
+        .slice(0, this.glowCount)
+        .map((s) => ({ x: s.x, y: s.y, radius: s.width / 2, alpha: s.alpha })),
+      this.glowGrid,
+    );
+    exposure.scales.forEach((scale, i) => {
+      if (scale < 1) this.limitedGlows++;
+      this.glows[i].alpha *= scale;
+    });
   }
 }

@@ -16,6 +16,18 @@ import type { Run, Item, Slot, Stats } from "../core/types";
 import { cards, eligible, skillFactor } from "../data/cards";
 import { classes } from "../data/world";
 import { random, seedFor, clamp } from "../core/primitives";
+/** Smooth, diminishing growth: Lv1=1, Lv31=2.5; later loops keep growing. */
+export const levelHealthFactor = (level: number) =>
+  1 + 1.5 * (Math.max(0, level - 1) / 30) ** 0.9;
+export function normalizeLevelHealth(r: Run) {
+  if (r.healthGrowthVersion === 1) return;
+  const oldMax = r.stats.maxHP;
+  r.stats = derive(r);
+  recoverHP(r, Math.max(0, r.stats.maxHP - oldMax));
+  r.player.hp = Math.min(r.player.hp, r.stats.maxHP);
+  r.healthGrowthVersion = 1;
+  r.stats = derive(r);
+}
 export function derive(r: Run): Stats {
   const gear = gearState(r);
   const criticalBase = hasEquipment(r, "frostBell") ? 0.25 : 0.15;
@@ -100,7 +112,7 @@ export function derive(r: Run): Stats {
               (s as unknown as Record<string, number>)[aff.stat] += aff.value;
         }
       }
-  s.maxHP *= 1.1 ** l(1);
+  s.maxHP *= 1.1 ** l(1) * levelHealthFactor(r.level);
   if (l(73) && r.player.hp >= s.maxHP * 0.8) s.armor += 40;
   s.attackRate = c.rate * (1 + (4 * A) / (1 + A));
   s.skillCD = c.cd * (0.2 + 0.8 / (1 + C));
