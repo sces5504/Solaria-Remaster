@@ -302,15 +302,19 @@ export function populate(r: Run) {
     localRoom === 5 ? r.boss : 0,
     r.seed + r.room + ((r.loop ?? 1) - 1) * 1000,
   );
-  if (r.biome && r.biome !== "meadow") {
+  r.scenery = [];
+  r.roomTheme = undefined;
+  if (localRoom !== 5 || (r.biome && r.biome !== "meadow")) {
     const layout = biomeLayout(
-      r.biome,
+      r.biome ?? "meadow",
       r.templates[localRoom - 1] ?? 0,
       r.seed + r.room + ((r.loop ?? 1) - 1) * 1000,
       localRoom === 5 ? r.boss : 0,
     );
     r.obstacles = layout.obstacles;
     r.route = layout.route;
+    r.scenery = layout.scenery;
+    r.roomTheme = layout.theme;
   }
   if (localRoom === 5 && r.boss > 2) {
     const layout = bossArena(
@@ -319,6 +323,8 @@ export function populate(r: Run) {
     );
     r.obstacles = layout.obstacles;
     r.route = layout.route;
+    r.scenery = layout.scenery;
+    r.roomTheme = layout.theme;
   }
   gearState(r).targets = {};
   r.player.x = 112;
@@ -340,11 +346,13 @@ export function populate(r: Run) {
   r.modifiers = [];
   if (r.room === 31) {
     r.event = undefined;
+    r.scenery = [];
     placeSolaris(r);
     bossEntryAbility(r);
     return;
   }
   if (selectEvent(r)) {
+    r.scenery = [];
     const layout = eventLayout(r);
     r.obstacles = layout.obstacles;
     r.route = layout.route;

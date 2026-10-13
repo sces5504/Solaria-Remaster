@@ -1,0 +1,18 @@
+[WebServer] (node:21896) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 9 tests using 1 worker
+
+(node:21915) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/named-room-themes.spec.ts:53:3 › 房名布局 四季樹庭：地面、掩體、水域與裝飾 (22.7s)
+  ✓  2 tests/browser/named-room-themes.spec.ts:53:3 › 房名布局 碎岩之岸：地面、掩體、水域與裝飾 (8.2s)
+  ✓  3 tests/browser/named-room-themes.spec.ts:53:3 › 房名布局 三重綠洲：地面、掩體、水域與裝飾 (9.0s)
+  ✓  4 tests/browser/named-room-themes.spec.ts:53:3 › 房名布局 三座霜庭：地面、掩體、水域與裝飾 (10.7s)
+  ✓  5 tests/browser/named-room-themes.spec.ts:53:3 › 房名布局 熔池環岸：地面、掩體、水域與裝飾 (11.8s)
+  ✓  6 tests/browser/named-room-themes.spec.ts:53:3 › 房名布局 三座孢林：地面、掩體、水域與裝飾 (7.9s)
+  ✓  7 tests/browser/named-room-themes.spec.ts:53:3 › 房名布局 軌道環臺：地面、掩體、水域與裝飾 (11.6s)
+  ✓  8 tests/browser/named-room-themes.spec.ts:53:3 › 房名布局 黑曜長廊：地面、掩體、水域與裝飾 (9.3s)
+  ✓  9 tests/browser/named-room-themes.spec.ts:69:1 › 房名布局 地面装飾保存重載，暫停不再有成就外觀，主選單仍有 (10.7s)
+
+  9 passed (1.8m)

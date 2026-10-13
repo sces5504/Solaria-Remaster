@@ -717,17 +717,15 @@ export class Stage {
           .fill({ color: 0x161326, alpha: 0.8 })
           .stroke({ color: 0xc289ff, width: 2, alpha: pulse });
       } else if (h.kind === "thorns") {
-        for (let i = 0; i < 5; i++) {
-          const x = h.x - 28 + i * 13;
-          f.poly([
-            x,
-            h.y + 13,
-            x + 4,
-            h.y - 14 - (i % 2) * 10,
-            x + 10,
-            h.y + 13,
-          ]).fill({ color: 0x73975d, alpha: 0.75 });
-        }
+        const grass = this.sprite(
+          `ground-grass-${h.x}-${h.y}`,
+          "jungle-grass",
+          h.x,
+          h.y,
+          88,
+          48,
+        );
+        grass.zIndex = 0;
       } else {
         for (let i = 0; i < 5; i++) {
           const a = (i * Math.PI * 2) / 5;

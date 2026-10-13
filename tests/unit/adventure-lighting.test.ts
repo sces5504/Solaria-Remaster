@@ -5,7 +5,7 @@ import { sceneLights } from "../../src/render/lighting";
 it("熔甲獸的無火元素招式不妨礙熔核受光，熔池也發光且死亡／摧毀後移除", () => {
   const r = newRun("sword", 124);
   r.biome = "volcano";
-  r.templates = [4];
+  r.templates = [1];
   populate(r);
   const lava = actor(999, 3, 420, 320);
   lava.monsterId = 12;

@@ -208,7 +208,7 @@ it.each(Object.keys(biomes).filter((id) => id !== "meadow") as BiomeId[])(
 );
 it("新水岸／熔岩擋行走與閃避但不擋飛彈，舊湖仍保留可閃避跨越規則，存檔不重生地形", () => {
   const r = newRun("sword", 9);
-  const layout = terrainLayout("volcano", 4, 9);
+  const layout = terrainLayout("volcano", 1, 9);
   r.obstacles = layout.obstacles;
   const bank = r.obstacles.find((o) => o.kind === "lake")!;
   const p = { x: bank.x - 14, y: bank.y + bank.h / 2 };

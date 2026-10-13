@@ -1,0 +1,99 @@
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/biomes.test.ts (34 tests | 7 failed) 4497ms
+   × desert 六程序房型保留通路、掩體及合法原生怪 680ms
+   × icefield 六程序房型保留通路、掩體及合法原生怪 408ms
+   × volcano 六程序房型保留通路、掩體及合法原生怪 503ms
+   × jungle 六程序房型保留通路、掩體及合法原生怪 328ms
+   × corruption 六程序房型保留通路、掩體及合法原生怪 382ms
+   × crimson 六程序房型保留通路、掩體及合法原生怪 252ms
+   × castle 六程序房型保留通路、掩體及合法原生怪 233ms
+ ❯ tests/unit/biome-bosses.test.ts (35 tests | 1 failed) 4754ms
+   × BOSS-7 專屬布局入口、王落點及出口可走 13ms
+ ❯ tests/unit/terrain-progression.test.ts (14 tests | 3 failed) 1764ms
+   × desert 生態大障礙、不同seed、六房型與兩王房可達 113ms
+   × volcano 生態大障礙、不同seed、六房型與兩王房可達 99ms
+   × 新水岸／熔岩擋行走與閃避但不擋飛彈，舊湖仍保留可閃避跨越規則，存檔不重生地形 4ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/biome-bosses.test.ts > BOSS-7 專屬布局入口、王落點及出口可走
+AssertionError: expected 5 to be greater than or equal to 6
+ ❯ tests/unit/biome-bosses.test.ts:132:34
+    130|       const layout = bossArena(definition.id, seed);
+    131|       r.obstacles = layout.obstacles;
+    132|       expect(r.obstacles.length).toBeGreaterThanOrEqual(6);
+       |                                  ^
+    133|       expect(r.obstacles.every((o) => o.w >= 64)).toBe(true);
+    134|       expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯
+
+ FAIL  tests/unit/biomes.test.ts > desert 六程序房型保留通路、掩體及合法原生怪
+ FAIL  tests/unit/biomes.test.ts > icefield 六程序房型保留通路、掩體及合法原生怪
+ FAIL  tests/unit/biomes.test.ts > jungle 六程序房型保留通路、掩體及合法原生怪
+ FAIL  tests/unit/biomes.test.ts > corruption 六程序房型保留通路、掩體及合法原生怪
+ FAIL  tests/unit/biomes.test.ts > crimson 六程序房型保留通路、掩體及合法原生怪
+ FAIL  tests/unit/biomes.test.ts > castle 六程序房型保留通路、掩體及合法原生怪
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/unit/biomes.test.ts:65:42
+     63|         for (let x = 2; x <= 29; x++)
+     64|           if (legal(r, { x: x * 32 + 16, y: y * 32 + 16 }, 18))
+     65|             expect(seen.has(y * 32 + x)).toBe(true);
+       |                                          ^
+     66|     }
+     67| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯
+
+ FAIL  tests/unit/biomes.test.ts > volcano 六程序房型保留通路、掩體及合法原生怪
+AssertionError: volcano/3/1: expected 3 to be greater than or equal to 4
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(4);
+       |         ^
+     29|       expect(
+     30|         r.obstacles.filter((o) => o.kind !== "lake").every((o) => o.w …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯
+
+ FAIL  tests/unit/terrain-progression.test.ts > desert 生態大障礙、不同seed、六房型與兩王房可達
+ FAIL  tests/unit/terrain-progression.test.ts > volcano 生態大障礙、不同seed、六房型與兩王房可達
+AssertionError: expected 3 to be greater than or equal to 4
+ ❯ tests/unit/terrain-progression.test.ts:186:11
+    184|         expect(
+    185|           layout.obstacles.filter((o) => o.kind !== "lake").length,
+    186|         ).toBeGreaterThanOrEqual(4);
+       |           ^
+    187|         expect(layout.obstacles.length).toBeLessThanOrEqual(14);
+    188|         expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯
+
+ FAIL  tests/unit/terrain-progression.test.ts > 新水岸／熔岩擋行走與閃避但不擋飛彈，舊湖仍保留可閃避跨越規則，存檔不重生地形
+TypeError: Cannot read properties of undefined (reading 'x')
+ ❯ tests/unit/terrain-progression.test.ts:214:23
+    212|   r.obstacles = layout.obstacles;
+    213|   const bank = r.obstacles.find((o) => o.kind === "lake")!;
+    214|   const p = { x: bank.x - 14, y: bank.y + bank.h / 2 };
+       |                       ^
+    215|   move(r, p, 100, 0, 12, false);
+    216|   expect(p.x).toBeLessThanOrEqual(bank.x - 12);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  11 failed | 72 passed (83)
+   Start at  11:34:40
+   Duration  7.26s (tests 91%, transform 7%, import 2%)
+

@@ -1,3 +1,5 @@
+import { isolateProp } from "./prop-isolation";
+import { paintRoomGround, grassCanvas } from "./room-ground";
 import { isolateActor } from "./actor-isolation";
 import { Assets, Rectangle, Texture } from "pixi.js";
 import type { Run } from "../game/core/types";
@@ -110,7 +112,7 @@ export class AdventureArt {
         const x = (i % 6) * cell,
           y = Math.floor(i / 6) * cell;
         const data = ctx.getImageData(x, y, cell, cell);
-        this.isolatedPixels[name] = isolateActor(data.data, cell, cell);
+        this.isolatedPixels[name] = isolateProp(data.data, cell, cell, name);
         ctx.putImageData(data, x, y);
       });
       const atlas = Texture.from(isolated);
@@ -186,6 +188,9 @@ export class AdventureArt {
       this.textures[name] = Array(6).fill(texture);
       this.effects[name] = texture;
     });
+    const grass = Texture.from(grassCanvas());
+    grass.source.scaleMode = "nearest";
+    this.textures["jungle-grass"] = Array(6).fill(grass);
     for (const name of ["tree", "rock", "pillar", "lake"])
       this.textures[name] = this.textures[`meadow-${name}`];
     for (const [i, name] of [
@@ -312,33 +317,7 @@ export class AdventureArt {
       ctx.fillRect(32, 64, 960, 544);
       ctx.restore();
     }
-    const route = r.route ?? [
-      { x: 112, y: 320 },
-      { x: 928, y: 320 },
-    ];
-    ctx.beginPath();
-    route.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)));
-    ctx.strokeStyle = biome === "volcano" ? "#948878" : "#d6cbb0";
-    ctx.lineWidth = 64;
-    ctx.globalAlpha = biome === "meadow" ? 0.075 : 0.18;
-    ctx.lineJoin = ctx.lineCap = "round";
-    ctx.stroke();
-    if (biome !== "meadow") {
-      // The protected cross-lane is part of the room's visible trail network.
-      ctx.beginPath();
-      ctx.moveTo(512, 104);
-      ctx.lineTo(512, 552);
-      ctx.lineWidth = biome === "castle" ? 52 : 36;
-      ctx.globalAlpha = biome === "castle" ? 0.14 : 0.08;
-      ctx.stroke();
-      ctx.beginPath();
-      route.forEach((p, i) =>
-        i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y),
-      );
-      ctx.lineWidth = 2;
-      ctx.globalAlpha = biome === "castle" ? 0.22 : 0.12;
-      ctx.stroke();
-    }
+    paintRoomGround(ctx, r.scenery ?? [], biome);
     ctx.globalAlpha = 1;
     ctx.strokeStyle = "#c4bc94";
     ctx.globalAlpha = 0.25;

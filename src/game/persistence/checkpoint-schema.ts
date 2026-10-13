@@ -165,6 +165,35 @@ export function validate(value: unknown): Saved {
     ] as const)
       if (!Array.isArray(r[field])) throw new Error("存檔缺少必要陣列");
     if (
+      r.scenery !== undefined &&
+      (!Array.isArray(r.scenery) ||
+        r.scenery.some(
+          (f) =>
+            ![
+              "gravel",
+              "flowers",
+              "dunes",
+              "snow",
+              "ash",
+              "leaves",
+              "fungi",
+              "cracks",
+              "veins",
+              "stars",
+              "paving",
+              "rubble",
+            ].includes(f.kind) ||
+            !Array.isArray(f.points) ||
+            f.points.some(
+              (p) => !Number.isFinite(p.x) || !Number.isFinite(p.y),
+            ) ||
+            !Number.isFinite(f.width) ||
+            f.width <= 0 ||
+            (f.path !== undefined && typeof f.path !== "boolean"),
+        ))
+    )
+      throw new Error("房間地面裝飾資料損壞");
+    if (
       r.roomEntryLevel !== undefined &&
       (!Number.isInteger(r.roomEntryLevel) || r.roomEntryLevel < 1)
     )

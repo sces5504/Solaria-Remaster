@@ -15,6 +15,7 @@ const browser = await chromium.launch({
   args: ["--enable-unsafe-swiftshader"],
 });
 const checks = [];
+const resultsDir = process.env.RESULTS_DIR || "docs/gameplay-1.3.0/results";
 try {
   const context = await browser.newContext();
   async function compare(dir, url) {
@@ -105,12 +106,13 @@ try {
   assert(names.includes("solaria-remaster-playtest-terrain-1.3.0"));
   assert(!names.includes("solaria-remaster"));
   await page.screenshot({
-    path: "docs/gameplay-1.3.0/results/live-preview.png",
+    path: `${resultsDir}/live-preview.png`,
   });
   const result = {
     checkedAt: new Date().toISOString(),
     officialSHA: "8df5e347cc1a5bc977e848478378c35f672cc5a7",
-    previewSource: "f37dc464c7e0c90f6aec33932a365f782173054a",
+    previewSource:
+      process.env.PREVIEW_SOURCE || "f37dc464c7e0c90f6aec33932a365f782173054a",
     checks,
     journeyAndReload: "PASS",
     lockedButtonAfterReload: "PASS",
@@ -119,7 +121,7 @@ try {
     pageErrors: errors,
   };
   await writeFile(
-    "docs/gameplay-1.3.0/results/live-integrity.json",
+    `${resultsDir}/live-integrity.json`,
     JSON.stringify(result, null, 2) + "\n",
   );
   console.log(

@@ -363,6 +363,8 @@ export interface Run {
   reinforcementAt?: number;
   encounterCap?: number;
   route?: Vec[];
+  scenery?: import("../data/room-themes").GroundFeature[];
+  roomTheme?: string;
   settlementEnds?: number;
   roomEntryLevel?: number;
   obstacles: Obstacle[];

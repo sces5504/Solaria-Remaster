@@ -16,6 +16,7 @@ on:
             visibility-feedback,
             gameplay-feedback,
             terrain-preview,
+            theme-preview,
           ]
 permissions:
   contents: read
@@ -29,7 +30,7 @@ jobs:
       official_sha: ${{ steps.official-source.outputs.sha }}
     steps:
       - name: Preview must stay off main
-        if: inputs.validation == 'terrain-preview'
+        if: endsWith(inputs.validation, '-preview')
         run: test "$GITHUB_REF" != "refs/heads/main"
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -41,7 +42,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run build
         env:
-          VITE_PLAYTEST: ${{ inputs.validation == 'terrain-preview' && 'terrain-1.3.0' || '' }}
+          VITE_PLAYTEST: ${{ endsWith(inputs.validation, '-preview') && 'terrain-1.3.0' || '' }}
       - name: Browser validation
         env:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
@@ -52,27 +53,29 @@ jobs:
             npm run test:browser -- tests/browser/visibility-feedback.spec.ts
           elif [ "$VALIDATION_SCOPE" = "gameplay-feedback" ]; then
             npm run test:browser -- tests/browser/boss-rework.spec.ts tests/browser/recovery.spec.ts
+          elif [ "$VALIDATION_SCOPE" = "theme-preview" ]; then
+            npm run test:browser -- tests/browser/named-room-themes.spec.ts tests/browser/journal.spec.ts --grep '房名布局|首局手冊'
           elif [ "$VALIDATION_SCOPE" = "terrain-preview" ]; then
             npm run test:browser -- tests/browser/terrain-progression.spec.ts tests/browser/startup.spec.ts tests/browser/journal.spec.ts tests/browser/resonance.spec.ts --grep '首局手冊|WebGL 主選單|測試面板|密碼嚴格|全螢幕在|舊1.2.0|新地形畫面|首局先手冊|獨立存檔'
           else
             npm run test:browser
           fi
       - run: npm run build
-        if: inputs.validation != 'terrain-preview'
+        if: ${{ !endsWith(inputs.validation, '-preview') }}
         env:
           SOLARIA_PAGES: "1"
       - name: Keep preview build
-        if: inputs.validation == 'terrain-preview'
+        if: endsWith(inputs.validation, '-preview')
         run: mv dist preview-dist
       - uses: actions/checkout@v4
-        if: inputs.validation == 'terrain-preview'
+        if: endsWith(inputs.validation, '-preview')
         with:
           ref: main
           path: official
           persist-credentials: false
       - name: Preserve current official game and append isolated preview
         id: official-source
-        if: inputs.validation == 'terrain-preview'
+        if: endsWith(inputs.validation, '-preview')
         run: |
           echo "sha=$(git -C official rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           cd official
@@ -81,15 +84,15 @@ jobs:
           mkdir -p dist/preview/terrain-1.3.0
           cp -R ../preview-dist/. dist/preview/terrain-1.3.0/
       - uses: actions/upload-pages-artifact@v3
-        if: inputs.validation != 'terrain-preview'
+        if: ${{ !endsWith(inputs.validation, '-preview') }}
         with:
           path: dist
       - uses: actions/upload-pages-artifact@v3
-        if: inputs.validation == 'terrain-preview'
+        if: endsWith(inputs.validation, '-preview')
         with:
           path: official/dist
       - uses: actions/upload-artifact@v4
-        if: always() && inputs.validation == 'terrain-preview'
+        if: always() && endsWith(inputs.validation, '-preview')
         with:
           name: preview-browser-evidence
           path: test-results/
@@ -107,11 +110,11 @@ jobs:
       pages: write
       id-token: write
     environment:
-      name: ${{ inputs.validation == 'terrain-preview' && 'solaria-playtest' || 'github-pages' }}
+      name: ${{ endsWith(inputs.validation, '-preview') && 'solaria-playtest' || 'github-pages' }}
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Refuse to overwrite a newer main deployment
-        if: inputs.validation == 'terrain-preview'
+        if: endsWith(inputs.validation, '-preview')
         env:
           GH_TOKEN: ${{ github.token }}
           EXPECTED_SHA: ${{ needs.build.outputs.official_sha }}

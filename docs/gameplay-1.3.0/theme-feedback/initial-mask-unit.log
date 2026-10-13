@@ -1,0 +1,33 @@
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/named-room-themes.test.ts (13 tests | 1 failed) 964ms
+   × 冰柱頂端清掉暖色鄰格殘片，保留藍色冰尖與下方裝飾 20ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/named-room-themes.test.ts > 冰柱頂端清掉暖色鄰格殘片，保留藍色冰尖與下方裝飾
+AssertionError: expected +0 to be 255 // Object.is equality
+
+- Expected
++ Received
+
+- 255
++ 0
+
+ ❯ tests/unit/named-room-themes.test.ts:97:38
+     95|   isolateProp(data, w, w, "icefield-pillar");
+     96|   expect(data[(8 * w + 30) * 4 + 3]).toBe(0);
+     97|   expect(data[(7 * w + 53) * 4 + 3]).toBe(255);
+       |                                      ^
+     98|   expect(data[(50 * w + 53) * 4 + 3]).toBe(255);
+     99| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 passed (13)
+   Start at  11:37:58
+   Duration  1.82s (tests 60%, transform 35%, import 5%)
+

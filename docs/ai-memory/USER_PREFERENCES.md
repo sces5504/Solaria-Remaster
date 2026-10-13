@@ -176,3 +176,7 @@ Keep game modules under src/; add pure gameplay tests under tests/unit/ and brow
 固定tag v1.1.2與archive/v1.1.2仍9abc6d8ce90bcde5ef292f0db6202dd38d993e05；archive/v1.1.2-files仍0400546bc23cd7f3d176fa2f739ebfc705ba0ad2；原下載與Release未修改。所有正式程式正常fast-forward整合main，無reset／force／new Chat／agent。工作目錄/workspace/Solaria-Remaster，本地gameplay/v1.2.0-boss-rework；最新純記錄main SHA用git log／遠端核對，與已驗證遊戲樹相同，沒有靠版本字樣假定來源。
 
 主人四項回饋完成：21王按定位增加不同幾何／時序、近戰追擊與範圍、遠端威脅；戰鬥召喚小怪必精英与一般精英2倍HP，舊HP比例／owner／上限兼容；劍士.9窗口及成功後.75保護、.3反擊一次與CD5保留。詳細逐王／數值權威GAME_SPEC與docs/gameplay-1.2.0。M01–07原修復／裁定保持，M08仍候選；保留真GPU／Firefox-Safari／三職自然30＋1及高周目／人工聆聽NOT_RUN与原密集SwiftShader60FPS FAIL，不把自動fixture當自然完整平衡PASS。後續直接接主人新回饋、最新main與相關驗證。
+
+## 1.3.0-preview.2：依房名配置，移除固定十字
+
+主人本輪接受障礙大小、拒絕舊共用分区佈局與白色十字。九地形各六房名須有實際各自的配方，權威對照src/game/data/room-themes.ts；不是換名稱或只改seed。地形背景使用既定地面素材；真掩體用樹／岩／柱與原耐久；湖泊／熔岩是不可走的低矮地形，不是可毀掩體；草葉／碎石／道路／鋪地／花菇／星紋等scenery不參與碰撞或傷害。不要把抽象通行保護線畫成所有房間都有的十字。叢林舊三角草與已知冰柱／樹冠鄰格殘片要修正，保留原素材風格與角色尖端。Esc移除「成就與外觀」，主選單收藏入口保留。仍待主人試玩確認，禁止推main。

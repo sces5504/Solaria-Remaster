@@ -46,6 +46,7 @@ test("首局手冊在選職前顯示並可重看；成就外觀重載與星典�
   page.on("dialog", (dialog) => dialog.accept());
   await load(page, r);
   await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "回主選單", exact: true }).click();
   await page.getByRole("button", { name: "成就與外觀", exact: true }).click();
   await expect(page.locator(".achievement.unlocked")).toContainText("暮光守望");
   await page.getByRole("button", { name: "琥珀之誓", exact: true }).click();
