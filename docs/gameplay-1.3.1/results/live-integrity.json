@@ -1,7 +1,6 @@
 {
   "checkedAt": "2026-10-13T12:45:25.685Z",
   "officialSHA": "7df2ad8302183d5f772831d6050b03bad1814bb0",
-  "previewSource": "f37dc464c7e0c90f6aec33932a365f782173054a",
   "checks": [
     {
       "url": "https://sces5504.github.io/Solaria-Remaster/assets/Cache-D0EC7riK.js",
@@ -207,6 +206,7 @@
   "journeyAndReload": "PASS",
   "lockedButtonAfterReload": "PASS",
   "solarisGate": "PASS",
-  "isolatedDB": "PASS",
-  "pageErrors": []
+  "pageErrors": [],
+  "releaseSource": "7df2ad8302183d5f772831d6050b03bad1814bb0",
+  "formalDB": "PASS"
 }
