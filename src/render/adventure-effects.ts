@@ -344,11 +344,21 @@ export class AdventureEffects {
   }
 
   visual(r: Run, v: Visual, g: Graphics) {
+    // Equipment has its own semantic renderer. Do not draw a generic rune
+    // first, then also render the gift; the matching burst is damage only.
+    if (v.kind === "relic" && v.value >= 201 && v.value !== 212) return false;
+    if (v.kind === "burst" && v.sourceAbilityId === 212) return true;
     const age = Math.max(
         0,
         Math.min(1, 1 - (v.until - r.time) / (v.duration || 0.3)),
       ),
       fade = 1 - age;
+    if (v.kind === "relic" && v.value === 212) {
+      const size =
+        Math.min(144, Math.max(48, v.radius * 0.9)) * (0.85 + 0.15 * age);
+      this.stamp("gift-impact", v.x, v.y, size, size, fade * fade * 0.8);
+      return true;
+    }
     if (["burst", "thunder"].includes(v.kind)) {
       // Keep bespoke boss/event actions in their existing semantic renderer.
       if (v.enemy && v.eventAbility && /^(santa|pumpkin)-/.test(v.eventAbility))

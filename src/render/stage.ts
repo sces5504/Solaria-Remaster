@@ -940,6 +940,7 @@ export class Stage {
                   : names[e.kind + 2],
         e.x,
         e.y -
+          (e.bossId === 20 && this.adventure ? (size * 48) / 256 : 0) -
           (e.leap
             ? Math.sin(
                 Math.PI *
@@ -953,7 +954,7 @@ export class Stage {
               ) * 65
             : 0),
         size,
-        size,
+        e.bossId === 20 && this.adventure ? (size * 176) / 128 : size,
         frame,
       );
       s.scale.x = Math.abs(s.scale.x) * (r.player.x < e.x ? -1 : 1);

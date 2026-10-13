@@ -5,12 +5,13 @@ export function maximumRecovery(r: Run) {
   return r.stats.maxHP * (r.cards[79] ? 0.4 : 1);
 }
 export function recoverHP(r: Run, amount: number) {
-  // A recovery ceiling never lowers existing health when it is already above the ceiling.
+  if (r.cards[79]) r.player.hp = Math.min(r.player.hp, maximumRecovery(r));
   const gain = Math.max(0, Math.min(amount, maximumRecovery(r) - r.player.hp));
   r.player.hp += gain;
   return gain;
 }
 export function actionRestriction(r: Run, action: "basic" | "skill" | "dodge") {
+  if (r.cards[84] && action === "dodge") return "遲暮守望封印了閃避";
   if (r.cards[78] && (action === "basic" || action === "dodge"))
     return "偏執狂封印了這個動作";
   if (r.cards[83] && action === "skill") return "寂靜之誓封印了職技";
@@ -18,10 +19,11 @@ export function actionRestriction(r: Run, action: "basic" | "skill" | "dodge") {
 }
 export function slotRestriction(r: RestrictedRun, slot: Slot) {
   if (r.cards[80] && slot === "armor") return "元素使不能穿戴裝甲";
-  if (r.cards[85] && r.selectedEquipmentSlot !== slot)
-    return r.selectedEquipmentSlot
-      ? "命運賭徒只保留選定裝備欄"
-      : "先選定命運賭徒的裝備欄";
+  if (
+    r.cards[85] &&
+    Object.entries(r.equipment).some(([other, item]) => item && other !== slot)
+  )
+    return "命運賭徒只能同時穿戴一件裝備";
   return "";
 }
 const rightOnly = new Set([
@@ -34,6 +36,8 @@ const leftOnly: Record<ClassId, Set<number>> = {
   mage: new Set([54, 57]),
 };
 export function cardRestriction(r: Run, id: number) {
+  if (r.cards[84] && [47, 62, 72].includes(id))
+    return "閃避已封印，這項升級暫時失效";
   if (id === 16 && hasEquipment(r, "frostBell")) return "霜鈴災厄封印冰矛";
   if (r.cards[83] && rightOnly.has(id)) return "職技已封印，這項升級暫時失效";
   if (

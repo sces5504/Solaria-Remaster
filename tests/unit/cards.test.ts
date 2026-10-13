@@ -132,7 +132,7 @@ describe("CARD-01..59 每卡實際條件／無条件对照", () => {
     expect(r.player.shields).toHaveLength(0);
     const a = setup(27);
     hurt(a, 10.5);
-    expect(a.player.hp).toBeCloseTo(80.8);
+    expect(a.player.hp).toBeCloseTo(81);
   });
   it("29 連鎖不同目标、无循环、派生源20%", () => {
     const r = setup(29);
@@ -173,13 +173,13 @@ describe("CARD-01..59 每卡實際條件／無条件对照", () => {
     e.x = 200;
     expect(hit(r, e, 100, context(r, 41, "basic", [], true))).toBe(100);
   });
-  it("43 剑气每三次、5级每次，纯追加", () => {
+  it("43 剑气每三次、5级每次，普攻傷與命中效果", () => {
     const r = setup(43);
     basic(r, idleCommand(r));
     basic(r, idleCommand(r));
     expect(r.projectiles).toHaveLength(0);
     basic(r, idleCommand(r));
-    expect(r.projectiles[0].context?.canCrit).toBe(false);
+    expect(r.projectiles[0].context?.canCrit).toBe(true);
     r.cards[43] = 5;
     basic(r, idleCommand(r));
     expect(r.projectiles).toHaveLength(2);
@@ -193,7 +193,7 @@ describe("CARD-01..59 每卡實際條件／無条件对照", () => {
       r.time = 0.31;
       updateSkills(r, idleCommand(r));
       const loss = 10000 - r.enemies[0].hp;
-      if (id === 44) expect(loss).toBeCloseTo(144);
+      if (id === 44) expect(loss).toBeCloseTo(156);
       if (id === 45) expect(loss).toBeCloseTo(180);
       if (id === 46) expect(r.player.shields[0].amount).toBeCloseTo(22.5);
     });
@@ -205,7 +205,7 @@ describe("CARD-01..59 每卡實際條件／無条件对照", () => {
     r.rng = 123456789;
     dodge(r, cmd);
     for (let i = 0; i < 8; i++) step(r, cmd);
-    expect(r.enemies[0].hp).toBe(80);
+    expect(r.enemies[0].hp).toBe(60);
     expect(r.player.invulnerable).toBe(0);
   });
   it("48 猎首只对满HP目标", () => {

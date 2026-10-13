@@ -9,7 +9,13 @@ import type { Run, ClassId, Command } from "./types";
 import { DT, seedFor, random, clone, distance, angle } from "./primitives";
 import { populate, classes } from "../data/world";
 import { derive, drawChoices, itemFor, pickup } from "../systems/progression";
-import { basic, castSkill, dodge, updateSkills } from "../systems/skills";
+import {
+  basic,
+  basicDamage,
+  castSkill,
+  dodge,
+  updateSkills,
+} from "../systems/skills";
 import {
   context,
   hit,
@@ -259,6 +265,7 @@ export function step(r: Run, c: Command, paused = false) {
   r.time += DT;
   r.tick++;
   r.stats = derive(r);
+  r.player.hp = Math.min(r.player.hp, r.stats.maxHP * (r.cards[79] ? 0.4 : 1));
   updateHazards(r);
   const p = r.player;
   p.aim = angle(p, c.pointerWorld);
@@ -295,7 +302,12 @@ export function step(r: Run, c: Command, paused = false) {
           ) {
             if (!p.dashHits.includes(e.id)) {
               p.dashHits.push(e.id);
-              hit(r, e, 40 * factor(r, 47), context(r, 47));
+              hit(
+                r,
+                e,
+                2 * basicDamage(r),
+                context(r, 47, "basic", [...r.elements], true),
+              );
             }
           }
       }

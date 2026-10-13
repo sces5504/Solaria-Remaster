@@ -9,7 +9,7 @@ export function equipmentEffect(g: Graphics, v: Visual, time: number) {
       Math.min(1, 1 - (v.until - time) / (v.duration ?? 0.65)),
     ),
     fade = 1 - t,
-    R = v.radius;
+    R = v.value === 212 ? Math.min(140, Math.max(24, v.radius)) : v.radius;
   const x = v.x,
     y = v.y,
     id = v.value;

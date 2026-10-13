@@ -1,5 +1,11 @@
 # CURRENT_STATE — 最新工作斷點
 
+## 1.3.2 本輪正式發布授權，實作與補驗中（2026-10-13）
+
+主人明示本輪Bug／戰鬥／22卡片更新完成後推main1.3.2，亦包含已完成108房型擴充，取代下方舊第二步只留預覽限制。工作gameplay/v1.3.2-feedback，不重做房型；GAME_SPEC最新1.3.2章是數字／代價權威。主要改閃避2秒、格擋斬雙加成、Boss掩體資格玩家圓＋圖示三角形、測試全部橘紅装备、複合生命／絕對暴擊／紅卡新代價与普攻命中效果。Santa圖集上溢頭帽補全、火山柱頂部雪殘片清除、霜鈴用原gift-impact像素素材替代混疊爆炸／符紋。素材PNG與1.1.2封存保持，不開Chat／agent。
+
+本地449unit与最後52相關unit通過；5相關Chromium通過，最終素材／舊賭徒保存4項補驗中。原始失敗保留docs/gameplay-1.3.2-feedback/results。CI／main發布与線上核驗尚待，不提前標PASS，旧NOT_RUN保持。
+
 ## 1.3.2-preview.1 已可試玩，main保持1.3.1（2026-10-13）
 
 試玩：https://sces5504.github.io/Solaria-Remaster/preview/terrain-1.3.0/?v=1.3.2-preview.1 。第二步遊戲来源362b6927555b82b601cf00a48c44bb31a8203eca，分支gameplay/v1.3.2-room-variety；Pages38400439784的check／438unit／format／build／10相關Chromium1.1分鐘／部署PASS，無flaky，不是完整browser套件。108具名配方、同名種子變體、雙尺度通路、12模板均可抽中、裝飾無碰撞与保存已測。前述7FAIL與修正紀錄保留。

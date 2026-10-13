@@ -1,3 +1,4 @@
+import { derive, finishSpecialChoice } from "../systems/progression";
 import { normalizeBossProjectileDamage } from "../systems/boss-balance";
 import { normalizeBossMinions } from "../data/world";
 import { normalizePumpkinHealth } from "../systems/companion";
@@ -310,11 +311,26 @@ export function validate(value: unknown): Saved {
   }
   const migrated = JSON.parse(JSON.stringify(s)) as Saved;
   for (const r of [migrated.current, migrated.entry]) {
+    if (r.cards[85] && r.phase === "EQUIPMENT_SLOT_CHOICE") {
+      for (const slot of ["armor", "ring", "amulet"] as const) {
+        const item = r.equipment[slot];
+        if (!item) continue;
+        delete r.equipment[slot];
+        if (r.bag.length < 12) r.bag.push(item);
+        else r.items.push({ ...item, x: r.player.x, y: r.player.y });
+      }
+      r.selectedEquipmentSlot = undefined;
+      finishSpecialChoice(r);
+    }
     restoreJourney(r);
     normalizeCover(r);
     normalizeBossProjectileDamage(r);
     normalizePumpkinHealth(r);
     normalizeBossMinions(r);
+    if (r.cards[79]) {
+      r.stats = derive(r);
+      r.player.hp = Math.min(r.player.hp, r.stats.maxHP * 0.4);
+    }
   }
   // JSON roundtrip strips prototypes. Strings are never inserted as HTML by UI.
   return migrated;

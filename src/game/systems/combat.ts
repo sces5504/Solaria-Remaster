@@ -3,6 +3,8 @@ import { COVER_INVULNERABILITY, type CoverSource } from "../core/cover-rules";
 import {
   normalizeCover,
   coverWithin,
+  coverInBossTriangle,
+  bossCoverOrigin,
   coverDamageRadius,
   enemyCoverSource,
   coverInCone,
@@ -253,6 +255,7 @@ export function hit(
         conditional;
   if (ctx.damageKind !== "percent") {
     if (ctx.damageKind === "skill") value *= 1 + (ctx.skillBonus ?? 0);
+    value *= 1 + r.stats.basic * (ctx.basicBonusWeight ?? 0);
     value *= skillOpeningBonus(r, e, ctx);
     if (hasEquipment(r, "riftRing") && (e.elite || e.kind > 5)) {
       value *= 1.25;
@@ -446,6 +449,24 @@ function detonateEmbers(r: Run, origin: Actor, ctx: DamageContext) {
     }
   }
 }
+export function hurtTriggers(r: Run, amount: number, shieldBroken = false) {
+  const p = r.player;
+  if (amount <= 0) return;
+  p.lastHurt = r.time;
+  p.enduranceUsed = false;
+  if (level(r, 69)) p.recoveryUntil = r.time + 2;
+  if (level(r, 73) && (r.cooldowns[73] ?? 0) <= r.time) {
+    r.cooldowns[73] = r.time + 12;
+    shield(r, r.stats.maxHP * 0.1, 3);
+    visual(r, "relic", p, 0, 0xffe2a5, 40, 0, { duration: 0.5 });
+  }
+  gearHurt(r, amount, shieldBroken);
+}
+export function sacrifice(r: Run) {
+  const cost = Math.max(0, r.player.hp - Math.max(1, r.player.hp * 0.92));
+  r.player.hp -= cost;
+  hurtTriggers(r, cost);
+}
 export function hurt(
   r: Run,
   base: number,
@@ -476,6 +497,7 @@ export function hurt(
   )
     value *= 1.25;
   if (endurance) p.enduranceUsed = true;
+  if (r.cards[81]) value *= 2;
   const effective = value;
   const shieldAmounts = p.shields.map((s) => s.amount);
   for (const s of p.shields) {
@@ -484,17 +506,7 @@ export function hurt(
     value -= absorbed;
   }
   p.hp = Math.max(0, p.hp - value);
-  if (effective > 0) {
-    p.lastHurt = r.time;
-    p.enduranceUsed = false;
-    if (level(r, 69)) p.recoveryUntil = r.time + 2;
-    if (level(r, 73) && (r.cooldowns[73] ?? 0) <= r.time) {
-      r.cooldowns[73] = r.time + 12;
-      shield(r, r.stats.maxHP * 0.1, 3);
-      visual(r, "relic", p, 0, 0xffe2a5, 40, 0, { duration: 0.5 });
-    }
-  }
-  gearHurt(
+  hurtTriggers(
     r,
     effective,
     p.shields.some((s, i) => shieldAmounts[i] > 0 && s.amount <= 0),
@@ -604,6 +616,12 @@ export function shoot(
       context: ctx,
       enemy,
       coverSource: enemy ? enemyCoverSource(r, owner) : undefined,
+      coverOrigin: enemy
+        ? {
+            x: bossCoverOrigin(r, owner, p).x,
+            y: bossCoverOrigin(r, owner, p).y,
+          }
+        : undefined,
       eventGlyph: enemy
         ? (() => {
             const body = r.enemies.find((e) => e.id === owner);
@@ -678,6 +696,12 @@ export function area(
     context: ctx,
     enemy: !ctx,
     coverSource: !ctx ? enemyCoverSource(r, extra.owner ?? 0) : undefined,
+    coverOrigin: !ctx
+      ? {
+          x: bossCoverOrigin(r, extra.owner ?? 0, p).x,
+          y: bossCoverOrigin(r, extra.owner ?? 0, p).y,
+        }
+      : undefined,
     enemyElements: !ctx
       ? enemyElements(r.enemies.find((e) => e.id === extra.owner))
       : undefined,
@@ -709,6 +733,7 @@ export function damageCover(
   source: CoverSource = "boss",
   accepts?: (o: import("../core/types").Obstacle) => boolean,
   melee = false,
+  bossOrigin?: Vec,
 ) {
   normalizeCover(r);
   for (const o of r.obstacles)
@@ -717,8 +742,15 @@ export function damageCover(
       o.durability > 0 &&
       r.time + 1e-8 >= (o.invulnerableUntil ?? 0) &&
       !o.waves.includes(wave) &&
-      ((source === "boss" && melee) ||
-        coverWithin(o, r.player, coverDamageRadius(r))) &&
+      (coverWithin(o, r.player, coverDamageRadius(r)) ||
+        (source === "boss" &&
+          (bossOrigin || melee) &&
+          coverInBossTriangle(
+            o,
+            bossOrigin ?? p,
+            r.player,
+            coverDamageRadius(r) / 2,
+          ))) &&
       (accepts ? accepts(o) : coverWithin(o, p, radius))
     ) {
       o.waves.push(wave);
@@ -831,8 +863,15 @@ export function updateAreas(r: Run) {
       const coverSource = a.coverSource ?? enemyCoverSource(r, a.owner);
       if (coverSource) {
         if (a.shape === "beam") {
-          damageCover(r, a, 0, a.wave, coverSource, (o) =>
-            coverInSweep(o, a, end.x - a.x, end.y - a.y, a.width / 2),
+          damageCover(
+            r,
+            a,
+            0,
+            a.wave,
+            coverSource,
+            (o) => coverInSweep(o, a, end.x - a.x, end.y - a.y, a.width / 2),
+            false,
+            bossCoverOrigin(r, a.owner, a.coverOrigin),
           );
         } else
           damageCover(
@@ -845,6 +884,7 @@ export function updateAreas(r: Run) {
               ? (o) => coverInCone(o, a, a.radius, a.angle, a.width)
               : undefined,
             a.coverMelee ?? bossMeleeArea(a.eventAbility),
+            bossCoverOrigin(r, a.owner, a.coverOrigin),
           );
       }
     } else if (a.context) {

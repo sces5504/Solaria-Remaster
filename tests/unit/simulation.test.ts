@@ -150,7 +150,7 @@ describe("C01–09 時鐘、職業與來源", () => {
     r.player.dashReady = 0;
     r.obstacles[0].kind = "tree";
     dodge(r, cmd);
-    expect(r.player.dashReady).toBe(3);
+    expect(r.player.dashReady).toBe(2);
   });
 });
 describe("C10–18 元素、卡池、地圖与 Boss", () => {

@@ -95,3 +95,58 @@ export function coverInRush(
   if ((p.x - body.x) * dx + (p.y - body.y) * dy <= 0) return false;
   return coverInSweep(o, body, dx, dy, radius);
 }
+
+/** Boss apex, player-centred perpendicular base, one static-field diameter. */
+export function coverInBossTriangle(
+  o: Obstacle,
+  boss: Vec,
+  player: Vec,
+  halfBase: number,
+) {
+  const dx = player.x - boss.x,
+    dy = player.y - boss.y,
+    length = Math.hypot(dx, dy);
+  if (length < 1e-6) return false;
+  const nx = (-dy / length) * halfBase,
+    ny = (dx / length) * halfBase;
+  const tri = [
+    boss,
+    { x: player.x + nx, y: player.y + ny },
+    { x: player.x - nx, y: player.y - ny },
+  ];
+  const rect = [
+    { x: o.x, y: o.y },
+    { x: o.x + o.w, y: o.y },
+    { x: o.x + o.w, y: o.y + o.h },
+    { x: o.x, y: o.y + o.h },
+  ];
+  const axes = [
+    { x: 1, y: 0 },
+    { x: 0, y: 1 },
+    ...tri.map((p, i) => ({
+      x: -(tri[(i + 1) % 3].y - p.y),
+      y: tri[(i + 1) % 3].x - p.x,
+    })),
+  ];
+  return axes.every((axis) => {
+    const a = tri.map((p) => p.x * axis.x + p.y * axis.y),
+      b = rect.map((p) => p.x * axis.x + p.y * axis.y);
+    return (
+      Math.max(...a) >= Math.min(...b) - 1e-8 &&
+      Math.max(...b) >= Math.min(...a) - 1e-8
+    );
+  });
+}
+export function bossCoverOrigin(r: Run, owner: number, fallback: Vec): Vec;
+export function bossCoverOrigin(
+  r: Run,
+  owner: number,
+  fallback?: Vec,
+): Vec | undefined;
+export function bossCoverOrigin(
+  r: Run,
+  owner: number,
+  fallback?: Vec,
+): Vec | undefined {
+  return r.enemies.find((e) => e.id === owner) ?? fallback;
+}

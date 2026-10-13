@@ -18,7 +18,7 @@ export const advancedCards = [
     id: 72,
     name: "時空錨定",
     rarity: "橘",
-    description: "閃避使職技剩餘冷卻減0.5秒，保留基礎冷卻20%的最早邊界。",
+    description: "閃避使職技剩餘冷卻減1秒，保留基礎冷卻20%的最早邊界。",
     classId: null,
   },
   {
@@ -69,7 +69,7 @@ export const advancedCards = [
     name: "吸血鬼",
     rarity: "紅",
     description:
-      "額外吸血6%，每秒至多回最大生命20%。代價：回復上限為最大生命40%。",
+      "額外吸血6%，每秒至多回最大生命20%。代價：當前生命無法超過最大生命40%。",
     classId: null,
   },
   {
@@ -83,15 +83,14 @@ export const advancedCards = [
     id: 81,
     name: "玻璃星核",
     rarity: "紅",
-    description: "一般全域傷+100%。代價：最終最大生命減半。",
+    description: "一般全域傷+100%。代價：玩家受到的傷害+100%。",
     classId: null,
   },
   {
     id: 82,
     name: "獻祭者",
     rarity: "紅",
-    description:
-      "技能傷+120%。代價：主動職技扣當前生命8%，至少留1；此代價不觸發受傷能力。",
+    description: "技能傷+60%。代價：主動職技扣當前生命8%，至少留1。",
     classId: null,
   },
   {
@@ -106,14 +105,14 @@ export const advancedCards = [
     id: 84,
     name: "遲暮守望",
     rarity: "紅",
-    description: "生命基準+80%、護甲+60。代價：閃避冷卻加倍。",
+    description: "生命基準+80%、護甲+60。代價：無法閃避。",
     classId: null,
   },
   {
     id: 85,
     name: "命運賭徒",
     rarity: "紅",
-    description: "橘紅抽卡權重加倍。代價：只能穿一件裝備，取得時自選欄位。",
+    description: "橘紅抽卡權重加倍。代價：只能穿一件裝備。",
     classId: null,
   },
 ] as const;

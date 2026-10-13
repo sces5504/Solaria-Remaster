@@ -1,3 +1,4 @@
+import { bossCoverOrigin } from "./cover";
 import { retireProjectile } from "./projectile-pool";
 import { enemyCoverSource } from "./cover";
 import type { Run, Projectile, Actor, Obstacle } from "../core/types";
@@ -174,6 +175,8 @@ export function sweepProjectiles(r: Run, dt: number) {
             p.wave || p.id,
             source,
             (o) => o.id === target.body.id,
+            false,
+            bossCoverOrigin(r, p.owner, p.coverOrigin),
           );
         finish(f, true);
       } else schedule(f);

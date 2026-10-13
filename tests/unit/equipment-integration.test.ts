@@ -234,8 +234,7 @@ it("紅卡自動卸裝即刻停止南瓜，暫停選擇期間也不保留夥伴"
   s.pendingLevels = 1;
   s.choices = [85, 1, 2];
   choose(s, 85);
-  expect(pumpkin(s)).toBeDefined();
-  chooseEquipmentSlot(s, "ring");
+  expect(pumpkin(s)).toBeUndefined();
   expect(pumpkin(s)).toBeUndefined();
   expect(s.bag).toHaveLength(1);
 });

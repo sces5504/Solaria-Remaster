@@ -1,0 +1,260 @@
+
+> solaria-remaster@1.3.2 test
+> vitest run --maxWorkers=1
+
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/equipment-integration.test.ts (13 tests | 1 failed) 8571ms
+   × 紅卡自動卸裝即刻停止南瓜，暫停選擇期間也不保留夥伴 14ms
+ ❯ tests/unit/terrain-progression.test.ts (14 tests | 1 failed) 2308ms
+   × 經驗加成保留額外收益，進房後配額固定且跟隨等級，不受換裝重算 10ms
+ ❯ tests/unit/cards.test.ts (61 tests | 4 failed) 188ms
+   ❯ CARD-01..59 每卡實際條件／無条件对照 (59)
+     × 27 水盾是一般减伤而非消耗盾 8ms
+     × 43 剑气每三次、5级每次，纯追加 5ms
+     × 44 反擊擴刃 成功格挡后专属效果 2ms
+     × 47 冲锋沿途仅一次且不无敌 6ms
+ ❯ tests/unit/simulation.test.ts (20 tests | 1 failed) 1351ms
+   ❯ C01–09 時鐘、職業與來源 (8)
+     × dash 不無敵、能跨湖、薄牆擋且不足落點耗 CD 12ms
+ ❯ tests/unit/advanced-cards.test.ts (16 tests | 3 failed) 366ms
+   × 73 高生命護甲與受傷盾12秒內一次；獻祭扣血不觸發受傷盾 13ms
+   × 81 生命最終減半／一般傷加100%；82每次主動扣8%留1副本不扣 3ms
+   × 84 閃避CD六秒与生命基準加80%／甲60；85選欄保留原選中裝備，其他卸裝且每局一次 3ms
+ ❯ tests/unit/boss-cover-balance.test.ts (25 tests | 1 failed) 144ms
+   × 實際Boss斬擊與落擊在遠離玩家的掩體上扣10；遠端落雷不享近戰特權 12ms
+ ❯ tests/unit/feedback-cover.test.ts (15 tests | 2 failed) 110ms
+   × 遠處掩體不扣血，移近才可破壞；湖泊不受傷 13ms
+   × 可受傷圓為靜電釋放兩倍半徑，實體邊緣相交才合格，範圍升級同步 5ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 13 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/advanced-cards.test.ts > 73 高生命護甲與受傷盾12秒內一次；獻祭扣血不觸發受傷盾
+AssertionError: expected [ { amount: 9, until: 3 } ] to have a length of +0 but got 1
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ tests/unit/advanced-cards.test.ts:108:28
+    106|   castSkill(r, idleCommand(r));
+    107|   expect(r.player.hp).toBeCloseTo(27.6);
+    108|   expect(r.player.shields).toHaveLength(0);
+       |                            ^
+    109|   hurt(r, 10);
+    110|   expect(r.player.shields).toHaveLength(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/13]⎯
+
+ FAIL  tests/unit/advanced-cards.test.ts > 81 生命最終減半／一般傷加100%；82每次主動扣8%留1副本不扣
+AssertionError: expected 90 to be 45 // Object.is equality
+
+- Expected
++ Received
+
+- 45
++ 90
+
+ ❯ tests/unit/advanced-cards.test.ts:257:25
+    255| it("81 生命最終減半／一般傷加100%；82每次主動扣8%留1副本不扣", () => {
+    256|   const r = setup([81, 82, 71]);
+    257|   expect(r.stats.maxHP).toBe(45);
+       |                         ^
+    258|   expect(r.stats.global).toBe(1);
+    259|   r.player.hp = 45;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/13]⎯
+
+ FAIL  tests/unit/advanced-cards.test.ts > 84 閃避CD六秒与生命基準加80%／甲60；85選欄保留原選中裝備，其他卸裝且每局一次
+AssertionError: expected +0 to be 6 // Object.is equality
+
+- Expected
++ Received
+
+- 6
++ 0
+
+ ❯ tests/unit/advanced-cards.test.ts:275:30
+    273|   expect(r.stats.armor).toBe(65);
+    274|   dodge(r, idleCommand(r));
+    275|   expect(r.player.dashReady).toBe(6);
+       |                              ^
+    276|   const s = setup([]);
+    277|   s.phase = "UPGRADE_CHOICE";
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/13]⎯
+
+ FAIL  tests/unit/boss-cover-balance.test.ts > 實際Boss斬擊與落擊在遠離玩家的掩體上扣10；遠端落雷不享近戰特權
+AssertionError: expected 15 to be 20 // Object.is equality
+
+- Expected
++ Received
+
+- 20
++ 15
+
+ ❯ tests/unit/boss-cover-balance.test.ts:148:37
+    146|   });
+    147|   updateAreas(r);
+    148|   expect(r.obstacles[0].durability).toBe(20);
+       |                                     ^
+    149| });
+    150|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/13]⎯
+
+ FAIL  tests/unit/cards.test.ts > CARD-01..59 每卡實際條件／無条件对照 > 27 水盾是一般减伤而非消耗盾
+AssertionError: expected 81 to be close to 80.8, received difference is 0.20000000000000284, but expected 0.005
+ ❯ tests/unit/cards.test.ts:135:25
+    133|     const a = setup(27);
+    134|     hurt(a, 10.5);
+    135|     expect(a.player.hp).toBeCloseTo(80.8);
+       |                         ^
+    136|   });
+    137|   it("29 連鎖不同目标、无循环、派生源20%", () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/13]⎯
+
+ FAIL  tests/unit/cards.test.ts > CARD-01..59 每卡實際條件／無条件对照 > 43 剑气每三次、5级每次，纯追加
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/unit/cards.test.ts:182:47
+    180|     expect(r.projectiles).toHaveLength(0);
+    181|     basic(r, idleCommand(r));
+    182|     expect(r.projectiles[0].context?.canCrit).toBe(false);
+       |                                               ^
+    183|     r.cards[43] = 5;
+    184|     basic(r, idleCommand(r));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/13]⎯
+
+ FAIL  tests/unit/cards.test.ts > CARD-01..59 每卡實際條件／無条件对照 > 44 反擊擴刃 成功格挡后专属效果
+AssertionError: expected 156 to be close to 144, received difference is 12, but expected 0.005
+ ❯ tests/unit/cards.test.ts:196:35
+    194|       updateSkills(r, idleCommand(r));
+    195|       const loss = 10000 - r.enemies[0].hp;
+    196|       if (id === 44) expect(loss).toBeCloseTo(144);
+       |                                   ^
+    197|       if (id === 45) expect(loss).toBeCloseTo(180);
+    198|       if (id === 46) expect(r.player.shields[0].amount).toBeCloseTo(22…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/13]⎯
+
+ FAIL  tests/unit/cards.test.ts > CARD-01..59 每卡實際條件／無条件对照 > 47 冲锋沿途仅一次且不无敌
+AssertionError: expected 60 to be 80 // Object.is equality
+
+- Expected
++ Received
+
+- 80
++ 60
+
+ ❯ tests/unit/cards.test.ts:208:29
+    206|     dodge(r, cmd);
+    207|     for (let i = 0; i < 8; i++) step(r, cmd);
+    208|     expect(r.enemies[0].hp).toBe(80);
+       |                             ^
+    209|     expect(r.player.invulnerable).toBe(0);
+    210|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/13]⎯
+
+ FAIL  tests/unit/equipment-integration.test.ts > 紅卡自動卸裝即刻停止南瓜，暫停選擇期間也不保留夥伴
+AssertionError: expected undefined to be defined
+ ❯ tests/unit/equipment-integration.test.ts:237:22
+    235|   s.choices = [85, 1, 2];
+    236|   choose(s, 85);
+    237|   expect(pumpkin(s)).toBeDefined();
+       |                      ^
+    238|   chooseEquipmentSlot(s, "ring");
+    239|   expect(pumpkin(s)).toBeUndefined();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/13]⎯
+
+ FAIL  tests/unit/feedback-cover.test.ts > 遠處掩體不扣血，移近才可破壞；湖泊不受傷
+AssertionError: expected 15 to be 20 // Object.is equality
+
+- Expected
++ Received
+
+- 20
++ 15
+
+ ❯ tests/unit/feedback-cover.test.ts:88:37
+     86|   r.obstacles = [wall(500)];
+     87|   damageCover(r, { x: 500, y: 320 }, 5, 1, "boss");
+     88|   expect(r.obstacles[0].durability).toBe(20);
+       |                                     ^
+     89|   r.player.x = 400;
+     90|   damageCover(r, { x: 500, y: 320 }, 5, 1, "boss");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/13]⎯
+
+ FAIL  tests/unit/feedback-cover.test.ts > 可受傷圓為靜電釋放兩倍半徑，實體邊緣相交才合格，範圍升級同步
+AssertionError: expected 15 to be 20 // Object.is equality
+
+- Expected
++ Received
+
+- 20
++ 15
+
+ ❯ tests/unit/feedback-cover.test.ts:114:30
+    112|   r.obstacles.push(outside);
+    113|   damageCover(r, { x: outside.x, y: 320 }, 0, 2, "boss");
+    114|   expect(outside.durability).toBe(20);
+       |                              ^
+    115| });
+    116| for (const kind of [1, 6])
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/13]⎯
+
+ FAIL  tests/unit/simulation.test.ts > C01–09 時鐘、職業與來源 > dash 不無敵、能跨湖、薄牆擋且不足落點耗 CD
+AssertionError: expected 2 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 2
+
+ ❯ tests/unit/simulation.test.ts:153:32
+    151|     r.obstacles[0].kind = "tree";
+    152|     dodge(r, cmd);
+    153|     expect(r.player.dashReady).toBe(3);
+       |                                ^
+    154|   });
+    155| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/13]⎯
+
+ FAIL  tests/unit/terrain-progression.test.ts > 經驗加成保留額外收益，進房後配額固定且跟隨等級，不受換裝重算
+AssertionError: expected 214 to be close to 149.2, received difference is 64.80000000000001, but expected 0.005
+ ❯ tests/unit/terrain-progression.test.ts:174:16
+    172|   for (let i = 0; i < 70; i++) step(r, idleCommand(r));
+    173|   expect(r.level).toBe(52);
+    174|   expect(r.xp).toBeCloseTo(149.2);
+       |                ^
+    175| });
+    176| it.each(Object.keys(biomes).filter((id) => id !== "meadow") as BiomeId…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/13]⎯
+
+
+ Test Files  7 failed | 29 passed (36)
+      Tests  13 failed | 425 passed (438)
+   Start at  14:41:56
+   Duration  37.88s (tests 90%, import 7%, transform 3%)
+
+    Isolate  36 workers spawned · ~110ms startup each (spawn + environment, per file)
+             at least ~3.86s faster with isolate: false — reuses workers across files instead of one per file
+

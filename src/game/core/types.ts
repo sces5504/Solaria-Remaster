@@ -20,6 +20,7 @@ export interface DamageContext {
   rootAttackId: number;
   damageKind: "basic" | "skill" | "additional" | "dot" | "percent";
   skillBonus?: number;
+  basicBonusWeight?: number;
   elementMask: Element[];
   canCrit: boolean;
   lifestealEligible: boolean;
@@ -174,6 +175,7 @@ export interface Obstacle {
 export interface Projectile extends Vec {
   bossDamageTuned?: boolean;
   coverSource?: import("./cover-rules").CoverSource;
+  coverOrigin?: Vec;
   bossAttackId?: string;
   eventGlyph?: "gift" | "ghost" | "plasma" | "comet";
   id: number;
@@ -200,6 +202,7 @@ export interface Projectile extends Vec {
 export interface Area extends Vec {
   coverMelee?: boolean;
   coverSource?: import("./cover-rules").CoverSource;
+  coverOrigin?: Vec;
   eventAbility?: string;
   trackingUntil?: number;
   trackingOffset?: Vec;

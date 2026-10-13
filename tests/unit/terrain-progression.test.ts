@@ -171,7 +171,7 @@ it("經驗加成保留額外收益，進房後配額固定且跟隨等級，不�
   settle(r);
   for (let i = 0; i < 70; i++) step(r, idleCommand(r));
   expect(r.level).toBe(52);
-  expect(r.xp).toBeCloseTo(149.2);
+  expect(r.xp).toBeCloseTo(214);
 });
 it.each(Object.keys(biomes).filter((id) => id !== "meadow") as BiomeId[])(
   "%s 生態大障礙、不同seed、六房型與兩王房可達",

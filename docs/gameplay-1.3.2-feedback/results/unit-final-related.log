@@ -1,0 +1,26 @@
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/feedback-132.test.ts (11 tests | 1 failed) 163ms
+   × 劍氣等同原普攻並觸發命中效果，保持施放次數；衝鋒2倍普攻亦觸發 18ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/feedback-132.test.ts > 劍氣等同原普攻並觸發命中效果，保持施放次數；衝鋒2倍普攻亦觸發
+AssertionError: expected 9923 to be close to 9931, received difference is 8, but expected 0.005
+ ❯ tests/unit/feedback-132.test.ts:138:27
+    136|   dodge(d, cmd);
+    137|   for (let i = 0; i < 6; i++) step(d, cmd);
+    138|   expect(d.enemies[0].hp).toBeCloseTo(10000 - 60 * 1.15);
+       |                           ^
+    139|   expect(d.enemies[0].burn.length).toBeGreaterThan(0);
+    140|   expect(d.player.casts).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 26 passed (27)
+   Start at  14:47:32
+   Duration  2.40s (transform 51%, tests 27%, import 22%, worker 1%)
+

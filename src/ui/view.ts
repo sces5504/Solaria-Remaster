@@ -37,7 +37,7 @@ export function hud(r: Run) {
     boss = r.enemies.find((e) => e.kind > 5),
     shield = p.shields.reduce((n, s) => n + s.amount, 0),
     xpNeed = 100 + 20 * (r.level - 1);
-  return `<div class="status"><strong>${zh.classes[r.classId]} <span class="muted">Lv.${r.level}</span></strong><div class="hp"${r.cards[79] ? ' title="吸血鬼 · 回復上限40%，現有生命仍保留"' : ""}>${r.cards[79] ? '<b class="healing-limit" aria-hidden="true"></b>' : ""}<i style="width:${Math.max(0, Math.min(100, (p.hp / r.stats.maxHP) * 100))}%"></i><span>${Math.ceil(p.hp)} / ${Math.ceil(r.stats.maxHP)}${shield > 0 ? " · 護盾 " + Math.ceil(shield) : ""}</span></div><div class="xp-track"><i style="width:${Math.min(100, (r.xp / xpNeed) * 100)}%"></i></div><small>經驗 ${Math.floor(r.xp)} / ${xpNeed}</small></div><div class="room"><strong>${r.event ? eventDefinitions[r.event.id].name : currentBiome(r).name}</strong><small>第 ${r.room} / 31 關 · 第 ${r.loop ?? 1} 周目 · ${r.event ? (r.event.boss ? "災厄降臨" : `第 ${Math.min(3, r.event.wave + 1)} 波${r.event.waiting ? " · 下一波將至" : ""}`) : isBossRoom(r) ? "領主之境" : currentBiome(r).themes[r.templates[(r.room - 1) % 5]]}</small>${boss ? bossStatus(r, boss) : ""}</div><div class="score"><small>本局分數</small><strong>${(r.score || 0).toLocaleString()}</strong><small>${r.phase === "POST_CLEAR" ? "已清關 · E 拾取／進門" : r.phase === "SETTLEMENT" ? "清算 · 經驗與補給集結中" : `敵人 ${r.enemies.filter((e) => e.hp > 0).length} · 後續 ${r.reserves?.length || 0}`}</small></div>`;
+  return `<div class="status"><strong>${zh.classes[r.classId]} <span class="muted">Lv.${r.level}</span></strong><div class="hp"${r.cards[79] ? ' title="吸血鬼 · 當前生命上限40%"' : ""}>${r.cards[79] ? '<b class="healing-limit" aria-hidden="true"></b>' : ""}<i style="width:${Math.max(0, Math.min(100, (p.hp / r.stats.maxHP) * 100))}%"></i><span>${Math.ceil(p.hp)} / ${Math.ceil(r.stats.maxHP)}${shield > 0 ? " · 護盾 " + Math.ceil(shield) : ""}</span></div><div class="xp-track"><i style="width:${Math.min(100, (r.xp / xpNeed) * 100)}%"></i></div><small>經驗 ${Math.floor(r.xp)} / ${xpNeed}</small></div><div class="room"><strong>${r.event ? eventDefinitions[r.event.id].name : currentBiome(r).name}</strong><small>第 ${r.room} / 31 關 · 第 ${r.loop ?? 1} 周目 · ${r.event ? (r.event.boss ? "災厄降臨" : `第 ${Math.min(3, r.event.wave + 1)} 波${r.event.waiting ? " · 下一波將至" : ""}`) : isBossRoom(r) ? "領主之境" : currentBiome(r).themes[r.templates[(r.room - 1) % 5]]}</small>${boss ? bossStatus(r, boss) : ""}</div><div class="score"><small>本局分數</small><strong>${(r.score || 0).toLocaleString()}</strong><small>${r.phase === "POST_CLEAR" ? "已清關 · E 拾取／進門" : r.phase === "SETTLEMENT" ? "清算 · 經驗與補給集結中" : `敵人 ${r.enemies.filter((e) => e.hp > 0).length} · 後續 ${r.reserves?.length || 0}`}</small></div>`;
 }
 export function sidebarIntro() {
   return `<div class="side-title">旅人手札</div><h2>日光邊境</h2><p>六重秘境，日光在前。<br>以選卡塑造你的戰鬥風格。</p><div class="side-divider"></div><p>WASD 移動<br>左鍵持續普攻<br>右鍵職業技能<br>空白閃避<br>E 拾取／進門</p><p class="side-note">看清蓄力方向，再橫向閃避。<br>掩體能阻擋敵我彈道。</p>`;
@@ -47,12 +47,12 @@ export function sidebar(r: Run) {
     `<div class="stat-row"><span>${name}</span><strong>${value}</strong></div>`;
   const costs: Record<number, string> = {
     78: "封左鍵與閃避",
-    79: "回復至多四成",
+    79: "生命至多四成",
     80: "裝甲封印",
-    81: "生命減半",
+    81: "承傷加倍",
     82: "職技獻血8%",
     83: "職技封印",
-    84: "閃避冷卻加倍",
+    84: "閃避封印",
     85: "僅留一裝備欄",
   };
   const red = Object.keys(r.cards)
@@ -173,6 +173,15 @@ export function testing(r: Run, query = "") {
         max = c.id <= 14 ? Infinity : [15, 19, 24, 28].includes(c.id) ? 1 : 5;
       return `<article class="test-card ${c.rarity}" ${`${c.id} ${c.name} ${cardCopy[c.id] || c.description}`.toLowerCase().includes(query.trim().toLowerCase()) ? "" : "hidden"} data-search="${escape(`${c.id} ${c.name} ${cardCopy[c.id] || c.description}`)}">${cardArt(c.id)}<div><strong>#${c.id} ${c.name}</strong><p>${cardCopy[c.id] || c.description}</p><small>目前 ${l ? "Lv." + l : "未取得"}${c.classId ? " · " + zh.classes[c.classId] : ""}</small></div>${button(l >= max ? "已滿級" : "給予 +1", `grant:${c.id}`, l >= max ? "disabled" : "")}</article>`;
     })
+    .join(
+      "",
+    )}</div><h3>傳奇與紅色裝備</h3><p>取得後自動穿戴可用欄位，原裝備保留。封印欄位的裝備留在背包；背包滿時放在腳邊。</p><div class="test-cards">${Object.entries(
+    equipmentCatalog,
+  )
+    .map(
+      ([key, item]) =>
+        `<article class="test-card ${item.rarity}"><div><strong>${item.name}</strong><p>${item.description}</p><small>${item.rarity === "橘" ? "傳奇" : "紅色"} · ${zh.slots[item.slot]}</small></div>${button("取得裝備", `gearGrant:${key}`)}</article>`,
+    )
     .join("")}</div>${button("返回", "testBack")}</section>`;
 }
 

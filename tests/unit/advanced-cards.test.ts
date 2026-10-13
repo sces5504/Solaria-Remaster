@@ -98,14 +98,14 @@ it("72 冷卻錨保留基礎20%邊界；78禁閃避時不能偷減CD", () => {
   expect(dodge(r, idleCommand(r))).toBe(false);
   expect(r.player.skillReady).toBe(ready);
 });
-it("73 高生命護甲與受傷盾12秒內一次；獻祭扣血不觸發受傷盾", () => {
+it("73 高生命護甲與受傷盾12秒內一次；獻祭扣血觸發受傷盾", () => {
   const r = setup([73, 82]);
   expect(r.stats.armor).toBe(45);
   r.player.hp = 30;
   expect(derive(r).armor).toBe(5);
   castSkill(r, idleCommand(r));
   expect(r.player.hp).toBeCloseTo(27.6);
-  expect(r.player.shields).toHaveLength(0);
+  expect(r.player.shields).toHaveLength(1);
   hurt(r, 10);
   expect(r.player.shields).toHaveLength(1);
   r.time = 1;
@@ -193,11 +193,11 @@ it("78／83互斥與動作禁用即時生效，保留記錄且失效卡不进池
   expect(derive(s).basic).toBe(1.2);
   expect(derive(s).attackRate).toBe(6);
 });
-it("79 吸血實損，1秒最多20%HP，回復不超40%，生命高於上限不会被治療扣血", () => {
+it("79 吸血實損，1秒最多20%HP，當前生命不得超40%", () => {
   const r = setup([79]);
   r.player.hp = 90;
   hit(r, r.enemies[0], 100, context(r, 1, "basic"));
-  expect(r.player.hp).toBe(90);
+  expect(r.player.hp).toBe(36);
   r.player.hp = 1;
   hit(r, r.enemies[0], 1000, context(r, 1, "basic"));
   expect(r.player.hp).toBe(19);
@@ -252,9 +252,9 @@ it("80 第三觉醒同时形成融合暂停自選且可存读；裝甲滿包落�
   expect(r.fusion).toBe("frostfire");
   expect(eligible(r, cards[27])).toBe(false);
 });
-it("81 生命最終減半／一般傷加100%；82每次主動扣8%留1副本不扣", () => {
+it("81 承傷加倍／一般傷加100%；82每次主動扣8%留1副本不扣", () => {
   const r = setup([81, 82, 71]);
-  expect(r.stats.maxHP).toBe(45);
+  expect(r.stats.maxHP).toBe(90);
   expect(r.stats.global).toBe(1);
   r.player.hp = 45;
   castSkill(r, idleCommand(r));
@@ -267,12 +267,12 @@ it("81 生命最終減半／一般傷加100%；82每次主動扣8%留1副本不�
   castSkill(r, idleCommand(r));
   expect(r.player.hp).toBe(1);
 });
-it("84 閃避CD六秒与生命基準加80%／甲60；85選欄保留原選中裝備，其他卸裝且每局一次", () => {
+it("84 閃避封印与生命基準加80%／甲60；85先全卸且同時至多一件", () => {
   const r = setup([84]);
   expect(r.stats.maxHP).toBe(162);
   expect(r.stats.armor).toBe(65);
-  dodge(r, idleCommand(r));
-  expect(r.player.dashReady).toBe(6);
+  expect(dodge(r, idleCommand(r))).toBe(false);
+  expect(r.player.dashReady).toBe(0);
   const s = setup([]);
   s.phase = "UPGRADE_CHOICE";
   s.pendingLevels = 1;
@@ -287,9 +287,10 @@ it("84 閃避CD六秒与生命基準加80%／甲60；85選欄保留原選中裝�
       affixes: [],
     };
   choose(s, 85);
-  expect(s.phase).toBe("EQUIPMENT_SLOT_CHOICE");
-  expect(Object.keys(s.equipment)).toHaveLength(3);
-  chooseEquipmentSlot(s, "ring");
+  expect(s.phase).toBe("POST_CLEAR");
+  expect(Object.keys(s.equipment)).toHaveLength(0);
+  expect(s.bag).toHaveLength(3);
+  expect(equip(s, "ring")).toBe(true);
   expect(s.equipment.ring!.id).toBe("ring");
   expect(s.bag).toHaveLength(2);
   expect(equip(s, "armor")).toBe(false);

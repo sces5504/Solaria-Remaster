@@ -6,6 +6,7 @@ import { actionRestriction } from "./ability-policies";
 import type { Run, Command, Element } from "../core/types";
 import { angle, distance, clamp } from "../core/primitives";
 import {
+  sacrifice,
   context,
   level,
   factor,
@@ -18,6 +19,28 @@ import {
 } from "./combat";
 import { classes } from "../data/world";
 import { legal, lineBlocked } from "./geometry";
+export function basicDamage(r: Run) {
+  let bonus = 0;
+  for (const cid of r.classId === "sword"
+    ? [41, 43]
+    : r.classId === "bow"
+      ? [50, 51, 52]
+      : [54, 56, 57])
+    if (level(r, cid))
+      bonus +=
+        factor(
+          r,
+          cid,
+          [41, 42, 48, 49, 54, 55].includes(cid)
+            ? 0.15
+            : cid === 52
+              ? 0.25
+              : 0.2,
+        ) - 1;
+  if (r.player.buffUntil > r.time && level(r, 53))
+    bonus += factor(r, 53, 0.25) - 1;
+  return classes[r.classId].damage * (1 + bonus);
+}
 export function targetPoint(r: Run, c: Command, range = 450) {
   const d = distance(r.player, c.pointerWorld),
     mul = Math.min(1, (range * r.stats.range) / (d || 1));
@@ -47,25 +70,7 @@ export function basic(r: Run, c: Command, rapid = false, skillBonus = 0) {
     cls = classes[r.classId];
   const id = r.classId === "sword" ? 41 : r.classId === "bow" ? 50 : 54;
   const category = rapid ? "skill" : "basic";
-  let bonus = 0;
-  for (const cid of r.classId === "sword"
-    ? [41, 43]
-    : r.classId === "bow"
-      ? [50, 51, 52]
-      : [54, 56, 57])
-    if (level(r, cid))
-      bonus +=
-        factor(
-          r,
-          cid,
-          [41, 42, 48, 49, 54, 55].includes(cid)
-            ? 0.15
-            : cid === 52
-              ? 0.25
-              : 0.2,
-        ) - 1;
-  if (p.buffUntil > r.time && level(r, 53)) bonus += factor(r, 53, 0.25) - 1;
-  const damage = cls.damage * (1 + bonus);
+  const damage = basicDamage(r);
   const ctx = context(r, id, category, [...r.elements], true);
   if (rapid) ctx.skillBonus = skillBonus;
   const side = (source: number, scale: number) => ({
@@ -88,15 +93,10 @@ export function basic(r: Run, c: Command, rapid = false, skillBonus = 0) {
     if (level(r, 43)) {
       const n = level(r, 43) >= 5 ? 1 : level(r, 43) >= 3 ? 2 : 3;
       if (p.casts % n === 0)
-        shoot(
-          r,
-          p,
-          a,
-          30 * factor(r, 43),
-          600,
-          600,
-          context(r, 43, "additional", [], false, 1, false, "none"),
-        );
+        shoot(r, p, a, damage, 600, 600, {
+          ...context(r, 43, "basic", [...r.elements], true),
+          rootAttackId: ctx.rootAttackId,
+        });
     }
   } else {
     const bow = r.classId === "bow",
@@ -181,19 +181,14 @@ export function basic(r: Run, c: Command, rapid = false, skillBonus = 0) {
       0,
       2,
       0.25,
-      context(r, 20, "skill", ["fire"]),
+      { ...context(r, 20, "skill", ["fire"]), basicBonusWeight: 0.5 },
       { follow: true, shape: "cone", angle: a, width: (80 * Math.PI) / 180 },
     );
   if (ready(25, 1.2))
-    shoot(
-      r,
-      p,
-      a,
-      18 * factor(r, 25),
-      450,
-      550,
-      context(r, 25, "skill", ["water"]),
-    );
+    shoot(r, p, a, 18 * factor(r, 25), 450, 550, {
+      ...context(r, 25, "skill", ["water"]),
+      basicBonusWeight: 0.5,
+    });
   if (ready(32, 1))
     shoot(
       r,
@@ -259,7 +254,7 @@ export function castSkill(r: Run, c: Command, echo = false) {
     r.echoSkillBonus = r.activeSkillBonus;
     p.blockSkillBonus = r.activeSkillBonus;
     r.echoCapacitor = 0;
-    if (level(r, 82)) p.hp = Math.max(1, p.hp * 0.92);
+    if (level(r, 82)) sacrifice(r);
     p.skillCast = r.time;
     p.skillReady = r.time + r.stats.skillCD;
   }
@@ -454,11 +449,11 @@ export function dodge(r: Run, c: Command) {
   if (r.time < p.dashReady || r.time < p.controlUntil) return false;
   const moving = Math.hypot(c.move.x, c.move.y) > 0;
   const a = moving ? Math.atan2(c.move.y, c.move.x) : angle(p, c.pointerWorld);
-  p.dashReady = r.time + (level(r, 84) ? 6 : 3);
+  p.dashReady = r.time + 2;
   if (level(r, 72))
     p.skillReady = Math.max(
       p.skillCast + classes[r.classId].cd * 0.2,
-      p.skillReady - 0.5,
+      p.skillReady - 1,
     );
   p.assaultUntil = r.time + 2;
   const end = { x: p.x + Math.cos(a) * 144, y: p.y + Math.sin(a) * 144 };
@@ -494,8 +489,9 @@ export function updateSkills(r: Run, c: Command) {
       width = l ? 220 + Math.min(4, l - 1) * 10 : 160;
     const ctx = context(r, 144, "skill", [...r.elements], true);
     ctx.skillBonus = p.blockSkillBonus ?? 0;
+    ctx.basicBonusWeight = 1;
     const bonus =
-      (l ? 0.2 + factor(r, 44, 0.2) - 1 : 0) +
+      (l ? 0.3 + factor(r, 44, 0.3) - 1 : 0) +
       (level(r, 45) ? factor(r, 45, 0.25) - 1 : 0) +
       (level(r, 46) ? factor(r, 46, 0.25) - 1 : 0);
     if (

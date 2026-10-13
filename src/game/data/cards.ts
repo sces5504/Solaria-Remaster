@@ -6,7 +6,7 @@ export const cards = [
     id: 1,
     name: "體魄",
     rarity: "藍",
-    description: "生命基準+10%",
+    description: "最大生命增加10%，每次取得以目前最大生命複合成長",
     classId: null,
   },
   {
@@ -20,7 +20,7 @@ export const cards = [
     id: 3,
     name: "銳鋒",
     rarity: "藍",
-    description: "普攻傷+10%",
+    description: "普攻傷+15%",
     classId: null,
   },
   {
@@ -41,7 +41,7 @@ export const cards = [
     id: 6,
     name: "靈步",
     rarity: "藍",
-    description: "移速強度+.05",
+    description: "基礎移速+10%",
     classId: null,
   },
   {
@@ -55,7 +55,7 @@ export const cards = [
     id: 8,
     name: "求知",
     rarity: "藍",
-    description: "經驗+8%",
+    description: "經驗+10%",
     classId: null,
   },
   {
@@ -69,7 +69,7 @@ export const cards = [
     id: 10,
     name: "精準",
     rarity: "紫",
-    description: "暴擊相對加成+20%",
+    description: "暴擊率+5%",
     classId: null,
   },
   {
@@ -90,14 +90,14 @@ export const cards = [
     id: 13,
     name: "廣域",
     rarity: "黃",
-    description: "攻擊半徑／寬度+10%，不增數量／時間",
+    description: "攻擊半徑／寬度+20%，不增數量／時間",
     classId: null,
   },
   {
     id: 14,
     name: "戰意",
     rarity: "黃",
-    description: "全域傷+8%，不放大生命百分比",
+    description: "全域傷+15%，不放大生命百分比",
     classId: null,
   },
   {
@@ -141,7 +141,7 @@ export const cards = [
     name: "炎龍噴射",
     rarity: "青",
     description:
-      "隨普攻觸發、自身間隔4秒；2秒扇形噴火、半徑160／角80度、每.25秒傷8；週期打擊可暴擊，燃燒不可",
+      "隨普攻觸發、自身間隔4秒；2秒扇形噴火、半徑160／角80度、每.25秒傷8；週期打擊可暴擊，燃燒不可；另吃一半普攻傷害加成",
     classId: null,
   },
   {
@@ -178,7 +178,8 @@ export const cards = [
     id: 25,
     name: "泡沫",
     rarity: "青",
-    description: "隨普攻、自身間隔1.2秒、傷18／速450／距550",
+    description:
+      "隨普攻、自身間隔1.2秒、傷18／速450／距550；另吃一半普攻傷害加成",
     classId: null,
   },
   {
@@ -192,7 +193,7 @@ export const cards = [
     id: 27,
     name: "水盾",
     rarity: "青",
-    description: "常駐一般減傷8%，不等於可消耗護盾；與同類減傷加算且另有上限",
+    description: "常駐一般減傷10%，不等於可消耗護盾；與同類減傷加算且另有上限",
     classId: null,
   },
   {
@@ -310,14 +311,14 @@ export const cards = [
     name: "裂空劍氣",
     rarity: "紫",
     description:
-      "Lv1–2每3次、Lv3–4每2次、Lv5每次普攻；劍氣基準30／速600／距600，純追加不暴擊",
+      "Lv1–2每3次、Lv3–4每2次、Lv5每次普攻；劍氣與普攻相同傷害，觸發普攻效果／速600／距600",
     classId: "sword",
   },
   {
     id: 44,
     name: "反擊擴刃",
     rarity: "紫",
-    description: "反擊角220→230→240→250→260度，同時每級增加反擊基準傷20%",
+    description: "反擊角220→230→240→250→260度，同時每級增加反擊基準傷30%",
     classId: "sword",
   },
   {
@@ -338,8 +339,7 @@ export const cards = [
     id: 47,
     name: "衝鋒斬",
     rarity: "紫",
-    description:
-      "閃避沿路斬擊，基準40，每次每敵一次；沿用閃避受傷／穿越規則，不給無敵；升級提高傷害",
+    description: "閃避沿路斬擊，每次每敵一次，造成兩倍普攻傷害並觸發普攻效果",
     classId: "sword",
   },
   {
@@ -362,7 +362,7 @@ export const cards = [
     name: "分裂箭",
     rarity: "紫",
     description:
-      "Lv1–2主1＋副2、副鏈倍率.20；Lv3–4主1＋副3、.175；Lv5主1＋副4、.15；主箭倍率1。副箭及所有後續傷害只套一次源倍率，不能連鎖後變回滿傷",
+      "Lv1–2主1＋副2、副鏈倍率.20；Lv3–4主1＋副3、.175；Lv5主1＋副4、.15；主箭倍率1。副箭觸發普攻效果；副箭及所有後續傷害只套一次源倍率，不能連鎖後變回滿傷",
     classId: "bow",
   },
   {
@@ -393,7 +393,7 @@ export const cards = [
     name: "雙星法杖",
     rarity: "藍",
     description:
-      "主彈＋1副彈；副40→45→50→55→60%主基準，同次施放計1，副為原普攻投射",
+      "主彈＋1副彈；副40→45→50→55→60%主基準，同次施放計1，副為原普攻投射並觸發普攻效果",
     classId: "mage",
   },
   {
@@ -479,7 +479,7 @@ export const cards = [
     id: 66,
     name: "連戰餘勢",
     rarity: "黃",
-    description: "擊殺後四秒全域傷每層3%，最多十層",
+    description: "擊殺後四秒全域傷每層2.5%，最多十層",
     classId: null,
   },
   {

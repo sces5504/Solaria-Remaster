@@ -65,6 +65,31 @@ export class AdventureArt {
               ),
             }),
         );
+        // Santa's hats extend above the nominal last-row cell. Sample the
+        // authored overflow from the original atlas before normal isolation.
+        if (name === "frost-santa")
+          for (let pose = 0; pose < 3; pose++) {
+            const portrait = document.createElement("canvas");
+            portrait.width = cell;
+            portrait.height = cell + 48;
+            const pc = portrait.getContext("2d")!;
+            pc.drawImage(
+              image,
+              pose * cell,
+              3 * cell - 48,
+              cell,
+              cell + 48,
+              0,
+              0,
+              cell,
+              cell + 48,
+            );
+            const data = pc.getImageData(0, 0, cell, cell + 48);
+            isolateActor(data.data, cell, cell + 48);
+            pc.putImageData(data, 0, 0);
+            poses[pose] = Texture.from(portrait);
+            poses[pose].source.scaleMode = "nearest";
+          }
         this.textures[name] = [
           poses[0],
           poses[0],

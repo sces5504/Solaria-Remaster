@@ -1,0 +1,116 @@
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/advanced-cards.test.ts (16 tests | 1 failed) 521ms
+   × 73 高生命護甲與受傷盾12秒內一次；獻祭扣血不觸發受傷盾 13ms
+ ❯ tests/unit/feedback-132.test.ts (11 tests | 5 failed) 142ms
+   × 體魄複合最大生命包含裝備，其他數值與文字要求落實 25ms
+   × 劍氣等同原普攻並觸發命中效果，保持施放次數；衝鋒2倍普攻亦觸發 6ms
+   × bow 副箭／星火保持源倍率，能帶元素與普攻效果 4ms
+   × mage 副箭／星火保持源倍率，能帶元素與普攻效果 3ms
+   × 火山柱只清頂部冷色鄰格，暖色火尖與下方石頭保留 23ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/advanced-cards.test.ts > 73 高生命護甲與受傷盾12秒內一次；獻祭扣血不觸發受傷盾
+AssertionError: expected [ { amount: 9, until: 3 } ] to have a length of +0 but got 1
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ tests/unit/advanced-cards.test.ts:108:28
+    106|   castSkill(r, idleCommand(r));
+    107|   expect(r.player.hp).toBeCloseTo(27.6);
+    108|   expect(r.player.shields).toHaveLength(0);
+       |                            ^
+    109|   hurt(r, 10);
+    110|   expect(r.player.shields).toHaveLength(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  tests/unit/feedback-132.test.ts > 體魄複合最大生命包含裝備，其他數值與文字要求落實
+AssertionError: expected 220.00000000000003 to be 220 // Object.is equality
+
+- Expected
++ Received
+
+- 220
++ 220.00000000000003
+
+ ❯ tests/unit/feedback-132.test.ts:77:19
+     75|   const s = derive(r);
+     76|   expect(s.basic).toBe(0.15);
+     77|   expect(s.speed).toBe(220);
+       |                   ^
+     78|   expect(s.xp).toBe(1.1);
+     79|   expect(s.crit).toBe(0.2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  tests/unit/feedback-132.test.ts > 劍氣等同原普攻並觸發命中效果，保持施放次數；衝鋒2倍普攻亦觸發
+TypeError: actual value must be number or bigint, received "undefined"
+ ❯ tests/unit/feedback-132.test.ts:130:34
+    128|   expect(r.player.casts).toBe(3);
+    129|   updateProjectiles(r, 1);
+    130|   expect(r.enemies[0].burnUntil).toBeGreaterThan(0);
+       |                                  ^
+    131|   expect(10000 - r.enemies[0].hp).toBeCloseTo(30 * 1.15);
+    132|   const d = setup("sword", { 47: 1, 3: 1, 19: 1 });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  tests/unit/feedback-132.test.ts > bow 副箭／星火保持源倍率，能帶元素與普攻效果
+AssertionError: expected 3.600000000000364 to be close to 4.4, received difference is 0.7999999999996366, but expected 0.005
+ ❯ tests/unit/feedback-132.test.ts:151:56
+    149|     expect(p.context?.basicHitProxy).toBe(true);
+    150|     expect(p.context?.chainScale).toBe(cls === "bow" ? 0.2 : 0.4);
+    151|     expect(hit(r, r.enemies[0], p.damage, p.context!)).toBeCloseTo(
+       |                                                        ^
+    152|       (cls === "bow" ? 22 : 24) * (cls === "bow" ? 0.2 : 0.4),
+    153|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  tests/unit/feedback-132.test.ts > mage 副箭／星火保持源倍率，能帶元素與普攻效果
+TypeError: actual value must be number or bigint, received "undefined"
+ ❯ tests/unit/feedback-132.test.ts:154:36
+    152|       (cls === "bow" ? 22 : 24) * (cls === "bow" ? 0.2 : 0.4),
+    153|     );
+    154|     expect(r.enemies[0].burnUntil).toBeGreaterThan(0);
+       |                                    ^
+    155|   },
+    156| );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  tests/unit/feedback-132.test.ts > 火山柱只清頂部冷色鄰格，暖色火尖與下方石頭保留
+AssertionError: expected +0 to be 255 // Object.is equality
+
+- Expected
++ Received
+
+- 255
++ 0
+
+ ❯ tests/unit/feedback-132.test.ts:237:38
+    235|   isolateProp(data, w, w, "volcano-pillar");
+    236|   expect(data[(8 * w + 25) * 4 + 3]).toBe(0);
+    237|   expect(data[(7 * w + 55) * 4 + 3]).toBe(255);
+       |                                      ^
+    238|   expect(data[(50 * w + 55) * 4 + 3]).toBe(255);
+    239| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  2 failed | 6 passed (8)
+      Tests  6 failed | 169 passed (175)
+   Start at  14:45:42
+   Duration  22.69s (tests 90%, transform 5%, import 4%)
+
+    Isolate  8 workers spawned · ~186ms startup each (spawn + environment, per file)
+             at least ~1.30s faster with isolate: false — reuses workers across files instead of one per file
+

@@ -9,7 +9,7 @@ import { currentBiome } from "./game/data/biomes";
 import "./style.css";
 import { Stage } from "./render/stage";
 import { TestingSequence } from "./input/testing-sequence";
-import { jumpToRoom } from "./game/core/testing";
+import { jumpToRoom, grantTestEquipment } from "./game/core/testing";
 import { Input } from "./input/keyboard";
 import { AudioMixer } from "./audio/mixer";
 import { Checkpoints, validate } from "./game/persistence/checkpoint";
@@ -326,6 +326,17 @@ async function action(value: string) {
         audio.play("choice");
         selected = 0;
         persist();
+      }
+    } else if (
+      act === "gearGrant" &&
+      testingUnlocked &&
+      screen === "test" &&
+      run &&
+      !saveBusy
+    ) {
+      if (grantTestEquipment(run, arg)) {
+        persist(true);
+        notify("已取得裝備 · 測試構築已保存");
       }
     } else if (act === "grant" && screen === "test" && run && !saveBusy) {
       if (grantTestCard(run, Number(arg))) {

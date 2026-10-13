@@ -1,5 +1,10 @@
 import { gearState } from "./equipment-abilities";
-import { hasEquipment, specialEquipment } from "../data/equipment";
+import {
+  hasEquipment,
+  specialEquipment,
+  equipmentCatalog,
+  type EquipmentAbility,
+} from "../data/equipment";
 import { currentBiome } from "../data/biomes";
 import { syncPumpkin } from "./companion";
 import {
@@ -17,32 +22,32 @@ export function derive(r: Run): Stats {
   const c = classes[r.classId],
     l = (id: number) => r.cards[id] || 0;
   const s: Stats = {
-    maxHP: c.hp * (1 + l(1) * 0.1 + (l(84) ? 0.8 : 0)),
+    maxHP: c.hp * (1 + (l(84) ? 0.8 : 0)),
     armor:
       c.armor +
       l(2) * 8 +
       (hasEquipment(r, "meteorArmor") && gear.standingArmor ? 35 : 0) +
       (l(84) ? 60 : 0),
-    basic: l(3) * 0.1 + (l(83) ? 1.2 : 0),
-    skill: l(4) * 0.1 + (l(82) ? 1.2 : 0),
+    basic: l(3) * 0.15 + (l(83) ? 1.2 : 0),
+    skill: l(4) * 0.1 + (l(82) ? 0.6 : 0),
     global:
-      l(14) * 0.08 +
+      l(14) * 0.15 +
       (l(81) ? 1 : 0) +
       (l(66) && (r.momentum?.until ?? 0) > r.time
-        ? r.momentum!.stacks * 0.03 * skillFactor(l(66), 1)
+        ? r.momentum!.stacks * 0.025 * skillFactor(l(66), 1)
         : 0),
     elemental: l(12) * 0.18,
     attackRate: 0,
     skillCD: 0,
     speed: 0,
     projectile: 1 + l(7) * 0.1,
-    range: 1.15 + l(13) * 0.1,
-    crit: criticalBase * (1 + l(10) * 0.2),
+    range: 1.15 + l(13) * 0.2,
+    crit: criticalBase + l(10) * 0.05,
     critMult: 1.5 + l(11) * 0.15,
-    xp: 1 + l(8) * 0.08,
+    xp: 1 + l(8) * 0.1,
     lifesteal: l(79) ? 0.06 : 0,
     reduction: l(27)
-      ? Math.min(0.5, 0.08 + (skillFactor(l(27), 1) - 1) * 0.02)
+      ? Math.min(0.5, 0.1 + (skillFactor(l(27), 1) - 1) * 0.02)
       : 0,
   };
   let A =
@@ -55,7 +60,6 @@ export function derive(r: Run): Stats {
     C = l(9) * 0.1 + (l(78) ? 4 : 0),
     M =
       (hasEquipment(r, "voidCloth") && gear.voidUntil > r.time ? 0.3 : 0) +
-      l(6) * 0.05 +
       (r.time < r.player.engineUntil ? 0.5 : 0);
   for (const item of Object.values(r.equipment))
     if (item)
@@ -96,11 +100,11 @@ export function derive(r: Run): Stats {
               (s as unknown as Record<string, number>)[aff.stat] += aff.value;
         }
       }
-  if (l(81)) s.maxHP *= 0.5;
+  s.maxHP *= 1.1 ** l(1);
   if (l(73) && r.player.hp >= s.maxHP * 0.8) s.armor += 40;
   s.attackRate = c.rate * (1 + (4 * A) / (1 + A));
   s.skillCD = c.cd * (0.2 + 0.8 / (1 + C));
-  s.speed = 200 * (1 + M / (1 + M));
+  s.speed = 200 * (1 + M / (1 + M) + l(6) * 0.1);
   s.crit = clamp(s.crit, 0, 1);
   return s;
 }
@@ -170,6 +174,16 @@ function acquire(r: Run, id: number) {
     if (options.length === 1) r.fusion = options[0];
     else if (options.length > 1) r.fusionChoices = options;
   }
+  if (id === 85) {
+    r.selectedEquipmentSlot = undefined;
+    for (const slot of ["armor", "ring", "amulet"] as Slot[]) {
+      const item = r.equipment[slot];
+      if (!item) continue;
+      delete r.equipment[slot];
+      if (r.bag.length < 12) r.bag.push(item);
+      else r.items.push({ ...item, x: r.player.x, y: r.player.y });
+    }
+  }
   if (id === 80 || (id === 85 && r.selectedEquipmentSlot))
     applyEquipmentRestrictions(r);
   if (id === 83) {
@@ -183,7 +197,7 @@ function acquire(r: Run, id: number) {
   }
   r.stats = derive(r);
   syncPumpkin(r);
-  r.player.hp = Math.min(r.player.hp, r.stats.maxHP);
+  r.player.hp = Math.min(r.player.hp, r.stats.maxHP * (r.cards[79] ? 0.4 : 1));
   recoverHP(r, Math.max(0, r.stats.maxHP - old));
 }
 export function choose(r: Run, id: number) {
@@ -192,13 +206,16 @@ export function choose(r: Run, id: number) {
   r.pendingLevels--;
   r.choices = [];
   if (r.fusionChoices?.length) r.phase = "FUSION_CHOICE";
-  else if (id === 85 && !r.selectedEquipmentSlot)
-    r.phase = "EQUIPMENT_SLOT_CHOICE";
   else if (r.pendingLevels > 0) drawChoices(r);
   else r.phase = r.room === 31 ? "RUN_END" : "POST_CLEAR";
   return true;
 }
-export function itemFor(r: Run, enemyId: number, bossIndex = -1): Item | null {
+export function itemFor(
+  r: Run,
+  enemyId: number,
+  bossIndex = -1,
+  testTemplate?: EquipmentAbility,
+): Item | null {
   const state = {
     rng: seedFor(
       r.seed,
@@ -222,9 +239,11 @@ export function itemFor(r: Run, enemyId: number, bossIndex = -1): Item | null {
     if (roll < 0) break;
   }
   if (bossIndex === 0) quality = Math.max(1, quality);
-  const slot = (["armor", "ring", "amulet"] as Slot[])[
-    Math.floor(random(state) * 3)
-  ];
+  if (testTemplate)
+    quality = equipmentCatalog[testTemplate].rarity === "紅" ? 4 : 3;
+  const slot = testTemplate
+    ? equipmentCatalog[testTemplate].slot
+    : (["armor", "ring", "amulet"] as Slot[])[Math.floor(random(state) * 3)];
   const statPool = [
     "hp",
     "armor",
@@ -296,6 +315,12 @@ export function itemFor(r: Run, enemyId: number, bossIndex = -1): Item | null {
     x: enemy?.x ?? 760,
     y: enemy?.y ?? 320,
   };
+  if (testTemplate)
+    return {
+      ...base,
+      ability: testTemplate,
+      name: equipmentCatalog[testTemplate].name,
+    };
   return quality >= 3
     ? specialEquipment(state, slot, quality === 3 ? "橘" : "紅", base)
     : base;
@@ -332,7 +357,7 @@ export function equip(r: Run, id: string) {
   gearState(r);
   r.stats = derive(r);
   syncPumpkin(r);
-  r.player.hp = Math.min(r.player.hp, r.stats.maxHP);
+  r.player.hp = Math.min(r.player.hp, r.stats.maxHP * (r.cards[79] ? 0.4 : 1));
   return true;
 }
 export function discard(r: Run, id: string) {
@@ -350,7 +375,7 @@ export function discard(r: Run, id: string) {
   gearState(r);
   r.stats = derive(r);
   syncPumpkin(r);
-  r.player.hp = Math.min(r.player.hp, r.stats.maxHP);
+  r.player.hp = Math.min(r.player.hp, r.stats.maxHP * (r.cards[79] ? 0.4 : 1));
   return true;
 }
 
@@ -412,9 +437,6 @@ export function grantTestCard(r: Run, id: number) {
   if (r.fusionChoices?.length) {
     r.specialResumePhase = priorPhase;
     r.phase = "FUSION_CHOICE";
-  } else if (id === 85 && !r.selectedEquipmentSlot) {
-    r.specialResumePhase = priorPhase;
-    r.phase = "EQUIPMENT_SLOT_CHOICE";
   }
   if (
     r.phase === "UPGRADE_CHOICE" &&
@@ -460,7 +482,7 @@ export function chooseEquipmentSlot(r: Run, slot: Slot) {
   applyEquipmentRestrictions(r);
   r.stats = derive(r);
   syncPumpkin(r);
-  r.player.hp = Math.min(r.player.hp, r.stats.maxHP);
+  r.player.hp = Math.min(r.player.hp, r.stats.maxHP * (r.cards[79] ? 0.4 : 1));
   finishSpecialChoice(r);
   return true;
 }

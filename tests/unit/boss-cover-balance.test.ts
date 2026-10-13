@@ -78,7 +78,7 @@ it("一般敵彈、Boss召喚的普通精英、我方彈不降傷，Solaris柱�
   shoot(r, r.player, 0, 20, 200, 1000, null, 1, true, 91);
   expect(r.projectiles.map((p) => p.damage)).toEqual([20, 20, 19]);
 });
-it("近戰斬／衝撞掩體每次10耐久且不受玩家位置，2秒／同波及湖泊仍保持", () => {
+it("近戰斬／衝撞掩體在三角形每次10耐久，2秒／同波及湖泊仍保持", () => {
   const r = newRun("sword", 703);
   r.player.x = 112;
   r.player.y = 320;
@@ -108,7 +108,7 @@ it("普通來源只在兩倍靜電圓與掩體邊缘相交時受損；静電技�
   damageCover(r, { x: 332, y: 320 }, 40, 1, "monster");
   expect(r.obstacles.map((o) => o.durability)).toEqual([16, 20]);
 });
-it("實際Boss斬擊與落擊在遠離玩家的掩體上扣10；遠端落雷不享近戰特權", () => {
+it("實際Boss斬擊與落擊在三角形扣10；同區落雷維持5", () => {
   const r = newRun("sword", 705);
   r.biome = "icefield";
   r.enemies = [];
@@ -145,5 +145,5 @@ it("實際Boss斬擊與落擊在遠離玩家的掩體上扣10；遠端落雷不�
     wave: 100,
   });
   updateAreas(r);
-  expect(r.obstacles[0].durability).toBe(20);
+  expect(r.obstacles[0].durability).toBe(15);
 });

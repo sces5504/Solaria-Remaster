@@ -1,0 +1,6 @@
+
+> solaria-remaster@1.3.2 check
+> tsc --noEmit
+
+src/game/systems/combat.ts(749,13): error TS2345: Argument of type 'Vec | undefined' is not assignable to parameter of type 'Vec'.
+  Type 'undefined' is not assignable to type 'Vec'.

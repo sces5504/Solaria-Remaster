@@ -1,0 +1,13 @@
+[WebServer] (node:33201) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:33220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/feedback-132.spec.ts:40:1 › 1.3.2 圖集修正：聖誕老人站姿完整頭帽、火山柱頂部無雪色殘片 (19.6s)
+  ✓  2 tests/browser/feedback-132.spec.ts:73:1 › 1.3.2 霜鈴禮物爆裂不疊通用爆炸／符紋，大範圍仍保持有限視覺 (15.0s)
+  ✓  3 tests/browser/feedback-132.spec.ts:126:1 › 1.3.2 嚴格密碼後取得所有傳奇紅裝、保留存檔與新卡文案 (16.5s)
+  ✓  4 tests/browser/feedback-132.spec.ts:158:1 › 1.3.2 舊命運賭徒選欄與吸血鬼存檔移轉保留裝備並解除舊選欄 (6.7s)
+
+  4 passed (1.0m)
