@@ -1473,6 +1473,7 @@ button {
   background: #e4b87c;
 }
 .game-layout:fullscreen {
+  --side-width: 216px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1483,17 +1484,44 @@ button {
   background: #07141d;
 }
 .game-layout:fullscreen #viewport {
-  width: min(calc(100vw - 216px), calc(100dvh * 1.6));
+  width: min(calc(100vw - var(--side-width)), calc(100dvh * 1.6));
   height: auto;
   aspect-ratio: 8/5;
 }
 .game-layout:fullscreen #sidebar {
-  height: min(100dvh, calc((100vw - 216px) * 0.625));
+  position: relative;
+  inset: auto;
+  display: flex;
+  width: var(--side-width);
+  height: min(100dvh, calc((100vw - var(--side-width)) * 0.625));
 }
-@media (max-width: 1200px) {
-  .game-layout:fullscreen #viewport {
-    width: min(100vw, calc(100dvh * 1.6));
+@media (max-width: 1000px) {
+  .game-layout:fullscreen {
+    --side-width: 0px;
   }
+  .game-layout:fullscreen #sidebar {
+    display: none;
+  }
+}
+.test-jump {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+}
+.test-jump select {
+  max-width: 100%;
+  padding: 8px;
+  color: #e9e8d2;
+  background: #152a30;
+  border: 1px solid #638376;
+}
+.test-jump small {
+  width: 100%;
+}
+#testing[hidden] {
+  display: none;
 }
 @media (max-width: 700px) {
   .achievement-grid,

@@ -1,0 +1,12 @@
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+
+ Test Files  34 passed (34)
+      Tests  389 passed (389)
+   Start at  09:44:26
+   Duration  39.64s (tests 83%, import 11%, transform 5%, worker 1%)
+
+    Isolate  34 workers spawned · ~383ms startup each (spawn + environment, per file)
+             at least ~6.13s faster with isolate: false — reuses workers across files instead of one per file
+

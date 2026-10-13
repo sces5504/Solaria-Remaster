@@ -1,3 +1,4 @@
+import { storageKey } from "../../storage-namespace";
 import { validate, type Saved } from "./checkpoint-schema";
 import { cards } from "../data/cards";
 import { clone } from "../core/primitives";
@@ -35,7 +36,7 @@ export class RunStore {
   }
   async open() {
     this.db = await new Promise<IDBDatabase>((resolve, reject) => {
-      const q = indexedDB.open("solaria-remaster", 1);
+      const q = indexedDB.open(storageKey("solaria-remaster"), 1);
       let settled = false;
       q.onupgradeneeded = () => {
         for (const name of ["run", "profile"])

@@ -9,6 +9,8 @@ test("WebGL 主選單、三職業、輸入、暫停與入口重載", async ({ pa
   ).toBeVisible();
   await expect(page.getByLabel("Solaria 遊戲畫布")).toBeVisible();
   await page.getByRole("button", { name: "開始新局", exact: true }).click();
+  if (await page.getByRole("button", { name: "選擇旅人", exact: true }).count())
+    await page.getByRole("button", { name: "選擇旅人", exact: true }).click();
   await expect(page.getByRole("button", { name: /劍士/ })).toBeVisible();
   await expect(page.getByRole("button", { name: /弓箭手/ })).toBeVisible();
   await page.getByRole("button", { name: /法師/ }).click();

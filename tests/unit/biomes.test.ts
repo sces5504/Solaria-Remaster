@@ -25,7 +25,11 @@ it.each(ids)("%s 六程序房型保留通路、掩體及合法原生怪", (id) =
       expect(
         r.obstacles.filter((o) => o.kind !== "lake").length,
         `${id}/${profile}/${seed}`,
-      ).toBeGreaterThanOrEqual(12);
+      ).toBeGreaterThanOrEqual(4);
+      expect(
+        r.obstacles.filter((o) => o.kind !== "lake").every((o) => o.w >= 64),
+      ).toBe(true);
+      expect(r.obstacles.length).toBeLessThanOrEqual(14);
       expect(legal(r, r.player, 18)).toBe(true);
       expect(legal(r, { x: 928, y: 320 }, 18)).toBe(true);
       for (const e of [...r.enemies, ...(r.reserves ?? [])])

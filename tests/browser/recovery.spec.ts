@@ -11,7 +11,12 @@ test("M01 最新壞檔自動回退，提示並繼續保存，不清圖鑑", asyn
   ).toBeVisible();
   await page.evaluate(async (backup) => {
     const db = await new Promise<IDBDatabase>((resolve, reject) => {
-      const req = indexedDB.open("solaria-remaster", 1);
+      const req = indexedDB.open(
+        document.title.includes("待確認測試版")
+          ? "solaria-remaster-playtest-terrain-1.3.0"
+          : "solaria-remaster",
+        1,
+      );
       req.onsuccess = () => resolve(req.result);
       req.onerror = () => reject(req.error);
     });
@@ -37,7 +42,12 @@ test("M01 最新壞檔自動回退，提示並繼續保存，不清圖鑑", asyn
   await expect(page.locator(".saving")).toHaveCount(0);
   const result = await page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((resolve) => {
-      const req = indexedDB.open("solaria-remaster", 1);
+      const req = indexedDB.open(
+        document.title.includes("待確認測試版")
+          ? "solaria-remaster-playtest-terrain-1.3.0"
+          : "solaria-remaster",
+        1,
+      );
       req.onsuccess = () => resolve(req.result);
     });
     const read = (store: string, key: string) =>

@@ -1,5 +1,13 @@
 # DEVELOPMENT_HISTORY — 開發、Bug 與技術記錄
 
+## 1.3.0 地形與成長測試版，等待主人確認（2026-10-13 09:47:40 UTC）
+
+主人要求本次先做可試玩版本，**不得合併／推送 main，須待主人試玩確認後才正式整合**。此規則取代本輪自動發布 main；不影響既有 v1.2.0 正式版。工作分支 gameplay/v1.3.0-terrain-progression，起點遠端 main 8df5e347cc1a5bc977e848478378c35f672cc5a7；版本 1.3.0-preview.1，無正式 tag／Release。最新六項需求與驗證見 docs/gameplay-1.3.0/README.md。
+
+本次明示授權地形障礙尺寸／布局與相關外觀、手冊／職業文案及全螢幕 UI 調整；其他既定素材／风格／招式 FX 不重製。草原保持既有尺寸與程序布局，後八地形改生態大障礙、岸線／熔岩與可達通路，王房開闊。嚴格 WWSSADADBA 局內解鎖測試按鈕；跳關只在本周目1–31，沿用已保存的 journey，不升周目、不發跳過獎勵。首周目1–4關總怪池按0.8四捨五入（至少1），HP及精英盾×0.8，包括事件波；第5關與後續周目不減。每房配額跟隨進房等級，清關保底一級，經驗加成仍累積額外成長，首輪無加成31關至Lv.32。首新局先手冊再選職，元素通常至多兩種，卡80的三元素代價例外保留。
+
+本地完整389 unit PASS（final-unit.log），check／build已完成；相關瀏覽器補驗及分支預覽部署仍在進行，不能預先標 PASS。原始失敗／取消／修正均保存 docs/gameplay-1.3.0/results。預览使用既有Pages獨立子路徑與build-time獨立IndexedDB／音量鍵；正式首頁從當前main原樣建置，部署前核對main未變。原封存 refs／下載不得修改。未開Chat／agent，不reset／force。原真GPU／Firefox-Safari／三職自然30＋1及人工體驗未測界線保持。
+
 ## v1.0.1已發布：五項修正與雙chat交接完成（2026-10-12 05:24:59 UTC）
 
 版本1.0.1／部署來源c07e63f800530264149347436f6ed73a0e22c519／implement/s00-s05已正式發布[GitHub Pages](https://sces5504.github.io/Solaria-Remaster/)。前一5856e62安全快進接續，無reset／force／merge main，原作只讀。PR2仍Draft、base docs/solaria-cloud-spec，保留全局S13未完成界線；本輪五項修正與兩prompt交付已完成。後續純文檔提交不改正式遊戲，文件HEAD看git log。

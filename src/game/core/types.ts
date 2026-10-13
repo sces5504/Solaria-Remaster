@@ -169,6 +169,7 @@ export interface Obstacle {
   maxDurability: number;
   waves: number[];
   invulnerableUntil?: number;
+  blocksDash?: boolean;
 }
 export interface Projectile extends Vec {
   coverSource?: import("./cover-rules").CoverSource;
@@ -363,6 +364,7 @@ export interface Run {
   encounterCap?: number;
   route?: Vec[];
   settlementEnds?: number;
+  roomEntryLevel?: number;
   obstacles: Obstacle[];
   projectiles: Projectile[];
   areas: Area[];

@@ -73,7 +73,7 @@ describe("第一里程碑試玩回饋", () => {
       expect(r.enemies.length).toBeLessThanOrEqual(10);
       expect(
         r.enemies.length + (r.reserves?.length || 0),
-      ).toBeGreaterThanOrEqual(8);
+      ).toBeGreaterThanOrEqual(Math.round(8 * 0.8));
       if (!r.reserves?.length) r.reserves = [r.enemies.pop()!];
       r.enemies = [];
       step(r, idleCommand(r));
@@ -166,7 +166,7 @@ describe("第一里程碑試玩回饋", () => {
   });
 });
 
-it("31 關經驗配額對應無加成約 Lv.26，不靠補殺召喚怪", () => {
+it("31 關經驗配額每關一級至Lv.32，不靠補殺召喚怪", () => {
   let xp = 0,
     level = 1;
   for (let room = 1; room <= 31; room++) {
@@ -176,5 +176,5 @@ it("31 關經驗配額對應無加成約 Lv.26，不靠補殺召喚怪", () => {
       level++;
     }
   }
-  expect(level).toBe(26);
+  expect(level).toBe(32);
 });

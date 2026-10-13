@@ -105,7 +105,7 @@ export function placeSolaris(r: Run) {
   ];
 }
 function roomExperience(r: Run) {
-  return roomXPBudget(r.room);
+  return roomXPBudget(r.room, r.roomEntryLevel ?? r.level);
 }
 // Returns actual HP lost from one bar. Excess damage never skips a bar or seal.
 export function damageSolaris(r: Run, e: Actor, value: number) {

@@ -7,7 +7,7 @@ import {
   cardRestriction,
 } from "../game/systems/ability-policies";
 import { isBossRoom } from "../game/data/journey";
-import { currentBiome } from "../game/data/biomes";
+import { biomes, currentBiome } from "../game/data/biomes";
 import { combatBosses as bosses } from "../game/data/combat-content";
 import type { Run, Item, ClassId } from "../game/core/types";
 import { classes } from "../game/data/world";
@@ -70,13 +70,13 @@ export function sidebar(r: Run) {
     )}</section><p class="side-note">${zh.skills[r.classId]} · ${actionRestriction(r, "skill") || (r.player.skillReady <= r.time ? "已就緒" : "冷卻 " + Math.max(0, r.player.skillReady - r.time).toFixed(1) + " 秒")}<br>擊殺 ${r.kills || 0} · ${Math.floor(r.time / 60)}:${String(Math.floor(r.time % 60)).padStart(2, "0")}<br>C 查看卡片構築 · Esc 暫停</p>`;
 }
 export function menu(saved: boolean) {
-  return `<div class="menu"><div class="eyebrow">日蝕之後 · 尋回日光</div><h1>SOLARIA</h1><p class="tagline">在暮色之中，尋回日光。</p><div class="menu-actions">${button("開始新局", "new")}${button("繼續旅程", "continue", saved ? "" : 'disabled title="尚無存檔"')}${button("操作與製作資訊", "controls")}${button(`卡片圖鑑 · ${cards.length}`, "catalog")}${button("成就與外觀", "journal")}${button("旅人手冊", "tutorial")}${button("匯入存檔", "import")}</div><div class="fine">三職業 · 六重秘境 · 日光之旅<br>製作者：Mori Fang</div></div>`;
+  return `<div class="menu"><div class="eyebrow">日蝕之後 · 尋回日光</div><h1>SOLARIA</h1><p class="tagline">在暮色之中，尋回日光。</p><div class="menu-actions">${button("開始新局", "new")}${button("繼續旅程", "continue", saved ? "" : 'disabled title="尚無存檔"')}${button(`卡片圖鑑 · ${cards.length}`, "catalog")}${button("成就與外觀", "journal")}${button("旅人手冊", "tutorial")}${button("匯入存檔", "import")}</div><div class="fine">三職業 · 六重秘境 · 日光之旅<br>製作者：Mori Fang</div></div>`;
 }
 export function classSelect() {
   const desc: Record<ClassId, string> = {
-    sword: "150 生命 / 25 甲<br>扇形斬擊 · 全方向格擋 · 成功後反擊",
-    bow: "100 生命 / 10 甲<br>精準箭矢 · 一秒五箭快射",
-    mage: "90 生命 / 5 甲<br>星火彈 · 指定位置行星爆",
+    sword: "厚甲高生命，以劍鋒迎敵。<br>把握格擋時機，藉無敵守勢轉為反擊。",
+    bow: "疾箭連發，以射速掌控戰局。<br>快射追擊，在靈巧走位間貫穿敵陣。",
+    mage: "星火凝聚，短冷卻施展強力法術。<br>引爆行星之力，以範圍攻擊壓制敵群。",
   };
   return `<section class="panel wide"><div class="eyebrow">選擇你的旅人</div><h2>踏入暮光草原</h2><div class="cards">${(["sword", "bow", "mage"] as ClassId[]).map((id) => `<button class="class-card" data-action="class:${id}"><img src="${import.meta.env.BASE_URL}assets/adventure/${id}.png" alt="${zh.classes[id]}"><h3>${zh.classes[id]}</h3><span class="gold">${zh.titles[id]}</span><p>${desc[id]}</p></button>`).join("")}</div>${button("返回主選單", "menu")}</section>`;
 }
@@ -111,15 +111,12 @@ export function stats(r: Run) {
       .join("") || "等待第一縷共鳴"
   }</div>${button("返回戰場", "resume")}</section>`;
 }
-export function controls() {
-  return `<section class="panel"><h2>旅人手札</h2><p>${zh.controls}</p><p>閃避沒有無敵。格擋需在攻擊抵達前施放。樹木與岩石可阻擋敵我彈道；湖泊可跨越，但需要合法落點。</p><p>每周目六重秘境，各四間普通房與一位領主，再挑戰索拉里斯神。秘境分支在踏入時揭曉。清關回復生命，累積經驗後三選一，按 E 進門前可整備裝備。</p><p>戰鬥重載回入口；選卡與清關裝備操作自動保存。存檔在此瀏覽器，可匯出備份。</p><p>製作者：Mori Fang<br>日蝕之後，每一次啟程，都是新的可能。</p>${button("返回", "back")}</section>`;
-}
 export function catalog(discovered: number[] = []) {
   const known = new Set(discovered);
   return `<section class="panel wide catalog-panel"><div class="eyebrow">旅人圖鑑 · ${known.size} / ${cards.length}</div><h2>光的記憶</h2><p>親手取得的力量，會留在這裡。</p><div class="catalog">${cards.map((c) => (known.has(c.id) ? `<article class="catalog-card ${c.rarity}" data-card="${c.id}">${cardArt(c.id)}<span class="rarity ${c.rarity}">#${String(c.id).padStart(2, "0")}</span><strong>${c.name}</strong><p>${cardCopy[c.id] || c.description}</p></article>` : `<article class="catalog-card locked" data-card="${c.id}">${cardArt(c.id, true)}<span class="rarity">#${String(c.id).padStart(2, "0")}</span><strong>未曾相遇</strong><p>於旅途中取得後揭曉</p></article>`)).join("")}</div>${button("返回", "back")}</section>`;
 }
 export function pauseView(r: Run) {
-  return `<section class="panel pause-panel"><div class="eyebrow">暮色之間</div><div class="pause-emblem" aria-hidden="true">✧</div><h2>日光，等你歸來</h2><p class="pause-story">風停在樹梢，旅途仍在。<br>稍作歇息，再循光而行。</p><div class="pause-record"><div><small>你的旅人</small><strong>${zh.classes[r.classId]} · Lv.${r.level}</strong></div><div><small>${currentBiome(r).name}</small><strong>第 ${r.room} / 31 關</strong></div><div><small>旅程分數</small><strong>${(r.score || 0).toLocaleString()}</strong></div></div><div class="pause-actions">${button("繼續旅程", "resume", 'class="primary"')}${button("旅人手札", "controls")}${button("光的記憶", "catalog")}${button("成就與外觀", "journal")}${button("旅人手冊", "tutorial")}${button("匯出存檔", "export")}${button("回主選單", "returnMenu")}</div><p class="fine">Esc 返回旅途 · 戰鬥重載回本房入口</p></section>`;
+  return `<section class="panel pause-panel"><div class="eyebrow">暮色之間</div><div class="pause-emblem" aria-hidden="true">✧</div><h2>日光，等你歸來</h2><p class="pause-story">風停在樹梢，旅途仍在。<br>稍作歇息，再循光而行。</p><div class="pause-record"><div><small>你的旅人</small><strong>${zh.classes[r.classId]} · Lv.${r.level}</strong></div><div><small>${currentBiome(r).name}</small><strong>第 ${r.room} / 31 關</strong></div><div><small>旅程分數</small><strong>${(r.score || 0).toLocaleString()}</strong></div></div><div class="pause-actions">${button("繼續旅程", "resume", 'class="primary"')}${button("光的記憶", "catalog")}${button("成就與外觀", "journal")}${button("旅人手冊", "tutorial")}${button("匯出存檔", "export")}${button("回主選單", "returnMenu")}</div><p class="fine">Esc 返回旅途 · 戰鬥重載回本房入口</p></section>`;
 }
 
 export function worldHints(r: Run) {
@@ -161,7 +158,16 @@ export function worldHints(r: Run) {
 }
 
 export function testing(r: Run, query = "") {
-  return `<section class="panel wide test-panel"><div class="eyebrow">旅人試驗場 · 世界暫停</div><h2>測試構築</h2><p>直接給予已實作的卡片，不消耗升級選擇。職業卡切換職業並替換職業卡；元素自動覺醒，超過兩種時替換元素構築。</p><label class="test-search">尋找力量 <input id="test-search" type="search" value="${escape(query)}" placeholder="卡名、能力或編號" aria-label="搜尋測試卡片"></label><div class="test-summary">${zh.classes[r.classId]} · ${r.elements.map((e) => zh.elements[e]).join("／") || "尚未覺醒"} · 職技 ${r.stats.skillCD.toFixed(1)} 秒</div><div class="test-cards">${cards
+  return `<section class="panel wide test-panel"><div class="eyebrow">旅人試驗場 · 世界暫停</div><h2>測試構築</h2><p>直接給予已實作的卡片，不消耗升級選擇。職業卡切換職業並替換職業卡；元素自動覺醒，超過兩種時替換元素構築。</p><div class="test-jump"><label for="test-room">本周目關卡</label><select id="test-room" aria-label="跳關目的地">${Array.from(
+    { length: 31 },
+    (_, i) => {
+      const room = i + 1;
+      const seg = r.journey?.[Math.min(5, Math.floor(i / 5))];
+      return `<option value="${room}" ${room === r.room ? "selected" : ""}>${room} / 31 · ${room === 31 ? "索拉里斯神" : seg ? biomes[seg.biome].name + (room % 5 === 0 ? " · " + (bosses[seg.boss]?.name ?? zh.bosses[seg.boss as 1]) : "") : "秘境"}</option>`;
+    },
+  ).join(
+    "",
+  )}</select>${button("跳至此關", "jump", ["UPGRADE_CHOICE", "FUSION_CHOICE", "EQUIPMENT_SLOT_CHOICE"].includes(r.phase) ? "disabled" : "")}<small>保留構築，不補發跳過關卡的獎勵。擊敗索拉里斯神後才能進入下一周目。</small></div><label class="test-search">尋找力量 <input id="test-search" type="search" value="${escape(query)}" placeholder="卡名、能力或編號" aria-label="搜尋測試卡片"></label><div class="test-summary">${zh.classes[r.classId]} · ${r.elements.map((e) => zh.elements[e]).join("／") || "尚未覺醒"} · 職技 ${r.stats.skillCD.toFixed(1)} 秒</div><div class="test-cards">${cards
     .map((c) => {
       const l = r.cards[c.id] || 0,
         max = c.id <= 14 ? Infinity : [15, 19, 24, 28].includes(c.id) ? 1 : 5;

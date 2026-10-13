@@ -1,0 +1,83 @@
+
+> solaria-remaster@1.3.0-preview.1 test
+> vitest run
+
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/equipment-integration.test.ts (13 tests | 1 failed) 12234ms
+   × 一般掉落含8橘／3普通紅、紅兩詞橘三詞，事件不入池，地形與周目成長不放大吸血 12048ms
+ ❯ tests/unit/feedback.test.ts (11 tests | 2 failed) 1350ms
+   ❯ 第一里程碑試玩回饋 (10)
+     × 每房原生怪初始 4–10，增援不越過上限，尚有增援時不提前清關 19ms
+   × 31 關經驗配額對應無加成約 Lv.26，不靠補殺召喚怪 75ms
+ ❯ tests/unit/adventure-lighting.test.ts (1 test | 1 failed) 94ms
+   × 熔甲獸的無火元素招式不妨礙熔核受光，熔池也發光且死亡／摧毀後移除 93ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/adventure-lighting.test.ts > 熔甲獸的無火元素招式不妨礙熔核受光，熔池也發光且死亡／摧毀後移除
+AssertionError: expected undefined to be defined
+ ❯ tests/unit/adventure-lighting.test.ts:19:16
+     17|   r.items = [];
+     18|   const pool = r.obstacles.find((o) => o.kind === "lake")!;
+     19|   expect(pool).toBeDefined();
+       |                ^
+     20|   const before = JSON.stringify(r),
+     21|     sources = sceneLights(r);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/unit/equipment-integration.test.ts > 一般掉落含8橘／3普通紅、紅兩詞橘三詞，事件不入池，地形與周目成長不放大吸血
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/unit/equipment-integration.test.ts:168:1
+    166|   ).toThrow("特殊裝備");
+    167| });
+    168| it("一般掉落含8橘／3普通紅、紅兩詞橘三詞，事件不入池，地形與周目成長不放大吸血", () => {
+       | ^
+    169|   const seen = new Set<string>();
+    170|   for (let seed = 1; seed <= 5000; seed++) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/unit/feedback.test.ts > 第一里程碑試玩回饋 > 每房原生怪初始 4–10，增援不越過上限，尚有增援時不提前清關
+AssertionError: expected 7 to be greater than or equal to 8
+ ❯ tests/unit/feedback.test.ts:76:9
+     74|       expect(
+     75|         r.enemies.length + (r.reserves?.length || 0),
+     76|       ).toBeGreaterThanOrEqual(8);
+       |         ^
+     77|       if (!r.reserves?.length) r.reserves = [r.enemies.pop()!];
+     78|       r.enemies = [];
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/unit/feedback.test.ts > 31 關經驗配額對應無加成約 Lv.26，不靠補殺召喚怪
+AssertionError: expected 32 to be 26 // Object.is equality
+
+- Expected
++ Received
+
+- 26
++ 32
+
+ ❯ tests/unit/feedback.test.ts:179:17
+    177|     }
+    178|   }
+    179|   expect(level).toBe(26);
+       |                 ^
+    180| });
+    181|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  3 failed | 31 passed (34)
+      Tests  4 failed | 385 passed (389)
+   Start at  09:38:27
+   Duration  99.39s (tests 82%, import 10%, transform 8%)
+
+    Isolate  34 workers spawned · ~439ms startup each (spawn + environment, per file)
+             at least ~14.50s faster with isolate: false — reuses workers across files instead of one per file
+

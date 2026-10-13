@@ -1,0 +1,58 @@
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/terrain-progression.test.ts (14 tests | 8 failed) 1086ms
+   × 密碼嚴格十鍵順序，錯鍵、重啟與額外按鍵不沿用部分進度 10ms
+   × desert 生態大障礙、不同seed、六房型與兩王房可達 37ms
+   × icefield 生態大障礙、不同seed、六房型與兩王房可達 29ms
+   × volcano 生態大障礙、不同seed、六房型與兩王房可達 45ms
+   × jungle 生態大障礙、不同seed、六房型與兩王房可達 198ms
+   × corruption 生態大障礙、不同seed、六房型與兩王房可達 150ms
+   × crimson 生態大障礙、不同seed、六房型與兩王房可達 41ms
+   × stars 生態大障礙、不同seed、六房型與兩王房可達 27ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/terrain-progression.test.ts > 密碼嚴格十鍵順序，錯鍵、重啟與額外按鍵不沿用部分進度
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/unit/terrain-progression.test.ts:37:35
+     35|     expect(sequence.press("KeyX")).toBe(false);
+     36|     for (const key of code.slice(wrongAt))
+     37|       expect(sequence.press(key)).toBe(false);
+       |                                   ^
+     38|     sequence.reset();
+     39|     expect(code.map((key) => sequence.press(key))).toEqual([
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  tests/unit/terrain-progression.test.ts > desert 生態大障礙、不同seed、六房型與兩王房可達
+ FAIL  tests/unit/terrain-progression.test.ts > icefield 生態大障礙、不同seed、六房型與兩王房可達
+ FAIL  tests/unit/terrain-progression.test.ts > volcano 生態大障礙、不同seed、六房型與兩王房可達
+ FAIL  tests/unit/terrain-progression.test.ts > jungle 生態大障礙、不同seed、六房型與兩王房可達
+ FAIL  tests/unit/terrain-progression.test.ts > corruption 生態大障礙、不同seed、六房型與兩王房可達
+ FAIL  tests/unit/terrain-progression.test.ts > crimson 生態大障礙、不同seed、六房型與兩王房可達
+ FAIL  tests/unit/terrain-progression.test.ts > stars 生態大障礙、不同seed、六房型與兩王房可達
+AssertionError: expected 4 to be greater than or equal to 5
+ ❯ tests/unit/terrain-progression.test.ts:186:11
+    184|         expect(
+    185|           layout.obstacles.filter((o) => o.kind !== "lake").length,
+    186|         ).toBeGreaterThanOrEqual(5);
+       |           ^
+    187|         expect(layout.obstacles.length).toBeLessThanOrEqual(14);
+    188|         expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed | 6 passed (14)
+   Start at  09:33:29
+   Duration  1.90s (tests 65%, transform 31%, import 4%)
+

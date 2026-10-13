@@ -1,4 +1,4 @@
-import { populate } from "../../src/game/data/world";
+import { populate, roomXPBudget } from "../../src/game/data/world";
 import { context, hit } from "../../src/game/systems/combat";
 import { validate } from "../../src/game/persistence/checkpoint";
 import { isBossRoom } from "../../src/game/data/journey";
@@ -74,7 +74,7 @@ for (const id of Object.keys(eventDefinitions) as EventId[])
     expect(
       r.items.filter((i) => i.ability === eventDefinitions[id].reward),
     ).toHaveLength(1);
-    expect(xp).toBeCloseTo(250);
+    expect(xp).toBeCloseTo(roomXPBudget(r.room, r.roomEntryLevel ?? r.level));
     expect(r.items.at(-1)!.affixes).toHaveLength(2);
     expect(r.items.at(-1)!.rarity).toBe("紅");
     if (id !== "army")

@@ -1,6 +1,5 @@
-import { COVER_DURABILITY } from "../core/cover-rules";
+import { terrainLayout } from "./terrain-layout";
 import type { BiomeId } from "./biomes";
-import type { Obstacle } from "../core/types";
 export type BossPattern =
   | "rush"
   | "fan"
@@ -422,106 +421,16 @@ export const bosses: Record<number, BossDefinition> = Object.fromEntries(
 // clusters match the attack geometry: ray shelters, charge lanes, arcs, roots,
 // burrow islands or the castle's paired columns.
 export function bossArena(id: number, seed: number) {
-  const b = bosses[id],
-    columns: Record<BossDefinition["layout"], number[][]> = {
-      rays: [
-        [256, 144],
-        [480, 112],
-        [704, 144],
-        [864, 176],
-        [288, 480],
-        [512, 496],
-        [736, 480],
-        [864, 448],
-      ],
-      lanes: [
-        [224, 128],
-        [384, 128],
-        [576, 144],
-        [800, 128],
-        [224, 496],
-        [384, 496],
-        [576, 480],
-        [800, 496],
-      ],
-      arcs: [
-        [224, 176],
-        [384, 128],
-        [576, 112],
-        [800, 144],
-        [224, 448],
-        [384, 496],
-        [576, 512],
-        [800, 480],
-      ],
-      groves: [
-        [256, 128],
-        [320, 144],
-        [512, 112],
-        [576, 128],
-        [800, 144],
-        [256, 496],
-        [320, 480],
-        [512, 512],
-        [576, 496],
-        [800, 480],
-      ],
-      islands: [
-        [224, 144],
-        [416, 176],
-        [608, 128],
-        [832, 160],
-        [256, 480],
-        [416, 448],
-        [640, 496],
-        [832, 464],
-      ],
-      columns: [
-        [256, 128],
-        [448, 128],
-        [640, 128],
-        [864, 128],
-        [256, 496],
-        [448, 496],
-        [640, 496],
-        [864, 496],
-      ],
-    };
-  const kind: Obstacle["kind"] =
-    b.biome === "jungle"
-      ? "tree"
-      : b.biome === "castle" || b.biome === "desert"
-        ? "pillar"
-        : "rock";
-  const durability = COVER_DURABILITY;
-  const shift = ((seed % 3) - 1) * 8;
-  const obstacles = columns[b.layout].flatMap(([x, y], i) => {
-    const parts =
-      i % 2 === id % 2
-        ? [
-            [0, 0],
-            [40, y < 320 ? -24 : 24],
-          ]
-        : [[0, 0]];
-    return parts.map(([dx, dy]) => ({
-      id: i * 2 + (dx ? 2 : 1),
-      x: x + dx + shift,
-      y: y + dy,
-      w: 32,
-      h: 32,
-      kind,
-      durability,
-      maxDurability: durability,
-      waves: [] as number[],
-    }));
-  });
-  return {
-    obstacles,
-    route: [
-      { x: 112, y: 320 },
-      { x: 928, y: 320 },
-    ],
+  const b = bosses[id];
+  const profiles = {
+    rays: 0,
+    lanes: 1,
+    arcs: 2,
+    groves: 3,
+    islands: 4,
+    columns: 5,
   };
+  return terrainLayout(b.biome, profiles[b.layout], seed, id);
 }
 
 // v1.2.0: identity-specific geometry and timing, using the existing art contract.

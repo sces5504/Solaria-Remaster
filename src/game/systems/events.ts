@@ -12,6 +12,7 @@ import {
   actor,
   assignElite,
   roomXPBudget,
+  easeOpeningEncounter,
   makeObstacles,
   roomRoute,
 } from "../data/world";
@@ -143,9 +144,10 @@ export function beginEventWave(r: Run) {
       currentBiome(r).tier
     ];
     monster.hp = monster.maxHP = health * 0.6 * 1.6 ** ((r.loop ?? 1) - 1);
-    monster.xpReward = roomXPBudget(r.room) * 0.25;
+    monster.xpReward = roomXPBudget(r.room, r.roomEntryLevel ?? r.level) * 0.25;
     monster.nextAttack = r.time + 1.5;
     r.enemies = [monster];
+    easeOpeningEncounter(r, r.enemies);
     return;
   }
   const rng = {
@@ -183,8 +185,12 @@ export function beginEventWave(r: Run) {
     if (e.id === "army" && e.wave === 2 && i === 0) monster.rally = true;
     spawned.push(monster);
   }
+  easeOpeningEncounter(r, spawned);
   const waveWeight = spawned.reduce((sum, m) => sum + (m.elite ? 2 : 1), 0);
-  const share = (roomXPBudget(r.room) * (def.boss ? 0.75 : 1)) / 3;
+  const share =
+    (roomXPBudget(r.room, r.roomEntryLevel ?? r.level) *
+      (def.boss ? 0.75 : 1)) /
+    3;
   for (const m of spawned)
     m.xpReward = (share * (m.elite ? 2 : 1)) / waveWeight;
   r.encounterCap = Math.min(10, 6 + currentBiome(r).tier);

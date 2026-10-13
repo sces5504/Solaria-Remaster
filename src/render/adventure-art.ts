@@ -320,9 +320,25 @@ export class AdventureArt {
     route.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)));
     ctx.strokeStyle = biome === "volcano" ? "#948878" : "#d6cbb0";
     ctx.lineWidth = 64;
-    ctx.globalAlpha = 0.075;
+    ctx.globalAlpha = biome === "meadow" ? 0.075 : 0.18;
     ctx.lineJoin = ctx.lineCap = "round";
     ctx.stroke();
+    if (biome !== "meadow") {
+      // The protected cross-lane is part of the room's visible trail network.
+      ctx.beginPath();
+      ctx.moveTo(512, 104);
+      ctx.lineTo(512, 552);
+      ctx.lineWidth = biome === "castle" ? 52 : 36;
+      ctx.globalAlpha = biome === "castle" ? 0.14 : 0.08;
+      ctx.stroke();
+      ctx.beginPath();
+      route.forEach((p, i) =>
+        i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y),
+      );
+      ctx.lineWidth = 2;
+      ctx.globalAlpha = biome === "castle" ? 0.22 : 0.12;
+      ctx.stroke();
+    }
     ctx.globalAlpha = 1;
     ctx.strokeStyle = "#c4bc94";
     ctx.globalAlpha = 0.25;

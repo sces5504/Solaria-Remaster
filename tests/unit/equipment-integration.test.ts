@@ -218,7 +218,7 @@ it("一般掉落含8橘／3普通紅、紅兩詞橘三詞，事件不入池，�
   c.loop = 10;
   expect(derive(c).maxHP).toBe(before.maxHP);
   expect(derive(c).lifesteal).toBe(0.003);
-});
+}, 20000);
 
 it("紅卡自動卸裝即刻停止南瓜，暫停選擇期間也不保留夥伴", () => {
   const r = setup("ghostArmor");

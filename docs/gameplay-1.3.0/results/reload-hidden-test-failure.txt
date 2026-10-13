@@ -1,0 +1,275 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: resonance.spec.ts >> 音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔
+- Location: tests/browser/resonance.spec.ts:186:1
+
+# Error details
+
+```
+Test timeout of 90000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 90000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: '測試', exact: true })
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=f1e2]:
+  - banner [ref=f1e3]:
+    - link "SOLARIA REMASTER" [ref=f1e4] [cursor=pointer]:
+      - /url: "#"
+    - generic [ref=f1e5]: 1.3.0 測試版 · 存檔獨立
+    - generic [ref=f1e6]:
+      - button "全螢幕" [ref=f1e7] [cursor=pointer]
+      - generic [ref=f1e8]: 音量
+      - slider "音效音量" [ref=f1e9]: "0.25"
+      - button "音效 開" [ref=f1e10] [cursor=pointer]
+  - main [ref=f1e11]:
+    - generic [ref=f1e12]:
+      - generic [ref=f1e13]:
+        - generic "Solaria 遊戲畫布" [ref=f1e15]
+        - generic:
+          - generic:
+            - strong: 法師 Lv.2
+            - generic: 90 / 90
+            - generic: 經驗 0 / 120
+          - generic:
+            - strong: 暮光草原
+            - generic: 第 1 / 31 關 · 第 1 周目 · 林蔭湖畔
+          - generic:
+            - text: 本局分數
+            - strong: "0"
+            - text: 敵人 8 · 後續 0
+        - generic [ref=f1e17]:
+          - generic [ref=f1e18]: 世界暫停 · 升級 2
+          - heading "選擇一份力量" [level=2] [ref=f1e19]
+          - paragraph [ref=f1e20]: 循光而行，選擇你的共鳴 · 雷電
+          - generic [ref=f1e21]:
+            - button [ref=f1e22] [cursor=pointer]:
+              - text: 旅人強化
+              - heading "體魄" [level=3] [ref=f1e27]
+              - text: 本局已取 0 次
+              - paragraph [ref=f1e28]: 最大生命提高基準值的 10%。更從容地承受下一次攻擊。
+            - button [ref=f1e29] [cursor=pointer]:
+              - text: 旅人強化
+              - heading "調律" [level=3] [ref=f1e35]
+              - text: 本局已取 0 次
+              - paragraph [ref=f1e36]: 冷卻效率增加 10%。職業技能更快恢復。
+            - button [ref=f1e37] [cursor=pointer]:
+              - text: 旅人強化
+              - heading "廣域" [level=3] [ref=f1e43]
+              - text: 本局已取 0 次
+              - paragraph [ref=f1e44]: 攻擊範圍增加 10%，包括扇形、爆炸與光束寬度。
+          - generic [ref=f1e45]:
+            - button "本次已刷新" [disabled] [ref=f1e46]
+            - generic [ref=f1e47]: 每次覺醒可刷新一次
+          - text: 左右鍵選擇 · Enter 確認 · 滑鼠點擊
+          - group [ref=f1e48]:
+            - generic "目前構築" [ref=f1e49]
+            - text: · ·
+      - complementary "角色屬性與裝備" [ref=f1e50]:
+        - generic [ref=f1e51]: 你的旅人
+        - heading "法師" [level=2] [ref=f1e52]
+        - generic [ref=f1e53]: 星火學者
+        - generic [ref=f1e54]:
+          - heading "戰鬥屬性" [level=3] [ref=f1e55]
+          - generic [ref=f1e56]:
+            - generic [ref=f1e57]: 普攻基準
+            - strong [ref=f1e58]: "24.0"
+          - generic [ref=f1e59]:
+            - generic [ref=f1e60]: 攻擊頻率
+            - strong [ref=f1e61]: 2.00 / 秒
+          - generic [ref=f1e62]:
+            - generic [ref=f1e63]: 職技冷卻
+            - strong [ref=f1e64]: 3.0 秒
+          - generic [ref=f1e65]:
+            - generic [ref=f1e66]: 護甲
+            - strong [ref=f1e67]: "5"
+          - generic [ref=f1e68]:
+            - generic [ref=f1e69]: 暴擊率
+            - strong [ref=f1e70]: 15.0%
+          - generic [ref=f1e71]:
+            - generic [ref=f1e72]: 暴擊倍率
+            - strong [ref=f1e73]: 1.50 倍
+          - generic [ref=f1e74]:
+            - generic [ref=f1e75]: 移動速度
+            - strong [ref=f1e76]: "200"
+        - generic [ref=f1e77]:
+          - heading "元素之力" [level=3] [ref=f1e78]
+          - generic [ref=f1e79]: 雷電
+        - generic [ref=f1e81]:
+          - heading "目前裝備 I" [level=3] [ref=f1e82]:
+            - text: 目前裝備
+            - generic [ref=f1e83]: I
+          - generic [ref=f1e84]:
+            - strong [ref=f1e85]: 裝甲
+            - generic [ref=f1e86]: 尚未穿戴
+          - generic [ref=f1e87]:
+            - strong [ref=f1e88]: 戒指
+            - generic [ref=f1e89]: 尚未穿戴
+          - generic [ref=f1e90]:
+            - strong [ref=f1e91]: 護符
+            - generic [ref=f1e92]: 尚未穿戴
+        - paragraph [ref=f1e93]: 行星爆 · 已就緒擊殺 0 · 0:00C 查看卡片構築 · Esc 暫停
+    - generic [ref=f1e94]: WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · E 拾取／進門 · Esc 暫停
+```
+
+# Test source
+
+```ts
+  122 |   await fixture(page, r);
+  123 |   await page.getByRole("button", { name: "進入戰鬥" }).click();
+  124 |   await expect(page.locator(".item-label")).toContainText("檢取");
+  125 |   await page.keyboard.press("KeyE");
+  126 |   await expect(page.locator(".item-label")).toHaveCount(0);
+  127 |   await page.keyboard.press("KeyI");
+  128 |   await expect(page.getByRole("status")).toContainText("需要先清關");
+  129 |   await page.keyboard.press("Escape");
+  130 |   const download = page.waitForEvent("download");
+  131 |   await page.getByRole("button", { name: "匯出存檔", exact: true }).click();
+  132 |   const d = await download;
+  133 |   const { readFile } = await import("node:fs/promises");
+  134 |   const saved = JSON.parse(await readFile((await d.path())!, "utf8"));
+  135 |   expect(saved.current.bag[0].id).toBe("combat-loot");
+  136 |   expect(saved.current.phase).toBe("COMBAT");
+  137 | });
+  138 | test("爆炸、雷柱、冰火場及衝鋒拖尾在 WebGL 可呈現", async ({ page }) => {
+  139 |   const errors: string[] = [];
+  140 |   page.on("pageerror", (e) => errors.push(e.message));
+  141 |   const r = newRun("sword", 756);
+  142 |   r.room = 5;
+  143 |   r.boss = 2;
+  144 |   populate(r);
+  145 |   r.phase = "POST_CLEAR";
+  146 |   r.enemies = [];
+  147 |   r.reserves = [];
+  148 |   r.player.x = 430;
+  149 |   r.player.y = 320;
+  150 |   r.cards[47] = 1;
+  151 |   // Freeze a representative animation frame at the room briefing for a stable visual inspection.
+  152 |   r.phase = "ROOM_INTRO";
+  153 |   area(
+  154 |     r,
+  155 |     { x: 300, y: 400 },
+  156 |     85,
+  157 |     0,
+  158 |     0,
+  159 |     4,
+  160 |     0.5,
+  161 |     context(r, 22, "skill", ["fire"]),
+  162 |   );
+  163 |   area(
+  164 |     r,
+  165 |     { x: 700, y: 400 },
+  166 |     85,
+  167 |     0,
+  168 |     0,
+  169 |     4,
+  170 |     0.5,
+  171 |     context(r, 18, "skill", ["ice"]),
+  172 |   );
+  173 |   visual(r, "thunder", { x: 540, y: 210 }, 0, 0xffdba5, 65, 0, { enemy: true });
+  174 |   visual(r, "burst", { x: 610, y: 320 }, 0, 0xffae67, 80, 0, {
+  175 |     elements: ["fire"],
+  176 |   });
+  177 |   visual(r, "charge", { x: 430, y: 320 }, 0, 0xffd988, 40, 0);
+  178 |   r.time = 0.07;
+  179 |   await fixture(page, r);
+  180 |   await page
+  181 |     .locator("#overlay")
+  182 |     .evaluate((n) => ((n as HTMLElement).style.visibility = "hidden"));
+  183 |   await page.screenshot({ path: "test-results/impact-elements.png" });
+  184 |   expect(errors).toEqual([]);
+  185 | });
+  186 | test("音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔", async ({
+  187 |   page,
+  188 | }) => {
+  189 |   const r = newRun("sword", 879);
+  190 |   r.phase = "UPGRADE_CHOICE";
+  191 |   r.pendingLevels = 1;
+  192 |   r.level = 2;
+  193 |   r.choices = [1, 9, 13];
+  194 |   r.rerollUsed = true;
+  195 |   await fixture(page, r);
+  196 |   await expect(page.locator("#testing")).toBeHidden();
+  197 |   await page.keyboard.type("wwssadadba");
+  198 |   const testBox = await page.locator("#testing").boundingBox();
+  199 |   const volumeBox = await page.locator("#volume").boundingBox();
+  200 |   expect(testBox!.x + testBox!.width).toBeLessThan(volumeBox!.x);
+  201 |   await page.getByRole("button", { name: "測試", exact: true }).click();
+  202 |   await expect(page.locator(".test-card")).toHaveCount(cards.length);
+  203 |   await page.getByRole("searchbox", { name: "搜尋測試卡片" }).fill("連鎖閃電");
+  204 |   await expect(page.locator(".test-card:visible")).toHaveCount(1);
+  205 |   await page.locator('[data-action="grant:29"]').click();
+  206 |   await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
+  207 |   await expect(page.locator(".test-summary")).toContainText("雷");
+  208 |   await expect(page.locator(".test-card:visible small")).toContainText("Lv.1");
+  209 |   await expect(page.getByRole("searchbox")).toHaveValue("連鎖閃電");
+  210 |   await page.getByRole("searchbox").fill("行星回響");
+  211 |   await page.locator('[data-action="grant:58"]').click();
+  212 |   await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
+  213 |   await expect(page.locator(".test-summary")).toContainText("法師");
+  214 |   await expect(page.locator(".test-summary")).toContainText("3.0 秒");
+  215 |   await page.screenshot({ path: "test-results/test-grants.png" });
+  216 |   await page.keyboard.press("Escape");
+  217 |   await expect(page.getByRole("button", { name: "本次已刷新" })).toBeDisabled();
+  218 |   await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
+  219 |   await page.reload();
+  220 |   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+  221 |   await expect(page.getByRole("button", { name: "本次已刷新" })).toBeDisabled();
+> 222 |   await page.getByRole("button", { name: "測試", exact: true }).click();
+      |                                                               ^ Error: locator.click: Test timeout of 90000ms exceeded.
+  223 |   await expect(
+  224 |     page.locator('[data-action="grant:58"]').locator(".."),
+  225 |   ).toContainText("Lv.1");
+  226 |   await expect(
+  227 |     page.locator('[data-action="grant:28"]').locator(".."),
+  228 |   ).toContainText("Lv.1");
+  229 | });
+  230 | test("冰緩速、冰凍、電麻痺與粗連鎖分開呈現，遺跡柱與門没有切圖底框", async ({
+  231 |   page,
+  232 | }) => {
+  233 |   const errors: string[] = [];
+  234 |   page.on("pageerror", (e) => errors.push(e.message));
+  235 |   const r = newRun("mage", 880);
+  236 |   r.templates[0] = 5;
+  237 |   populate(r);
+  238 |   r.phase = "ROOM_INTRO";
+  239 |   r.enemies = [
+  240 |     actor(200, 2, 280, 310),
+  241 |     actor(201, 2, 460, 310),
+  242 |     actor(202, 2, 650, 310),
+  243 |   ];
+  244 |   r.reserves = [];
+  245 |   r.enemies[0].iceUntil = 3;
+  246 |   r.enemies[1].iceUntil = 3;
+  247 |   r.enemies[1].freezeUntil = 3;
+  248 |   r.enemies[1].controlUntil = 3;
+  249 |   r.enemies[2].stunUntil = 3;
+  250 |   r.enemies[2].controlUntil = 3;
+  251 |   visual(r, "arc", { x: 460, y: 310 }, 190, 0xffde72, 8, 0);
+  252 |   visual(r, "thunder", { x: 810, y: 420 }, 0, 0xffdba5, 65, 0, { enemy: true });
+  253 |   visual(r, "burst", { x: 420, y: 470 }, 0, 0xffaf65, 100, 0, {
+  254 |     elements: ["fire"],
+  255 |   });
+  256 |   r.time = 0.12;
+  257 |   await fixture(page, r);
+  258 |   await page
+  259 |     .locator("#overlay")
+  260 |     .evaluate((n) => ((n as HTMLElement).style.visibility = "hidden"));
+  261 |   await page.screenshot({ path: "test-results/radiance-status-cutouts.png" });
+  262 |   expect(errors).toEqual([]);
+  263 | });
+  264 | 
+```

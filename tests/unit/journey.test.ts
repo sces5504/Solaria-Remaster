@@ -122,20 +122,21 @@ it("封印每兩秒12彈、旋轉60度通路、整組容量延後", () => {
       Math.atan2(first.vy, first.vx),
   ).toBeCloseTo(Math.PI / 4);
 });
-it("最終王沿用最新房間配額440，總配額8890保持約26級，沒有回復舊750", () => {
+it("每關配額跟隨進房等級，首周目31關提供31次基礎升級", () => {
   const r = newRun("mage", 79);
   r.room = 31;
+  r.level = 31;
   populate(r);
-  expect(r.enemies[0].xpReward).toBe(440);
+  expect(r.enemies[0].xpReward).toBe(700);
   let xp = Array.from({ length: 31 }, (_, i) => roomXPBudget(i + 1)).reduce(
     (a, b) => a + b,
     0,
   );
-  expect(xp).toBe(8890);
+  expect(xp).toBe(12400);
   let level = 1;
   while (xp >= 100 + 20 * (level - 1)) {
     xp -= 100 + 20 * (level - 1);
     level++;
   }
-  expect(level).toBe(26);
+  expect(level).toBe(32);
 });

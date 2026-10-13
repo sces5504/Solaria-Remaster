@@ -1,0 +1,40 @@
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/biomes.test.ts (34 tests | 1 failed) 4658ms
+   × volcano 六程序房型保留通路、掩體及合法原生怪 393ms
+ ❯ tests/unit/terrain-progression.test.ts (14 tests | 1 failed) 1623ms
+   × volcano 生態大障礙、不同seed、六房型與兩王房可達 123ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/biomes.test.ts > volcano 六程序房型保留通路、掩體及合法原生怪
+AssertionError: volcano/4/9: expected 3 to be greater than or equal to 4
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(4);
+       |         ^
+     29|       expect(
+     30|         r.obstacles.filter((o) => o.kind !== "lake").every((o) => o.w …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/unit/terrain-progression.test.ts > volcano 生態大障礙、不同seed、六房型與兩王房可達
+AssertionError: expected 3 to be greater than or equal to 4
+ ❯ tests/unit/terrain-progression.test.ts:186:11
+    184|         expect(
+    185|           layout.obstacles.filter((o) => o.kind !== "lake").length,
+    186|         ).toBeGreaterThanOrEqual(4);
+       |           ^
+    187|         expect(layout.obstacles.length).toBeLessThanOrEqual(14);
+    188|         expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 46 passed (48)
+   Start at  09:36:16
+   Duration  7.36s (tests 90%, transform 8%, import 2%)
+

@@ -1,0 +1,133 @@
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/biomes.test.ts (34 tests | 7 failed) 4604ms
+   × desert 六程序房型保留通路、掩體及合法原生怪 640ms
+   × icefield 六程序房型保留通路、掩體及合法原生怪 555ms
+   × volcano 六程序房型保留通路、掩體及合法原生怪 80ms
+   × jungle 六程序房型保留通路、掩體及合法原生怪 638ms
+   × corruption 六程序房型保留通路、掩體及合法原生怪 617ms
+   × crimson 六程序房型保留通路、掩體及合法原生怪 465ms
+   × stars 六程序房型保留通路、掩體及合法原生怪 394ms
+ ❯ tests/unit/terrain-progression.test.ts (14 tests | 7 failed) 1236ms
+   × desert 生態大障礙、不同seed、六房型與兩王房可達 116ms
+   × icefield 生態大障礙、不同seed、六房型與兩王房可達 250ms
+   × volcano 生態大障礙、不同seed、六房型與兩王房可達 31ms
+   × jungle 生態大障礙、不同seed、六房型與兩王房可達 101ms
+   × corruption 生態大障礙、不同seed、六房型與兩王房可達 107ms
+   × crimson 生態大障礙、不同seed、六房型與兩王房可達 116ms
+   × stars 生態大障礙、不同seed、六房型與兩王房可達 100ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 14 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/biomes.test.ts > desert 六程序房型保留通路、掩體及合法原生怪
+AssertionError: desert/4/1: expected 3 to be greater than or equal to 4
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(4);
+       |         ^
+     29|       expect(
+     30|         r.obstacles.filter((o) => o.kind !== "lake").every((o) => o.w …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/14]⎯
+
+ FAIL  tests/unit/biomes.test.ts > icefield 六程序房型保留通路、掩體及合法原生怪
+AssertionError: icefield/4/1: expected 3 to be greater than or equal to 4
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(4);
+       |         ^
+     29|       expect(
+     30|         r.obstacles.filter((o) => o.kind !== "lake").every((o) => o.w …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/14]⎯
+
+ FAIL  tests/unit/biomes.test.ts > volcano 六程序房型保留通路、掩體及合法原生怪
+AssertionError: volcano/1/3: expected 3 to be greater than or equal to 4
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(4);
+       |         ^
+     29|       expect(
+     30|         r.obstacles.filter((o) => o.kind !== "lake").every((o) => o.w …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/14]⎯
+
+ FAIL  tests/unit/biomes.test.ts > jungle 六程序房型保留通路、掩體及合法原生怪
+AssertionError: jungle/4/1: expected 3 to be greater than or equal to 4
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(4);
+       |         ^
+     29|       expect(
+     30|         r.obstacles.filter((o) => o.kind !== "lake").every((o) => o.w …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/14]⎯
+
+ FAIL  tests/unit/biomes.test.ts > corruption 六程序房型保留通路、掩體及合法原生怪
+AssertionError: corruption/4/1: expected 3 to be greater than or equal to 4
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(4);
+       |         ^
+     29|       expect(
+     30|         r.obstacles.filter((o) => o.kind !== "lake").every((o) => o.w …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/14]⎯
+
+ FAIL  tests/unit/biomes.test.ts > crimson 六程序房型保留通路、掩體及合法原生怪
+AssertionError: crimson/4/1: expected 3 to be greater than or equal to 4
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(4);
+       |         ^
+     29|       expect(
+     30|         r.obstacles.filter((o) => o.kind !== "lake").every((o) => o.w …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/14]⎯
+
+ FAIL  tests/unit/biomes.test.ts > stars 六程序房型保留通路、掩體及合法原生怪
+AssertionError: stars/4/1: expected 3 to be greater than or equal to 4
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(4);
+       |         ^
+     29|       expect(
+     30|         r.obstacles.filter((o) => o.kind !== "lake").every((o) => o.w …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/14]⎯
+
+ FAIL  tests/unit/terrain-progression.test.ts > desert 生態大障礙、不同seed、六房型與兩王房可達
+ FAIL  tests/unit/terrain-progression.test.ts > icefield 生態大障礙、不同seed、六房型與兩王房可達
+ FAIL  tests/unit/terrain-progression.test.ts > volcano 生態大障礙、不同seed、六房型與兩王房可達
+ FAIL  tests/unit/terrain-progression.test.ts > jungle 生態大障礙、不同seed、六房型與兩王房可達
+ FAIL  tests/unit/terrain-progression.test.ts > corruption 生態大障礙、不同seed、六房型與兩王房可達
+ FAIL  tests/unit/terrain-progression.test.ts > crimson 生態大障礙、不同seed、六房型與兩王房可達
+ FAIL  tests/unit/terrain-progression.test.ts > stars 生態大障礙、不同seed、六房型與兩王房可達
+AssertionError: expected 3 to be greater than or equal to 4
+ ❯ tests/unit/terrain-progression.test.ts:186:11
+    184|         expect(
+    185|           layout.obstacles.filter((o) => o.kind !== "lake").length,
+    186|         ).toBeGreaterThanOrEqual(4);
+       |           ^
+    187|         expect(layout.obstacles.length).toBeLessThanOrEqual(14);
+    188|         expect(layout.obstacles.reduce((area, o) => area + o.w * o.h, …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/14]⎯
+
+
+ Test Files  2 failed | 4 passed (6)
+      Tests  14 failed | 97 passed (111)
+   Start at  09:34:17
+   Duration  11.08s (tests 91%, transform 5%, import 3%)
+
+    Isolate  6 workers spawned · ~124ms startup each (spawn + environment, per file)
+             at least ~622ms faster with isolate: false — reuses workers across files instead of one per file
+

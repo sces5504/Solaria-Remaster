@@ -1,8 +1,11 @@
+import { storageKey } from "../storage-namespace";
 import type { ClassId, Element } from "../game/core/types";
 import { playSound } from "./sound-bank";
 function savedVolume() {
   try {
-    const v = Number(localStorage.getItem("solaria-volume") ?? ".25");
+    const v = Number(
+      localStorage.getItem(storageKey("solaria-volume")) ?? ".25",
+    );
     return Number.isFinite(v) ? Math.max(0, Math.min(1, v)) : 0.25;
   } catch {
     return 0.25;
@@ -17,7 +20,7 @@ export class SoundController {
   constructor() {
     try {
       const v = Number(
-        localStorage.getItem("solaria-last-volume") ?? this.volume,
+        localStorage.getItem(storageKey("solaria-last-volume")) ?? this.volume,
       );
       this.remembered = Number.isFinite(v) && v > 0 ? Math.min(1, v) : 0.25;
     } catch {
@@ -53,9 +56,12 @@ export class SoundController {
         0.015,
       );
     try {
-      localStorage.setItem("solaria-volume", String(this.volume));
+      localStorage.setItem(storageKey("solaria-volume"), String(this.volume));
       if (this.volume)
-        localStorage.setItem("solaria-last-volume", String(this.volume));
+        localStorage.setItem(
+          storageKey("solaria-last-volume"),
+          String(this.volume),
+        );
     } catch {}
   }
   toggleMute() {

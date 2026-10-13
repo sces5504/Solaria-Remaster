@@ -1,0 +1,11 @@
+[WebServer] (node:19015) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:19034) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/resonance.spec.ts:186:1 › 音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔 (32.6s)
+  ✓  2 tests/browser/terrain-progression.spec.ts:188:1 › 測試版獨立存檔不覆寫正式IndexedDB，音量與旅程各自保存 (6.8s)
+
+  2 passed (42.1s)

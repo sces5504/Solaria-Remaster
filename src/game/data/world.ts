@@ -10,8 +10,19 @@ import { random, seedFor } from "../core/primitives";
 import { biomeLayout, currentBiome, enemyHPScale, monsters } from "./biomes";
 import { placeBoss } from "../systems/biome-bosses";
 import { bossArena } from "./bosses";
-export const roomXPBudget = (room: number) =>
-  100 + 20 * Math.min(room - 1, 4) + 10 * Math.max(0, room - 5);
+export const roomXPBudget = (room: number, level = room) =>
+  100 + 20 * (level - 1);
+export const openingEncounter = (r: Run) =>
+  (r.loop ?? 1) === 1 && r.room >= 1 && r.room <= 4;
+export function easeOpeningEncounter(r: Run, enemies: Actor[]) {
+  if (!openingEncounter(r)) return;
+  enemies.splice(Math.max(1, Math.round(enemies.length * 0.8)));
+  for (const e of enemies) {
+    e.hp *= 0.8;
+    e.maxHP *= 0.8;
+    if (e.enemyShield) e.enemyShield *= 0.8;
+  }
+}
 export const classes = {
   sword: { hp: 150, armor: 25, damage: 30, rate: 2, cd: 5 },
   bow: { hp: 100, armor: 10, damage: 18, rate: 3, cd: 6 },
@@ -266,6 +277,7 @@ export function actor(
 }
 export function populate(r: Run) {
   const biome = currentBiome(r);
+  r.roomEntryLevel = r.level;
   const localRoom = ((r.room - 1) % 5) + 1;
   r.rng = seedFor(r.seed, r.room + ((r.loop ?? 1) - 1) * 1000);
   r.enemies = [];
@@ -346,7 +358,7 @@ export function populate(r: Run) {
         : actor(r.nextId++, r.boss + 5, 760, 320);
     if (r.boss <= 2) e.hp = e.maxHP *= 1.6 ** ((r.loop ?? 1) - 1);
     e.nextAttack = r.time + 1.5;
-    e.xpReward = roomXPBudget(r.room);
+    e.xpReward = roomXPBudget(r.room, r.roomEntryLevel ?? r.level);
     r.enemies.push(e);
     bossEntryAbility(r);
     return;
@@ -370,21 +382,34 @@ export function populate(r: Run) {
     const definition = monsters[monsterId];
     const kind = definition?.archetype ?? monsterId;
     let x = 0,
-      y = 0;
+      y = 0,
+      placed = false;
+    const free = (px: number, py: number) =>
+      r.enemies.every((e) => Math.hypot(e.x - px, e.y - py) > 62) &&
+      r.obstacles.every(
+        (o) =>
+          px < o.x - 24 ||
+          px > o.x + o.w + 24 ||
+          py < o.y - 24 ||
+          py > o.y + o.h + 24,
+      );
     for (let retry = 0; retry < 100; retry++) {
       x = 330 + random(r) * 570;
       y = 110 + random(r) * 430;
-      if (
-        r.enemies.every((e) => Math.hypot(e.x - x, e.y - y) > 62) &&
-        r.obstacles.every(
-          (o) =>
-            x < o.x - 24 ||
-            x > o.x + o.w + 24 ||
-            y < o.y - 24 ||
-            y > o.y + o.h + 24,
-        )
-      )
+      if (free(x, y)) {
+        placed = true;
         break;
+      }
+    }
+    if (!placed) {
+      for (let py = 112; py <= 544 && !placed; py += 32)
+        for (let px = 336; px <= 896 && !placed; px += 32)
+          if (free(px, py)) {
+            x = px;
+            y = py;
+            placed = true;
+          }
+      if (!placed) throw new Error("房間沒有合法的敵人進場位置");
     }
     const e = actor(r.nextId++, kind, x, y, eliteIndices.has(i));
     if (definition) {
@@ -409,7 +434,8 @@ export function populate(r: Run) {
     e.nextAttack = r.time + 3;
     r.enemies.push(e);
   }
-  const budget = roomXPBudget(r.room);
+  easeOpeningEncounter(r, r.enemies);
+  const budget = roomXPBudget(r.room, r.roomEntryLevel ?? r.level);
   const weight = r.enemies.reduce((sum, e) => sum + (e.elite ? 2 : 1), 0);
   for (const e of r.enemies) e.xpReward = (budget * (e.elite ? 2 : 1)) / weight;
   r.encounterCap = 4 + Math.floor(random(r) * 7);

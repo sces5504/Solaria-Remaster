@@ -1,0 +1,184 @@
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/biomes.test.ts (34 tests | 7 failed) 2068ms
+   × desert 六程序房型保留通路、掩體及合法原生怪 135ms
+   × icefield 六程序房型保留通路、掩體及合法原生怪 82ms
+   × volcano 六程序房型保留通路、掩體及合法原生怪 226ms
+   × jungle 六程序房型保留通路、掩體及合法原生怪 75ms
+   × corruption 六程序房型保留通路、掩體及合法原生怪 97ms
+   × crimson 六程序房型保留通路、掩體及合法原生怪 84ms
+   × stars 六程序房型保留通路、掩體及合法原生怪 86ms
+ ❯ tests/unit/biome-bosses.test.ts (35 tests | 4 failed) 3070ms
+   × BOSS-7 專屬布局入口、王落點及出口可走 11ms
+   × BOSS-8 專屬布局入口、王落點及出口可走 8ms
+   × BOSS-9 專屬布局入口、王落點及出口可走 5ms
+   × BOSS-10 專屬布局入口、王落點及出口可走 5ms
+ ❯ tests/unit/events.test.ts (19 tests | 6 failed) 252ms
+   × christmas 三有限波、後波不提前、XP替換預算、紅裝僅一次 69ms
+   × bloodmoon 三有限波、後波不提前、XP替換預算、紅裝僅一次 10ms
+   × halloween 三有限波、後波不提前、XP替換預算、紅裝僅一次 7ms
+   × alien 三有限波、後波不提前、XP替換預算、紅裝僅一次 7ms
+   × meteor 三有限波、後波不提前、XP替換預算、紅裝僅一次 4ms
+   × army 三有限波、後波不提前、XP替換預算、紅裝僅一次 11ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 17 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/biome-bosses.test.ts > BOSS-7 專屬布局入口、王落點及出口可走
+ FAIL  tests/unit/biome-bosses.test.ts > BOSS-8 專屬布局入口、王落點及出口可走
+ FAIL  tests/unit/biome-bosses.test.ts > BOSS-9 專屬布局入口、王落點及出口可走
+ FAIL  tests/unit/biome-bosses.test.ts > BOSS-10 專屬布局入口、王落點及出口可走
+AssertionError: expected 7 to be greater than or equal to 8
+ ❯ tests/unit/biome-bosses.test.ts:132:34
+    130|       const layout = bossArena(definition.id, seed);
+    131|       r.obstacles = layout.obstacles;
+    132|       expect(r.obstacles.length).toBeGreaterThanOrEqual(8);
+       |                                  ^
+    133|       expect(legal(r, { x: 112, y: 320 }, 18)).toBe(true);
+    134|       expect(legal(r, { x: 928, y: 320 }, 18)).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/17]⎯
+
+ FAIL  tests/unit/biomes.test.ts > desert 六程序房型保留通路、掩體及合法原生怪
+AssertionError: desert/1/1: expected 4 to be greater than or equal to 5
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(5);
+       |         ^
+     29|       expect(r.obstacles.filter(o => o.kind !== "lake").every(o => o.w…
+     30|       expect(r.obstacles.length).toBeLessThanOrEqual(14);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/17]⎯
+
+ FAIL  tests/unit/biomes.test.ts > icefield 六程序房型保留通路、掩體及合法原生怪
+AssertionError: icefield/1/1: expected 4 to be greater than or equal to 5
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(5);
+       |         ^
+     29|       expect(r.obstacles.filter(o => o.kind !== "lake").every(o => o.w…
+     30|       expect(r.obstacles.length).toBeLessThanOrEqual(14);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/17]⎯
+
+ FAIL  tests/unit/biomes.test.ts > volcano 六程序房型保留通路、掩體及合法原生怪
+AssertionError: volcano/1/1: expected 4 to be greater than or equal to 5
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(5);
+       |         ^
+     29|       expect(r.obstacles.filter(o => o.kind !== "lake").every(o => o.w…
+     30|       expect(r.obstacles.length).toBeLessThanOrEqual(14);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/17]⎯
+
+ FAIL  tests/unit/biomes.test.ts > jungle 六程序房型保留通路、掩體及合法原生怪
+AssertionError: jungle/1/1: expected 4 to be greater than or equal to 5
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(5);
+       |         ^
+     29|       expect(r.obstacles.filter(o => o.kind !== "lake").every(o => o.w…
+     30|       expect(r.obstacles.length).toBeLessThanOrEqual(14);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/17]⎯
+
+ FAIL  tests/unit/biomes.test.ts > corruption 六程序房型保留通路、掩體及合法原生怪
+AssertionError: corruption/1/1: expected 4 to be greater than or equal to 5
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(5);
+       |         ^
+     29|       expect(r.obstacles.filter(o => o.kind !== "lake").every(o => o.w…
+     30|       expect(r.obstacles.length).toBeLessThanOrEqual(14);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/17]⎯
+
+ FAIL  tests/unit/biomes.test.ts > crimson 六程序房型保留通路、掩體及合法原生怪
+AssertionError: crimson/1/1: expected 4 to be greater than or equal to 5
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(5);
+       |         ^
+     29|       expect(r.obstacles.filter(o => o.kind !== "lake").every(o => o.w…
+     30|       expect(r.obstacles.length).toBeLessThanOrEqual(14);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/17]⎯
+
+ FAIL  tests/unit/biomes.test.ts > stars 六程序房型保留通路、掩體及合法原生怪
+AssertionError: stars/1/1: expected 4 to be greater than or equal to 5
+ ❯ tests/unit/biomes.test.ts:28:9
+     26|         r.obstacles.filter((o) => o.kind !== "lake").length,
+     27|         `${id}/${profile}/${seed}`,
+     28|       ).toBeGreaterThanOrEqual(5);
+       |         ^
+     29|       expect(r.obstacles.filter(o => o.kind !== "lake").every(o => o.w…
+     30|       expect(r.obstacles.length).toBeLessThanOrEqual(14);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/17]⎯
+
+ FAIL  tests/unit/events.test.ts > christmas 三有限波、後波不提前、XP替換預算、紅裝僅一次
+ FAIL  tests/unit/events.test.ts > halloween 三有限波、後波不提前、XP替換預算、紅裝僅一次
+AssertionError: expected 99.99999999999999 to be close to 250, received difference is 150, but expected 0.005
+ ❯ tests/unit/events.test.ts:77:16
+     75|       r.items.filter((i) => i.ability === eventDefinitions[id].reward),
+     76|     ).toHaveLength(1);
+     77|     expect(xp).toBeCloseTo(250);
+       |                ^
+     78|     expect(r.items.at(-1)!.affixes).toHaveLength(2);
+     79|     expect(r.items.at(-1)!.rarity).toBe("紅");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/17]⎯
+
+ FAIL  tests/unit/events.test.ts > bloodmoon 三有限波、後波不提前、XP替換預算、紅裝僅一次
+AssertionError: expected 99.99999999999997 to be close to 250, received difference is 150.00000000000003, but expected 0.005
+ ❯ tests/unit/events.test.ts:77:16
+     75|       r.items.filter((i) => i.ability === eventDefinitions[id].reward),
+     76|     ).toHaveLength(1);
+     77|     expect(xp).toBeCloseTo(250);
+       |                ^
+     78|     expect(r.items.at(-1)!.affixes).toHaveLength(2);
+     79|     expect(r.items.at(-1)!.rarity).toBe("紅");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/17]⎯
+
+ FAIL  tests/unit/events.test.ts > alien 三有限波、後波不提前、XP替換預算、紅裝僅一次
+ FAIL  tests/unit/events.test.ts > army 三有限波、後波不提前、XP替換預算、紅裝僅一次
+AssertionError: expected 100.00000000000009 to be close to 250, received difference is 149.99999999999991, but expected 0.005
+ ❯ tests/unit/events.test.ts:77:16
+     75|       r.items.filter((i) => i.ability === eventDefinitions[id].reward),
+     76|     ).toHaveLength(1);
+     77|     expect(xp).toBeCloseTo(250);
+       |                ^
+     78|     expect(r.items.at(-1)!.affixes).toHaveLength(2);
+     79|     expect(r.items.at(-1)!.rarity).toBe("紅");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/17]⎯
+
+ FAIL  tests/unit/events.test.ts > meteor 三有限波、後波不提前、XP替換預算、紅裝僅一次
+AssertionError: expected 99.99999999999991 to be close to 250, received difference is 150.00000000000009, but expected 0.005
+ ❯ tests/unit/events.test.ts:77:16
+     75|       r.items.filter((i) => i.ability === eventDefinitions[id].reward),
+     76|     ).toHaveLength(1);
+     77|     expect(xp).toBeCloseTo(250);
+       |                ^
+     78|     expect(r.items.at(-1)!.affixes).toHaveLength(2);
+     79|     expect(r.items.at(-1)!.rarity).toBe("紅");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/17]⎯
+
+
+ Test Files  3 failed | 2 passed (5)
+      Tests  17 failed | 80 passed (97)
+   Start at  09:31:48
+   Duration  8.11s (tests 85%, transform 9%, import 5%)
+
+    Isolate  5 workers spawned · ~172ms startup each (spawn + environment, per file)
+             at least ~688ms faster with isolate: false — reuses workers across files instead of one per file
+

@@ -1,3 +1,4 @@
+import { terrainSize } from "./terrain-presentation";
 import { AdventureArt } from "./adventure-art";
 import { AdventureEffects } from "./adventure-effects";
 import { castleStatueMark } from "./hazard-markers";
@@ -590,7 +591,7 @@ export class Stage {
       if (o.durability > 0 && o.kind !== "lake") {
         const sx = o.x + o.w / 2,
           sy = o.y + o.h * 0.7;
-        const length = o.kind === "tree" ? 42 : 24;
+        const length = o.kind === "tree" ? 42 : Math.max(24, o.w * 0.35);
         this.shadows
           .poly([
             sx - 16,
@@ -628,24 +629,11 @@ export class Stage {
         );
       else {
         const tall = o.kind === "tree" || o.kind === "pillar";
-        const width = this.adventure
-          ? o.kind === "tree"
-            ? Math.max(96, o.w + 48)
-            : o.kind === "pillar"
-              ? Math.max(68, o.w + 24)
-              : Math.max(60, o.w + 18)
-          : o.kind === "tree"
-            ? 56
-            : 48;
-        const height = this.adventure
-          ? o.kind === "tree"
-            ? 120
-            : o.kind === "pillar"
-              ? 108
-              : Math.max(56, o.h + 16)
-          : o.kind === "tree"
-            ? 60
-            : 48;
+        const { width, height } = terrainSize(
+          o,
+          (theme || "meadow") as import("../game/data/biomes").BiomeId,
+          Boolean(this.adventure),
+        );
         const s = this.sprite(
           `ob-${o.id}`,
           theme && theme !== "meadow" ? `${theme}-${o.kind}` : o.kind,

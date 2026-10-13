@@ -164,6 +164,17 @@ export function validate(value: unknown): Saved {
       "modifiers",
     ] as const)
       if (!Array.isArray(r[field])) throw new Error("存檔缺少必要陣列");
+    if (
+      r.roomEntryLevel !== undefined &&
+      (!Number.isInteger(r.roomEntryLevel) || r.roomEntryLevel < 1)
+    )
+      throw new Error("房間成長資料損壞");
+    if (
+      r.obstacles.some(
+        (o) => o.blocksDash !== undefined && typeof o.blocksDash !== "boolean",
+      )
+    )
+      throw new Error("地形通行資料損壞");
     for (const item of [...r.items, ...r.bag, ...Object.values(r.equipment)]) {
       if (
         !item ||
@@ -219,6 +230,17 @@ export function validate(value: unknown): Saved {
       throw new Error("融合選擇損壞");
     if (r.phase === "EQUIPMENT_SLOT_CHOICE" && !r.cards[85])
       throw new Error("裝備選擇損壞");
+    if (
+      r.roomEntryLevel !== undefined &&
+      (!Number.isInteger(r.roomEntryLevel) || r.roomEntryLevel < 1)
+    )
+      throw new Error("房間成長資料損壞");
+    if (
+      r.obstacles.some(
+        (o) => o.blocksDash !== undefined && typeof o.blocksDash !== "boolean",
+      )
+    )
+      throw new Error("地形通行資料損壞");
     for (const item of [...r.items, ...r.bag, ...Object.values(r.equipment)]) {
       if (!item) continue;
       const d = item.ability ? equipmentCatalog[item.ability] : undefined;

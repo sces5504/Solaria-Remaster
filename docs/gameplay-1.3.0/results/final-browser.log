@@ -1,0 +1,58 @@
+[WebServer] (node:17834) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 16 tests using 1 worker
+
+(node:17888) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/journal.spec.ts:19:1 › 首局手冊在選職前顯示並可重看；成就外觀重載與星典備份，下一新局無永久戰力 (1.0m)
+  ✘   2 tests/browser/resonance.spec.ts:186:1 › 音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔 (1.6m)
+(node:18290) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 tests/browser/startup.spec.ts:3:1 › WebGL 主選單、三職業、輸入、暫停與入口重載 (20.4s)
+  ✓   4 tests/browser/terrain-progression.spec.ts:29:1 › 首局先手冊、兩元素與職業特色、移除重複資訊；之後新局直接選職 (15.0s)
+  ✓   5 tests/browser/terrain-progression.spec.ts:66:1 › 密碼嚴格順序與重複鍵／輸入框不解鎖，跳關保存後可重載，31不增周目 (44.4s)
+  ✓   6 tests/browser/terrain-progression.spec.ts:108:1 › 全螢幕在1024／1280／1920寬保持8:5，右側欄不蓋畫布 (29.7s)
+  ✓   7 tests/browser/terrain-progression.spec.ts:136:1 › 舊1.2.0地形快照原樣繼續，清關少XP仍有一級與選卡，重新載入不重發 (18.1s)
+  ✓   8 tests/browser/terrain-progression.spec.ts:167:3 › meadow 新地形畫面、可辨識障礙與不同房型 (10.3s)
+  ✓   9 tests/browser/terrain-progression.spec.ts:167:3 › desert 新地形畫面、可辨識障礙與不同房型 (10.6s)
+  ✓  10 tests/browser/terrain-progression.spec.ts:167:3 › icefield 新地形畫面、可辨識障礙與不同房型 (9.4s)
+  ✓  11 tests/browser/terrain-progression.spec.ts:167:3 › volcano 新地形畫面、可辨識障礙與不同房型 (13.7s)
+  ✓  12 tests/browser/terrain-progression.spec.ts:167:3 › jungle 新地形畫面、可辨識障礙與不同房型 (8.4s)
+  ✓  13 tests/browser/terrain-progression.spec.ts:167:3 › corruption 新地形畫面、可辨識障礙與不同房型 (9.6s)
+  ✓  14 tests/browser/terrain-progression.spec.ts:167:3 › crimson 新地形畫面、可辨識障礙與不同房型 (11.6s)
+  ✓  15 tests/browser/terrain-progression.spec.ts:167:3 › stars 新地形畫面、可辨識障礙與不同房型 (12.6s)
+  ✓  16 tests/browser/terrain-progression.spec.ts:167:3 › castle 新地形畫面、可辨識障礙與不同房型 (10.5s)
+
+
+  1) tests/browser/resonance.spec.ts:186:1 › 音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔 ───────────────────────
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '測試', exact: true })
+
+
+      220 |   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+      221 |   await expect(page.getByRole("button", { name: "本次已刷新" })).toBeDisabled();
+    > 222 |   await page.getByRole("button", { name: "測試", exact: true }).click();
+          |                                                               ^
+      223 |   await expect(
+      224 |     page.locator('[data-action="grant:58"]').locator(".."),
+      225 |   ).toContainText("Lv.1");
+        at /workspace/Solaria-Remaster/tests/browser/resonance.spec.ts:222:63
+
+    Error Context: test-results/resonance-音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/resonance-音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/resonance-音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/browser/resonance.spec.ts:186:1 › 音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔 ────────────────────────
+  15 passed (6.5m)

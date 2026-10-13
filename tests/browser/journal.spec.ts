@@ -16,14 +16,14 @@ async function load(page: Page, r: Run) {
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
   await expect(page.locator("#hud .status")).toBeVisible();
 }
-test("首局導引可跳過並重看；成就外觀重載與星典備份，下一新局無永久戰力", async ({
+test("首局手冊在選職前顯示並可重看；成就外觀重載與星典備份，下一新局無永久戰力", async ({
   page,
 }, info) => {
   await page.goto("/");
   await page.getByRole("button", { name: "開始新局", exact: true }).click();
+  if (await page.getByRole("button", { name: "選擇旅人", exact: true }).count())
+    await page.getByRole("button", { name: "選擇旅人", exact: true }).click();
   await page.locator('[data-action="class:mage"]').click();
-  await expect(page.locator(".first-tip")).toBeVisible();
-  await page.getByRole("button", { name: "略過導引", exact: true }).click();
   await expect(page.locator(".first-tip")).toHaveCount(0);
   await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
@@ -67,6 +67,8 @@ test("首局導引可跳過並重看；成就外觀重載與星典備份，下�
   );
   await page.getByRole("button", { name: "返回", exact: true }).click();
   await page.getByRole("button", { name: "開始新局", exact: true }).click();
+  if (await page.getByRole("button", { name: "選擇旅人", exact: true }).count())
+    await page.getByRole("button", { name: "選擇旅人", exact: true }).click();
   await page.getByRole("button", { name: "確認新局", exact: true }).click();
   await page.locator('[data-action="class:sword"]').click();
   await expect(page.locator("#hud .status")).toContainText("150 / 150");
@@ -136,6 +138,8 @@ test("另一分頁清除旅程後，舊分頁不能復活舊局或重寫新局",
   await page.keyboard.press("Escape");
   await page.getByRole("button", { name: "回主選單", exact: true }).click();
   await page.getByRole("button", { name: "開始新局", exact: true }).click();
+  if (await page.getByRole("button", { name: "選擇旅人", exact: true }).count())
+    await page.getByRole("button", { name: "選擇旅人", exact: true }).click();
   await page.getByRole("button", { name: "確認新局", exact: true }).click();
   await other.keyboard.press("KeyI");
   await other.locator('[data-action="equip:one-ring"]').click();
@@ -157,7 +161,12 @@ test("永久星典壞檔回退有提示、無備份則保留且可下載原始�
   ).toBeVisible();
   await page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((resolve) => {
-      const q = indexedDB.open("solaria-remaster", 1);
+      const q = indexedDB.open(
+        document.title.includes("待確認測試版")
+          ? "solaria-remaster-playtest-terrain-1.3.0"
+          : "solaria-remaster",
+        1,
+      );
       q.onsuccess = () => resolve(q.result);
     });
     await new Promise<void>((resolve) => {
@@ -188,7 +197,12 @@ test("永久星典壞檔回退有提示、無備份則保留且可下載原始�
   );
   await page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((resolve) => {
-      const q = indexedDB.open("solaria-remaster", 1);
+      const q = indexedDB.open(
+        document.title.includes("待確認測試版")
+          ? "solaria-remaster-playtest-terrain-1.3.0"
+          : "solaria-remaster",
+        1,
+      );
       q.onsuccess = () => resolve(q.result);
     });
     await new Promise<void>((resolve) => {

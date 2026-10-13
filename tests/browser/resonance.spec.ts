@@ -37,6 +37,8 @@ test("背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不�
   await expect(page.locator(".catalog")).not.toContainText("衝鋒斬");
   await page.getByRole("button", { name: "返回", exact: true }).click();
   await page.getByRole("button", { name: "開始新局", exact: true }).click();
+  if (await page.getByRole("button", { name: "選擇旅人", exact: true }).count())
+    await page.getByRole("button", { name: "選擇旅人", exact: true }).click();
   await expect(page.locator(".class-card img")).toHaveCount(3);
   await expect
     .poll(() =>
@@ -91,6 +93,8 @@ test("背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不�
   await page.getByRole("button", { name: "返回", exact: true }).click();
   await page.getByRole("button", { name: "回主選單", exact: true }).click();
   await page.getByRole("button", { name: "開始新局", exact: true }).click();
+  if (await page.getByRole("button", { name: "選擇旅人", exact: true }).count())
+    await page.getByRole("button", { name: "選擇旅人", exact: true }).click();
   await page.getByRole("button", { name: "確認新局", exact: true }).click();
   await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
   await page.reload();
@@ -189,6 +193,8 @@ test("音量左側測試面板可搜尋給卡、換職業補覺醒，保留待�
   r.choices = [1, 9, 13];
   r.rerollUsed = true;
   await fixture(page, r);
+  await expect(page.locator("#testing")).toBeHidden();
+  await page.keyboard.type("wwssadadba");
   const testBox = await page.locator("#testing").boundingBox();
   const volumeBox = await page.locator("#volume").boundingBox();
   expect(testBox!.x + testBox!.width).toBeLessThan(volumeBox!.x);
@@ -213,6 +219,8 @@ test("音量左側測試面板可搜尋給卡、換職業補覺醒，保留待�
   await page.reload();
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
   await expect(page.getByRole("button", { name: "本次已刷新" })).toBeDisabled();
+  await expect(page.locator("#testing")).toBeHidden();
+  await page.keyboard.type("wwssadadba");
   await page.getByRole("button", { name: "測試", exact: true }).click();
   await expect(
     page.locator('[data-action="grant:58"]').locator(".."),

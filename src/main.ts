@@ -1,3 +1,4 @@
+import { playtestBuild } from "./storage-namespace";
 import { endingView, type EndingPhase } from "./ui/ending";
 import { journal, tutorial } from "./ui/journal";
 import { roomTitle, roomStory } from "./ui/room-copy";
@@ -7,6 +8,8 @@ import { nextLoop } from "./game/core/run";
 import { currentBiome } from "./game/data/biomes";
 import "./style.css";
 import { Stage } from "./render/stage";
+import { TestingSequence } from "./input/testing-sequence";
+import { jumpToRoom } from "./game/core/testing";
 import { Input } from "./input/keyboard";
 import { AudioMixer } from "./audio/mixer";
 import { Checkpoints, validate } from "./game/persistence/checkpoint";
@@ -26,7 +29,12 @@ import { zh } from "./i18n/zh-TW";
 import * as view from "./ui/view";
 const root = document.querySelector<HTMLDivElement>("#app")!;
 root.innerHTML =
-  '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>日蝕之後 · 尋回日光</span><div class="sound"><button id="fullscreen" title="Esc 離開全螢幕">全螢幕</button><button id="testing">測試</button><label for="volume">音量</label><input id="volume" type="range" min="0" max="1" step="0.05" aria-label="音效音量"><button id="mute">音效</button></div></header><main><div class="game-layout"><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="world-hints" aria-live="polite"></div><div id="event-arrival" aria-live="polite" aria-atomic="true" hidden></div><div id="overlay"></div><div id="toast" role="status"></div></div><aside id="sidebar" aria-label="角色屬性與裝備"></aside></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · E 拾取／進門 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
+  '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>日蝕之後 · 尋回日光</span><div class="sound"><button id="fullscreen" title="Esc 離開全螢幕">全螢幕</button><button id="testing" hidden>測試</button><label for="volume">音量</label><input id="volume" type="range" min="0" max="1" step="0.05" aria-label="音效音量"><button id="mute">音效</button></div></header><main><div class="game-layout"><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="world-hints" aria-live="polite"></div><div id="event-arrival" aria-live="polite" aria-atomic="true" hidden></div><div id="overlay"></div><div id="toast" role="status"></div></div><aside id="sidebar" aria-label="角色屬性與裝備"></aside></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · E 拾取／進門 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
+if (playtestBuild) {
+  document.title = "Solaria Remaster · 1.3.0 待確認測試版";
+  document.querySelector("header > span")!.textContent =
+    "1.3.0 測試版 · 存檔獨立";
+}
 const stage = new Stage(),
   saves = new Checkpoints(),
   audio = new AudioMixer(),
@@ -51,6 +59,39 @@ let run: Run | null = null,
   lastHud = 0,
   warningId = 0,
   wasSkillReady = false;
+const testingSequence = new TestingSequence();
+let testingUnlocked = false;
+window.addEventListener("keydown", (event) => {
+  if (testingUnlocked) return;
+  const editable = (event.target as HTMLElement).closest(
+    "input, textarea, select, [contenteditable=true]",
+  );
+  if (
+    !run ||
+    screen !== "game" ||
+    actionBusy ||
+    editable ||
+    event.ctrlKey ||
+    event.altKey ||
+    event.metaKey ||
+    event.shiftKey ||
+    event.isComposing
+  ) {
+    testingSequence.reset();
+    return;
+  }
+  if (event.repeat) return;
+  if (testingSequence.press(event.code)) {
+    testingUnlocked = true;
+    document.querySelector<HTMLButtonElement>("#testing")!.hidden = false;
+    input.clear();
+    notify("旅人試驗場已開啟");
+  }
+});
+window.addEventListener("blur", () => testingSequence.reset());
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) testingSequence.reset();
+});
 let endingKey = "",
   endingStarted = 0,
   endingPhase: EndingPhase = "cinematic";
@@ -138,6 +179,7 @@ function pause() {
   }
 }
 function refresh(force = false) {
+  if (screen !== "game") testingSequence.reset();
   if (run?.phase === "RUN_END") {
     const key = `${run.runId}-${run.loop ?? 1}`;
     if (endingKey !== key) {
@@ -174,10 +216,9 @@ function refresh(force = false) {
   else if (screen === "classes") html = view.classSelect();
   else if (screen === "confirm")
     html = `<section class="panel"><h2>開始新旅程？</h2><p>將覆蓋這個瀏覽器未完成的本局存檔。永久紀錄會保留。</p>${view.button("確認新局", "confirmNew")}${view.button("保留旅程", "menu")}</section>`;
-  else if (screen === "controls") html = view.controls();
   else if (screen === "catalog") html = view.catalog(saves.discovered);
   else if (screen === "journal") html = journal(saves.profile, saves.records);
-  else if (screen === "tutorial") html = tutorial();
+  else if (screen === "tutorial") html = tutorial(menuBack === "classes");
   else if (screen === "inventory" && run) html = view.inventory(run);
   else if (screen === "test" && run) html = view.testing(run, testQuery);
   else if (screen === "stats" && run) html = view.stats(run);
@@ -228,13 +269,19 @@ async function action(value: string) {
     audio.unlock();
     audio.play("ui");
     if (act === "new") {
-      screen = saved ? "confirm" : "classes";
+      screen = saved
+        ? "confirm"
+        : saves.profile.tutorialSeen
+          ? "classes"
+          : "tutorial";
+      if (screen === "tutorial") menuBack = "classes";
     } else if (act === "confirmNew") {
       await saveChain;
       await saves.clear();
       saved = null;
       run = null;
-      screen = "classes";
+      screen = saves.profile.tutorialSeen ? "classes" : "tutorial";
+      if (screen === "tutorial") menuBack = "classes";
     } else if (act === "class") {
       audio.unlock();
       run = newRun(
@@ -288,6 +335,25 @@ async function action(value: string) {
         persist(true);
         notify("已給予卡片 · 測試構築已保存");
       }
+    } else if (
+      act === "jump" &&
+      testingUnlocked &&
+      screen === "test" &&
+      run &&
+      !saveBusy
+    ) {
+      const room = Number(
+        document.querySelector<HTMLSelectElement>("#test-room")!.value,
+      );
+      if (jumpToRoom(run, room)) {
+        screen = testBack = "game";
+        input.clear();
+        clock.reset();
+        soundId = warningId = run.nextId - 1;
+        selected = 0;
+        persist(true);
+        notify(`已抵達第 ${room} / 31 關 · 第 ${run.loop ?? 1} 周目`);
+      }
     } else if (act === "testBack") {
       screen = testBack;
       input.clear();
@@ -297,10 +363,12 @@ async function action(value: string) {
       input.clear();
       clock.reset();
       lastTime = 0;
-    } else if (["controls", "catalog", "journal", "tutorial"].includes(act)) {
+    } else if (["catalog", "journal", "tutorial"].includes(act)) {
       menuBack = screen;
       screen = act;
     } else if (act === "back") {
+      if (screen === "tutorial" && menuBack === "classes")
+        await saves.preference({ tutorialSeen: true });
       screen = menuBack;
     } else if (act === "equip" && run && !saveBusy) {
       if (equip(run, arg)) {
@@ -432,6 +500,7 @@ document.querySelector<HTMLButtonElement>("#fullscreen")!.onclick =
     }
   };
 document.querySelector<HTMLButtonElement>("#testing")!.onclick = () => {
+  if (!testingUnlocked) return;
   if (!run || ["DEAD", "RUN_END"].includes(run.phase)) {
     notify("先選擇旅人、開始旅程，再開啟測試構築。");
     return;

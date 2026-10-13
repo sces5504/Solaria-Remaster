@@ -1,0 +1,165 @@
+[WebServer] (node:16031) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 31 tests using 1 worker
+
+(node:16050) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/journal.spec.ts:19:1 › 首局手冊在選職前顯示並可重看；成就外觀重載與星典備份，下一新局無永久戰力 (54.4s)
+  ✓   2 tests/browser/journal.spec.ts:97:1 › 兩分頁換裝revision衝突保留唯一物件，錯誤可匯出目前工作備份 (1.0m)
+  ✓   3 tests/browser/journal.spec.ts:129:1 › 另一分頁清除旅程後，舊分頁不能復活舊局或重寫新局 (1.1m)
+  ✘   4 tests/browser/journal.spec.ts:157:1 › 永久星典壞檔回退有提示、無備份則保留且可下載原始檔 (8.5s)
+(node:16668) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 tests/browser/journal.spec.ts:255:1 › 模擬配額失敗保留交易前存檔，匯出含目前工作狀態 (17.7s)
+  ✓   6 tests/browser/journal.spec.ts:280:1 › 全螢幕保持8:5與返回尺寸、音量靜音重載後恢復原值 (12.1s)
+  ✓   7 tests/browser/journal.spec.ts:321:1 › 瀏覽器拒絕IndexedDB時顯示存檔錯誤而非WebGL，恢復存取可重試 (2.8s)
+  ✓   8 tests/browser/journal.spec.ts:359:1 › 美術資源失敗可重試，既有存檔保持 (15.6s)
+  ✓   9 tests/browser/journal.spec.ts:374:1 › 選擇未保存時離頁受保護，交易完成後允許離頁 (19.8s)
+  ✓  10 tests/browser/journal.spec.ts:425:1 › 取消覆蓋匯入後介面恢復操作，既有旅程與唯一裝備保留 (16.7s)
+  ✘  11 tests/browser/resonance.spec.ts:22:1 › 背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不能重用 (9.7s)
+(node:17053) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  12 tests/browser/resonance.spec.ts:106:1 › 戰鬥可 E 收裝備到背包，裝備整理仍需清關 (26.6s)
+  ✓  13 tests/browser/resonance.spec.ts:138:1 › 爆炸、雷柱、冰火場及衝鋒拖尾在 WebGL 可呈現 (15.7s)
+  ✘  14 tests/browser/resonance.spec.ts:186:1 › 音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔 (20.8s)
+(node:17421) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  15 tests/browser/resonance.spec.ts:230:1 › 冰緩速、冰凍、電麻痺與粗連鎖分開呈現，遺跡柱與門没有切圖底框 (11.9s)
+  ✓  16 tests/browser/startup.spec.ts:3:1 › WebGL 主選單、三職業、輸入、暫停與入口重載 (16.4s)
+  ✓  17 tests/browser/startup.spec.ts:40:1 › 圖鑑完整、音效設定持續 (4.3s)
+  ✓  18 tests/browser/startup.spec.ts:53:1 › 真實 IndexedDB 選卡不重抽、清關穿戴保存與匯入損壞保護 (22.0s)
+  ✓  19 tests/browser/terrain-progression.spec.ts:32:1 › 首局先手冊、兩元素與職業特色、移除重複資訊；之後新局直接選職 (12.9s)
+  ✘  20 tests/browser/terrain-progression.spec.ts:69:1 › 密碼嚴格順序與重複鍵／輸入框不解鎖，跳關保存後可重載，31不增周目 (3.9s)
+
+
+  1) tests/browser/journal.spec.ts:157:1 › 永久星典壞檔回退有提示、無備份則保留且可下載原始檔 ───────────────────────────────
+
+    Error: page.evaluate: NotFoundError: Failed to execute 'transaction' on 'IDBDatabase': One of the specified object stores was not found.
+        at eval (eval at evaluate (:370:30), <anonymous>:7:21)
+        at new Promise (<anonymous>)
+        at eval (eval at evaluate (:370:30), <anonymous>:6:11)
+        at async <anonymous>:396:30
+        at eval (eval at evaluate (:370:30), <anonymous>:7:21)
+        at eval (eval at evaluate (:370:30), <anonymous>:6:11)
+        at async <anonymous>:396:30
+        at /workspace/Solaria-Remaster/tests/browser/journal.spec.ts:162:14
+
+    Error Context: test-results/journal-永久星典壞檔回退有提示、無備份則保留且可下載原始檔/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/journal-永久星典壞檔回退有提示、無備份則保留且可下載原始檔/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/journal-永久星典壞檔回退有提示、無備份則保留且可下載原始檔/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/browser/resonance.spec.ts:22:1 › 背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不能重用 ────────────────────────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.menu')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.menu') with timeout 5000ms
+      - waiting for locator('.menu')
+
+
+      24 | }) => {
+      25 |   await page.goto("/");
+    > 26 |   await expect(page.locator(".menu")).toBeVisible();
+         |                                       ^
+      27 |   expect(
+      28 |     await page
+      29 |       .locator(".menu")
+        at /workspace/Solaria-Remaster/tests/browser/resonance.spec.ts:26:39
+
+    Error Context: test-results/resonance-背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不能重用/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/resonance-背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不能重用/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/resonance-背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不能重用/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/browser/resonance.spec.ts:186:1 › 音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔 ───────────────────────
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.test-card')
+    Expected: 85
+    Received: 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.test-card') with timeout 5000ms
+      - waiting for locator('.test-card')
+        12 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      200 |   expect(testBox!.x + testBox!.width).toBeLessThan(volumeBox!.x);
+      201 |   await page.getByRole("button", { name: "測試", exact: true }).click();
+    > 202 |   await expect(page.locator(".test-card")).toHaveCount(cards.length);
+          |                                            ^
+      203 |   await page.getByRole("searchbox", { name: "搜尋測試卡片" }).fill("連鎖閃電");
+      204 |   await expect(page.locator(".test-card:visible")).toHaveCount(1);
+      205 |   await page.locator('[data-action="grant:29"]').click();
+        at /workspace/Solaria-Remaster/tests/browser/resonance.spec.ts:202:44
+
+    Error Context: test-results/resonance-音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/resonance-音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/resonance-音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/browser/terrain-progression.spec.ts:69:1 › 密碼嚴格順序與重複鍵／輸入框不解鎖，跳關保存後可重載，31不增周目 ────────────
+
+    Test was interrupted.
+
+    Error: browserContext._wrapApiCall: file data stream has unexpected number of bytes
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('status')
+    Expected substring: "匯入成功"
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" getByRole('status') with timeout 5000ms
+      - waiting for getByRole('status')
+      - Test ended.
+
+
+      20 |   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+      21 |   await expect(page.locator("#hud .status")).toBeVisible();
+    > 22 | }
+         |  ^
+      23 | async function exported(page: Page) {
+      24 |   await page.keyboard.press("Escape");
+      25 |   const pending = page.waitForEvent("download");
+        at fixture (/workspace/Solaria-Remaster/tests/browser/terrain-progression.spec.ts:22:42)
+        at /workspace/Solaria-Remaster/tests/browser/terrain-progression.spec.ts:76:3
+
+    Error: End of central directory record signature not found. Either not a zip file, or file is truncated.
+
+    Error Context: test-results/terrain-progression-密碼嚴格順序與重複鍵／輸入框不解鎖，跳關保存後可重載，31不增周目/error-context.md
+
+  3 failed
+    tests/browser/journal.spec.ts:157:1 › 永久星典壞檔回退有提示、無備份則保留且可下載原始檔 ────────────────────────────────
+    tests/browser/resonance.spec.ts:22:1 › 背景與持武器肖像、圖鑑取卡解鎖跨新局、刷新讀檔不能重用 ─────────────────────────────
+    tests/browser/resonance.spec.ts:186:1 › 音量左側測試面板可搜尋給卡、換職業補覺醒，保留待選與刷新並讀檔 ────────────────────────
+  1 interrupted
+    tests/browser/terrain-progression.spec.ts:69:1 › 密碼嚴格順序與重複鍵／輸入框不解鎖，跳關保存後可重載，31不增周目 ─────────────
+  11 did not run
+  16 passed (7.2m)

@@ -239,6 +239,9 @@ export function settle(r: Run) {
 }
 function finishSettlement(r: Run) {
   consumeDrops(r, true);
+  // Every cleared room grants one base level. Bonuses keep their overflow;
+  // old checkpoints and skipped-room builds also receive a complete reward.
+  r.xp = Math.max(r.xp, 100 + 20 * (r.level - 1));
   while (r.xp + 1e-7 >= 100 + 20 * (r.level - 1)) {
     r.xp = Math.max(0, r.xp - (100 + 20 * (r.level - 1)));
     r.level++;

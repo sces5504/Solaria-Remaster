@@ -29,6 +29,8 @@ async function inspect(page: Page): Promise<Diagnostics> {
 }
 async function start(page: Page, role: string) {
   await page.getByRole("button", { name: "開始新局", exact: true }).click();
+  if (await page.getByRole("button", { name: "選擇旅人", exact: true }).count())
+    await page.getByRole("button", { name: "選擇旅人", exact: true }).click();
   const confirm = page.getByRole("button", { name: "確認新局", exact: true });
   if (await confirm.count()) await confirm.click();
   await page.locator(`[data-action="class:${role}"]`).click();

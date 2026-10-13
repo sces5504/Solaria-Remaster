@@ -129,7 +129,11 @@ it.each(Object.values(bosses))(
       const r = newRun("sword", seed);
       const layout = bossArena(definition.id, seed);
       r.obstacles = layout.obstacles;
-      expect(r.obstacles.length).toBeGreaterThanOrEqual(8);
+      expect(r.obstacles.length).toBeGreaterThanOrEqual(6);
+      expect(r.obstacles.every((o) => o.w >= 64)).toBe(true);
+      expect(
+        r.obstacles.reduce((sum, o) => sum + o.w * o.h, 0),
+      ).toBeGreaterThanOrEqual(18000);
       expect(legal(r, { x: 112, y: 320 }, 18)).toBe(true);
       expect(legal(r, { x: 928, y: 320 }, 18)).toBe(true);
       expect(legal(r, { x: 760, y: 320 }, definition.radius)).toBe(true);

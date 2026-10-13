@@ -16,7 +16,8 @@ export function legal(r: Run, p: Vec, radius = 12, low = true) {
     p.y >= 64 + radius &&
     p.y <= 608 - radius &&
     r.obstacles.every(
-      (o) => (!low && o.kind === "lake") || !contains(o, p, radius),
+      (o) =>
+        (!low && o.kind === "lake" && !o.blocksDash) || !contains(o, p, radius),
     )
   );
 }
@@ -27,7 +28,14 @@ export function lineBlocked(r: Run, a: Vec, b: Vec, low = false) {
       x: a.x + ((b.x - a.x) * i) / (n || 1),
       y: a.y + ((b.y - a.y) * i) / (n || 1),
     };
-    if (!legal(r, p, 0, low)) return true;
+    if (
+      p.x < 32 ||
+      p.x > 992 ||
+      p.y < 64 ||
+      p.y > 608 ||
+      r.obstacles.some((o) => (low || o.kind !== "lake") && contains(o, p))
+    )
+      return true;
   }
   return false;
 }
@@ -64,7 +72,7 @@ export function coneHit(
 export function beamEnd(r: Run, origin: Vec, a: number) {
   for (let d = 0; d < 1300; d += 4) {
     const p = { x: origin.x + Math.cos(a) * d, y: origin.y + Math.sin(a) * d };
-    if (!legal(r, p, 0, false)) return p;
+    if (lineBlocked(r, p, p)) return p;
   }
   return origin;
 }

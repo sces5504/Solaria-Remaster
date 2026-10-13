@@ -39,6 +39,6 @@ export function journal(p: Profile, records: JourneyRecord[]) {
       .join("") || "<p>尚無已結束的旅程。</p>"
   }</div></details>${button("匯出星典備份", "exportProfile")}${button("返回", "back")}</section>`;
 }
-export function tutorial() {
-  return `<section class="panel wide tutorial"><div class="eyebrow">旅人手冊</div><h2>循光而行</h2><div class="tutorial-steps"><article><b>01 · 走位與瞄準</b><p>WASD 移動，滑鼠瞄準。掩體能擋住敵彈；紅色輪廓是敵人的預警。</p></article><article><b>02 · 兩種力量</b><p>按住左鍵普攻，右鍵施放職技；兩者可同時使用。空白鍵閃避，角色腳下顯示職技冷卻。</p></article><article><b>03 · 清關與拾取</b><p>靠近裝備按 E 拾取。清關先回復生命，再吸收經驗與補給、選擇力量；裝備留在地面。I 整理背包、C 看構築。</p></article><article><b>04 · 尋回日光</b><p>靠近右門按 E 前進。三十關秘境之後，索拉里斯等待你；災厄替換普通房，清完獲得專屬紅裝。</p></article></div><p class="fine">Esc 暫停；切換分頁會自動暫停，返回後需手動繼續。每次三選一可刷新一次；重載保留已使用狀態。</p>${button("回到旅程", "back")}</section>`;
+export function tutorial(beforeClass = false) {
+  return `<section class="panel wide tutorial"><div class="eyebrow">旅人手冊</div><h2>循光而行</h2><div class="tutorial-steps"><article><b>01 · 迎戰暮色</b><p>WASD 移動、滑鼠瞄準。左鍵普攻與右鍵職技，兩者可同時使用。空白鍵閃避沒有無敵；劍士可用格擋抵禦攻擊。留意敵方預警，善用掩體。</p></article><article><b>02 · 元素覺醒</b><p>覺醒是構築的核心：通常最多覺醒兩種元素，沿各自能力成長，特定組合可融合為新力量。特殊命運牌可突破上限，但伴隨代價。每次升級三選一，可免費刷新一次。</p></article><article><b>03 · 清關與整備</b><p>每關皆有升級收穫。靠近裝備按 E 拾取；清關後可穿戴整備，再於右門按 E 前進。I 開背包、C 看構築。六重秘境之後，迎戰索拉里斯神。</p></article><article><b>04 · 留住旅程</b><p>Esc 暫停；切換分頁會自動暫停。戰鬥重載回本房入口，選卡與清關整備自動保存。存檔保存在此瀏覽器，可從暫停選單匯出備份。</p></article></div><p class="fine">製作者：Mori Fang · 日蝕之後，循光而行。</p>${button(beforeClass ? "選擇旅人" : "返回", "back")}</section>`;
 }
