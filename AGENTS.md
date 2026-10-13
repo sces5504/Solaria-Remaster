@@ -1,5 +1,11 @@
 # Solaria Remaster
 
+## 1.3.1 已正式發布（2026-10-13）
+
+主人接受preview.2並明示發布；正式main正常快進，固定tag v1.3.1遊戲來源7df2ad8302183d5f772831d6050b03bad1814bb0。Release https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.3.1 ，遊玩 https://sces5504.github.io/Solaria-Remaster/?v=1.3.1 。Pages38399163589：check／428unit／format／build／6相關Chromium1.4分鐘／部署PASS，無flaky。正式50檔與發布建置SHA相同，實際首局手冊、密碼跳21／31、保存重載與周目門檻PASS，pageerror空。不是完整browser／真GPU／跨瀏覽器或自然全職流程驗證。證據docs/gameplay-1.3.1/results；舊失敗紀錄保留。
+
+第一步Boss彈幕×0.95、近戰掩體10免玩家資格、其他資格220×range完成。第二步108房型／裝飾／同名變體接gameplay/v1.3.2-room-variety獨立預覽，不包含在本正式版。原固定1.1.2refs、備份下載、原作與旁支交接均不改，不開Chat／agent。
+
 ## 1.3.1 正式發布授權與房型擴充（2026-10-13）
 
 主人已接受 preview.2 的布局與裁切，明示先把 Boss 彈幕傷害降低5%、Boss近戰掩體損傷翻倍且免玩家距離限制、其他掩體受損資格半徑改為靜電釋放的兩倍，然後發布main版本1.3.1。這項明確確認取代下方舊「待確認／禁止main」狀態。第二步新增54房型（總108）、非碰撞裝飾及同名受主題約束隨機變體，留獨立預覽，正式main先只含第一步。固定1.1.2封存、原作與旁支交接不動，不開Chat／agent。
