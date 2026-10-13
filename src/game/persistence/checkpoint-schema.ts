@@ -137,7 +137,12 @@ export function validate(value: unknown): Saved {
             !Array.isArray(seg.templates) ||
             seg.templates.length !== 4 ||
             new Set(seg.templates).size !== 4 ||
-            seg.templates.some((t) => !Number.isInteger(t) || t < 0 || t > 5) ||
+            seg.templates.some(
+              (t) =>
+                !Number.isInteger(t) ||
+                t < 0 ||
+                t >= biomes[seg.biome].themes.length,
+            ) ||
             !Number.isInteger(seg.boss) ||
             seg.boss < 1 ||
             seg.boss > 18,

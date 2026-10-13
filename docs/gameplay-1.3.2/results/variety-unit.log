@@ -1,0 +1,56 @@
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/named-room-themes.test.ts (24 tests | 7 failed) 2343ms
+   × meadow 同名房型隨種子變動、重載穩定且裝飾在可走地面 45ms
+   × desert 同名房型隨種子變動、重載穩定且裝飾在可走地面 35ms
+   × volcano 同名房型隨種子變動、重載穩定且裝飾在可走地面 54ms
+   × jungle 同名房型隨種子變動、重載穩定且裝飾在可走地面 7ms
+   × corruption 同名房型隨種子變動、重載穩定且裝飾在可走地面 36ms
+   × castle 同名房型隨種子變動、重載穩定且裝飾在可走地面 7ms
+   × 新旅程能選到全部12房型，舊旅程與保存布局不重抽 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/named-room-themes.test.ts > meadow 同名房型隨種子變動、重載穩定且裝飾在可走地面
+ FAIL  tests/unit/named-room-themes.test.ts > desert 同名房型隨種子變動、重載穩定且裝飾在可走地面
+ FAIL  tests/unit/named-room-themes.test.ts > volcano 同名房型隨種子變動、重載穩定且裝飾在可走地面
+ FAIL  tests/unit/named-room-themes.test.ts > jungle 同名房型隨種子變動、重載穩定且裝飾在可走地面
+ FAIL  tests/unit/named-room-themes.test.ts > corruption 同名房型隨種子變動、重載穩定且裝飾在可走地面
+ FAIL  tests/unit/named-room-themes.test.ts > castle 同名房型隨種子變動、重載穩定且裝飾在可走地面
+AssertionError: expected 1 to be greater than 1
+ ❯ tests/unit/named-room-themes.test.ts:141:29
+    139|         }
+    140|       }
+    141|       expect(variants.size).toBeGreaterThan(1);
+       |                             ^
+    142|     }
+    143|   },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  tests/unit/named-room-themes.test.ts > 新旅程能選到全部12房型，舊旅程與保存布局不重抽
+AssertionError: expected 11 to be 12 // Object.is equality
+
+- Expected
++ Received
+
+- 12
++ 11
+
+ ❯ tests/unit/named-room-themes.test.ts:155:35
+    153|     }
+    154|   for (const id of Object.keys(biomes) as BiomeId[])
+    155|     expect(choices.get(id)?.size).toBe(12);
+       |                                   ^
+    156|   const r = newRun("sword", 57);
+    157|   r.journey![0].templates = [5, 2, 1, 0];
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  7 failed | 23 passed (30)
+   Start at  12:45:28
+   Duration  3.53s (tests 78%, transform 18%, import 4%)
+

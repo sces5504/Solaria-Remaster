@@ -115,7 +115,7 @@ export function terrainLayout(
 } {
   const spec = ecology[id];
   const rng = { rng: seedFor(seed, 8500 + profile * 31 + boss * 113) };
-  const theme = roomThemes[id][profile % 6];
+  const theme = roomThemes[id][profile % roomThemes[id].length];
   const geometry = themeGeometry(theme, seed);
   const route = boss
     ? [
@@ -264,5 +264,30 @@ export function terrainLayout(
         add(x, y, 64, 48, theme.cover[0]);
       }
   }
+  // Loose ground details occupy free floor, never the collision/cover array.
+  const free = Array.from({ length: 36 }, () => ({
+    x: 208 + random(rng) * 656,
+    y: 112 + random(rng) * 416,
+  })).filter((p) =>
+    obstacles.every(
+      (o) =>
+        p.x < o.x - 24 ||
+        p.x > o.x + o.w + 24 ||
+        p.y < o.y - 24 ||
+        p.y > o.y + o.h + 24,
+    ),
+  );
+  scenery.push({
+    kind: theme.ground,
+    points: free.slice(0, 12),
+    width: 36 + random(rng) * 20,
+    seed: seedFor(seed, 9001),
+  });
+  scenery.push({
+    kind: theme.trail ?? (id === "jungle" ? "leaves" : "gravel"),
+    points: free.slice(12, 24),
+    width: 24 + random(rng) * 20,
+    seed: seedFor(seed, 9002),
+  });
   return { obstacles, route, scenery, theme: theme.name };
 }

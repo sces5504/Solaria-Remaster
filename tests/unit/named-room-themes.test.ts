@@ -13,11 +13,11 @@ import { pauseView, menu } from "../../src/ui/view";
 import { validate } from "../../src/game/persistence/checkpoint";
 
 it.each(Object.keys(biomes) as BiomeId[])(
-  "%s 六個房名各有具名配置、不同佈局，54房型保持通行",
+  "%s 十二個房名各有具名配置、不同佈局，108房型保持通行",
   (id) => {
     expect(roomThemes[id].map((t) => t.name)).toEqual(biomes[id].themes);
     const shapes = new Set<string>();
-    for (let profile = 0; profile < 6; profile++)
+    for (let profile = 0; profile < 12; profile++)
       for (let seed = 1; seed <= 10; seed++) {
         const layout = terrainLayout(id, profile, seed);
         expect(layout.theme).toBe(biomes[id].themes[profile]);
@@ -41,7 +41,7 @@ it.each(Object.keys(biomes) as BiomeId[])(
             ),
           ).toBe(true);
       }
-    expect(shapes.size).toBe(6);
+    expect(shapes.size).toBe(12);
   },
 );
 it("四季樹庭四群樹、軌道環臺環狀星紋、黑曜長廊雙列柱，裝飾沒有碰撞", () => {
@@ -111,4 +111,52 @@ it("叢林樹冠清掉前一列冰岩白邊，保留綠葉頂部", () => {
   isolateProp(data, w, w, "jungle-tree");
   expect(data[(5 * w + 50) * 4 + 3]).toBe(0);
   expect(data[(8 * w + 50) * 4 + 3]).toBe(255);
+});
+
+it.each(Object.keys(biomes) as BiomeId[])(
+  "%s 同名房型隨種子變動、重載穩定且裝飾在可走地面",
+  (id) => {
+    for (let profile = 0; profile < 12; profile++) {
+      const variants = new Set<string>();
+      for (const seed of [11, 25, 39, 58]) {
+        const a = terrainLayout(id, profile, seed);
+        expect(a).toEqual(terrainLayout(id, profile, seed));
+        variants.add(
+          JSON.stringify(
+            a.obstacles.map(({ x, y, w, h, kind }) => ({ x, y, w, h, kind })),
+          ),
+        );
+        expect(a.scenery.length).toBeGreaterThanOrEqual(3);
+        for (const feature of a.scenery.slice(-2)) {
+          expect(feature.points.length).toBeGreaterThan(0);
+          for (const p of feature.points)
+            expect(
+              a.obstacles.every(
+                (o) =>
+                  p.x < o.x || p.x > o.x + o.w || p.y < o.y || p.y > o.y + o.h,
+              ),
+            ).toBe(true);
+        }
+      }
+      expect(variants.size).toBeGreaterThan(1);
+    }
+  },
+);
+it("新旅程能選到全部12房型，舊旅程與保存布局不重抽", async () => {
+  const { journeyFor } = await import("../../src/game/data/journey");
+  const choices = new Map<BiomeId, Set<number>>();
+  for (let seed = 1; seed <= 200; seed++)
+    for (const seg of journeyFor(seed)) {
+      const set = choices.get(seg.biome) ?? new Set<number>();
+      seg.templates.forEach((t) => set.add(t));
+      choices.set(seg.biome, set);
+    }
+  for (const id of Object.keys(biomes) as BiomeId[])
+    expect(choices.get(id)?.size).toBe(12);
+  const r = newRun("sword", 57);
+  r.journey![0].templates = [5, 2, 1, 0];
+  const old = JSON.parse(JSON.stringify(r));
+  expect(
+    validate({ version: 1, revision: 0, current: r, entry: r }).current.journey,
+  ).toEqual(old.journey);
 });

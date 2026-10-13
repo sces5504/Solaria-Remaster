@@ -1,5 +1,17 @@
 # AI_HANDOFF_MASTER — 長期記憶入口（未來交接專用）
 
+## 1.3.2-preview.1 房型擴充，正式main維持1.3.1（2026-10-13）
+
+第二步在gameplay/v1.3.2-room-variety：九地形每種12房名，共108，原54房名／索引保留。新增弧灣、階臺、雙島、放射扇陣、交織脊線、分岔門庭六類配方，各自按生態材料和地面細節呈現；每房加入可走空地碎石／花草／落葉等無碰撞裝飾。種子決定有界錨點偏移、局部間距／尺寸／材料與裝飾，布局主題保留；重載不重抽。journey新局12選4，六地形與Boss抽樣流保留；舊journey不重抽，保存schema1接納0–11模板。
+
+初輪108房型／通行20unit通過；追加種子變體驗證7FAIL揭露簡單乘法偏斜，改雙輪混合後30相關unit通過。完整unit與新增房型实际Chromium進行中，CI／預覽尚未完成，不提前標PASS。正式1.3.1已發布，第二步仍獨立測試，不推main，不開Chat／agent，封存不改。
+
+## 1.3.1 已正式發布（2026-10-13）
+
+主人接受preview.2並明示發布；正式main正常快進，固定tag v1.3.1遊戲來源7df2ad8302183d5f772831d6050b03bad1814bb0。Release https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.3.1 ，遊玩 https://sces5504.github.io/Solaria-Remaster/?v=1.3.1 。Pages38399163589：check／428unit／format／build／6相關Chromium1.4分鐘／部署PASS，無flaky。正式50檔與發布建置SHA相同，實際首局手冊、密碼跳21／31、保存重載與周目門檻PASS，pageerror空。不是完整browser／真GPU／跨瀏覽器或自然全職流程驗證。證據docs/gameplay-1.3.1/results；舊失敗紀錄保留。
+
+第一步Boss彈幕×0.95、近戰掩體10免玩家資格、其他資格220×range完成。第二步108房型／裝飾／同名變體接gameplay/v1.3.2-room-variety獨立預覽，不包含在本正式版。原固定1.1.2refs、備份下載、原作與旁支交接均不改，不開Chat／agent。
+
 ## 1.3.1 正式發布授權與房型擴充（2026-10-13）
 
 主人已接受 preview.2 的布局與裁切，明示先把 Boss 彈幕傷害降低5%、Boss近戰掩體損傷翻倍且免玩家距離限制、其他掩體受損資格半徑改為靜電釋放的兩倍，然後發布main版本1.3.1。這項明確確認取代下方舊「待確認／禁止main」狀態。第二步新增54房型（總108）、非碰撞裝飾及同名受主題約束隨機變體，留獨立預覽，正式main先只含第一步。固定1.1.2封存、原作與旁支交接不動，不開Chat／agent。

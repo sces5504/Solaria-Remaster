@@ -1,0 +1,19 @@
+[WebServer] (node:27069) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 1 worker
+
+(node:27095) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/named-room-themes.spec.ts:60:3 › 房名布局 月牙林灣：地面、掩體、水域與裝飾 (19.2s)
+  ✓   2 tests/browser/named-room-themes.spec.ts:60:3 › 房名布局 層階砂臺：地面、掩體、水域與裝飾 (16.1s)
+  ✓   3 tests/browser/named-room-themes.spec.ts:60:3 › 房名布局 雙島霜澤：地面、掩體、水域與裝飾 (10.8s)
+  ✓   4 tests/browser/named-room-themes.spec.ts:60:3 › 房名布局 噴岩扇丘：地面、掩體、水域與裝飾 (12.9s)
+  ✓   5 tests/browser/named-room-themes.spec.ts:60:3 › 房名布局 交織巨根：地面、掩體、水域與裝飾 (17.7s)
+  ✓   6 tests/browser/named-room-themes.spec.ts:60:3 › 房名布局 岔隙幽門：地面、掩體、水域與裝飾 (18.3s)
+  ✓   7 tests/browser/named-room-themes.spec.ts:60:3 › 房名布局 赤弦血灣：地面、掩體、水域與裝飾 (11.9s)
+  ✓   8 tests/browser/named-room-themes.spec.ts:60:3 › 房名布局 交織星軌：地面、掩體、水域與裝飾 (12.3s)
+  ✓   9 tests/browser/named-room-themes.spec.ts:60:3 › 房名布局 分岔門庭：地面、掩體、水域與裝飾 (12.4s)
+  ✓  10 tests/browser/named-room-themes.spec.ts:76:1 › 房名布局 地面装飾保存重載，暫停不再有成就外觀，主選單仍有 (12.0s)
+
+  10 passed (2.4m)

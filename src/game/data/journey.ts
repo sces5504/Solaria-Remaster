@@ -1,3 +1,4 @@
+import { roomThemes } from "./room-themes";
 import { eventDefinitions } from "./events";
 import type { Run } from "../core/types";
 import type { BiomeId } from "./biomes";
@@ -32,9 +33,12 @@ export function journeyFor(seed: number, loop = 1): JourneySegment[] {
     "castle",
   ];
   return route.map((biome) => {
-    const rng = { rng: seedFor(seed, 7100 + loop * 19 + pairs[biome]) };
-    const templates = [0, 1, 2, 3, 4, 5];
-    for (let i = 5; i > 0; i--) {
+    let layoutSeed = seedFor(seed, 7100 + loop * 19 + pairs[biome]);
+    layoutSeed = Math.imul(layoutSeed ^ (layoutSeed >>> 16), 0x85ebca6b);
+    layoutSeed = Math.imul(layoutSeed ^ (layoutSeed >>> 13), 0xc2b2ae35);
+    const rng = { rng: (layoutSeed ^ (layoutSeed >>> 16)) >>> 0 || 1 };
+    const templates = roomThemes[biome].map((_, i) => i);
+    for (let i = templates.length - 1; i > 0; i--) {
       const j = Math.floor(random(rng) * (i + 1));
       [templates[i], templates[j]] = [templates[j], templates[i]];
     }

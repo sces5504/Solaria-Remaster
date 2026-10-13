@@ -18,6 +18,7 @@ on:
             balance-feedback,
             terrain-preview,
             theme-preview,
+            variety-preview,
           ]
 permissions:
   contents: read
@@ -56,6 +57,8 @@ jobs:
             npm run test:browser -- tests/browser/boss-cover-balance.spec.ts tests/browser/boss-rework.spec.ts
           elif [ "$VALIDATION_SCOPE" = "gameplay-feedback" ]; then
             npm run test:browser -- tests/browser/boss-rework.spec.ts tests/browser/recovery.spec.ts
+          elif [ "$VALIDATION_SCOPE" = "variety-preview" ]; then
+            npm run test:browser -- tests/browser/named-room-themes.spec.ts --grep '月牙林灣|層階砂臺|雙島霜澤|噴岩扇丘|交織巨根|岔隙幽門|赤弦血灣|交織星軌|分岔門庭|保存重載'
           elif [ "$VALIDATION_SCOPE" = "theme-preview" ]; then
             npm run test:browser -- tests/browser/named-room-themes.spec.ts tests/browser/journal.spec.ts --grep '房名布局|首局手冊'
           elif [ "$VALIDATION_SCOPE" = "terrain-preview" ]; then

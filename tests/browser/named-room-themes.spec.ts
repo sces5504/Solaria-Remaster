@@ -39,6 +39,15 @@ async function load(page: Page, biome: BiomeId, profile: number, seed: number) {
   return r;
 }
 for (const [biome, profile, name] of [
+  ["meadow", 6, "月牙林灣"],
+  ["desert", 7, "層階砂臺"],
+  ["icefield", 8, "雙島霜澤"],
+  ["volcano", 9, "噴岩扇丘"],
+  ["jungle", 10, "交織巨根"],
+  ["corruption", 11, "岔隙幽門"],
+  ["crimson", 6, "赤弦血灣"],
+  ["stars", 10, "交織星軌"],
+  ["castle", 11, "分岔門庭"],
   ["meadow", 4, "四季樹庭"],
   ["meadow", 1, "碎岩之岸"],
   ["desert", 3, "三重綠洲"],
