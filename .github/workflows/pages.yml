@@ -17,6 +17,7 @@ on:
             gameplay-feedback,
             balance-feedback,
             maintenance-feedback,
+            save-feedback,
             terrain-preview,
             theme-preview,
             variety-preview,
@@ -54,6 +55,8 @@ jobs:
             npm run test:browser -- tests/browser/adventure-art.spec.ts tests/browser/last-polish.spec.ts --grep '短FX|美術回饋|精雕冒險 (meadow|volcano|castle)：|發光藍雷|扇形噴火'
           elif [ "$VALIDATION_SCOPE" = "visibility-feedback" ]; then
             npm run test:browser -- tests/browser/visibility-feedback.spec.ts
+          elif [ "$VALIDATION_SCOPE" = "save-feedback" ]; then
+            npm run test:browser -- tests/browser/feedback-132.spec.ts --grep '嚴格密碼|舊命運'
           elif [ "$VALIDATION_SCOPE" = "maintenance-feedback" ]; then
             npm run test:browser -- tests/browser/feedback-132.spec.ts tests/browser/boss-cover-balance.spec.ts
           elif [ "$VALIDATION_SCOPE" = "balance-feedback" ]; then

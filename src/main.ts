@@ -254,7 +254,7 @@ function refresh(force = false) {
       btn.disabled = true;
   if (saveBusy)
     for (const btn of overlay.querySelectorAll<HTMLButtonElement>(
-      'button[data-action^="choose:"],button[data-action^="fusion:"],button[data-action^="slot:"],button[data-action^="equip:"],button[data-action^="discard:"],button[data-action^="grant:"],button[data-action="reroll"],button[data-action="nextLoop"]',
+      'button[data-action^="choose:"],button[data-action^="fusion:"],button[data-action^="slot:"],button[data-action^="equip:"],button[data-action^="discard:"],button[data-action^="grant:"],button[data-action^="gearGrant:"],button[data-action="jump"],button[data-action="reroll"],button[data-action="nextLoop"]',
     ))
       btn.disabled = true;
   if (saveBusy) overlay.classList.add("saving");

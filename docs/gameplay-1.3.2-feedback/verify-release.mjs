@@ -74,6 +74,9 @@ try {
     .waitFor({ timeout: 30000 });
   await page.keyboard.type("wwssadadba");
   await page.locator("#testing").waitFor({ timeout: 30000 });
+  await page.waitForFunction(
+    () => !document.querySelector("#overlay")?.classList.contains("saving"),
+  );
   await page.locator("#testing").click();
   await page.getByLabel("跳關目的地").selectOption("21");
   await page.getByRole("button", { name: "跳至此關", exact: true }).click();
@@ -81,6 +84,9 @@ try {
     .getByRole("button", { name: "進入戰鬥", exact: true })
     .waitFor({ timeout: 30000 });
   assert.match(await page.locator("#overlay").innerText(), /第 21 \/ 31/);
+  await page.waitForFunction(
+    () => !document.querySelector("#overlay")?.classList.contains("saving"),
+  );
   await page.reload();
   await page
     .getByRole("button", { name: "繼續旅程", exact: true })
@@ -92,6 +98,9 @@ try {
     .waitFor({ timeout: 30000 });
   assert.match(await page.locator("#overlay").innerText(), /第 21 \/ 31/);
   await page.keyboard.type("wwssadadba");
+  await page.waitForFunction(
+    () => !document.querySelector("#overlay")?.classList.contains("saving"),
+  );
   await page.locator("#testing").click();
   await page.getByLabel("跳關目的地").selectOption("31");
   await page.getByRole("button", { name: "跳至此關", exact: true }).click();
@@ -100,6 +109,9 @@ try {
     .waitFor({ timeout: 30000 });
   assert.match(await page.locator("#overlay").innerText(), /第 31 \/ 31/);
   assert.equal(await page.locator('[data-action="nextLoop"]').count(), 0);
+  await page.waitForFunction(
+    () => !document.querySelector("#overlay")?.classList.contains("saving"),
+  );
   await page.locator("#testing").click();
   await page.locator('[data-action="gearGrant:frostBell"]').click();
   await page.locator('[data-action="testBack"]').click();
