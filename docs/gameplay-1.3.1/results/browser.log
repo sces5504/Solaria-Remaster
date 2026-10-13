@@ -1,0 +1,68 @@
+[WebServer] (node:25206) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:25232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/browser/boss-cover-balance.spec.ts:37:1 › 1.3.1 舊Boss敵彈匯入／重載只降5%一次 (17.1s)
+(node:25401) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/browser/boss-cover-balance.spec.ts:57:1 › 1.3.1 真RAF Boss遠端近戰扣10掩體耐久，角色傷害與波次保護保持 (16.0s)
+
+
+  1) tests/browser/boss-cover-balance.spec.ts:37:1 › 1.3.1 舊Boss敵彈匯入／重載只降5%一次 ──────────────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 19
+    Received: 20
+
+      46 |   await load(page, r);
+      47 |   const a = await exported(page);
+    > 48 |   expect(a.current.projectiles[0].damage).toBe(19);
+         |                                           ^
+      49 |   await page.reload();
+      50 |   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+      51 |   await expect(
+        at /workspace/Solaria-Remaster/tests/browser/boss-cover-balance.spec.ts:48:43
+
+    Error Context: test-results/boss-cover-balance-1-3-1-舊Boss敵彈匯入／重載只降5-一次/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/boss-cover-balance-1-3-1-舊Boss敵彈匯入／重載只降5-一次/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/boss-cover-balance-1-3-1-舊Boss敵彈匯入／重載只降5-一次/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/browser/boss-cover-balance.spec.ts:57:1 › 1.3.1 真RAF Boss遠端近戰扣10掩體耐久，角色傷害與波次保護保持 ────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 10
+    Received: 20
+
+       99 |     .toBeGreaterThan(1.4);
+      100 |   const save = await exported(page);
+    > 101 |   expect(save.current.obstacles[0].durability).toBe(10);
+          |                                                ^
+      102 |   expect(save.current.obstacles[0].waves).toHaveLength(1);
+      103 |   expect(save.current.player.hp).toBe(150);
+      104 | });
+        at /workspace/Solaria-Remaster/tests/browser/boss-cover-balance.spec.ts:101:48
+
+    Error Context: test-results/boss-cover-balance-1-3-1-真RAF-Boss遠端近戰扣10掩體耐久，角色傷害與波次保護保持/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/boss-cover-balance-1-3-1-真RAF-Boss遠端近戰扣10掩體耐久，角色傷害與波次保護保持/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/boss-cover-balance-1-3-1-真RAF-Boss遠端近戰扣10掩體耐久，角色傷害與波次保護保持/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/browser/boss-cover-balance.spec.ts:37:1 › 1.3.1 舊Boss敵彈匯入／重載只降5%一次 ───────────────────────
+    tests/browser/boss-cover-balance.spec.ts:57:1 › 1.3.1 真RAF Boss遠端近戰扣10掩體耐久，角色傷害與波次保護保持 ─────────

@@ -262,7 +262,7 @@ it("狼王沿共用Boss入口後仍保留1.1.2落爪雷光，而非換成通用�
   ).toBe(true);
 });
 
-it("反彈衝撞在反射前命中玩家附近掩體一次，沿用Boss5點／同波／2秒保護", () => {
+it("反彈衝撞在反射前命中玩家附近掩體一次，沿用Boss10點／同波／2秒保護", () => {
   const { r, e, m } = launch(8, "beast-firepath");
   r.player.x = 450;
   r.player.y = 340;
@@ -282,13 +282,13 @@ it("反彈衝撞在反射前命中玩家附近掩體一次，沿用Boss5點／�
     },
   ];
   moveBossRush(r, e, m);
-  expect(r.obstacles[0].durability).toBe(15);
+  expect(r.obstacles[0].durability).toBe(10);
   expect(r.obstacles[0].invulnerableUntil).toBe(2);
   expect(Math.cos(e.moveAngle)).toBeGreaterThan(0);
   e.x = 512;
   e.moveAngle = Math.PI;
   moveBossRush(r, e, m);
-  expect(r.obstacles[0].durability).toBe(15);
+  expect(r.obstacles[0].durability).toBe(10);
 });
 
 it("舊存檔掃射沒有beamMotion仍繼續原角速度，新編排不重複旋轉", () => {

@@ -133,6 +133,7 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
         {
           owner: e.id,
           eventAbility: attack.id,
+          coverMelee: attack.id.includes("leap"),
           effect: /wolf-hunt|witch-thunder|brain-storm/.test(attack.id)
             ? "thunder"
             : undefined,
@@ -186,6 +187,7 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
             m.angle +
             (attack.beamAngles?.[i] ?? (i * Math.PI * 2) / attack.arms),
           eventAbility: attack.id,
+          coverMelee: attack.id.includes("leap"),
           ...(attack.pattern === "sweep"
             ? {
                 beamMotion: {
@@ -205,6 +207,8 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
       owner: e.id,
       wave: id,
       heavy: true,
+      eventAbility: attack.id,
+      coverMelee: true,
     });
 }
 export function updateBossLeap(r: Run, e: Actor) {
@@ -352,8 +356,14 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
       damage,
       a.id === "solaris-flare" ? ["fire"] : enemyElements(e),
     );
-    damageCover(r, e, a.radius, m.id, "boss", (o) =>
-      coverInCone(o, e, a.radius, direction, (a.spread * Math.PI) / 180),
+    damageCover(
+      r,
+      e,
+      a.radius,
+      m.id,
+      "boss",
+      (o) => coverInCone(o, e, a.radius, direction, (a.spread * Math.PI) / 180),
+      true,
     );
     visual(
       r,
@@ -384,6 +394,7 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
         owner: e.id,
         wave: m.id,
         eventAbility: a.id,
+        coverMelee: true,
       });
     if (++m.count < a.groups) {
       m.target = { ...enemyTarget(r, e) };
@@ -395,6 +406,8 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
           owner: e.id,
           wave: m.id,
           heavy: true,
+          coverMelee: true,
+          eventAbility: a.id,
         });
       }
     } else m.next = m.ends + 1;
@@ -562,8 +575,14 @@ export function moveBossRush(r: Run, e: Actor, m?: Mode) {
   let dx = Math.cos(e.moveAngle) * speed * DT,
     dy = Math.sin(e.moveAngle) * speed * DT;
   if (m)
-    damageCover(r, e, 0, m.id, "boss", (o) =>
-      coverInRush(o, e, dx, dy, e.radius),
+    damageCover(
+      r,
+      e,
+      0,
+      m.id,
+      "boss",
+      (o) => coverInRush(o, e, dx, dy, e.radius),
+      true,
     );
   if (m?.bossAttack?.ricochet) {
     if (!legal(r, { x: e.x + dx, y: e.y }, e.radius)) dx = -dx;

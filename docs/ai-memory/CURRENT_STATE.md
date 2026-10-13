@@ -1,5 +1,11 @@
 # CURRENT_STATE — 最新工作斷點
 
+## 1.3.1 正式發布授權與房型擴充（2026-10-13）
+
+主人已接受 preview.2 的布局與裁切，明示先把 Boss 彈幕傷害降低5%、Boss近戰掩體損傷翻倍且免玩家距離限制、其他掩體受損資格半徑改為靜電釋放的兩倍，然後發布main版本1.3.1。這項明確確認取代下方舊「待確認／禁止main」狀態。第二步新增54房型（總108）、非碰撞裝飾及同名受主題約束隨機變體，留獨立預覽，正式main先只含第一步。固定1.1.2封存、原作與旁支交接不動，不開Chat／agent。
+
+第一步本地84相關unit、38補驗unit與2實際Chromium通過，check/build通過。完整unit初輪427通過／1資源競爭timeout，單工重驗該檔通過；瀏覽器初輪因建置型別失敗讀到舊build而失敗，修正重新建置後2通過，原始紀錄保留。CI／正式部署尚待，不提前標PASS。詳docs/gameplay-1.3.1/README.md。
+
 ## 1.3.0-preview.2 已更新測試站，仍待主人確認（2026-10-13 11:57:45 UTC）
 
 新版測試：https://sces5504.github.io/Solaria-Remaster/preview/terrain-1.3.0/?v=1.3.0-preview.2 。部署遊戲來源41f2be65c95024eecdc6696e5dd7c42a8f457edd／CI38392839985，check、403unit、format、build、10相關Chromium1.9分鐘与部署全部PASS，無flaky，不是完整browser套件。54具名配方／兩種尺度可達性／三水域／四群樹／環狀星紋／長廊鋪地／裝飾無碰撞與保存／兩接縫清理都有針對性斷言，八個實圖房型与收藏入口保留等实际Chromium檢查。

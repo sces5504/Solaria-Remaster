@@ -94,20 +94,20 @@ it("遠處掩體不扣血，移近才可破壞；湖泊不受傷", () => {
   damageCover(r, { x: 500, y: 320 }, 5, 2, "boss");
   expect(r.obstacles[0].durability).toBe(15);
 });
-it("可受傷圓與靜電釋放同半徑，實體邊緣相交才合格，範圍升級同步", () => {
+it("可受傷圓為靜電釋放兩倍半徑，實體邊緣相交才合格，範圍升級同步", () => {
   const r = room();
   r.cards[30] = 1;
   r.elements = ["lightning"];
   r.stats.range = 2;
   castSkill(r, idleCommand(r));
   expect(r.areas.find((a) => a.ability === 30)!.radius).toBe(
-    coverDamageRadius(r),
+    coverDamageRadius(r) / 2,
   );
-  expect(coverDamageRadius(r)).toBe(220);
-  r.obstacles = [wall(r.player.x + 220)];
-  damageCover(r, { x: r.player.x + 220, y: 320 }, 0, 1, "boss");
+  expect(coverDamageRadius(r)).toBe(440);
+  r.obstacles = [wall(r.player.x + 440)];
+  damageCover(r, { x: r.player.x + 440, y: 320 }, 0, 1, "boss");
   expect(r.obstacles[0].durability).toBe(15);
-  const outside = wall(r.player.x + 220.01);
+  const outside = wall(r.player.x + 440.01);
   outside.id = 2;
   r.obstacles.push(outside);
   damageCover(r, { x: outside.x, y: 320 }, 0, 2, "boss");

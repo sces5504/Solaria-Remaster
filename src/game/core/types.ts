@@ -172,6 +172,7 @@ export interface Obstacle {
   blocksDash?: boolean;
 }
 export interface Projectile extends Vec {
+  bossDamageTuned?: boolean;
   coverSource?: import("./cover-rules").CoverSource;
   bossAttackId?: string;
   eventGlyph?: "gift" | "ghost" | "plasma" | "comet";
@@ -197,6 +198,7 @@ export interface Projectile extends Vec {
   trail: number;
 }
 export interface Area extends Vec {
+  coverMelee?: boolean;
   coverSource?: import("./cover-rules").CoverSource;
   eventAbility?: string;
   trackingUntil?: number;

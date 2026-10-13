@@ -1,3 +1,4 @@
+import { tuneBossProjectile, bossMeleeArea } from "./boss-balance";
 import { COVER_INVULNERABILITY, type CoverSource } from "../core/cover-rules";
 import {
   normalizeCover,
@@ -589,6 +590,7 @@ export function shoot(
 ) {
   if (enemy && r.projectiles.filter((p) => p.enemy).length >= 600) return;
   const mul = enemy ? 1 : r.stats.projectile;
+  const bossBullet = enemy && enemyCoverSource(r, owner) === "boss";
   r.projectiles.push(
     pooledProjectile(r, {
       id: r.nextId++,
@@ -641,8 +643,14 @@ export function shoot(
       explosion,
       explosionDamage,
       trail,
+      bossDamageTuned: bossBullet || undefined,
     }),
   );
+  if (bossBullet) {
+    const shot = r.projectiles.at(-1)!;
+    shot.bossDamageTuned = undefined;
+    tuneBossProjectile(shot);
+  }
 }
 export function area(
   r: Run,
@@ -700,6 +708,7 @@ export function damageCover(
   wave: number,
   source: CoverSource = "boss",
   accepts?: (o: import("../core/types").Obstacle) => boolean,
+  melee = false,
 ) {
   normalizeCover(r);
   for (const o of r.obstacles)
@@ -708,11 +717,15 @@ export function damageCover(
       o.durability > 0 &&
       r.time + 1e-8 >= (o.invulnerableUntil ?? 0) &&
       !o.waves.includes(wave) &&
-      coverWithin(o, r.player, coverDamageRadius(r)) &&
+      ((source === "boss" && melee) ||
+        coverWithin(o, r.player, coverDamageRadius(r))) &&
       (accepts ? accepts(o) : coverWithin(o, p, radius))
     ) {
       o.waves.push(wave);
-      o.durability = Math.max(0, o.durability - (source === "boss" ? 5 : 4));
+      o.durability = Math.max(
+        0,
+        o.durability - (source === "boss" ? (melee ? 10 : 5) : 4),
+      );
       o.invulnerableUntil = r.time + COVER_INVULNERABILITY;
       visual(
         r,
@@ -831,6 +844,7 @@ export function updateAreas(r: Run) {
             a.shape === "cone"
               ? (o) => coverInCone(o, a, a.radius, a.angle, a.width)
               : undefined,
+            a.coverMelee ?? bossMeleeArea(a.eventAbility),
           );
       }
     } else if (a.context) {

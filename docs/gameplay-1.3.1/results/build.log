@@ -1,0 +1,6 @@
+
+> solaria-remaster@1.3.1 build
+> tsc --noEmit && vite build
+
+src/game/systems/biome-bosses.ts(136,23): error TS2367: This comparison appears to be unintentional because the types '"mark"' and '"burrow"' have no overlap.
+src/game/systems/biome-bosses.ts(190,23): error TS2367: This comparison appears to be unintentional because the types '"laser" | "sweep"' and '"burrow"' have no overlap.

@@ -12,7 +12,7 @@ export function closestCoverPoint(o: Obstacle, p: Vec): Vec {
   return { x: clamp(p.x, o.x, o.x + o.w), y: clamp(p.y, o.y, o.y + o.h) };
 }
 export function coverDamageRadius(r: Run) {
-  return STATIC_DISCHARGE_RADIUS * r.stats.range;
+  return STATIC_DISCHARGE_RADIUS * 2 * r.stats.range;
 }
 export function enemyCoverSource(
   r: Run,

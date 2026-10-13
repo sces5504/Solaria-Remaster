@@ -1,0 +1,35 @@
+
+> solaria-remaster@1.3.1 build
+> tsc --noEmit && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 809 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                     1.25 kB │ gzip:   0.47 kB
+dist/art-lab.html                                   1.30 kB │ gzip:   0.53 kB
+dist/assets/art-Bs_Pq1Ld.css                        7.72 kB │ gzip:   2.48 kB
+dist/assets/game-DSsdf4cx.css                      23.71 kB │ gzip:   6.97 kB
+dist/assets/webworkerAll-CvmAEdAe.js                0.06 kB │ gzip:   0.07 kB
+dist/assets/getTextureBatchBindGroup-BOmbyaNZ.js    0.34 kB │ gzip:   0.26 kB
+dist/assets/Cache-D0EC7riK.js                       1.10 kB │ gzip:   0.56 kB
+dist/assets/canvasUtils-B5KrsTsU.js                 6.01 kB │ gzip:   2.04 kB
+dist/assets/getTexelRangeRects-CpZ5iCZB.js         11.35 kB │ gzip:   2.99 kB
+dist/assets/art-DsaN098e.js                        14.95 kB │ gzip:   7.18 kB
+dist/assets/init-CmGhBQvh.js                       15.20 kB │ gzip:   4.73 kB
+dist/assets/GCManagedHash-Ap6rl--7.js              19.33 kB │ gzip:   6.28 kB
+dist/assets/game-BSSMMmnb.js                       39.95 kB │ gzip:  14.67 kB
+dist/assets/Filter-xcuLdGR1.js                     41.95 kB │ gzip:  12.02 kB
+dist/assets/browserAll-i5Hj5vHG.js                 43.51 kB │ gzip:  11.26 kB
+dist/assets/RenderTargetSystem-LneVKNDZ.js         58.80 kB │ gzip:  16.47 kB
+dist/assets/GraphicsContext-BdlONEsd.js            61.68 kB │ gzip:  20.62 kB
+dist/assets/CanvasPool-CTz6W2rm.js                 71.18 kB │ gzip:  23.30 kB
+dist/assets/sound-bank-DEYY0nXZ.js                517.33 kB │ gzip: 168.59 kB
+
+✓ built in 830ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

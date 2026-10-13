@@ -562,8 +562,14 @@ export function updateModes(r: Run) {
           (r.modifiers.includes(2) ? 1.2 : 1),
         enemyElements(e),
       );
-      damageCover(r, e, radius, m.id, boss ? "boss" : "monster", (o) =>
-        coverInCone(o, e, radius, a, width),
+      damageCover(
+        r,
+        e,
+        radius,
+        m.id,
+        boss ? "boss" : "monster",
+        (o) => coverInCone(o, e, radius, a, width),
+        boss,
       );
       visual(r, "cast", e, 0, 0xff796e, 60, a);
       m.next = m.ends + 1;

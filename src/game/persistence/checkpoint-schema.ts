@@ -1,3 +1,4 @@
+import { normalizeBossProjectileDamage } from "../systems/boss-balance";
 import { normalizeBossMinions } from "../data/world";
 import { normalizePumpkinHealth } from "../systems/companion";
 import { normalizeCover } from "../systems/cover";
@@ -306,6 +307,7 @@ export function validate(value: unknown): Saved {
   for (const r of [migrated.current, migrated.entry]) {
     restoreJourney(r);
     normalizeCover(r);
+    normalizeBossProjectileDamage(r);
     normalizePumpkinHealth(r);
     normalizeBossMinions(r);
   }
