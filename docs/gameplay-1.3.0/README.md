@@ -1,5 +1,9 @@
 # 1.3.0 地形、導引與成長：待確認測試版
 
+## 最新已部署：1.3.0-preview.2，仍待試玩確認
+
+[試玩新版](https://sces5504.github.io/Solaria-Remaster/preview/terrain-1.3.0/?v=1.3.0-preview.2)。刷新後新局或跳關重進房間套用新布局，舊存檔當前房保持。來源41f2be65c95024eecdc6696e5dd7c42a8f457edd／CI38392839985：check、403unit、format、build、10相關Chromium1.9分鐘、部署PASS，無flaky。線上100檔同SHA、預覽新局／保存重載／跳關與獨立DB PASS。結果與失敗記錄見theme-feedback；以下前輪預覽保留歷史，不混算測試。正式main不改，仍須主人明確確認才正式整合。
+
 ## 最新測試修訂：preview.2，依房名生成
 
 上一版障礙大小獲接受，佈局仍待接受。本輪新增54個具名配方，移除通用白色十字，更新無碰撞叢林草叢與冰柱／樹冠裁切，Esc移除成就外觀；仍不合併main。最新來源與驗證看CURRENT_STATE首節，以下preview.1證據是歷史，不冒稱preview.2已通過。新入房／測試跳關才重新生成，舊快照保持。

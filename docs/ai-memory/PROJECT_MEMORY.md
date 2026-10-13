@@ -1,5 +1,13 @@
 # PROJECT_MEMORY — 專案長期記憶
 
+## 1.3.0-preview.2 已更新測試站，仍待主人確認（2026-10-13 11:57:45 UTC）
+
+新版測試：https://sces5504.github.io/Solaria-Remaster/preview/terrain-1.3.0/?v=1.3.0-preview.2 。部署遊戲來源41f2be65c95024eecdc6696e5dd7c42a8f457edd／CI38392839985，check、403unit、format、build、10相關Chromium1.9分鐘与部署全部PASS，無flaky，不是完整browser套件。54具名配方／兩種尺度可達性／三水域／四群樹／環狀星紋／長廊鋪地／裝飾無碰撞與保存／兩接縫清理都有針對性斷言，八個實圖房型与收藏入口保留等实际Chromium檢查。
+
+線上核對100檔同SHA：正式50檔仍與main8df5e347cc1a5bc977e848478378c35f672cc5a7建置相同，預覽50檔與最後本地build相同；實際新局、手冊、密碼、跳21／31、保存重載、獨立DB與周目門檻PASS，pageerror空。首次在部署未完成時比到舊art-lab.html，保留live-during-deploy.log FAIL；完成後核對PASS。最新CI／JSON／線上圖在docs/gameplay-1.3.0/theme-feedback；兩張最後本地icefield-clean／jungle-clean實圖已確認橙殘片与白邊消除、主體保留。
+
+主人只接受之前的大小，尚未接受新布局；**仍禁止合併／推main，繼續在同分支接試玩回饋**。刷新後新開局或測試跳關重新進房採用新布局；舊存檔當前房不突換障礙。正式版維持1.2.0，無新tag／正式Release；原PNG、固定1.1.2備份與旁支美術副本文件不改。未開Chat／agent，原GPU／跨瀏覽器／三職自然全流程與人工驗收未測界線保留，不能把程序可達或fixture當主人已接受。
+
 ## 1.3.0-preview.2 房名佈局與裁切回饋（2026-10-13 11:45:59 UTC）
 
 主人接受上一版障礙大小，但未接受佈局，要求所有小關按其名稱配置、移除不合理白色十字、更新叢林草叢、清掉冰柱圖集殘片、Esc移除成就與外觀。本輪仍只在gameplay/v1.3.0-terrain-progression；**未獲正式合併main確認，禁止自動整合**。版本1.3.0-preview.2，測試路徑與獨立存檔鍵保持。
