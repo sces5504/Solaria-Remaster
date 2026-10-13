@@ -4,7 +4,7 @@
 
 ## 試玩方式
 
-預覽準備於既有 Pages 的獨立路徑（部署成功後核對）：
+預覽已部署並核對，位於既有 Pages 的獨立路徑：
 <https://sces5504.github.io/Solaria-Remaster/preview/terrain-1.3.0/>
 
 獨立 IndexedDB `solaria-remaster-playtest-terrain-1.3.0`，音量鍵也隔離；不會自動讀寫正式存檔，可另行匯入備份。首次新局先看手冊，再選職業。進入局內，逐鍵輸入 `wwssadadba` 才顯示上方「測試」；順序錯誤重新完整輸入，長按不算，重載需重解鎖。可選本周目1–31關；保留構築但不給跳過獎勵，擊敗索拉里斯神才增加周目。待選卡／融合／裝備槽時先完成選擇再跳關。
@@ -20,7 +20,11 @@
 
 ## 驗證與界線
 
-完整389 unit PASS：results/final-unit.log；進房配額、31次結算、首四關數量／HP、seed旅程／跳關、幾何通行／飛彈與舊檔、全地形六主題、王房落點有實際檢查。check與預覽build已完成。本地相關16 Chromium首輪15 PASS／1 FAIL（重載後測試未重新輸入密碼），修正測試後給卡／重解鎖與正式資料隔離2項PASS。最終岸線位移後48相關unit PASS（bank-unit.log）。預覽CI將在同一來源驗389 unit與17相關Chromium；部署／線上核對尚待，不預先標PASS。results地形PNG為岸線微調前本地畫面，最終CI畫面另存preview-browser-evidence。
+最終預覽來源 f37dc464c7e0c90f6aec33932a365f782173054a，CI [38379610012](https://github.com/sces5504/Solaria-Remaster/actions/runs/38379610012) 同來源 check／389 unit／format／build／17相關Chromium（4.2分鐘）／部署全部PASS，無flaky；不是完整browser套件。進房配額、31次結算、首四關數量／HP、seed旅程／跳關、幾何通行／飛彈與舊檔、全地形六主題、王房落點有實際檢查。
+
+線上再驗100檔SHA：正式50檔與未改main8df5e34建置相同，預覽50檔與本地預覽build相同。實際預覽新局／手冊／密碼解鎖／跳21關／保存重載重新鎖定按鈕／31關不直接升周目／独立IndexedDB皆PASS，pageerror為空；見results/live-integrity.json与live-verification.log。最終線上圖live-preview.png；本地9地形PNG是岸線微調前画面。CI的preview-browser-evidence成功保存，但本連線下載blob403，未宣稱已下載。
+
+本地相關16 Chromium首輪15 PASS／1 FAIL（重載後測試未重新輸入密碼），修正測試後給卡／重解鎖與正式資料隔離2項PASS。最終岸線位移後48相關unit PASS（bank-unit.log）；最終CI再以同一來源389／17通過，沒有把各輪拼成新全套。
 
 初輪及補驗失敗保留：地形岸線擠掉掩體、舊Lv.26／舊怪數與固定事件XP預期、沒有熔池的主題fixture、5000seed統計測試5秒逾時、舊Browser直接操作正式DB、草原Boss資料表對應缺失等。已按新規格修正fixture與實作；統計樣本與斷言不減，只給5000seed統計案例20秒限時，Playwright等待資源15秒。browser-retry.log為被取消的舊建置，不當最終完整通過。
 

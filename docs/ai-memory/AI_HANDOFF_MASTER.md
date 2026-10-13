@@ -1,5 +1,15 @@
 # AI_HANDOFF_MASTER — 長期記憶入口（未來交接專用）
 
+## 1.3.0 測試版已可試玩，main 尚未合併（2026-10-13 10:03:12 UTC）
+
+主人六項改版已完成並提供独立預覽：https://sces5504.github.io/Solaria-Remaster/preview/terrain-1.3.0/ 。**待主人試玩確認，禁止自動合併／推送 main**。分支 gameplay/v1.3.0-terrain-progression，遊戲程式／預覽來源 f37dc464c7e0c90f6aec33932a365f782173054a，版本1.3.0-preview.1，無正式tag／Release；後續本分支純證據提交不重新部署相同遊戲。
+
+Pages38379610012同來源check／389 unit／format／build／17相關Chromium4.2分鐘／部署全部PASS，無flaky；不是完整browser套件。正式根目錄50個HTML／JS／CSS／PNG与未改main8df5e347cc1a5bc977e848478378c35f672cc5a7建置逐檔同SHA，預覽50檔与本地測試build同SHA，共100檔線上核對。預覽實際首局手冊／劍士新局／嚴格解鎖／跳21關／保存重載重新鎖定按鈕／再跳31關與周目門檻／獨立IndexedDB均PASS，pageerror為空；live-integrity.json、live-preview.png与完整CI log保存docs/gameplay-1.3.0/results。GitHub CI畫面artifact已成功保存，但本連線下載blob403，未冒稱已下載；本地岸線位移前PNG標明來源，另有最終線上圖。
+
+首四關怪池／HP×0.8、每關基礎升一級与XP額外收益、地形生態尺寸与可達岸線、全螢幕側欄、首局手冊／雙元素文案及31關跳關均按GAME_SPEC／UI_UX_SPEC本輪末節。既有草原與20PNG素材保持，其他招式／光影語義未重製。保存schema1，舊快照的障礙／敵人不重新生成，下一房採新配置；预覽存檔／星典／音量隔離正式資料。
+
+原github-pages的分支白名單新增API403，未改該環境或main來源；用獨立solaria-playtest環境提供已核對的子路徑預覽。部署前有main SHA不變檢查，正式Pages source仍main，根目錄遊戲維持1.2.0。main8df5e34与v1.1.2 tag／两archive refs核對不變，備份下載未改。原NOT_RUN（真GPU／Firefox-Safari／三職自然完整與高周目／人工體驗）及历史密集SwiftShader60FPS FAIL保留；自動fixture不代表主人已接受平衡／外觀。下一步接主人測試回饋，確認前只更新此分支，不開Chat／agent。
+
 ## 1.3.0 地形與成長測試版，等待主人確認（2026-10-13 09:47:40 UTC）
 
 主人要求本次先做可試玩版本，**不得合併／推送 main，須待主人試玩確認後才正式整合**。此規則取代本輪自動發布 main；不影響既有 v1.2.0 正式版。工作分支 gameplay/v1.3.0-terrain-progression，起點遠端 main 8df5e347cc1a5bc977e848478378c35f672cc5a7；版本 1.3.0-preview.1，無正式 tag／Release。最新六項需求與驗證見 docs/gameplay-1.3.0/README.md。
