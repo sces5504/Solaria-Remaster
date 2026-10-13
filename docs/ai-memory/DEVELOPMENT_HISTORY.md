@@ -768,3 +768,11 @@ PR6已合併，發布來源7cff9de9ea3a1f0ace3aec735a1dfb3437158a74；Pages38262
 ## 1.2.0 正式標籤與交付收束（2026-10-12 17:18:03 UTC）
 
 新annotated tag v1.2.0固定239cac7a342944a10bcacadce977f77fdf57d983，Release已公開 https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.2.0 。同一程式與已核驗部署683d3da逐檔相同；後續純文件main記錄不另發相同遊戲，不冒充新一次測試。正式網址與6線上／19bundle及20素材SHA證據見前節。原v1.1.2／两archive refs最後再次核對均不變。主人四項任務完成，工作乾淨；下一次從最新遠端main接新回饋，維持原未測界線，無新Chat／agent。
+
+## 2026-10-13：正式1.3.1與108房型獨立預覽
+
+主人明確接受preview.2布局，先完成Boss彈幕×0.95／Boss近戰掩體10免玩家附近資格／其他資格220×range後正式發布1.3.1。固定tag遊戲7df2ad8，CI38399163589的428unit＋6相關Chromium与部署通過，正式50檔SHA核對与新局／跳關／重載通過。main已發布，舊待確認禁main僅為歷史，不能阻止本次已授權第一步。
+
+第二步在gameplay/v1.3.2-room-variety，版本1.3.2-preview.1：九地形各12配方共108，保留原54索引，新增六類具名語法與純地面裝飾，同名種子偏移保持主題與通路；新旅程12選4，舊journey／已保存當前房不重抽。小種子抽樣偏斜經針對性7FAIL揭露並修正双輪混合，最終本地438unit＋10相關Chromium通過；預覽CI與線上核對尚待。第二步不包含在main 1.3.1，接試玩回饋，不自動另開Chat／agent。詳細證據docs/gameplay-1.3.1、docs/gameplay-1.3.2，既有NOT_RUN與固定1.1.2保護保持。
+
+最終：Pages38400439784的438unit＋10相關Chromium與部署PASS；線上100檔SHA、跳關重載与獨立DB PASS，main保持1.3.1。第二步交付獨立預覽，等試玩回饋。

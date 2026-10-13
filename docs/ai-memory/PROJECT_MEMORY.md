@@ -932,3 +932,11 @@ PR6已合併，發布來源7cff9de9ea3a1f0ace3aec735a1dfb3437158a74；Pages38262
 固定tag v1.1.2與archive/v1.1.2仍9abc6d8ce90bcde5ef292f0db6202dd38d993e05；archive/v1.1.2-files仍0400546bc23cd7f3d176fa2f739ebfc705ba0ad2；原下載與Release未修改。所有正式程式正常fast-forward整合main，無reset／force／new Chat／agent。工作目錄/workspace/Solaria-Remaster，本地gameplay/v1.2.0-boss-rework；最新純記錄main SHA用git log／遠端核對，與已驗證遊戲樹相同，沒有靠版本字樣假定來源。
 
 主人四項回饋完成：21王按定位增加不同幾何／時序、近戰追擊與範圍、遠端威脅；戰鬥召喚小怪必精英与一般精英2倍HP，舊HP比例／owner／上限兼容；劍士.9窗口及成功後.75保護、.3反擊一次與CD5保留。詳細逐王／數值權威GAME_SPEC與docs/gameplay-1.2.0。M01–07原修復／裁定保持，M08仍候選；保留真GPU／Firefox-Safari／三職自然30＋1及高周目／人工聆聽NOT_RUN与原密集SwiftShader60FPS FAIL，不把自動fixture當自然完整平衡PASS。後續直接接主人新回饋、最新main與相關驗證。
+
+## 2026-10-13：正式1.3.1與108房型獨立預覽
+
+主人明確接受preview.2布局，先完成Boss彈幕×0.95／Boss近戰掩體10免玩家附近資格／其他資格220×range後正式發布1.3.1。固定tag遊戲7df2ad8，CI38399163589的428unit＋6相關Chromium与部署通過，正式50檔SHA核對与新局／跳關／重載通過。main已發布，舊待確認禁main僅為歷史，不能阻止本次已授權第一步。
+
+第二步在gameplay/v1.3.2-room-variety，版本1.3.2-preview.1：九地形各12配方共108，保留原54索引，新增六類具名語法與純地面裝飾，同名種子偏移保持主題與通路；新旅程12選4，舊journey／已保存當前房不重抽。小種子抽樣偏斜經針對性7FAIL揭露並修正双輪混合，最終本地438unit＋10相關Chromium通過；預覽CI與線上核對尚待。第二步不包含在main 1.3.1，接試玩回饋，不自動另開Chat／agent。詳細證據docs/gameplay-1.3.1、docs/gameplay-1.3.2，既有NOT_RUN與固定1.1.2保護保持。
+
+最終：Pages38400439784的438unit＋10相關Chromium與部署PASS；線上100檔SHA、跳關重載与獨立DB PASS，main保持1.3.1。第二步交付獨立預覽，等試玩回饋。

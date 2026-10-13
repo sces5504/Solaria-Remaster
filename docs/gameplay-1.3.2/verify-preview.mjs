@@ -109,7 +109,7 @@ try {
   });
   const result = {
     checkedAt: new Date().toISOString(),
-    officialSHA: "712e0b7",
+    officialSHA: process.env.OFFICIAL_SOURCE || "d38818e",
     previewSource: process.env.PREVIEW_SOURCE || "pending",
     checks,
     journeyAndReload: "PASS",

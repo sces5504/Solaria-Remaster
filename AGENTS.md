@@ -1,5 +1,13 @@
 # Solaria Remaster
 
+## 1.3.2-preview.1 已可試玩，main保持1.3.1（2026-10-13）
+
+試玩：https://sces5504.github.io/Solaria-Remaster/preview/terrain-1.3.0/?v=1.3.2-preview.1 。第二步遊戲来源362b6927555b82b601cf00a48c44bb31a8203eca，分支gameplay/v1.3.2-room-variety；Pages38400439784的check／438unit／format／build／10相關Chromium1.1分鐘／部署PASS，無flaky，不是完整browser套件。108具名配方、同名種子變體、雙尺度通路、12模板均可抽中、裝飾無碰撞与保存已測。前述7FAIL與修正紀錄保留。
+
+正式50檔與1.3.1建置逐檔同SHA，預覽50檔與本地相同，共100檔核對；實際新局、手冊、解鎖／跳21與31、保存重載／重新鎖定、獨立DB与周目門檻PASS，pageerror空。證據docs/gameplay-1.3.2/results，九地形新房型實圖screenshots。正式main d38818eff1079f4fd42d619fa926741fce0a7f12／tag v1.3.1仍保持，第二步未推main，無新正式tag。新開局可抽新增房型；舊存檔既有journey與當前圖保留，下一房按原保存模板進行。
+
+第一步1.3.1正式發布已完成，第二步預覽已交付，接主人試玩回饋。未開Chat／agent；原GPU／Firefox-Safari／三職自然完整與人工體驗未測界線保持；固定1.1.2refs／備份與旁支美術交接不改。
+
 ## 1.3.2-preview.1 房型擴充，正式main維持1.3.1（2026-10-13）
 
 第二步在gameplay/v1.3.2-room-variety：九地形每種12房名，共108，原54房名／索引保留。新增弧灣、階臺、雙島、放射扇陣、交織脊線、分岔門庭六類配方，各自按生態材料和地面細節呈現；每房加入可走空地碎石／花草／落葉等無碰撞裝飾。種子決定有界錨點偏移、局部間距／尺寸／材料與裝飾，布局主題保留；重載不重抽。journey新局12選4，六地形與Boss抽樣流保留；舊journey不重抽，保存schema1接納0–11模板。

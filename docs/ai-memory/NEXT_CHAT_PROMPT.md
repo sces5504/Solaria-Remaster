@@ -1,5 +1,13 @@
 # 歷史S06–S14啟動稿，現行入口已更新
 
+## 1.3.2-preview.1 已可試玩，main保持1.3.1（2026-10-13）
+
+試玩：https://sces5504.github.io/Solaria-Remaster/preview/terrain-1.3.0/?v=1.3.2-preview.1 。第二步遊戲来源362b6927555b82b601cf00a48c44bb31a8203eca，分支gameplay/v1.3.2-room-variety；Pages38400439784的check／438unit／format／build／10相關Chromium1.1分鐘／部署PASS，無flaky，不是完整browser套件。108具名配方、同名種子變體、雙尺度通路、12模板均可抽中、裝飾無碰撞与保存已測。前述7FAIL與修正紀錄保留。
+
+正式50檔與1.3.1建置逐檔同SHA，預覽50檔與本地相同，共100檔核對；實際新局、手冊、解鎖／跳21與31、保存重載／重新鎖定、獨立DB与周目門檻PASS，pageerror空。證據docs/gameplay-1.3.2/results，九地形新房型實圖screenshots。正式main d38818eff1079f4fd42d619fa926741fce0a7f12／tag v1.3.1仍保持，第二步未推main，無新正式tag。新開局可抽新增房型；舊存檔既有journey與當前圖保留，下一房按原保存模板進行。
+
+第一步1.3.1正式發布已完成，第二步預覽已交付，接主人試玩回饋。未開Chat／agent；原GPU／Firefox-Safari／三職自然完整與人工體驗未測界線保持；固定1.1.2refs／備份與旁支美術交接不改。
+
 請以docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md為完整接續prompt，main已接入1.1.2、美術定稿；以下保留原授權歷史，不再用implement為新任務起點。
 
 # 第二次任務：可直接貼入新 Chat 的完整交接 Prompt

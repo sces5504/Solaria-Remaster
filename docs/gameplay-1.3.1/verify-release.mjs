@@ -111,13 +111,12 @@ try {
   const result = {
     checkedAt: new Date().toISOString(),
     officialSHA: "7df2ad8302183d5f772831d6050b03bad1814bb0",
-    previewSource:
-      process.env.PREVIEW_SOURCE || "f37dc464c7e0c90f6aec33932a365f782173054a",
+    releaseSource: "7df2ad8302183d5f772831d6050b03bad1814bb0",
     checks,
     journeyAndReload: "PASS",
     lockedButtonAfterReload: "PASS",
     solarisGate: "PASS",
-    isolatedDB: "PASS",
+    formalDB: "PASS",
     pageErrors: errors,
   };
   await writeFile(
@@ -125,7 +124,7 @@ try {
     JSON.stringify(result, null, 2) + "\n",
   );
   console.log(
-    `${checks.length} source files match; preview unlock/jump/reload/31 gate/storage PASS; official root unchanged.`,
+    `${checks.length} release source files match; official unlock/jump/reload/31 gate/storage PASS.`,
   );
 } finally {
   await browser.close();
