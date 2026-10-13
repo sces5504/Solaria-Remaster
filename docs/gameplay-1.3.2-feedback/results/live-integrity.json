@@ -1,0 +1,213 @@
+{
+  "checkedAt": "2026-10-13T15:15:41.653Z",
+  "officialSHA": "1603d7127ca829f741b166942aed1f8a28f27be5",
+  "releaseSource": "1603d7127ca829f741b166942aed1f8a28f27be5",
+  "checks": [
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/Cache-D0EC7riK.js",
+      "sha256": "dbabb6e1f43eb6d837201109d732bf3f67f19aa71687bb63cdb6a7fd721640ad"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/art-lab.html",
+      "sha256": "313547ee5a705c46895466fad50f8e002a7df44c6aa56b5b5f82132e00b8b1bb"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/Filter-xcuLdGR1.js",
+      "sha256": "2744bd41d015cd1d2ba49ee74aeac574feee34aa4143a62c96233668e7cc6d7b"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/CanvasPool-CTz6W2rm.js",
+      "sha256": "0dbc5a71c65dd8ae8cdc3dde6ae0e11f85f55cd0fbaa9064baffc2c21b01523d"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/art-review/index.html",
+      "sha256": "4c014481895ac5904a3a069e71907c7b086828e9d7250935179ca76a41fe0611"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/RenderTargetSystem-LneVKNDZ.js",
+      "sha256": "403b27f6c5294b3037f561935f21dc2e31d854b6cd896f78d2333f39e25968e0"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/GCManagedHash-Ap6rl--7.js",
+      "sha256": "90f7d33c480d46b42fcc058be236f3a7503ca6c9d3f58d181def37afcf6a738f"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/GraphicsContext-BdlONEsd.js",
+      "sha256": "87b48df0f3f5782128537acbdec82399c3c364cf4b5844843d1f3abdedaad6f5"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-0.png",
+      "sha256": "8a1ad66127c2464aa4e06e3c2ceffa9f30af801b80bc8eaa91cc9a346df1042b"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-1.png",
+      "sha256": "e392a279e00ea20c4d14675c74a1fc8914062e17bc888182feff9475b1ba4a4f"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-5.png",
+      "sha256": "112c9a4af70e15fddc10d4455a68de6fb58fe4b7d73d776e516a8860b20214e1"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-4.png",
+      "sha256": "cb0e5aa4b4acc65c9b3521bbdb160b7a3ac1dba31eea5df791d32c6e950a448a"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-6.png",
+      "sha256": "341bb08dc9568a5cdff068261a4401f543963612e1a8df34a56407ca073e8a0d"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-3.png",
+      "sha256": "efeb07ffb65aab3722f7e5ed182f12fdce2d7377e9001a2c7d47ab029a36854d"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-2.png",
+      "sha256": "ca3ef4c36fe7e6bea5e9af77bb7c38a236025d0d4213a8e33c191ce064346643"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/actors-7.png",
+      "sha256": "3738a8add725ff3c88c082693282c232086cc911a1d2d0896e75d5df02f24ad6"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/floors.png",
+      "sha256": "392461206b4fd8787be1274648c60a5e3f204d30e22f4d7df91801144a3ac428"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/bow.png",
+      "sha256": "2e5a790c5b63049b81e77cec497f200c259d3fada3be3ddefcc871a491d334f0"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/effects.png",
+      "sha256": "53d3dc78a216fd0f5c77336a03c1de0aa70df29174bf145969411d529343cccd"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/ending.png",
+      "sha256": "7e21b3f3e5fada28ed5df5a93c2672990750f5791b08bc6b50b00ad22a63a743"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/mage.png",
+      "sha256": "7e42bd2be0b897c1b1ce03f273acca520c54e26a19c425a7b7a4d5d0a54c6177"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/semantic-effects.png",
+      "sha256": "f13314f1f3a18e96b93803284169c075217dfbe5473ee86a1f5e492ea4ea5357"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/landmarks.png",
+      "sha256": "5407a8e1977f1d8c725af05b267e9a04dc226be2157b4d15ed431f010e022b3c"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/heroes.png",
+      "sha256": "cfdedbff9b69ed48d7c9f2ec8efcc66c813df891f297aa96615d8191f25bcb08"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/menu.png",
+      "sha256": "1b90c4bc9de928c15d5d0091460a84c57f0b45f2d57008d550ef13c5b5212f32"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/art-Bs_Pq1Ld.css",
+      "sha256": "1e40fd32b82bd7d94547a3b1075234289b42e9ea3acc19a852b4bd78b28ca5a1"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/world-0.png",
+      "sha256": "d88adc8b30e86642b70711520e6f2c01f650c5f338a75a903eb1f8bda02cc94f"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/art-CDT66eT1.js",
+      "sha256": "0faec6342b1d5b31796994823cc4086624bee674517330d045adc4012a01f61f"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/sword.png",
+      "sha256": "32dfdc93ef534a4194421dbcf45673fc1a6fd0648d4d411582a68dc981993381"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/adventure/world-1.png",
+      "sha256": "0d647ac24046bd6086e6dd58338b445c2d92fae38a5a4943a5a880b6fb814816"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/boss-atlas.png",
+      "sha256": "bbf02972dca6809643d256f8bfc5487df1286637d66cf2b396b84dd7aea4c5f2"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/biome-atlas.png",
+      "sha256": "7a230f19ed0057a1727cdd09976817b98cdd5bb15a3bf198019f30af8cb0b0d6"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/art-lab/sculpted.png",
+      "sha256": "93e546d0277c4f9f463d438da84efe8d99ef185cc4c3404358aece15128a3fab"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/art-lab/gothic.png",
+      "sha256": "985b9f1696274bfb3d6337caebb3688e470e41bff80b6f445e8453834e7fed3e"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/art-lab/adventure.png",
+      "sha256": "ce607a51459bc623437c787c3a829cd9e82bb60f2bd5a9d571859c5dd6d6a515"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/event-atlas.png",
+      "sha256": "a76a85896f94e6e24de56a7fd210fd41011813dfd9e0a632f5cae50bc1688e4a"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/canvasUtils-B5KrsTsU.js",
+      "sha256": "572546d1625d86d938f6c61bcd56c0be058707169c3894f0dca30db132e3375c"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/game-BN4V8sE0.js",
+      "sha256": "0e834e15c2651e7567f2b482266c20d39966b1c6871cdd2741a3f394365a6cac"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/browserAll-CZ2TqZtG.js",
+      "sha256": "d4f636387e73c6447429b2c4fe01f6a11781b021085e837fe29f16148f2d9e7f"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/bow.png",
+      "sha256": "ebf63169477e25258a25c807c7188f6fbcbf4ff82d450f4e2ea3e4a7c606edd7"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/mage.png",
+      "sha256": "9dc6376960196c292ad41381af6f2ebb720bb1c26c5c5f09d5df5abaeb9f5555"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/getTexelRangeRects-CpZ5iCZB.js",
+      "sha256": "6b59b3c7636917f10b57587993be4e2d64ae59a54978f8406585ba01788759f6"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/getTextureBatchBindGroup-BOmbyaNZ.js",
+      "sha256": "06c699beb10ceb7fed76cd38e7c4ecf35d1f046e006409337e7282d0e1c766e3"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/init-CmGhBQvh.js",
+      "sha256": "8411f0dc41921179884f82af28b815ac3adef4a164c0c6725caf1098a8f9e64f"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/game-prD75BBL.css",
+      "sha256": "c2989d08acae118d3c49377f149e76d53ebafee8d0e8e687e8dd0b3699a20a33"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/index.html",
+      "sha256": "227cdbba4e1badfc8776efba23f411b9018e06f7e858d403989a75a82eaadcad"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/solaria-atlas.png",
+      "sha256": "34b9e16836a4087c090568ad1c9fd70177aa0561ad51c9d8ffc9c4c1301cf66e"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/sound-bank-BxyuEoyG.js",
+      "sha256": "05c94b9562e2f9eca28b9cb3243d3c6668748fb7d0e2ff682714447f5b1967cc"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/sword.png",
+      "sha256": "731e209effc6ba8e76a34861dee4f50f148fa327e12c325722cb0944a0ab8392"
+    },
+    {
+      "url": "https://sces5504.github.io/Solaria-Remaster/assets/webworkerAll-DC8Fmp7o.js",
+      "sha256": "f1e81b4862f64daeb0b90689b048d59ca68abf233f4fa570ebdc94b8f277e662"
+    }
+  ],
+  "journeyAndReload": "PASS",
+  "lockedButtonAfterReload": "PASS",
+  "solarisGate": "PASS",
+  "formalDB": "PASS",
+  "testingEquipment": "PASS",
+  "pageErrors": []
+}
