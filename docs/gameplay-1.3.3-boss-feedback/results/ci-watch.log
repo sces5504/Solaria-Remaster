@@ -1,0 +1,118 @@
+Refreshing run status every 15 seconds. Press Ctrl+C to quit.
+
+* gameplay/v1.3.3-boss-feedback Solaria GitHub Pages · 38501066427
+Triggered via workflow_dispatch about 1 minute ago
+
+JOBS
+* build (ID 115647882461)
+  ✓ Set up job
+  ✓ Preview must stay off main
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Type, unit and formatting validation
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npm run build
+  ✓ Browser validation
+  - Run npm run build
+  ✓ Keep preview build
+  ✓ Run actions/checkout@v4
+  ✓ Preserve current official game and append isolated preview
+  - Run actions/upload-pages-artifact@v3
+  * Run actions/upload-pages-artifact@v3
+  * Run actions/upload-artifact@v4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/checkout@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 15 seconds. Press Ctrl+C to quit.
+
+* gameplay/v1.3.3-boss-feedback Solaria GitHub Pages · 38501066427
+Triggered via workflow_dispatch about 1 minute ago
+
+JOBS
+✓ build in 1m39s (ID 115647882461)
+  ✓ Set up job
+  ✓ Preview must stay off main
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Type, unit and formatting validation
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npm run build
+  ✓ Browser validation
+  - Run npm run build
+  ✓ Keep preview build
+  ✓ Run actions/checkout@v4
+  ✓ Preserve current official game and append isolated preview
+  - Run actions/upload-pages-artifact@v3
+  ✓ Run actions/upload-pages-artifact@v3
+  ✓ Run actions/upload-artifact@v4
+  - Run actions/upload-artifact@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* deploy (ID 115648376319)
+  ✓ Set up job
+  ✓ Refuse to overwrite a newer main deployment
+  * Run actions/deploy-pages@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build: .github#4
+
+! No files were found with the provided path: test-results/. No artifacts will be uploaded.
+build: .github#13
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+build: .github#1
+
+✓ gameplay/v1.3.3-boss-feedback Solaria GitHub Pages · 38501066427
+Triggered via workflow_dispatch about 2 minutes ago
+
+JOBS
+✓ build in 1m39s (ID 115647882461)
+  ✓ Set up job
+  ✓ Preview must stay off main
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Type, unit and formatting validation
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npm run build
+  ✓ Browser validation
+  - Run npm run build
+  ✓ Keep preview build
+  ✓ Run actions/checkout@v4
+  ✓ Preserve current official game and append isolated preview
+  - Run actions/upload-pages-artifact@v3
+  ✓ Run actions/upload-pages-artifact@v3
+  ✓ Run actions/upload-artifact@v4
+  - Run actions/upload-artifact@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ deploy in 10s (ID 115648376319)
+  ✓ Set up job
+  ✓ Refuse to overwrite a newer main deployment
+  ✓ Run actions/deploy-pages@v4
+  ✓ Complete job
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build: .github#4
+
+! No files were found with the provided path: test-results/. No artifacts will be uploaded.
+build: .github#13
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+build: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/deploy-pages@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+deploy: .github#4
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+deploy: .github#1
+

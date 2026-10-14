@@ -1,5 +1,9 @@
 # DEVELOPMENT_HISTORY — 開發、Bug 與技術記錄
 
+## 2026-10-14 02:30:19 UTC Boss 位移狀態污染修復與預覽
+
+瞬移／跳躍／鑽地helper展開完整玩家目標導致Boss HP與半徑被覆蓋，修為只保留座標且兼容舊目標快照；9項失敗先重現，再113相關unit／4CI瀏覽器與線上刺客通過。落雷預警+0.5秒。本輪只推gameplay/v1.3.3-boss-feedback，main維持b2d3df3，等待主人試玩確認；來源411c8a4／Pages38501066427／100檔SHA證據見docs/gameplay-1.3.3-boss-feedback。不開Chat／agent、封存不改，未宣稱完整回歸。
+
 ## 1.3.0-preview.2 已更新測試站，仍待主人確認（2026-10-13 11:57:45 UTC）
 
 新版測試：https://sces5504.github.io/Solaria-Remaster/preview/terrain-1.3.0/?v=1.3.0-preview.2 。部署遊戲來源41f2be65c95024eecdc6696e5dd7c42a8f457edd／CI38392839985，check、403unit、format、build、10相關Chromium1.9分鐘与部署全部PASS，無flaky，不是完整browser套件。54具名配方／兩種尺度可達性／三水域／四群樹／環狀星紋／長廊鋪地／裝飾無碰撞與保存／兩接縫清理都有針對性斷言，八個實圖房型与收藏入口保留等实际Chromium檢查。

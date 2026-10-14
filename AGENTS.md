@@ -6,7 +6,7 @@
 
 確診瞬移／跳躍／鑽地共用合法落點函式將完整玩家目標物件展開，再 Object.assign 到 Boss，造成 HP／半徑等被玩家快照覆蓋；修為只傳遞 x/y，舊保存完整目標也受保護。狼王落爪雷光、巫醫落雷、浮空腦袋落雷預警各增加0.5秒，首發0.6→1.1秒，後續間隔／傷害／範圍保持。延續上一輪未提交的死亡補血保護，不因讀檔移轉或清算升級復活。
 
-本地113相關unit與build通過；實際Chromium及CI／預覽部署仍在驗證，尚不標PASS。完整證據 `docs/gameplay-1.3.3-boss-feedback/README.md`；只跑相關檢查，不重做已完成事項、不開Chat／agent。
+試玩已完成（2026-10-14 02:30:19 UTC）：https://sces5504.github.io/Solaria-Remaster/preview/terrain-1.3.0/?v=boss-fix-411c8a4 。遊戲來源411c8a462c5dfaab6947a44ecc98bb288d2f682c，Pages38501066427的check／113相關unit／format／build／4相關Chromium35.2秒／部署通過。正式50檔與預覽50檔SHA分別符合main與測試來源，線上刺客瞬移／匯出20.2秒通過，pageerror空。main與1.1.2 refs核對不變，**等待主人確認才整合main**。完整證據 `docs/gameplay-1.3.3-boss-feedback/README.md`；只跑相關檢查，不代表完整browser／真GPU／自然全流程，不重做已完成事項、不開Chat／agent。
 
 ## 1.3.3 等級生命與光效小修進行中（2026-10-13 15:59:54 UTC）
 
