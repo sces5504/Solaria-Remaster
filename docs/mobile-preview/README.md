@@ -41,3 +41,11 @@ CI畫面artifact下載服務回403，已保留去除簽名查詢參數的錯誤�
 主人後續明示只照顧主流手機，不必為很舊或很小的手機改變布局。已移除本輪568×320專用的縮字／藏標籤／角落小圖示等分支，停止舊小尺寸驗收；改用上述三種主流尺寸。先前小尺寸失敗日誌保留作歷史，不列作目前支援目標，最終來源與結果另記。
 
 主流尺寸補驗：3514658的本地7個相關案例中5通過，780×360的三選一在Chromium／WebKit各超出15px，因此主動取消尚未部署的CI38519777573，正式頁與既有試玩頁不動。量測定位為卡片插圖及段落margin；全手機統一縮小圖示及留白，維持12px正文與44px操作，不新增舊小尺寸分支。中間量測仍有3px溢出，修正較高優先權的既有段落樣式；原始日誌保留。最後只補驗780×360，再由CI檢查三種主流尺寸與桌面，不重跑完整遊戲套件。
+
+## 1.4.0-preview.2 已交付（2026-10-14 UTC）
+
+[開啟手機試玩](https://sces5504.github.io/Solaria-Remaster/preview/mobile/?v=1.4.0-preview.2)。最終遊戲來源5ba92199a1341ddaa997f4a384590a714734fdf3，[CI38520287887](https://github.com/sces5504/Solaria-Remaster/actions/runs/38520287887)的check／8相關unit／format／build／7相關browser（5個不適用project跳過，1.7分鐘）與部署通過，無重試。六項手機案例是Chromium及WebKit各測844×390、780×360、932×430，涵蓋主選單、手冊、選職業、房間提示與長說明三選一；第七項是桌面原鍵鼠。這是主流尺寸模擬，沒有為舊小手機另設布局。三職完整流程／全31關與全部瀏覽器套件本輪未重跑。先前控制層相關5項通過屬較早樣式來源，與最終CI結果分開。
+
+正式50檔及手機試玩50檔HTML／JS／CSS／PNG逐檔SHA符合各自來源，manifest保持standalone與相對scope/start。公開頁Android Chromium模擬844×390再驗主要選單、三選一與放大戰場1項44.7秒通過；final-live截圖已目檢，正文與完整卡片說明保留，按鍵半透明。證據在results/layout-preview-2。正式main仍ea7b1a55e22342c6cb8fc6b08ed69cb9663ef60f，1.1.2 tag／兩archive refs不變；無新正式tag或Release。手機存檔命名空間及遊戲核心未改，本輪不重做已完成的隔離驗證。README未讀／比較／修改。
+
+待主人試玩確認，仍不推main。Android Chrome／iPhone Safari與Chrome真機、硬體聲音／效能／瀏海與系統手勢仍未驗證；軟體模擬結果不能冒稱真機PASS。

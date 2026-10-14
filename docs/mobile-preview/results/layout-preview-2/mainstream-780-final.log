@@ -1,0 +1,17 @@
+
+Running 3 tests using 1 worker
+
+(node:22925) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✓  1 [android] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動 (39.6s)
+(node:23105) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [iphone] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動 (9.9s)
+(node:23223) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  -  3 [desktop] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動
+
+  1 skipped
+  2 passed (52.9s)
