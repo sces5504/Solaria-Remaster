@@ -253,7 +253,7 @@ it("狼王沿共用Boss入口後仍保留1.1.2落爪雷光，而非換成通用�
       (a) => a.effect === "thunder" && a.eventAbility === "wolf-hunt",
     ),
   ).toBe(true);
-  r.time = 0.6;
+  r.time = 1.1;
   updateAreas(r);
   expect(
     r.visuals.some(

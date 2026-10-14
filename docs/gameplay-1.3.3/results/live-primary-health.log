@@ -1,0 +1,8 @@
+
+Running 1 test using 1 worker
+
+(node:37405) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/health-light.spec.ts:31:1 › 生命曲線：舊Lv30保存實際升至31、加血、匯出重載不再次回血 (13.5s)
+
+  1 passed (14.4s)

@@ -258,7 +258,7 @@ function finishSettlement(r: Run) {
   }
   if (r.level !== oldLevel) {
     r.stats = derive(r);
-    const healed = recoverHP(r, r.stats.maxHP - oldMaxHP);
+    const healed = r.player.hp > 0 ? recoverHP(r, r.stats.maxHP - oldMaxHP) : 0;
     if (healed > 0) visual(r, "heal", r.player, Math.round(healed), 0x9debba);
     r.stats = derive(r);
   }

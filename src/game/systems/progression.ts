@@ -23,7 +23,7 @@ export function normalizeLevelHealth(r: Run) {
   if (r.healthGrowthVersion === 1) return;
   const oldMax = r.stats.maxHP;
   r.stats = derive(r);
-  recoverHP(r, Math.max(0, r.stats.maxHP - oldMax));
+  if (r.player.hp > 0) recoverHP(r, Math.max(0, r.stats.maxHP - oldMax));
   r.player.hp = Math.min(r.player.hp, r.stats.maxHP);
   r.healthGrowthVersion = 1;
   r.stats = derive(r);

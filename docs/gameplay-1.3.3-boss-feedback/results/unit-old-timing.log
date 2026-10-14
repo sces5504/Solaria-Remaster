@@ -1,0 +1,36 @@
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/boss-rework.test.ts (43 tests | 1 failed) 192ms
+   × 狼王沿共用Boss入口後仍保留1.1.2落爪雷光，而非換成通用爆裂 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/boss-rework.test.ts > 狼王沿共用Boss入口後仍保留1.1.2落爪雷光，而非換成通用爆裂
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/unit/boss-rework.test.ts:262:5
+    260|       (v) => v.kind === "thunder" && v.eventAbility === "wolf-hunt",
+    261|     ),
+    262|   ).toBe(true);
+       |     ^
+    263| });
+    264|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  1 failed | 112 passed (113)
+   Start at  02:22:57
+   Duration  4.93s (tests 73%, import 16%, transform 11%)
+
+    Isolate  4 workers spawned · ~106ms startup each (spawn + environment, per file)
+             at least ~317ms faster with isolate: false — reuses workers across files instead of one per file
+

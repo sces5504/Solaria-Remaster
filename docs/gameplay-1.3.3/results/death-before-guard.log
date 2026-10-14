@@ -1,0 +1,33 @@
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/health-light.test.ts (10 tests | 1 failed) 204ms
+   × 死亡保存與清算最後燃燒致死不得因成長補血復活，進房快照仍可獲得成長 26ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/health-light.test.ts > 死亡保存與清算最後燃燒致死不得因成長補血復活，進房快照仍可獲得成長
+AssertionError: expected 225 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 225
+
+ ❯ tests/unit/health-light.test.ts:186:35
+    184|   };
+    185|   const saved = validate({ version: 1, revision: 0, current: dead, ent…
+    186|   expect(saved.current.player.hp).toBe(0);
+       |                                   ^
+    187|   expect(saved.current.stats.maxHP).toBe(375);
+    188|   expect(saved.entry.player.hp).toBe(375);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  16:13:46
+   Duration  1.34s (transform 53%, import 29%, tests 18%)
+

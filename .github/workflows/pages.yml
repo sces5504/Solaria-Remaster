@@ -19,6 +19,8 @@ on:
             maintenance-feedback,
             save-feedback,
             health-light-feedback,
+            health-migration-feedback,
+            boss-feedback-preview,
             terrain-preview,
             theme-preview,
             variety-preview,
@@ -48,7 +50,11 @@ jobs:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
         run: |
           npm run check
-          if [ "$VALIDATION_SCOPE" = "health-light-feedback" ]; then
+          if [ "$VALIDATION_SCOPE" = "boss-feedback-preview" ]; then
+            npx vitest run tests/unit/boss-feedback.test.ts tests/unit/biome-bosses.test.ts tests/unit/boss-rework.test.ts tests/unit/health-light.test.ts
+          elif [ "$VALIDATION_SCOPE" = "health-migration-feedback" ]; then
+            npx vitest run tests/unit/health-light.test.ts
+          elif [ "$VALIDATION_SCOPE" = "health-light-feedback" ]; then
             npx vitest run tests/unit/health-light.test.ts tests/unit/adventure-lighting.test.ts tests/unit/terrain-progression.test.ts tests/unit/advanced-cards.test.ts tests/unit/feedback-132.test.ts
           else
             npm test
@@ -62,10 +68,14 @@ jobs:
         env:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
         run: |
-          if [ "$VALIDATION_SCOPE" = "art-feedback" ]; then
+          if [ "$VALIDATION_SCOPE" = "boss-feedback-preview" ]; then
+            npm run test:browser -- tests/browser/boss-feedback.spec.ts tests/browser/health-light.spec.ts --grep "Boss位移|生命曲線"
+          elif [ "$VALIDATION_SCOPE" = "art-feedback" ]; then
             npm run test:browser -- tests/browser/adventure-art.spec.ts tests/browser/last-polish.spec.ts --grep '短FX|美術回饋|精雕冒險 (meadow|volcano|castle)：|發光藍雷|扇形噴火'
           elif [ "$VALIDATION_SCOPE" = "visibility-feedback" ]; then
             npm run test:browser -- tests/browser/visibility-feedback.spec.ts
+          elif [ "$VALIDATION_SCOPE" = "health-migration-feedback" ]; then
+            npm run test:browser -- tests/browser/health-light.spec.ts --grep '生命曲線'
           elif [ "$VALIDATION_SCOPE" = "health-light-feedback" ]; then
             npm run test:browser -- tests/browser/health-light.spec.ts
           elif [ "$VALIDATION_SCOPE" = "save-feedback" ]; then

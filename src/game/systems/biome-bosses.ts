@@ -44,7 +44,8 @@ export function splitBoss(r: Run, e: Actor) {
   visual(r, "phase", e, 0, 0xe3c6ff, 85);
 }
 function point(r: Run, e: Actor, target: Vec): Vec {
-  if (legal(r, target, e.radius)) return { ...target };
+  // Vec is structural: legacy mode targets can still contain a full Player.
+  if (legal(r, target, e.radius)) return { x: target.x, y: target.y };
   let best: Vec = { x: e.x, y: e.y },
     score = Infinity;
   for (let y = 112; y <= 560; y += 32)
@@ -61,8 +62,10 @@ function point(r: Run, e: Actor, target: Vec): Vec {
 }
 export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
   const id = r.nextId++,
-    damage = attack.damage * enemyDamageScale(r);
-  const starts = r.time + (attack.pattern === "burrow" ? 1.4 : attack.warning);
+    damage = attack.damage * enemyDamageScale(r),
+    thunder = /wolf-hunt|witch-thunder|brain-storm/.test(attack.id),
+    warning = attack.warning + (thunder ? 0.5 : 0);
+  const starts = r.time + (attack.pattern === "burrow" ? 1.4 : warning);
   const duration =
     attack.pattern === "burrow" ? attack.groups * 1.4 : attack.duration;
   const m: Mode = {
@@ -93,7 +96,7 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
     next: starts,
     count: 0,
     angle: angle(e, enemyTarget(r, e)),
-    target: { ...enemyTarget(r, e) },
+    target: { x: enemyTarget(r, e).x, y: enemyTarget(r, e).y },
     origin: { x: e.x, y: e.y },
     phase: e.phase,
     bossAttack: attack,
@@ -126,7 +129,7 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
         target,
         attack.radius,
         damage,
-        attack.warning + i * 0.25,
+        warning + i * 0.25,
         0.01,
         1,
         null,
@@ -134,9 +137,7 @@ export function beginBossAttack(r: Run, e: Actor, attack: BossAttack) {
           owner: e.id,
           eventAbility: attack.id,
           coverMelee: attack.id.includes("leap"),
-          effect: /wolf-hunt|witch-thunder|brain-storm/.test(attack.id)
-            ? "thunder"
-            : undefined,
+          effect: thunder ? "thunder" : undefined,
           wave: id,
           heavy: true,
           ...(attack.id === "santa-tracking"
@@ -237,7 +238,7 @@ export function biomeBossAI(r: Run, e: Actor) {
       m.starts < e.rushUntil
     ) {
       m.angle = angle(e, enemyTarget(r, e));
-      m.target = { ...enemyTarget(r, e) };
+      m.target = { x: enemyTarget(r, e).x, y: enemyTarget(r, e).y };
       m.starts = m.next;
     }
   }
@@ -397,7 +398,7 @@ export function executeBossMode(r: Run, m: Mode, e: Actor) {
         coverMelee: true,
       });
     if (++m.count < a.groups) {
-      m.target = { ...enemyTarget(r, e) };
+      m.target = { x: enemyTarget(r, e).x, y: enemyTarget(r, e).y };
       m.next = r.time + 1.4;
       m.starts = m.next;
       if (a.pattern === "burrow") {

@@ -16,9 +16,15 @@ async function load(page: Page, r: Run) {
   });
   await expect(page.getByRole("status")).toContainText("匯入成功");
   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+  await expect(page.locator("#overlay")).toHaveAttribute("data-screen", "game");
 }
 async function exported(page: Page) {
+  await expect(page.locator("#overlay")).toHaveAttribute("data-screen", "game");
   await page.keyboard.press("Escape");
+  await expect(page.locator("#overlay")).toHaveAttribute(
+    "data-screen",
+    "pause",
+  );
   const pending = page.waitForEvent("download");
   await page.getByRole("button", { name: "匯出存檔", exact: true }).click();
   return JSON.parse(await readFile((await (await pending).path())!, "utf8"));

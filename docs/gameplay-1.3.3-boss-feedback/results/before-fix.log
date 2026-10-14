@@ -1,0 +1,204 @@
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/boss-feedback.test.ts (25 tests | 9 failed) 132ms
+   × assassin-swap 移動只更新座標，兩段及舊目標快照不覆蓋Boss血量／半徑／狀態 41ms
+   × troll-leap 移動只更新座標，兩段及舊目標快照不覆蓋Boss血量／半徑／狀態 13ms
+   × beast-leap 移動只更新座標，兩段及舊目標快照不覆蓋Boss血量／半徑／狀態 10ms
+   × worm-burrow 移動只更新座標，兩段及舊目標快照不覆蓋Boss血量／半徑／狀態 4ms
+   × worm-double 移動只更新座標，兩段及舊目標快照不覆蓋Boss血量／半徑／狀態 4ms
+   × brain-shift 移動只更新座標，兩段及舊目標快照不覆蓋Boss血量／半徑／狀態 3ms
+   × whale-leap 移動只更新座標，兩段及舊目標快照不覆蓋Boss血量／半徑／狀態 2ms
+   × Boss 10 落雷延後0.5秒，延後前無傷害、落下仍正常命中 4ms
+   × Boss 13 落雷延後0.5秒，延後前無傷害、落下仍正常命中 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/boss-feedback.test.ts > assassin-swap 移動只更新座標，兩段及舊目標快照不覆蓋Boss血量／半徑／狀態
+AssertionError: expected { hp: 37, maxHP: 9500, …(3) } to deeply equal { hp: 4627, maxHP: 9500, …(3) }
+
+- Expected
++ Received
+
+  {
+    "armor": 83,
+-   "hp": 4627,
++   "hp": 37,
+    "maxHP": 9500,
+    "phase": 2,
+-   "radius": 28,
++   "radius": 12,
+  }
+
+ ❯ tests/unit/boss-feedback.test.ts:28:92
+     26|     r.time = m.next;
+     27|     executeBossMode(r, m, e);
+     28|     expect({ hp: e.hp, maxHP: e.maxHP, radius: e.radius, armor: e.armo…
+       |                                                                                            ^
+     29|     expect(e.x).toBe(r.player.x);
+     30|     expect(e.y).toBe(r.player.y);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  tests/unit/boss-feedback.test.ts > troll-leap 移動只更新座標，兩段及舊目標快照不覆蓋Boss血量／半徑／狀態
+AssertionError: expected { hp: 37, maxHP: 9500, …(3) } to deeply equal { hp: 4627, maxHP: 9500, …(3) }
+
+- Expected
++ Received
+
+  {
+    "armor": 83,
+-   "hp": 4627,
++   "hp": 37,
+    "maxHP": 9500,
+    "phase": 2,
+-   "radius": 40,
++   "radius": 12,
+  }
+
+ ❯ tests/unit/boss-feedback.test.ts:28:92
+     26|     r.time = m.next;
+     27|     executeBossMode(r, m, e);
+     28|     expect({ hp: e.hp, maxHP: e.maxHP, radius: e.radius, armor: e.armo…
+       |                                                                                            ^
+     29|     expect(e.x).toBe(r.player.x);
+     30|     expect(e.y).toBe(r.player.y);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  tests/unit/boss-feedback.test.ts > beast-leap 移動只更新座標，兩段及舊目標快照不覆蓋Boss血量／半徑／狀態
+AssertionError: expected { hp: 37, maxHP: 13500, …(3) } to deeply equal { hp: 6627, maxHP: 13500, …(3) }
+
+- Expected
++ Received
+
+  {
+    "armor": 83,
+-   "hp": 6627,
++   "hp": 37,
+    "maxHP": 13500,
+    "phase": 2,
+-   "radius": 40,
++   "radius": 12,
+  }
+
+ ❯ tests/unit/boss-feedback.test.ts:28:92
+     26|     r.time = m.next;
+     27|     executeBossMode(r, m, e);
+     28|     expect({ hp: e.hp, maxHP: e.maxHP, radius: e.radius, armor: e.armo…
+       |                                                                                            ^
+     29|     expect(e.x).toBe(r.player.x);
+     30|     expect(e.y).toBe(r.player.y);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  tests/unit/boss-feedback.test.ts > worm-burrow 移動只更新座標，兩段及舊目標快照不覆蓋Boss血量／半徑／狀態
+ FAIL  tests/unit/boss-feedback.test.ts > worm-double 移動只更新座標，兩段及舊目標快照不覆蓋Boss血量／半徑／狀態
+AssertionError: expected { hp: 37, maxHP: 18000, …(3) } to deeply equal { hp: 8877, maxHP: 18000, …(3) }
+
+- Expected
++ Received
+
+  {
+    "armor": 83,
+-   "hp": 8877,
++   "hp": 37,
+    "maxHP": 18000,
+    "phase": 2,
+-   "radius": 42,
++   "radius": 12,
+  }
+
+ ❯ tests/unit/boss-feedback.test.ts:28:92
+     26|     r.time = m.next;
+     27|     executeBossMode(r, m, e);
+     28|     expect({ hp: e.hp, maxHP: e.maxHP, radius: e.radius, armor: e.armo…
+       |                                                                                            ^
+     29|     expect(e.x).toBe(r.player.x);
+     30|     expect(e.y).toBe(r.player.y);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  tests/unit/boss-feedback.test.ts > brain-shift 移動只更新座標，兩段及舊目標快照不覆蓋Boss血量／半徑／狀態
+AssertionError: expected { hp: 37, maxHP: 18000, …(3) } to deeply equal { hp: 8877, maxHP: 18000, …(3) }
+
+- Expected
++ Received
+
+  {
+    "armor": 83,
+-   "hp": 8877,
++   "hp": 37,
+    "maxHP": 18000,
+    "phase": 2,
+-   "radius": 36,
++   "radius": 12,
+  }
+
+ ❯ tests/unit/boss-feedback.test.ts:28:92
+     26|     r.time = m.next;
+     27|     executeBossMode(r, m, e);
+     28|     expect({ hp: e.hp, maxHP: e.maxHP, radius: e.radius, armor: e.armo…
+       |                                                                                            ^
+     29|     expect(e.x).toBe(r.player.x);
+     30|     expect(e.y).toBe(r.player.y);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  tests/unit/boss-feedback.test.ts > whale-leap 移動只更新座標，兩段及舊目標快照不覆蓋Boss血量／半徑／狀態
+AssertionError: expected { hp: 37, maxHP: 24000, …(3) } to deeply equal { hp: 11877, maxHP: 24000, …(3) }
+
+- Expected
++ Received
+
+  {
+    "armor": 83,
+-   "hp": 11877,
++   "hp": 37,
+    "maxHP": 24000,
+    "phase": 2,
+-   "radius": 48,
++   "radius": 12,
+  }
+
+ ❯ tests/unit/boss-feedback.test.ts:28:92
+     26|     r.time = m.next;
+     27|     executeBossMode(r, m, e);
+     28|     expect({ hp: e.hp, maxHP: e.maxHP, radius: e.radius, armor: e.armo…
+       |                                                                                            ^
+     29|     expect(e.x).toBe(r.player.x);
+     30|     expect(e.y).toBe(r.player.y);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  tests/unit/boss-feedback.test.ts > Boss 10 落雷延後0.5秒，延後前無傷害、落下仍正常命中
+ FAIL  tests/unit/boss-feedback.test.ts > Boss 13 落雷延後0.5秒，延後前無傷害、落下仍正常命中
+AssertionError: expected [ 0.6, 0.85, 1.1 ] to deeply equal [ 1.1, 1.35, 1.6 ]
+
+- Expected
++ Received
+
+  [
++   0.6,
++   0.85,
+    1.1,
+-   1.35,
+-   1.6,
+  ]
+
+ ❯ tests/unit/boss-feedback.test.ts:53:35
+     51|  const a=bosses[id].attacks.flat().find(a=>/thunder|storm/.test(a.id))…
+     52|  beginBossAttack(r,e,a);
+     53|  expect(r.areas.map(a=>a.starts)).toEqual([1.1,1.35,1.6]);
+       |                                   ^
+     54|  expect(r.modes[0].starts).toBeCloseTo(1.1);
+     55|  r.time=.61;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  9 failed | 16 passed (25)
+   Start at  02:22:28
+   Duration  967ms (transform 69%, tests 20%, import 10%, worker 1%)
+

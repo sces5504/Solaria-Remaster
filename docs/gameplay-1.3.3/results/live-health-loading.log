@@ -1,0 +1,46 @@
+
+Running 1 test using 1 worker
+
+(node:37103) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/browser/health-light.spec.ts:26:1 › 生命曲線：舊Lv30保存實際升至31、加血、匯出重載不再次回血 (1.5m)
+
+
+  1) tests/browser/health-light.spec.ts:26:1 › 生命曲線：舊Lv30保存實際升至31、加血、匯出重載不再次回血 ─────────────────────
+
+    Test timeout of 90000ms exceeded.
+
+    Error: page.waitForEvent: Test timeout of 90000ms exceeded.
+    =========================== logs ===========================
+    waiting for event "download"
+    ============================================================
+
+      20 | async function exported(page: Page) {
+      21 |   await page.keyboard.press("Escape");
+    > 22 |   const pending = page.waitForEvent("download");
+         |                        ^
+      23 |   await page.getByRole("button", { name: "匯出存檔", exact: true }).click();
+      24 |   return JSON.parse(await readFile((await (await pending).path())!, "utf8"));
+      25 | }
+        at exported (/workspace/Solaria-Remaster/tests/browser/health-light.spec.ts:22:24)
+        at /workspace/Solaria-Remaster/tests/browser/health-light.spec.ts:60:13
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '匯出存檔', exact: true })
+
+
+      21 |   await page.keyboard.press("Escape");
+      22 |   const pending = page.waitForEvent("download");
+    > 23 |   await page.getByRole("button", { name: "匯出存檔", exact: true }).click();
+         |                                                                 ^
+      24 |   return JSON.parse(await readFile((await (await pending).path())!, "utf8"));
+      25 | }
+      26 | test("生命曲線：舊Lv30保存實際升至31、加血、匯出重載不再次回血", async ({
+        at exported (/workspace/Solaria-Remaster/tests/browser/health-light.spec.ts:23:65)
+        at /workspace/Solaria-Remaster/tests/browser/health-light.spec.ts:60:13
+
+    Error Context: docs/gameplay-1.3.3/results/live-browser/health-light-生命曲線：舊Lv30保存實際升至31、加血、匯出重載不再次回血/error-context.md
+
+  1 failed
+    tests/browser/health-light.spec.ts:26:1 › 生命曲線：舊Lv30保存實際升至31、加血、匯出重載不再次回血 ──────────────────────

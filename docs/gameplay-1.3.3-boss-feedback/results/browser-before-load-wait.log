@@ -1,0 +1,30 @@
+[WebServer] (node:1808) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:1828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/boss-feedback.spec.ts:15:3 › Boss位移：assassin-swap 載入舊目標快照、實際施放不偷換玩家血量 (18.7s)
+  ✓  2 tests/browser/boss-feedback.spec.ts:15:3 › Boss位移：worm-double 載入舊目標快照、實際施放不偷換玩家血量 (15.6s)
+  ✓  3 tests/browser/boss-feedback.spec.ts:15:3 › Boss位移：beast-leap 載入舊目標快照、實際施放不偷換玩家血量 (20.6s)
+  ✘  4 tests/browser/health-light.spec.ts:31:1 › 生命曲線：舊Lv30保存實際升至31、加血、匯出重載不再次回血 (4.8s)
+
+
+  1) tests/browser/health-light.spec.ts:31:1 › 生命曲線：舊Lv30保存實際升至31、加血、匯出重載不再次回血 ─────────────────────
+
+    Error: page.evaluate: TypeError: Cannot read properties of null (reading 'phase')
+        at eval (eval at evaluate (:370:30), <anonymous>:1:39)
+        at UtilityScript.evaluate (<anonymous>:372:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at eval (eval at evaluate (:370:30), <anonymous>:1:39)
+        at UtilityScript.evaluate (<anonymous>:372:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at expect.poll.timeout (/workspace/Solaria-Remaster/tests/browser/health-light.spec.ts:50:14)
+        at /workspace/Solaria-Remaster/tests/browser/health-light.spec.ts:47:3
+
+    Error Context: test-results/boss-feedback/health-light-生命曲線：舊Lv30保存實際升至31、加血、匯出重載不再次回血/error-context.md
+
+  1 failed
+    tests/browser/health-light.spec.ts:31:1 › 生命曲線：舊Lv30保存實際升至31、加血、匯出重載不再次回血 ──────────────────────
+  3 passed (1.0m)

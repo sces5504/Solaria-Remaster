@@ -171,3 +171,33 @@ it("曝亮保護對錯位、離畫面邊緣及不同半徑重疊仍成立，色�
   );
   expect(after.peak).toBeLessThanOrEqual(GLOW_EXPOSURE_LIMIT + 1e-6);
 });
+it("死亡保存與清算最後燃燒致死不得因成長補血復活，進房快照仍可獲得成長", () => {
+  const dead = newRun("sword", 13308);
+  delete dead.healthGrowthVersion;
+  dead.level = 31;
+  dead.phase = "DEAD";
+  dead.player.hp = 0;
+  const entry = {
+    ...structuredClone(dead),
+    phase: "ROOM_INTRO" as const,
+    player: { ...dead.player, hp: 150 },
+  };
+  const saved = validate({ version: 1, revision: 0, current: dead, entry });
+  expect(saved.current.player.hp).toBe(0);
+  expect(saved.current.stats.maxHP).toBe(375);
+  expect(saved.entry.player.hp).toBe(375);
+  const r = newRun("sword", 13309);
+  r.phase = "SETTLEMENT";
+  r.settlementEnds = 0;
+  r.settledOnce = true;
+  r.player.hp = 1;
+  r.player.burnUntil = 1;
+  r.player.burnTick = 0;
+  r.enemies = [];
+  r.reserves = [];
+  r.hazards = [];
+  r.drops = [];
+  step(r, idleCommand(r));
+  expect(r.player.hp).toBe(0);
+  expect(r.phase).toBe("DEAD");
+});
