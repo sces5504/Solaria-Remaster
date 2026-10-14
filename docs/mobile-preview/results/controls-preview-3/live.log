@@ -1,0 +1,9 @@
+
+Running 2 tests using 1 worker
+
+(node:28226) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [android] › tests/browser/mobile.spec.ts:576:1 › 手機新操作：頂部返回、背包構築與點選裝備／門 (35.6s)
+  ✓  2 [android] › tests/browser/mobile.spec.ts:654:1 › 手機新佈局：縮放拖曳、保存與一鍵預設，編輯期間暫停 (47.2s)
+
+  2 passed (1.4m)

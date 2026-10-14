@@ -1,0 +1,201 @@
+{
+  "conclusion": "success",
+  "headSha": "e7ad20bcba9ee1e9a6d6dc38a41537573842fb60",
+  "jobs": [
+    {
+      "completedAt": "2026-10-14T07:26:40Z",
+      "conclusion": "success",
+      "databaseId": 115732820633,
+      "name": "build",
+      "startedAt": "2026-10-14T07:23:25Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Preview must stay off main",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v4",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run npm ci",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Type, unit and formatting validation",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Install related browser engines",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run npm run build",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Browser validation",
+          "number": 9,
+          "status": "completed"
+        },
+        {
+          "conclusion": "skipped",
+          "name": "Build and validate double-click download",
+          "number": 10,
+          "status": "completed"
+        },
+        {
+          "conclusion": "skipped",
+          "name": "Run actions/upload-artifact@v4",
+          "number": 11,
+          "status": "completed"
+        },
+        {
+          "conclusion": "skipped",
+          "name": "Run npm run build",
+          "number": 12,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Keep preview build",
+          "number": 13,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 14,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Preserve current official game and append isolated preview",
+          "number": 15,
+          "status": "completed"
+        },
+        {
+          "conclusion": "skipped",
+          "name": "Run actions/upload-pages-artifact@v3",
+          "number": 16,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/upload-pages-artifact@v3",
+          "number": 17,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/upload-artifact@v4",
+          "number": 18,
+          "status": "completed"
+        },
+        {
+          "conclusion": "skipped",
+          "name": "Run actions/upload-artifact@v4",
+          "number": 19,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 36,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v4",
+          "number": 37,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 38,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 39,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/sces5504/Solaria-Remaster/actions/runs/38527993760/job/115732820633"
+    },
+    {
+      "completedAt": "2026-10-14T07:27:00Z",
+      "conclusion": "success",
+      "databaseId": 115733980691,
+      "name": "deploy",
+      "startedAt": "2026-10-14T07:26:44Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Refuse to overwrite a newer main deployment",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/deploy-pages@v4",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 4,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/sces5504/Solaria-Remaster/actions/runs/38527993760/job/115733980691"
+    },
+    {
+      "completedAt": "2026-10-14T07:27:01Z",
+      "conclusion": "skipped",
+      "databaseId": 115734096671,
+      "name": "release",
+      "startedAt": "2026-10-14T07:27:01Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/sces5504/Solaria-Remaster/actions/runs/38527993760/job/115734096671"
+    }
+  ],
+  "status": "completed"
+}

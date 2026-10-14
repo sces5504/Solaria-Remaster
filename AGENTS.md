@@ -1,8 +1,8 @@
 # Solaria Remaster
 
-## 手機操作preview.3進行中：仍不可推main
+## 手機操作preview.3已交付：仍不可推main
 
-主人要求頂部返回、背包移除匯出／標題旁目前構築、暫停新增可儲存／重設按鍵佈局、冷卻視覺提示、點裝備及門互動、畫布外縮放防護。延續gameplay/mobile-preview，版本1.4.0-preview.3；main仍1.3.3 ea7b1a5，等主人確認。只照顧主流手機，不為舊小螢幕改布局。README由主人維護，不讀／比較／修改；不開Chat或agent，1.1.2封存／備份不動。相關驗證與試玩部署進行中，未測不得標PASS；新證據記docs/mobile-preview/results/controls-preview-3，真機未驗證。
+主人要求頂部返回、背包移除匯出／標題旁目前構築、暫停新增可儲存／重設按鍵佈局、冷卻視覺提示、點裝備及門互動、畫布外縮放防護。延續gameplay/mobile-preview，版本1.4.0-preview.3；main仍1.3.3 ea7b1a5，等主人確認。只照顧主流手機，不為舊小螢幕改布局。README由主人維護，不讀／比較／修改；不開Chat或agent，1.1.2封存／備份不動。已交付preview/mobile/?v=1.4.0-preview.3，主體遊戲1742a7e；測試等待條件修正後部署來源e7ad20b／CI38527993760的check、14相關unit、format、build、12相關Chromium／WebKit／桌面案例1.6分鐘與部署通過（9個不適用project跳過，無重試）。先前CI38527430379為11通過／1測試時序失敗，未部署，兩來源分開記錄。公開頁兩個新操作／佈局案例1.4分鐘及正式50＋預覽50檔SHA通過，正式main與1.1.2封存refs不變。最終畫面／失敗紀錄保留docs/mobile-preview/results/controls-preview-3；真機、硬體手勢與效能未驗證，尤其WebKit事件取消及DOM捲動不是實機Safari手勢PASS。待主人試玩確認才整合main。
 
 ## 手機版面回饋：1.4.0-preview.2，仍不可推main
 

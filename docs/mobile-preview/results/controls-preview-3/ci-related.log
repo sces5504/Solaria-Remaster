@@ -1,0 +1,118 @@
+build	Type, unit and formatting validation	﻿2026-10-14T07:23:36.5240259Z ##[group]Run npm run check
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5240482Z npm run check
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5240693Z if [ "$VALIDATION_SCOPE" = "mobile-controls-preview" ]; then
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5241024Z   npx vitest run tests/unit/mobile-interaction.test.ts tests/unit/auto-aim.test.ts
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5241340Z elif [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ]; then
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5241583Z   npx vitest run tests/unit/auto-aim.test.ts
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5245174Z elif [ "$VALIDATION_SCOPE" = "mobile-preview" ]; then
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5245541Z   npx vitest run tests/unit/auto-aim.test.ts tests/unit/terrain-progression.test.ts tests/unit/health-light.test.ts
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5246038Z elif [ "$VALIDATION_SCOPE" = "boss-feedback-preview" ] || [ "$VALIDATION_SCOPE" = "release-feedback" ]; then
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5246549Z   npx vitest run tests/unit/boss-feedback.test.ts tests/unit/biome-bosses.test.ts tests/unit/boss-rework.test.ts tests/unit/health-light.test.ts
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5247030Z elif [ "$VALIDATION_SCOPE" = "health-migration-feedback" ]; then
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5247291Z   npx vitest run tests/unit/health-light.test.ts
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5247535Z elif [ "$VALIDATION_SCOPE" = "health-light-feedback" ]; then
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5248059Z   npx vitest run tests/unit/health-light.test.ts tests/unit/adventure-lighting.test.ts tests/unit/terrain-progression.test.ts tests/unit/advanced-cards.test.ts tests/unit/feedback-132.test.ts
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5248533Z else
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5248658Z   npm test
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5248787Z fi
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5248917Z npm run format:check
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5307229Z shell: /usr/bin/bash -e {0}
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5307401Z env:
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5307548Z   VALIDATION_SCOPE: mobile-controls-preview
+build	Type, unit and formatting validation	2026-10-14T07:23:36.5307900Z ##[endgroup]
+build	Type, unit and formatting validation	2026-10-14T07:23:36.6025855Z 
+build	Type, unit and formatting validation	2026-10-14T07:23:36.6026561Z > solaria-remaster@1.4.0-preview.3 check
+build	Type, unit and formatting validation	2026-10-14T07:23:36.6026825Z > tsc --noEmit
+build	Type, unit and formatting validation	2026-10-14T07:23:36.6026910Z 
+build	Type, unit and formatting validation	2026-10-14T07:23:37.3653045Z 
+build	Type, unit and formatting validation	2026-10-14T07:23:37.3657798Z  RUN  v5.0.3 /home/runner/work/Solaria-Remaster/Solaria-Remaster
+build	Type, unit and formatting validation	2026-10-14T07:23:37.3658241Z 
+build	Type, unit and formatting validation	2026-10-14T07:23:37.7264145Z  ✓ tests/unit/auto-aim.test.ts (8 tests) 47ms
+build	Type, unit and formatting validation	2026-10-14T07:23:37.7303535Z  ✓ tests/unit/mobile-interaction.test.ts (6 tests) 52ms
+build	Type, unit and formatting validation	2026-10-14T07:23:37.7342961Z 
+build	Type, unit and formatting validation	2026-10-14T07:23:37.7353420Z  Test Files  2 passed (2)
+build	Type, unit and formatting validation	2026-10-14T07:23:37.7375875Z       Tests  14 passed (14)
+build	Type, unit and formatting validation	2026-10-14T07:23:37.7377613Z    Start at  07:23:37
+build	Type, unit and formatting validation	2026-10-14T07:23:37.7378441Z    Duration  362ms (transform 66%, tests 18%, import 14%, worker 1%)
+build	Type, unit and formatting validation	2026-10-14T07:23:37.7378927Z 
+build	Type, unit and formatting validation	2026-10-14T07:23:37.8243001Z 
+build	Type, unit and formatting validation	2026-10-14T07:23:37.8243760Z > solaria-remaster@1.4.0-preview.3 format:check
+build	Type, unit and formatting validation	2026-10-14T07:23:37.8244127Z > prettier --check .
+build	Type, unit and formatting validation	2026-10-14T07:23:37.8244260Z 
+build	Type, unit and formatting validation	2026-10-14T07:23:37.8795051Z Checking formatting...
+build	Type, unit and formatting validation	2026-10-14T07:23:44.8921942Z All matched files use Prettier code style!
+build	Browser validation	﻿2026-10-14T07:24:24.3067130Z ##[group]Run if [ "$VALIDATION_SCOPE" = "mobile-controls-preview" ]; then
+build	Browser validation	2026-10-14T07:24:24.3067474Z if [ "$VALIDATION_SCOPE" = "mobile-controls-preview" ]; then
+build	Browser validation	2026-10-14T07:24:24.3067821Z   npx playwright test -c docs/mobile-preview/playwright.config.ts --grep '手機新|手機縮放|桌面維持|原生多指|旋轉|手機版面 844'
+build	Browser validation	2026-10-14T07:24:24.3068308Z elif [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ]; then
+build	Browser validation	2026-10-14T07:24:24.3068603Z   npx playwright test -c docs/mobile-preview/playwright.config.ts --grep '手機版面|桌面維持'
+build	Browser validation	2026-10-14T07:24:24.3068898Z elif [ "$VALIDATION_SCOPE" = "mobile-preview" ]; then
+build	Browser validation	2026-10-14T07:24:24.3069143Z   npx playwright test -c docs/mobile-preview/playwright.config.ts
+build	Browser validation	2026-10-14T07:24:24.3069486Z elif [ "$VALIDATION_SCOPE" = "boss-feedback-preview" ] || [ "$VALIDATION_SCOPE" = "release-feedback" ]; then
+build	Browser validation	2026-10-14T07:24:24.3069939Z   npm run test:browser -- tests/browser/boss-feedback.spec.ts tests/browser/health-light.spec.ts --grep "Boss位移|生命曲線"
+build	Browser validation	2026-10-14T07:24:24.3070319Z elif [ "$VALIDATION_SCOPE" = "art-feedback" ]; then
+build	Browser validation	2026-10-14T07:24:24.3070721Z   npm run test:browser -- tests/browser/adventure-art.spec.ts tests/browser/last-polish.spec.ts --grep '短FX|美術回饋|精雕冒險 (meadow|volcano|castle)：|發光藍雷|扇形噴火'
+build	Browser validation	2026-10-14T07:24:24.3071167Z elif [ "$VALIDATION_SCOPE" = "visibility-feedback" ]; then
+build	Browser validation	2026-10-14T07:24:24.3071425Z   npm run test:browser -- tests/browser/visibility-feedback.spec.ts
+build	Browser validation	2026-10-14T07:24:24.3071862Z elif [ "$VALIDATION_SCOPE" = "health-migration-feedback" ]; then
+build	Browser validation	2026-10-14T07:24:24.3072274Z   npm run test:browser -- tests/browser/health-light.spec.ts --grep '生命曲線'
+build	Browser validation	2026-10-14T07:24:24.3072540Z elif [ "$VALIDATION_SCOPE" = "health-light-feedback" ]; then
+build	Browser validation	2026-10-14T07:24:24.3072782Z   npm run test:browser -- tests/browser/health-light.spec.ts
+build	Browser validation	2026-10-14T07:24:24.3073010Z elif [ "$VALIDATION_SCOPE" = "save-feedback" ]; then
+build	Browser validation	2026-10-14T07:24:24.3073276Z   npm run test:browser -- tests/browser/feedback-132.spec.ts --grep '嚴格密碼|舊命運'
+build	Browser validation	2026-10-14T07:24:24.3073542Z elif [ "$VALIDATION_SCOPE" = "maintenance-feedback" ]; then
+build	Browser validation	2026-10-14T07:24:24.3073877Z   npm run test:browser -- tests/browser/feedback-132.spec.ts tests/browser/boss-cover-balance.spec.ts
+build	Browser validation	2026-10-14T07:24:24.3074199Z elif [ "$VALIDATION_SCOPE" = "balance-feedback" ]; then
+build	Browser validation	2026-10-14T07:24:24.3074511Z   npm run test:browser -- tests/browser/boss-cover-balance.spec.ts tests/browser/boss-rework.spec.ts
+build	Browser validation	2026-10-14T07:24:24.3074824Z elif [ "$VALIDATION_SCOPE" = "gameplay-feedback" ]; then
+build	Browser validation	2026-10-14T07:24:24.3075106Z   npm run test:browser -- tests/browser/boss-rework.spec.ts tests/browser/recovery.spec.ts
+build	Browser validation	2026-10-14T07:24:24.3075397Z elif [ "$VALIDATION_SCOPE" = "variety-preview" ]; then
+build	Browser validation	2026-10-14T07:24:24.3075729Z   npm run test:browser -- tests/browser/named-room-themes.spec.ts --grep '月牙林灣|層階砂臺|雙島霜澤|噴岩扇丘|交織巨根|岔隙幽門|赤弦血灣|交織星軌|分岔門庭|保存重載'
+build	Browser validation	2026-10-14T07:24:24.3076061Z elif [ "$VALIDATION_SCOPE" = "theme-preview" ]; then
+build	Browser validation	2026-10-14T07:24:24.3076388Z   npm run test:browser -- tests/browser/named-room-themes.spec.ts tests/browser/journal.spec.ts --grep '房名布局|首局手冊'
+build	Browser validation	2026-10-14T07:24:24.3076721Z elif [ "$VALIDATION_SCOPE" = "terrain-preview" ]; then
+build	Browser validation	2026-10-14T07:24:24.3077229Z   npm run test:browser -- tests/browser/terrain-progression.spec.ts tests/browser/startup.spec.ts tests/browser/journal.spec.ts tests/browser/resonance.spec.ts --grep '首局手冊|WebGL 主選單|測試面板|密碼嚴格|全螢幕在|舊1.2.0|新地形畫面|首局先手冊|獨立存檔'
+build	Browser validation	2026-10-14T07:24:24.3077709Z else
+build	Browser validation	2026-10-14T07:24:24.3077830Z   npm run test:browser
+build	Browser validation	2026-10-14T07:24:24.3077964Z fi
+build	Browser validation	2026-10-14T07:24:24.3131039Z shell: /usr/bin/bash -e {0}
+build	Browser validation	2026-10-14T07:24:24.3131185Z env:
+build	Browser validation	2026-10-14T07:24:24.3131319Z   VALIDATION_SCOPE: mobile-controls-preview
+build	Browser validation	2026-10-14T07:24:24.3131625Z ##[endgroup]
+build	Browser validation	2026-10-14T07:24:25.7251401Z 
+build	Browser validation	2026-10-14T07:24:25.7252787Z Running 21 tests using 1 worker
+build	Browser validation	2026-10-14T07:26:01.0559859Z ·°······°°····°·°°°°°
+build	Browser validation	2026-10-14T07:26:01.0562505Z   9 skipped
+build	Browser validation	2026-10-14T07:26:01.0564109Z   12 passed (1.6m)
+deploy	Refuse to overwrite a newer main deployment	﻿2026-10-14T07:26:46.5181069Z ##[group]Run observed=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq .object.sha)
+deploy	Refuse to overwrite a newer main deployment	2026-10-14T07:26:46.5183337Z observed=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq .object.sha)
+deploy	Refuse to overwrite a newer main deployment	2026-10-14T07:26:46.5185320Z test "$observed" = "$EXPECTED_SHA"
+deploy	Refuse to overwrite a newer main deployment	2026-10-14T07:26:47.2891636Z shell: /usr/bin/bash -e {0}
+deploy	Refuse to overwrite a newer main deployment	2026-10-14T07:26:47.2893002Z env:
+deploy	Refuse to overwrite a newer main deployment	2026-10-14T07:26:47.2903580Z   GH_TOKEN: ***
+deploy	Refuse to overwrite a newer main deployment	2026-10-14T07:26:47.2904614Z   EXPECTED_SHA: ea7b1a55e22342c6cb8fc6b08ed69cb9663ef60f
+deploy	Refuse to overwrite a newer main deployment	2026-10-14T07:26:47.2905833Z ##[endgroup]
+deploy	Run actions/deploy-pages@v4	﻿2026-10-14T07:26:47.8639225Z ##[group]Run actions/deploy-pages@v4
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:47.8640658Z with:
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:47.8649466Z   token: ***
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:47.8650471Z   timeout: 600000
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:47.8651438Z   error_count: 10
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:47.8652434Z   reporting_interval: 5000
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:47.8653764Z   artifact_name: github-pages
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:47.8654893Z   preview: false
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:47.8655846Z ##[endgroup]
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:48.0635842Z (node:2189) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:48.0637658Z (Use `node --trace-deprecation ...` to show where the warning was created)
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:48.2124856Z Fetching artifact metadata for "github-pages" in this workflow run
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:48.3821817Z Found 2 artifact(s)
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:48.3847832Z Creating Pages deployment with payload:
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:48.3849525Z {
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:48.3850937Z 	"artifact_id": 11876966264,
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:48.3852780Z 	"pages_build_version": "e7ad20bcba9ee1e9a6d6dc38a41537573842fb60",
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:48.3925872Z 	"oidc_token": "***"
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:48.3927531Z }
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:49.2315418Z Created deployment for e7ad20bcba9ee1e9a6d6dc38a41537573842fb60, ID: e7ad20bcba9ee1e9a6d6dc38a41537573842fb60
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:54.2330944Z Getting Pages deployment status...
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:54.4593321Z Current status: syncing_files
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:59.4599130Z Getting Pages deployment status...
+deploy	Run actions/deploy-pages@v4	2026-10-14T07:26:59.6187846Z Reported success!

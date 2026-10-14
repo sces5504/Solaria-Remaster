@@ -63,3 +63,11 @@ CI畫面artifact下載服務回403，已保留去除簽名查詢參數的錯誤�
 失敗原始日誌保留controls-preview-3：拾取後未等保存就開背包的測試；CSS grid-area讓絕對定位的安全邊距被重算，造成畫布越界／門被技能鍵擋住（已修為auto）；測試等待RAF的void型別；原生捲動讀錯外層panel，改讀實際catalog內層。初輪廣範測試在定位問題確診後主動停止，不能說完成21項。上輪交付後新增的ci-summary JSON補格式修正，內容保持，root README未讀／比較／修改。只照顧主流手機，不做舊小屏特殊布局。真機、硬體音效／效能／瀏海與系統手勢仍未驗證。
 
 主體1742a7e／CI38527430379的check／14unit／format／build通過，12相關browser中11通過、iPhone首局流程1失敗（9個不適用project跳過，1.8分鐘），因此未部署。失敗是新頂部按鈕文字在下一RAF更新，測試以count立即判斷而略過手冊「選擇旅人」，不是實際拒絕選職業；改為等待tutorial/classes狀態、若tutorial則等待並點該按鈕，不放寬原斷言，不改遊戲程式。另同一遊戲來源Android成功進入全螢幕，完整8:5與按鍵安全邊距補驗1項21.0秒通過；不混充最後CI整輪。後續CI與線上部署仍待，原失敗記錄保留。
+
+## 1.4.0-preview.3 已交付（2026-10-14）
+
+[手機試玩版](https://sces5504.github.io/Solaria-Remaster/preview/mobile/?v=1.4.0-preview.3)，等待主人確認，不推main。主體遊戲程式1742a7e713d511ad80d87ff6d303a24d2fb6ded8；最後修正測試等待條件的部署來源e7ad20bcba9ee1e9a6d6dc38a41537573842fb60，兩者遊戲程式相同。[CI38527993760](https://github.com/sces5504/Solaria-Remaster/actions/runs/38527993760) check／14相關unit／format／build／12相關browser（9個不適用project跳過，1.6分鐘）與部署通過，沒有重試。涵蓋Android Chromium／iPhone WebKit的頂部返回、指定裝備與門、主流844橫屏、佈局拖曳／大小／位置／保存／預設／核心暫停、冷卻視覺、觸控縮放保護，以及旋轉／中斷／音效回復；另有Android原生四指／接鍵鼠與桌面原控制。不是完整browser套件或三職自然31關。
+
+公開頁Android Chromium模擬再跑兩項：頂部返回／構築／點裝備與門35.6秒，以及佈局保存／還原／多指與冷卻47.2秒，合計1.4分鐘通過。final-live的背包標題旁「目前構築」／頂部返回、編輯器及技能就緒畫面已目檢；webkit-screenshots/cooldown.png另記錄冷卻遮罩與秒數。正式50檔與手機試玩50檔HTML／JS／CSS／PNG逐檔SHA符合各自來源，manifest相對start/scope與standalone保持。正式main仍ea7b1a55e22342c6cb8fc6b08ed69cb9663ef60f，v1.1.2 tag及兩archive refs核對不變；無新正式tag／Release，固定備份與PNG素材不動。
+
+Android原生多指縮放／雙擊及內層清單單指捲動是Chromium軟體模擬；WebKit檢查事件取消／點擊後scale及DOM可捲動，**不是iPhone硬體Safari／Chrome手勢驗收**。Android Chrome／iPhone Safari與Chrome真機、硬體聲音／效能、瀏海／系統手勢仍未驗證，不能承諾擋住作業系統或使用者強制縮放。相關失敗與最終證據在results/controls-preview-3；不開Chat／agent，不讀／比較／修改root README。下一步接主人試玩回饋，仍須確認才整合main。
