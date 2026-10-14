@@ -20,6 +20,7 @@ on:
             save-feedback,
             health-light-feedback,
             health-migration-feedback,
+            mobile-controls-preview,
             mobile-layout-preview,
             mobile-preview,
             release-feedback,
@@ -53,7 +54,9 @@ jobs:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
         run: |
           npm run check
-          if [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ]; then
+          if [ "$VALIDATION_SCOPE" = "mobile-controls-preview" ]; then
+            npx vitest run tests/unit/mobile-interaction.test.ts tests/unit/auto-aim.test.ts
+          elif [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ]; then
             npx vitest run tests/unit/auto-aim.test.ts
           elif [ "$VALIDATION_SCOPE" = "mobile-preview" ]; then
             npx vitest run tests/unit/auto-aim.test.ts tests/unit/terrain-progression.test.ts tests/unit/health-light.test.ts
@@ -71,7 +74,7 @@ jobs:
         env:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
         run: |
-          if [ "$VALIDATION_SCOPE" = "mobile-preview" ] || [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ]; then
+          if [ "$VALIDATION_SCOPE" = "mobile-preview" ] || [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ] || [ "$VALIDATION_SCOPE" = "mobile-controls-preview" ]; then
             npx playwright install --with-deps chromium webkit
           else
             npx playwright install --with-deps chromium
@@ -83,7 +86,9 @@ jobs:
         env:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
         run: |
-          if [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ]; then
+          if [ "$VALIDATION_SCOPE" = "mobile-controls-preview" ]; then
+            npx playwright test -c docs/mobile-preview/playwright.config.ts --grep '手機新|手機縮放|桌面維持|原生多指|旋轉|手機版面 844'
+          elif [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ]; then
             npx playwright test -c docs/mobile-preview/playwright.config.ts --grep '手機版面|桌面維持'
           elif [ "$VALIDATION_SCOPE" = "mobile-preview" ]; then
             npx playwright test -c docs/mobile-preview/playwright.config.ts

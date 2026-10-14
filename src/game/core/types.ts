@@ -413,4 +413,5 @@ export interface Command {
   skill: boolean;
   dodge: boolean;
   interact: boolean;
+  interactTarget?: { kind: "item"; id: string } | { kind: "door" };
 }

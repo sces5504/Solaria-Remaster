@@ -395,9 +395,10 @@ export function step(r: Run, c: Command, paused = false) {
     r.choices = [];
   }
   if (c.interact) {
-    if (r.phase === "POST_CLEAR" && p.x > 872 && Math.abs(p.y - 320) < 55)
+    if (c.interactTarget?.kind === "item") pickup(r, c.interactTarget.id);
+    else if (r.phase === "POST_CLEAR" && p.x > 872 && Math.abs(p.y - 320) < 55)
       enterNext(r);
-    else pickup(r);
+    else if (!c.interactTarget) pickup(r);
   }
 }
 export function idleCommand(r: Run): Command {

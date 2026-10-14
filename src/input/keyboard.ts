@@ -8,6 +8,7 @@ export class Input {
     dodge: false,
     interact: false,
   };
+  interactTarget?: Command["interactTarget"];
   onClear?: () => void;
 
   keys = new Set<string>();
@@ -69,6 +70,7 @@ export class Input {
     });
   }
   clear() {
+    this.interactTarget = undefined;
     this.keys.clear();
     this.touch.move = { x: 0, y: 0 };
     this.touch.attack =
@@ -83,6 +85,7 @@ export class Input {
     this.interact = false;
   }
   consumeEdges() {
+    this.interactTarget = undefined;
     this.touch.skill = this.touch.dodge = this.touch.interact = false;
     this.skill = false;
     this.dodge = false;
@@ -117,6 +120,7 @@ export class Input {
       skill: this.skill || this.touch.skill,
       dodge: this.dodge || this.touch.dodge,
       interact: this.interact || this.touch.interact,
+      interactTarget: this.touch.interact ? this.interactTarget : undefined,
     };
     return cmd;
   }

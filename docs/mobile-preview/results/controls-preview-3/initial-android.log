@@ -1,0 +1,40 @@
+
+Running 3 tests using 1 worker
+
+(node:24949) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [android] › tests/browser/mobile.spec.ts:569:1 › 手機新操作：頂部返回、背包構築與點選裝備／門 (24.0s)
+(node:25072) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [android] › tests/browser/mobile.spec.ts:642:1 › 手機新佈局：縮放拖曳、保存與一鍵預設，編輯期間暫停 (43.3s)
+  ✓  3 [android] › tests/browser/mobile.spec.ts:742:1 › 手機縮放防護：畫布外雙擊／多指、選單單指捲動 (16.4s)
+
+
+  1) [android] › tests/browser/mobile.spec.ts:569:1 › 手機新操作：頂部返回、背包構築與點選裝備／門 ───────────────────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: '裝備與背包', exact: true })
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: '裝備與背包', exact: true }) with timeout 15000ms
+      - waiting for getByRole('heading', { name: '裝備與背包', exact: true })
+
+
+      592 |   await expect(
+      593 |     page.getByRole("heading", { name: "裝備與背包", exact: true }),
+    > 594 |   ).toBeVisible();
+          |     ^
+      595 |   await expect(
+      596 |     page.getByRole("heading", { name: "背包 1 / 12", exact: true }),
+      597 |   ).toBeVisible();
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:594:5
+
+    Error Context: test-results/mobile/mobile-手機新操作：頂部返回、背包構築與點選裝備／門-android/error-context.md
+
+  1 failed
+    [android] › tests/browser/mobile.spec.ts:569:1 › 手機新操作：頂部返回、背包構築與點選裝備／門 ────────────────────────
+  2 passed (1.5m)

@@ -121,3 +121,7 @@ BossAttack追加可選beamAngles／beamTurn／beamStagger、rushSpeed／rushTime
 1.2.0舊實驗checkpoint相容：active sweep若Area缺少beamMotion，沿原mode／DT繼續轉動；新光束按自己的絕對时间，不套兩次旋轉。一般COMBAT仍回入口；此接口兼顧測試給卡保存的進行中快照。
 
 舊草原狼群缺bossOwner時補原王ID，保持原召喚上限；與精英HP比例遷移一起處理，不重抽旅程RNG。
+
+## 手機試玩preview.3增量（未合併main）
+
+input/mobile-layout.ts管理獨立本機佈局偏好與暫停編輯器，mobile-interaction.ts只做畫布點中物件的幾何選擇；MobileUI轉成既有Command.interact及可選interactTarget。core/run依具體裝備／門執行，progression.pickup可接受指定ID；未指定時桌面E鍵原規則保持。偏好不進run/checkpoint，storageKey沿用手機試玩命名空間；未知／損毀布局安全回預設。mobile-platform處理整頁觸控縮放攔截，overlay保留單指捲動。不得為佈局調整重寫核心、裁切戰場或修改正式main。

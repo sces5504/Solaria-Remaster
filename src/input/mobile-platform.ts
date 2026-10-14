@@ -54,6 +54,21 @@ export class MobilePlatform {
       if (this.enabled && e.persisted) interrupt();
     });
     visualViewport?.addEventListener("resize", () => update());
+    if (this.enabled) {
+      // Safari can ignore viewport zoom limits; cancel gesture zoom on the entire app.
+      for (const event of ["gesturestart", "gesturechange", "gestureend"])
+        document.addEventListener(event, (e) => e.preventDefault(), {
+          passive: false,
+        });
+      document.addEventListener(
+        "touchmove",
+        (e) => {
+          if (e.cancelable && e.touches.length > 1) e.preventDefault();
+        },
+        { passive: false },
+      );
+      document.addEventListener("dblclick", (e) => e.preventDefault());
+    }
     this.paint();
   }
   get blocked() {

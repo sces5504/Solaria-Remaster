@@ -1,0 +1,11 @@
+
+Running 4 tests using 1 worker
+
+(node:27224) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [iphone] › tests/browser/mobile.spec.ts:459:3 › 手機版面 844：放大完整戰場、透明操作與主要選單免捲動 (10.6s)
+  ✓  2 [iphone] › tests/browser/mobile.spec.ts:570:1 › 手機新操作：頂部返回、背包構築與點選裝備／門 (9.9s)
+  ✓  3 [iphone] › tests/browser/mobile.spec.ts:647:1 › 手機新佈局：縮放拖曳、保存與一鍵預設，編輯期間暫停 (12.2s)
+  ✓  4 [iphone] › tests/browser/mobile.spec.ts:743:1 › 手機縮放防護：畫布外雙擊／多指、選單保留捲動 (5.7s)
+
+  4 passed (39.6s)

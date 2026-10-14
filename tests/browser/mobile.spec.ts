@@ -67,6 +67,13 @@ async function pointer(
     bubbles: true,
   });
 }
+async function tapWorld(page: Page, x: number, y: number) {
+  const b = (await page.getByLabel("Solaria 遊戲畫布").boundingBox())!;
+  await page.touchscreen.tap(
+    b.x + (x * b.width) / 1024,
+    b.y + (y * b.height) / 640,
+  );
+}
 async function exported(page: Page) {
   if ((await page.locator("#overlay").getAttribute("data-screen")) !== "pause")
     await pointer(page, "pause", 95);
@@ -147,8 +154,8 @@ for (const role of ["sword", "bow", "mage"] as const)
     await expect
       .poll(async () => (await diag(page)).mobile.controls.enabled)
       .toBe(true);
-    await pointer(page, "interact", 1);
-    await pointer(page, "interact", 1, "pointerup");
+    await tapWorld(page, 820, 320);
+    await expect(page.locator("#world-hints .item-label")).toHaveCount(0);
     await expect(page.locator("#overlay")).not.toHaveClass(/saving/);
     await pointer(page, "inventory", 2);
     await expect(
@@ -175,8 +182,7 @@ for (const role of ["sword", "bow", "mage"] as const)
       .poll(async () => (await diag(page)).core.time)
       .toBeGreaterThan(moveStarts + 0.6);
     await pointer(page, "move", 6, "pointerup");
-    await pointer(page, "interact", 7);
-    await pointer(page, "interact", 7, "pointerup");
+    await tapWorld(page, 928, 320);
     await expect.poll(async () => (await diag(page)).core.room).toBe(2);
     const dead = arena(role);
     dead.phase = "DEAD";
@@ -560,3 +566,275 @@ for (const size of [
         path: info.outputPath("expanded-battlefield.png"),
       });
   });
+
+test("手機新操作：頂部返回、背包構築與點選裝備／門", async ({ page }, info) => {
+  test.skip(info.project.name === "desktop");
+  test.setTimeout(120000);
+  const r = arena("mage");
+  r.phase = "POST_CLEAR";
+  r.settledOnce = true;
+  r.enemies = [];
+  r.player.x = 400;
+  const first = itemFor(r, 1, 0)!,
+    second = itemFor(r, 1, 1)!;
+  r.items = [
+    { ...first, id: "near", x: 400, y: 320 },
+    { ...second, id: "clicked", x: 440, y: 340 },
+  ];
+  await load(page, r);
+  await expect
+    .poll(async () => (await diag(page)).mobile.controls.enabled)
+    .toBe(true);
+  await expect(
+    page.locator('[data-touch="interact"], [data-touch="stats"]'),
+  ).toHaveCount(0);
+  await tapWorld(page, 440, 340);
+  await expect(page.locator("#world-hints .item-label")).toHaveCount(1);
+  await expect
+    .poll(async () => (await diag(page)).mobile.controls.enabled)
+    .toBe(true);
+  await pointer(page, "inventory", 80);
+  await expect(
+    page.getByRole("heading", { name: "裝備與背包", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "背包 1 / 12", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "匯出存檔", exact: true }),
+  ).toHaveCount(0);
+  const top = page.locator("#mobile-system button:last-child");
+  await expect(top).toHaveText("返回戰場");
+  expect((await top.boundingBox())!.y).toBeLessThan(42);
+  await page.screenshot({ path: info.outputPath("inventory-top-return.png") });
+  await page.getByRole("button", { name: "目前構築", exact: true }).tap();
+  await expect(page.locator("#overlay")).toHaveAttribute(
+    "data-screen",
+    "stats",
+  );
+  await top.tap();
+  await expect(page.locator("#overlay")).toHaveClass(/hidden/);
+  const snapshot = await exported(page);
+  expect(snapshot.current.bag.map((i: any) => i.id)).toEqual(["clicked"]);
+  await page.getByRole("button", { name: "光的記憶", exact: true }).tap();
+  await page
+    .locator(".panel")
+    .evaluate((el) => (el.scrollTop = el.scrollHeight));
+  await expect(top).toHaveText("返回戰場");
+  await top.tap();
+  await expect(page.locator("#overlay")).toHaveClass(/hidden/);
+  const door = arena("mage");
+  door.phase = "POST_CLEAR";
+  door.settledOnce = true;
+  door.enemies = [];
+  door.player.x = 820;
+  door.items = [];
+  await load(page, door);
+  await expect(page.locator("#world-hints")).toContainText(
+    "靠近點擊以通往下一關",
+  );
+  await tapWorld(page, 928, 320);
+  expect((await diag(page)).core.room).toBe(1);
+  const at = (await diag(page)).core.time;
+  await pointer(page, "move", 90, "pointerdown", 35);
+  await expect
+    .poll(async () => (await diag(page)).core.time)
+    .toBeGreaterThan(at + 0.6);
+  await pointer(page, "move", 90, "pointerup");
+  await tapWorld(page, 928, 320);
+  await expect.poll(async () => (await diag(page)).core.room).toBe(2);
+});
+
+test("手機新佈局：縮放拖曳、保存與一鍵預設，編輯期間暫停", async ({
+  page,
+}, info) => {
+  test.skip(info.project.name === "desktop");
+  test.setTimeout(150000);
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await fight(page, arena("mage"));
+  const field = page.getByLabel("Solaria 遊戲畫布"),
+    initial = (await field.boundingBox())!;
+  await pointer(page, "pause", 70);
+  await page.getByRole("button", { name: "按鍵佈局", exact: true }).tap();
+  await expect(page.locator("#layout-editor")).toBeVisible();
+  const time = (await diag(page)).core.time;
+  const range = async (name: string, value: number) => {
+    await page.getByRole("slider", { name, exact: true }).evaluate((el, v) => {
+      (el as HTMLInputElement).value = String(v);
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+    }, value);
+  };
+  await range("大小", 70);
+  await range("水平位置", 0);
+  expect((await field.boundingBox())!.width).toBeCloseTo(
+    initial.width * 0.7,
+    0,
+  );
+  await page.getByLabel("調整項目", { exact: true }).selectOption("attack");
+  await range("大小", 130);
+  await range("水平位置", 100);
+  await range("垂直位置", 100);
+  const attack = page.locator('[data-touch="attack"]'),
+    before = (await attack.boundingBox())!;
+  expect(before.width).toBeCloseTo(84 * 1.3, 0);
+  await attack.dispatchEvent("pointerdown", {
+    pointerId: 777,
+    pointerType: "touch",
+    clientX: before.x + 55,
+    clientY: before.y + 55,
+    bubbles: true,
+  });
+  await page.locator(".game-layout").dispatchEvent("pointermove", {
+    pointerId: 777,
+    pointerType: "touch",
+    clientX: before.x + 25,
+    clientY: before.y + 25,
+    bubbles: true,
+  });
+  await page.locator(".game-layout").dispatchEvent("pointerup", {
+    pointerId: 777,
+    pointerType: "touch",
+    bubbles: true,
+  });
+  const moved = (await attack.boundingBox())!;
+  expect(moved.x).toBeLessThan(before.x - 20);
+  expect((await diag(page)).core.time).toBe(time);
+  expect((await diag(page)).mobile.controls.pointers).toBe(0);
+  await page.screenshot({ path: info.outputPath("layout-editor.png") });
+  await page.getByRole("button", { name: "完成佈局", exact: true }).tap();
+  await page.getByRole("button", { name: "繼續旅程", exact: true }).tap();
+  await fight(page, arena("mage"));
+  expect((await field.boundingBox())!.width).toBeCloseTo(
+    initial.width * 0.7,
+    0,
+  );
+  expect((await attack.boundingBox())!.x).toBeCloseTo(moved.x, 0);
+  await pointer(page, "pause", 71);
+  await page.getByRole("button", { name: "按鍵佈局", exact: true }).tap();
+  await page.getByRole("button", { name: "預設佈局", exact: true }).tap();
+  expect((await field.boundingBox())!.width).toBeCloseTo(initial.width, 0);
+  expect((await attack.boundingBox())!.width).toBeCloseTo(84, 0);
+  await page.getByRole("button", { name: "完成佈局", exact: true }).tap();
+  await page.getByRole("button", { name: "繼續旅程", exact: true }).tap();
+  await pointer(page, "move", 1, "pointerdown", 25);
+  await pointer(page, "attack", 2);
+  await pointer(page, "skill", 3);
+  await pointer(page, "dodge", 4);
+  await expect
+    .poll(async () => (await diag(page)).core.originalBasics)
+    .toBeGreaterThan(0);
+  await expect(page.locator('[data-touch="skill"]')).toHaveClass(/cooling/);
+  expect(
+    await page
+      .locator('[data-touch="skill"]')
+      .evaluate((e) => getComputedStyle(e, "::before").backgroundImage),
+  ).toContain("linear-gradient");
+  for (const [c, id] of [
+    ["move", 1],
+    ["attack", 2],
+    ["skill", 3],
+    ["dodge", 4],
+  ] as const)
+    await pointer(page, c, id, "pointerup");
+  await page.screenshot({ path: info.outputPath("cooldown.png") });
+  expect(errors).toEqual([]);
+});
+
+test("手機縮放防護：畫布外雙擊／多指、選單保留捲動", async ({ page }, info) => {
+  test.skip(info.project.name === "desktop");
+  await fight(page, arena("mage"));
+  expect(
+    await page.locator("body").evaluate((e) => getComputedStyle(e).touchAction),
+  ).toBe("pan-y");
+  const canceled = await page.evaluate(() => {
+    return ["gesturestart", "gesturechange", "gestureend", "dblclick"].every(
+      (type) =>
+        !document.dispatchEvent(
+          new Event(type, { cancelable: true, bubbles: true }),
+        ),
+    );
+  });
+  expect(canceled).toBe(true);
+  const initialScale = await page.evaluate(() => visualViewport?.scale ?? 1);
+  await page.touchscreen.tap(10, 150);
+  await page.touchscreen.tap(10, 150);
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      ),
+  );
+  expect(await page.evaluate(() => visualViewport?.scale ?? 1)).toBe(
+    initialScale,
+  );
+  if (info.project.name === "android") {
+    const cdp = await page.context().newCDPSession(page);
+    const metrics = async () =>
+      (await cdp.send("Page.getLayoutMetrics")).cssVisualViewport.scale;
+    const original = await metrics();
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [
+        { x: 10, y: 150, id: 1 },
+        { x: 12, y: 200, id: 2 },
+      ],
+    });
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchMove",
+      touchPoints: [
+        { x: 5, y: 110, id: 1 },
+        { x: 15, y: 250, id: 2 },
+      ],
+    });
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchEnd",
+      touchPoints: [],
+    });
+    expect(await metrics()).toBe(original);
+  }
+  await pointer(page, "pause", 15);
+  await page.getByRole("button", { name: "光的記憶", exact: true }).tap();
+  expect(
+    await page
+      .locator(".panel")
+      .evaluate((e) => e.scrollHeight > e.clientHeight),
+  ).toBe(true);
+  if (info.project.name === "android") {
+    const cdp = await page.context().newCDPSession(page);
+    const b = (await page.locator(".panel").boundingBox())!;
+    const x = b.x + b.width / 2,
+      y = b.y + b.height - 20;
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ x, y, id: 8 }],
+    });
+    for (let n = 1; n <= 5; n++) {
+      await cdp.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        touchPoints: [{ x, y: y - n * 35, id: 8 }],
+      });
+      await page.evaluate(
+        () =>
+          new Promise<void>((resolve) =>
+            requestAnimationFrame(() => resolve()),
+          ),
+      );
+    }
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchEnd",
+      touchPoints: [],
+    });
+    await expect
+      .poll(async () => page.locator(".catalog").evaluate((e) => e.scrollTop))
+      .toBeGreaterThan(0);
+  } else
+    await page
+      .locator(".catalog")
+      .evaluate((e) => (e.scrollTop = e.scrollHeight));
+  expect(
+    await page.locator(".catalog").evaluate((e) => e.scrollTop),
+  ).toBeGreaterThan(0);
+  await page.getByRole("button", { name: "返回戰場", exact: true }).tap();
+  await expect(page.locator("#overlay")).toHaveClass(/hidden/);
+});

@@ -49,3 +49,15 @@ CI畫面artifact下載服務回403，已保留去除簽名查詢參數的錯誤�
 正式50檔及手機試玩50檔HTML／JS／CSS／PNG逐檔SHA符合各自來源，manifest保持standalone與相對scope/start。公開頁Android Chromium模擬844×390再驗主要選單、三選一與放大戰場1項44.7秒通過；final-live截圖已目檢，正文與完整卡片說明保留，按鍵半透明。證據在results/layout-preview-2。正式main仍ea7b1a55e22342c6cb8fc6b08ed69cb9663ef60f，1.1.2 tag／兩archive refs不變；無新正式tag或Release。手機存檔命名空間及遊戲核心未改，本輪不重做已完成的隔離驗證。README未讀／比較／修改。
 
 待主人試玩確認，仍不推main。Android Chrome／iPhone Safari與Chrome真機、硬體聲音／效能／瀏海與系統手勢仍未驗證；軟體模擬結果不能冒稱真機PASS。
+
+## 1.4.0-preview.3 手機操作與佈局（試玩部署中，不推main）
+
+手機背包／圖鑑／手冊／構築頂部返回取代音效，仍依入口接戰場或選單；首次手冊接職業流程保留。背包移除匯出（暫停仍可匯出），「目前構築」放在背包標題右邊，戰場移除構築與拾取／出口按鈕。
+
+新增獨立mobile-layout編輯器與安全讀取，偏好存於storageKey(solaria-touch-layout)，不進run或存檔匯出；可拖曳／滑桿調整完整戰場55–100%、各按鍵60–160%及位置，一鍵預設，安全邊距／44px下限保持。編輯核心暫停，結束／中斷保存，旋轉不帶入卡住輸入。mobile-interaction由畫布實際座標點中具體物件，再透過可選Command.interactTarget執行；裝備與門重疊按距離選，仍守64拾取／滿包與已清關近門規則，桌面E原優先保持。技能／閃避有遮罩＋底部恢復進度並保留秒數與封印文字。
+
+手機整頁pan-y限制縮放與選取，canvas／按鍵none，Safari gesture與多指touchmove防護；長選單保留單指垂直捲動。Android CDP確認畫布外雙擊及多指前後visualViewport scale保持、圖鑑內層原生單指捲動；WebKit只驗事件取消與點擊後scale及可捲動DOM，不視為iPhone實機手勢驗收。外接鍵鼠與旋轉／中斷仍由相關案例驗證。
+
+本地14相關unit與1既有拾取unit通過；Android三個新操作／佈局／844選單案例通過，縮放／原生捲動補驗1項31.4秒通過；最終WebKit四項39.6秒通過。來源與輪次分開，不把這些相加當成最終同輪全套。CI預計以14unit及12相關Chromium／WebKit／桌面案例驗證與部署，未完成不先標PASS。
+
+失敗原始日誌保留controls-preview-3：拾取後未等保存就開背包的測試；CSS grid-area讓絕對定位的安全邊距被重算，造成畫布越界／門被技能鍵擋住（已修為auto）；測試等待RAF的void型別；原生捲動讀錯外層panel，改讀實際catalog內層。初輪廣範測試在定位問題確診後主動停止，不能說完成21項。上輪交付後新增的ci-summary JSON補格式修正，內容保持，root README未讀／比較／修改。只照顧主流手機，不做舊小屏特殊布局。真機、硬體音效／效能／瀏海與系統手勢仍未驗證。

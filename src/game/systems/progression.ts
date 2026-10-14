@@ -337,14 +337,16 @@ export function itemFor(
     ? specialEquipment(state, slot, quality === 3 ? "橘" : "紅", base)
     : base;
 }
-export function pickup(r: Run) {
+export function pickup(r: Run, targetId?: string) {
   if (!["COMBAT", "SETTLEMENT", "POST_CLEAR"].includes(r.phase)) return false;
-  const sorted = [...r.items].sort(
-    (a, b) =>
-      Math.hypot(a.x - r.player.x, a.y - r.player.y) -
-        Math.hypot(b.x - r.player.x, b.y - r.player.y) ||
-      a.id.localeCompare(b.id),
-  );
+  const sorted = r.items
+    .filter((i) => targetId === undefined || i.id === targetId)
+    .sort(
+      (a, b) =>
+        Math.hypot(a.x - r.player.x, a.y - r.player.y) -
+          Math.hypot(b.x - r.player.x, b.y - r.player.y) ||
+        a.id.localeCompare(b.id),
+    );
   const item = sorted[0];
   if (!item || Math.hypot(item.x - r.player.x, item.y - r.player.y) > 64)
     return false;

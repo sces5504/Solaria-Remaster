@@ -230,6 +230,7 @@ function refresh(force = false) {
   else if (screen === "inventory" && run) html = view.inventory(run);
   else if (screen === "test" && run) html = view.testing(run, testQuery);
   else if (screen === "stats" && run) html = view.stats(run);
+  else if (screen === "layout") html = "";
   else if (screen === "pause" && run) html = view.pauseView(run);
   else if (screen === "saveError")
     html = `<section class="panel"><h2>存檔需要處理</h2><p>上一份有效存檔仍保留。請先匯出目前資料；若另一分頁已更新，回主選單讀取最新版本。</p>${view.button("匯出備份", "exportRaw", saves.ready ? "" : "disabled")}${view.button("匯入備份", "import")}${view.button("重新讀取", "reloadSave")}</section>`;
@@ -267,7 +268,7 @@ function refresh(force = false) {
       )
       .replaceAll(
         "WASD 走位，滑鼠瞄準；左右鍵可同時使用。空白閃避，靠近物品與右門按 E。",
-        "左側搖桿移動；右側可同時按住普攻、施技與閃避。靠近物品或出口後，點擊「拾取／出口」。",
+        "左側搖桿移動；右側可同時按住普攻、施技與閃避。靠近後，點擊地上裝備拾取，或點門前進。",
       )
       .replaceAll(
         "覺醒是構築的核心：通常最多覺醒兩種元素，沿各自能力成長，特定組合可融合為新力量。特殊命運牌可突破上限，但伴隨代價。每次升級三選一，可免費刷新一次。",
@@ -275,14 +276,28 @@ function refresh(force = false) {
       )
       .replaceAll(
         "每關皆有升級收穫。靠近裝備按 E 拾取；清關後可穿戴整備，再於右門按 E 前進。I 開背包、C 看構築。六重秘境之後，迎戰索拉里斯神。",
-        "每關升級。靠近裝備或出口後點「拾取／出口」；清關可整備。「背包」換裝、「構築」查看能力。走過六重秘境，迎戰索拉里斯神。",
+        "每關升級。靠近後點擊地上裝備或出口；清關可開「背包」換裝，並由「目前構築」查看能力。走過六重秘境，迎戰索拉里斯神。",
       )
       .replaceAll(
         "Esc 暫停；切換分頁會自動暫停。戰鬥重載回本房入口，選卡與清關整備自動保存。存檔保存在此瀏覽器，可從暫停選單匯出備份。",
         "點「暫停」休息；切換App或失焦會暫停，回來手動繼續。戰鬥重載回房間入口，選卡與清關整備自動保存。存檔留在此瀏覽器，可由暫停選單匯出備份。",
       )
-      .replaceAll("按 E", "點「拾取／出口」")
-      .replaceAll("I 開背包、C 看構築", "點「背包」整備、點「構築」查看力量");
+      .replaceAll("按 E", "靠近後點擊裝備或門")
+      .replaceAll(
+        "I 開背包、C 看構築",
+        "點「背包」整備、由「目前構築」查看力量",
+      );
+  if (mobile?.platform.enabled && screen === "inventory")
+    html = html.replace(
+      "<h2>裝備與背包</h2>",
+      `<div class="inventory-heading"><h2>裝備與背包</h2>${view.button("目前構築", "mobileStats")}</div>`,
+    );
+  if (mobile?.platform.enabled && screen === "pause")
+    html = html.replace(
+      view.button("繼續旅程", "resume", 'class="primary"'),
+      view.button("繼續旅程", "resume", 'class="primary"') +
+        view.button("按鍵佈局", "layout"),
+    );
   const wasModal = !overlay.classList.contains("hidden");
   overlay.innerHTML = html;
   overlay.classList.toggle("hidden", !html);
@@ -414,6 +429,15 @@ async function action(value: string) {
       screen = testBack;
       input.clear();
       clock.reset();
+    } else if (act === "layout" && mobile?.platform.enabled && run) {
+      screen = "layout";
+      input.clear();
+    } else if (act === "layoutDone" && screen === "layout") {
+      screen = "pause";
+      input.clear();
+      clock.reset();
+    } else if (act === "mobileStats" && screen === "inventory") {
+      screen = "stats";
     } else if (act === "resume") {
       screen = "game";
       input.clear();
@@ -608,7 +632,9 @@ volume.addEventListener("input", () => {
 function key(code: string) {
   if (actionBusy) return;
   if (code === "Escape") {
-    if (screen === "test") {
+    if (screen === "layout") {
+      void action("layoutDone");
+    } else if (screen === "test") {
       void action("testBack");
     } else if (screen === "game") pause();
     else if (["pause", "inventory", "stats"].includes(screen)) {
@@ -656,6 +682,8 @@ async function boot() {
         if (value === "inventory") key("KeyI");
         else if (value === "stats") key("KeyC");
         else if (value === "pause") pause();
+        else if (["resume", "back", "layoutDone", "testBack"].includes(value))
+          void action(value);
         else document.querySelector<HTMLButtonElement>(`#${value}`)?.click();
       },
       () => audio.unlock(),
@@ -792,15 +820,16 @@ function frame(ms: number) {
           .hud(run)
           .replaceAll(
             mobile?.platform.enabled ? "E 拾取／進門" : "\u0000",
-            "點拾取／出口",
+            "點擊裝備／出口",
           )
       : "";
     document.querySelector("#world-hints")!.innerHTML = run
       ? mobile?.platform.enabled
         ? view
             .worldHints(run)
-            .replaceAll("<kbd>E</kbd>", "點拾取")
-            .replaceAll("按 E", "點拾取／出口")
+            .replaceAll("<kbd>E</kbd> 進入", "靠近點擊以通往下一關")
+            .replaceAll("出口 · 靠近按 E", "靠近點擊以通往下一關")
+            .replaceAll("<kbd>E</kbd> 檢取", "點擊拾取")
         : view.worldHints(run)
       : "";
     if (!mobile?.platform.enabled)

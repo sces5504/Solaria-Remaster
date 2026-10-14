@@ -1,5 +1,9 @@
 # AI_HANDOFF_MASTER — 長期記憶入口（未來交接專用）
 
+## 手機操作preview.3進行中：仍不可推main
+
+主人要求頂部返回、背包移除匯出／標題旁目前構築、暫停新增可儲存／重設按鍵佈局、冷卻視覺提示、點裝備及門互動、畫布外縮放防護。延續gameplay/mobile-preview，版本1.4.0-preview.3；main仍1.3.3 ea7b1a5，等主人確認。只照顧主流手機，不為舊小螢幕改布局。README由主人維護，不讀／比較／修改；不開Chat或agent，1.1.2封存／備份不動。相關驗證與試玩部署進行中，未測不得標PASS；新證據記docs/mobile-preview/results/controls-preview-3，真機未驗證。
+
 ## 手機版面回饋：1.4.0-preview.2，仍不可推main
 
 主人本輪要求放大手機戰場，允許半透明搖桿／按鍵覆蓋；縮整主選單、手冊、三選一、選職業與進場提示，減少上下捲動。延續gameplay/mobile-preview，不變更核心／數值／電腦版，main保持1.3.3 ea7b1a5。主人補充只需照顧主流手機，不為很舊／很小螢幕另改布局；移除568×320專用壓縮規則，以844×390／780×360／932×430驗證。已交付手機試玩preview/mobile/?v=1.4.0-preview.2，最終遊戲5ba9219／CI38520287887的check、8相關unit、format、build、7相關Chromium／WebKit／桌面案例1.7分鐘與部署通過（5個不適用project跳過，無重試）。公開頁主要選單／三選一／戰場1案例44.7秒與正式50＋預覽50檔SHA核驗通過，main與1.1.2封存refs保持。最終截圖／失敗日誌保留docs/mobile-preview/results/layout-preview-2，真機未驗證，等待主人確認才整合main。README仍由主人維護，不讀／比較／修改。不開新Chat或agent，不動1.1.2封存／備份。

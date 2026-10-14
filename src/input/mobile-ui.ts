@@ -1,3 +1,5 @@
+import { MobileLayoutEditor } from "./mobile-layout";
+import { touchTarget } from "./mobile-interaction";
 import { AutoAim } from "./auto-aim";
 import { MobilePlatform } from "./mobile-platform";
 import { TouchControls } from "./touch";
@@ -11,6 +13,10 @@ export class MobileUI {
   private root: HTMLElement;
   private marker: HTMLElement;
   private hint: HTMLElement;
+  readonly layout: MobileLayoutEditor;
+  private currentRun: Run | null = null;
+  private active = false;
+  private taps = new Map<number, { x: number; y: number; time: number }>();
   constructor(
     input: Input,
     interrupt: () => void,
@@ -23,8 +29,51 @@ export class MobileUI {
     this.root = document.createElement("div");
     this.root.id = "touch-controls";
     this.root.innerHTML =
-      '<div class="touch-left"><div class="touch-tools"><button data-touch="inventory" aria-label="背包">背包</button><button data-touch="stats" aria-label="構築">構築</button><button data-touch="pause" aria-label="暫停">暫停</button><button data-touch="interact" aria-label="拾取或進入出口">拾取／出口</button></div><div id="touch-stick" data-touch="move" role="group" aria-label="移動搖桿"><span></span><small>移動</small></div></div><div class="touch-right"><button data-touch="skill" aria-label="職業技能"><b>職業技能</b><small></small></button><button data-touch="dodge" aria-label="閃避"><b>閃避</b><small></small></button><button data-touch="attack" aria-label="普攻"><b>普攻</b><small>按住連發</small></button></div>';
+      '<div class="touch-left"><div class="touch-tools"><button data-touch="inventory" aria-label="背包">背包</button><button data-touch="pause" aria-label="暫停">暫停</button></div><div id="touch-stick" data-touch="move" role="group" aria-label="移動搖桿"><span></span><small>移動</small></div></div><div class="touch-right"><button data-touch="skill" aria-label="職業技能"><b>職業技能</b><small></small></button><button data-touch="dodge" aria-label="閃避"><b>閃避</b><small></small></button><button data-touch="attack" aria-label="普攻"><b>普攻</b><small>按住連發</small></button></div>';
     host.append(this.root);
+    this.layout = new MobileLayoutEditor(
+      host,
+      this.root,
+      this.platform.enabled,
+    );
+    const canvas = host.querySelector("canvas")!;
+    canvas.addEventListener("pointerdown", (e) => {
+      if (e.pointerType !== "touch" || !this.active) return;
+      this.taps.set(e.pointerId, {
+        x: e.clientX,
+        y: e.clientY,
+        time: performance.now(),
+      });
+    });
+    canvas.addEventListener("pointerup", (e) => {
+      const start = this.taps.get(e.pointerId);
+      this.taps.delete(e.pointerId);
+      const r = this.currentRun;
+      if (
+        !start ||
+        !this.active ||
+        !r ||
+        performance.now() - start.time > 600 ||
+        Math.hypot(e.clientX - start.x, e.clientY - start.y) > 12
+      )
+        return;
+      const rect = canvas.getBoundingClientRect();
+      const target = touchTarget(
+        r,
+        ((e.clientX - rect.left) * 1024) / rect.width,
+        ((e.clientY - rect.top) * 640) / rect.height,
+        rect.width / 1024,
+      );
+      if (target) {
+        input.touchAim = true;
+        input.interactTarget = target;
+        input.touch.interact = true;
+        unlock();
+      }
+    });
+    canvas.addEventListener("pointercancel", () => this.taps.clear());
+    window.addEventListener("blur", () => this.taps.clear());
+    document.addEventListener("visibilitychange", () => this.taps.clear());
     const system = document.createElement("div");
     system.id = "mobile-system";
     system.innerHTML =
@@ -87,12 +136,20 @@ export class MobileUI {
         !saveBusy &&
         !this.platform.blocked &&
         ["COMBAT", "SETTLEMENT", "POST_CLEAR"].includes(r!.phase);
+    this.currentRun = r;
+    this.active = active;
+    if (!active) this.taps.clear();
+    this.layout.setEditing(
+      mobile && screen === "layout" && !this.platform.blocked,
+    );
+    this.layout.update();
     this.controls.setEnabled(active);
     this.root.hidden =
       !mobile ||
       !r ||
-      screen !== "game" ||
-      !["COMBAT", "SETTLEMENT", "POST_CLEAR"].includes(r.phase);
+      !["game", "layout"].includes(screen) ||
+      (screen !== "layout" &&
+        !["COMBAT", "SETTLEMENT", "POST_CLEAR"].includes(r.phase));
     const target =
       r && active && input.touchAim
         ? r.enemies.find((e) => e.id === this.aim.targetId && e.hp > 0)
@@ -105,24 +162,66 @@ export class MobileUI {
       this.marker.style.aspectRatio = "1";
     }
     if (r) {
-      const cd = Math.max(0, r.player.skillReady - r.time),
-        dodge = Math.max(0, r.player.dashReady - r.time);
-      this.root.querySelector('[data-touch="skill"] small')!.textContent = r
-        .cards[83]
-        ? "封印"
-        : cd > 0.05
-          ? `${cd.toFixed(1)} 秒`
-          : "就緒";
-      this.root.querySelector('[data-touch="dodge"] small')!.textContent = r
-        .cards[84]
-        ? "封印"
-        : dodge > 0.05
-          ? `${dodge.toFixed(1)} 秒`
-          : "就緒";
+      for (const [id, remaining, duration, locked] of [
+        [
+          "skill",
+          Math.max(0, r.player.skillReady - r.time),
+          Math.max(0.01, r.player.skillReady - r.player.skillCast),
+          !!r.cards[83],
+        ],
+        ["dodge", Math.max(0, r.player.dashReady - r.time), 2, !!r.cards[84]],
+      ] as const) {
+        const button = this.root.querySelector<HTMLButtonElement>(
+          `[data-touch="${id}"]`,
+        )!;
+        const fraction = Math.min(1, remaining / duration);
+        button.style.setProperty("--cooldown", `${fraction * 100}%`);
+        button.classList.toggle("cooling", remaining > 0.05 && !locked);
+        button.classList.toggle("sealed", locked);
+        button.querySelector("small")!.textContent = locked
+          ? "封印"
+          : remaining > 0.05
+            ? `${remaining.toFixed(1)} 秒`
+            : "就緒";
+        button.setAttribute(
+          "aria-label",
+          `${id === "skill" ? "職業技能" : "閃避"} · ${locked ? "封印" : remaining > 0.05 ? `冷卻 ${remaining.toFixed(1)} 秒` : "就緒"}`,
+        );
+      }
     }
-    document.querySelector('[data-system="mute"]')!.textContent = volume
-      ? "音效 開"
-      : "音效 關";
+    const top = document.querySelector<HTMLButtonElement>(
+      "#mobile-system button:last-child",
+    )!;
+    const returning = [
+      "inventory",
+      "stats",
+      "catalog",
+      "journal",
+      "tutorial",
+      "layout",
+      "test",
+    ].includes(screen);
+    top.dataset.system = returning
+      ? screen === "layout"
+        ? "layoutDone"
+        : screen === "test"
+          ? "testBack"
+          : r
+            ? "resume"
+            : "back"
+      : "mute";
+    top.textContent = returning
+      ? screen === "layout"
+        ? "完成佈局"
+        : r
+          ? "返回戰場"
+          : screen === "tutorial"
+            ? (document.querySelector('#overlay [data-action="back"]')
+                ?.textContent ?? "返回")
+            : "返回"
+      : volume
+        ? "音效 開"
+        : "音效 關";
     const standalone =
       matchMedia("(display-mode: standalone)").matches ||
       (navigator as Navigator & { standalone?: boolean }).standalone;

@@ -1,0 +1,7 @@
+
+> solaria-remaster@1.4.0-preview.3 format:check
+> prettier --check .
+
+Checking formatting...
+[warn] docs/mobile-preview/results/layout-preview-2/ci-summary.json
+[warn] Code style issues found in the above file. Run Prettier with --write to fix.
