@@ -2263,7 +2263,7 @@ body.mobile .menu .fine {
   line-height: 1.3;
 }
 body.mobile .cards {
-  margin: 5px 0;
+  margin: 3px 0;
   gap: 6px;
 }
 body.mobile .card,
@@ -2284,8 +2284,8 @@ body.mobile .class-card .gold {
   font-size: 12px;
 }
 body.mobile .card-art {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   margin: 0 auto 3px;
 }
 body.mobile .choice-footer {
@@ -2356,4 +2356,8 @@ body.mobile .card > small {
 }
 body.mobile .panel:has(.choice-footer) .card > .gold {
   display: block;
+}
+
+body.mobile #overlay .panel:has(.choice-footer) > p {
+  margin: 2px 0;
 }

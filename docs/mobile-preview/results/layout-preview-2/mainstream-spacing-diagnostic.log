@@ -1,0 +1,652 @@
+
+Running 3 tests using 1 worker
+
+(node:22474) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+choice-layout choice 780 [
+  {
+    tag: 'SECTION',
+    class: 'panel wide',
+    h: 302,
+    scroll: 303,
+    client: 300,
+    font: '14px',
+    line: '17.5px',
+    min: 'auto',
+    margin: '0px',
+    grid: '17.75px 26.5px 23.5938px 175.031px 44px'
+  },
+  {
+    tag: 'DIV',
+    class: 'eyebrow',
+    h: 13.75,
+    scroll: 14,
+    client: 14,
+    font: '11px',
+    line: '13.75px',
+    min: 'auto',
+    margin: '0px 0px 4px',
+    grid: 'none'
+  },
+  {
+    tag: 'H2',
+    class: '',
+    h: 22.5,
+    scroll: 23,
+    client: 23,
+    font: '18px',
+    line: '22.5px',
+    min: 'auto',
+    margin: '0px 0px 4px',
+    grid: 'none'
+  },
+  {
+    tag: 'P',
+    class: '',
+    h: 15.59375,
+    scroll: 16,
+    client: 16,
+    font: '12px',
+    line: '15.6px',
+    min: 'auto',
+    margin: '4px 0px',
+    grid: 'none'
+  },
+  {
+    tag: 'DIV',
+    class: 'cards',
+    h: 169.03125,
+    scroll: 169,
+    client: 169,
+    font: '14px',
+    line: '17.5px',
+    min: 'auto',
+    margin: '3px 0px',
+    grid: '169.031px'
+  },
+  {
+    tag: 'DIV',
+    class: 'choice-footer',
+    h: 44,
+    scroll: 44,
+    client: 44,
+    font: '14px',
+    line: '17.5px',
+    min: 'auto',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'SMALL',
+    class: '',
+    h: 0,
+    scroll: 0,
+    client: 0,
+    font: '12px',
+    line: '15.6px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'DETAILS',
+    class: '',
+    h: 44,
+    scroll: 44,
+    client: 44,
+    font: '14px',
+    line: '17.5px',
+    min: 'auto',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'svg',
+    class: 'card-art family-mage',
+    h: 24,
+    scroll: 24,
+    client: 24,
+    font: '14px',
+    line: '17.5px',
+    min: '0px',
+    margin: '0px 96.6719px 3px 96.6562px',
+    grid: 'none'
+  },
+  {
+    tag: 'SPAN',
+    class: 'rarity',
+    h: 15,
+    scroll: 0,
+    client: 0,
+    font: '11px',
+    line: '13.75px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'H3',
+    class: '',
+    h: 18.75,
+    scroll: 19,
+    client: 19,
+    font: '15px',
+    line: '18.75px',
+    min: '0px',
+    margin: '3px 0px',
+    grid: 'none'
+  },
+  {
+    tag: 'SPAN',
+    class: 'gold',
+    h: 15,
+    scroll: 16,
+    client: 15,
+    font: '12px',
+    line: '15px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'P',
+    class: '',
+    h: 31.1875,
+    scroll: 32,
+    client: 31,
+    font: '12px',
+    line: '15.6px',
+    min: '0px',
+    margin: '4px 0px',
+    grid: 'none'
+  },
+  {
+    tag: 'SMALL',
+    class: '',
+    h: 28.59375,
+    scroll: 29,
+    client: 29,
+    font: '11px',
+    line: '14.3px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'svg',
+    class: 'card-art family-traveler',
+    h: 24,
+    scroll: 24,
+    client: 24,
+    font: '14px',
+    line: '17.5px',
+    min: '0px',
+    margin: '0px 96.6719px 3px 96.6562px',
+    grid: 'none'
+  },
+  {
+    tag: 'SPAN',
+    class: 'rarity',
+    h: 15,
+    scroll: 0,
+    client: 0,
+    font: '11px',
+    line: '13.75px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'H3',
+    class: '',
+    h: 18.75,
+    scroll: 19,
+    client: 19,
+    font: '15px',
+    line: '18.75px',
+    min: '0px',
+    margin: '3px 0px',
+    grid: 'none'
+  },
+  {
+    tag: 'SPAN',
+    class: 'gold',
+    h: 15,
+    scroll: 16,
+    client: 15,
+    font: '12px',
+    line: '15px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'P',
+    class: '',
+    h: 46.78125,
+    scroll: 47,
+    client: 47,
+    font: '12px',
+    line: '15.6px',
+    min: '0px',
+    margin: '4px 0px',
+    grid: 'none'
+  },
+  {
+    tag: 'svg',
+    class: 'card-art family-traveler',
+    h: 24,
+    scroll: 24,
+    client: 24,
+    font: '14px',
+    line: '17.5px',
+    min: '0px',
+    margin: '0px 96.6719px 3px 96.6562px',
+    grid: 'none'
+  },
+  {
+    tag: 'SPAN',
+    class: 'rarity',
+    h: 15,
+    scroll: 0,
+    client: 0,
+    font: '11px',
+    line: '13.75px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'H3',
+    class: '',
+    h: 18.75,
+    scroll: 19,
+    client: 19,
+    font: '15px',
+    line: '18.75px',
+    min: '0px',
+    margin: '3px 0px',
+    grid: 'none'
+  },
+  {
+    tag: 'SPAN',
+    class: 'gold',
+    h: 15,
+    scroll: 16,
+    client: 15,
+    font: '12px',
+    line: '15px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'P',
+    class: '',
+    h: 31.1875,
+    scroll: 32,
+    client: 31,
+    font: '12px',
+    line: '15.6px',
+    min: '0px',
+    margin: '4px 0px',
+    grid: 'none'
+  }
+]
+  ✘  1 [android] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動 (41.9s)
+(node:22596) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+choice-layout choice 780 [
+  {
+    tag: 'SECTION',
+    class: 'panel wide',
+    h: 302,
+    scroll: 303,
+    client: 300,
+    font: '14px',
+    line: '17.5px',
+    min: 'auto',
+    margin: '0px',
+    grid: '17.75px 26.5px 23.59375px 175.03125px 44px'
+  },
+  {
+    tag: 'DIV',
+    class: 'eyebrow',
+    h: 13.75,
+    scroll: 14,
+    client: 14,
+    font: '11px',
+    line: '13.75px',
+    min: 'auto',
+    margin: '0px 0px 4px',
+    grid: 'none'
+  },
+  {
+    tag: 'H2',
+    class: '',
+    h: 22.5,
+    scroll: 23,
+    client: 23,
+    font: '18px',
+    line: '22.5px',
+    min: 'auto',
+    margin: '0px 0px 4px',
+    grid: 'none'
+  },
+  {
+    tag: 'P',
+    class: '',
+    h: 15.59375,
+    scroll: 16,
+    client: 16,
+    font: '12px',
+    line: '15.599999px',
+    min: 'auto',
+    margin: '4px 0px',
+    grid: 'none'
+  },
+  {
+    tag: 'DIV',
+    class: 'cards',
+    h: 169.03125,
+    scroll: 169,
+    client: 169,
+    font: '14px',
+    line: '17.5px',
+    min: 'auto',
+    margin: '3px 0px',
+    grid: '169.03125px'
+  },
+  {
+    tag: 'DIV',
+    class: 'choice-footer',
+    h: 44,
+    scroll: 44,
+    client: 44,
+    font: '14px',
+    line: '17.5px',
+    min: 'auto',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'SMALL',
+    class: '',
+    h: 0,
+    scroll: 0,
+    client: 0,
+    font: '12px',
+    line: '15.599999px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'DETAILS',
+    class: '',
+    h: 44,
+    scroll: 44,
+    client: 44,
+    font: '14px',
+    line: '17.5px',
+    min: 'auto',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'svg',
+    class: 'card-art family-mage',
+    h: 24,
+    scroll: 24,
+    client: 24,
+    font: '14px',
+    line: '17.5px',
+    min: '0px',
+    margin: '0px 96.671875px 3px 96.65625px',
+    grid: 'none'
+  },
+  {
+    tag: 'SPAN',
+    class: 'rarity',
+    h: 13,
+    scroll: 0,
+    client: 0,
+    font: '11px',
+    line: '13.75px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'H3',
+    class: '',
+    h: 18.75,
+    scroll: 19,
+    client: 19,
+    font: '15px',
+    line: '18.75px',
+    min: '0px',
+    margin: '3px 0px',
+    grid: 'none'
+  },
+  {
+    tag: 'SPAN',
+    class: 'gold',
+    h: 15,
+    scroll: 15,
+    client: 15,
+    font: '12px',
+    line: '15px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'P',
+    class: '',
+    h: 31.1875,
+    scroll: 31,
+    client: 31,
+    font: '12px',
+    line: '15.599999px',
+    min: '0px',
+    margin: '4px 0px',
+    grid: 'none'
+  },
+  {
+    tag: 'SMALL',
+    class: '',
+    h: 28.59375,
+    scroll: 29,
+    client: 29,
+    font: '11px',
+    line: '14.299999px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'svg',
+    class: 'card-art family-traveler',
+    h: 24,
+    scroll: 24,
+    client: 24,
+    font: '14px',
+    line: '17.5px',
+    min: '0px',
+    margin: '0px 96.671875px 3px 96.65625px',
+    grid: 'none'
+  },
+  {
+    tag: 'SPAN',
+    class: 'rarity',
+    h: 13,
+    scroll: 0,
+    client: 0,
+    font: '11px',
+    line: '13.75px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'H3',
+    class: '',
+    h: 18.75,
+    scroll: 19,
+    client: 19,
+    font: '15px',
+    line: '18.75px',
+    min: '0px',
+    margin: '3px 0px',
+    grid: 'none'
+  },
+  {
+    tag: 'SPAN',
+    class: 'gold',
+    h: 15,
+    scroll: 15,
+    client: 15,
+    font: '12px',
+    line: '15px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'P',
+    class: '',
+    h: 46.78125,
+    scroll: 47,
+    client: 47,
+    font: '12px',
+    line: '15.599999px',
+    min: '0px',
+    margin: '4px 0px',
+    grid: 'none'
+  },
+  {
+    tag: 'svg',
+    class: 'card-art family-traveler',
+    h: 24,
+    scroll: 24,
+    client: 24,
+    font: '14px',
+    line: '17.5px',
+    min: '0px',
+    margin: '0px 96.671875px 3px',
+    grid: 'none'
+  },
+  {
+    tag: 'SPAN',
+    class: 'rarity',
+    h: 13,
+    scroll: 0,
+    client: 0,
+    font: '11px',
+    line: '13.75px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'H3',
+    class: '',
+    h: 18.75,
+    scroll: 19,
+    client: 19,
+    font: '15px',
+    line: '18.75px',
+    min: '0px',
+    margin: '3px 0px',
+    grid: 'none'
+  },
+  {
+    tag: 'SPAN',
+    class: 'gold',
+    h: 15,
+    scroll: 15,
+    client: 15,
+    font: '12px',
+    line: '15px',
+    min: '0px',
+    margin: '0px',
+    grid: 'none'
+  },
+  {
+    tag: 'P',
+    class: '',
+    h: 31.1875,
+    scroll: 31,
+    client: 31,
+    font: '12px',
+    line: '15.599999px',
+    min: '0px',
+    margin: '4px 0px',
+    grid: 'none'
+  }
+]
+  ✘  2 [iphone] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動 (24.2s)
+(node:22730) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  -  3 [desktop] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動
+
+
+  1) [android] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動 ─────────────────
+
+    Error: choice 780
+
+    choice 780
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    3
+
+    Call Log:
+    - Timeout 15000ms exceeded while waiting on the predicate
+
+      505 |           { message: label },
+      506 |         )
+    > 507 |         .toBeLessThanOrEqual(1);
+          |          ^
+      508 |       const sizes = await measure();
+      509 |       if (label.endsWith("844"))
+      510 |         await page.screenshot({
+        at fits (/workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:507:10)
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:566:5
+
+    Error Context: test-results/mobile/mobile-手機版面-780：放大完整戰場、透明操作與主要選單免捲動-android/error-context.md
+
+  2) [iphone] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動 ──────────────────
+
+    Error: choice 780
+
+    choice 780
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    3
+
+    Call Log:
+    - Timeout 15000ms exceeded while waiting on the predicate
+
+      505 |           { message: label },
+      506 |         )
+    > 507 |         .toBeLessThanOrEqual(1);
+          |          ^
+      508 |       const sizes = await measure();
+      509 |       if (label.endsWith("844"))
+      510 |         await page.screenshot({
+        at fits (/workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:507:10)
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:566:5
+
+    Error Context: test-results/mobile/mobile-手機版面-780：放大完整戰場、透明操作與主要選單免捲動-iphone/error-context.md
+
+  2 failed
+    [android] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動 ──────────────────
+    [iphone] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動 ───────────────────
+  1 skipped

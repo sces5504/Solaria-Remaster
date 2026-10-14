@@ -1,0 +1,87 @@
+
+Running 12 tests using 1 worker
+
+(node:21256) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  -   1 [android] › tests/browser/mobile.spec.ts:314:1 › 桌面維持原鍵鼠、無手機控制與自動瞄準
+  ✓   2 [android] › tests/browser/mobile.spec.ts:453:3 › 手機版面 844：放大完整戰場、透明操作與主要選單免捲動 (35.2s)
+  ✘   3 [android] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動 (48.7s)
+(node:21592) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✓   4 [android] › tests/browser/mobile.spec.ts:453:3 › 手機版面 932：放大完整戰場、透明操作與主要選單免捲動 (41.9s)
+(node:21766) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -   5 [iphone] › tests/browser/mobile.spec.ts:314:1 › 桌面維持原鍵鼠、無手機控制與自動瞄準
+  ✓   6 [iphone] › tests/browser/mobile.spec.ts:453:3 › 手機版面 844：放大完整戰場、透明操作與主要選單免捲動 (11.0s)
+  ✘   7 [iphone] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動 (22.4s)
+(node:22093) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [iphone] › tests/browser/mobile.spec.ts:453:3 › 手機版面 932：放大完整戰場、透明操作與主要選單免捲動 (12.7s)
+(node:22209) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✓   9 [desktop] › tests/browser/mobile.spec.ts:314:1 › 桌面維持原鍵鼠、無手機控制與自動瞄準 (13.0s)
+  -  10 [desktop] › tests/browser/mobile.spec.ts:453:3 › 手機版面 844：放大完整戰場、透明操作與主要選單免捲動
+  -  11 [desktop] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動
+  -  12 [desktop] › tests/browser/mobile.spec.ts:453:3 › 手機版面 932：放大完整戰場、透明操作與主要選單免捲動
+
+
+  1) [android] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動 ─────────────────
+
+    Error: choice 780
+
+    choice 780
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    15
+
+    Call Log:
+    - Timeout 15000ms exceeded while waiting on the predicate
+
+      478 |           { message: label },
+      479 |         )
+    > 480 |         .toBeLessThanOrEqual(1);
+          |          ^
+      481 |       const sizes = await measure();
+      482 |       if (label.endsWith("844"))
+      483 |         await page.screenshot({
+        at fits (/workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:480:10)
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:539:11
+
+    Error Context: test-results/mobile/mobile-手機版面-780：放大完整戰場、透明操作與主要選單免捲動-android/error-context.md
+
+  2) [iphone] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動 ──────────────────
+
+    Error: choice 780
+
+    choice 780
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    15
+
+    Call Log:
+    - Timeout 15000ms exceeded while waiting on the predicate
+
+      478 |               ...[panel],
+      479 |               ...panel.children,
+    > 480 |               ...panel.querySelectorAll(".card > *"),
+          |          ^
+      481 |             ].map((e) => {
+      482 |               const b = e.getBoundingClientRect(),
+      483 |                 c = getComputedStyle(e);
+        at fits (/workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:480:10)
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:539:11
+
+    Error Context: test-results/mobile/mobile-手機版面-780：放大完整戰場、透明操作與主要選單免捲動-iphone/error-context.md
+
+  2 failed
+    [android] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動 ──────────────────
+    [iphone] › tests/browser/mobile.spec.ts:453:3 › 手機版面 780：放大完整戰場、透明操作與主要選單免捲動 ───────────────────
+  5 skipped
+  5 passed (3.2m)
