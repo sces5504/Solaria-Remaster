@@ -1,0 +1,12 @@
+
+Running 2 tests using 1 worker
+
+(node:13341) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✓  1 [android] › tests/browser/mobile.spec.ts:257:1 › 手機旋轉、取消觸控與失焦清輸入，回橫屏手動繼續，音效與滿版回退 (44.3s)
+(node:13514) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [iphone] › tests/browser/mobile.spec.ts:257:1 › 手機旋轉、取消觸控與失焦清輸入，回橫屏手動繼續，音效與滿版回退 (10.7s)
+
+  2 passed (57.5s)

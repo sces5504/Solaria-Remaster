@@ -1,0 +1,37 @@
+[WebServer] (node:8836) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:8855) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✘  1 [iphone] › tests/browser/mobile.spec.ts:77:3 › 手機三職 mage 多點移動、連發、職技、閃避與自動瞄準 (2ms)
+
+
+  1) [iphone] › tests/browser/mobile.spec.ts:77:3 › 手機三職 mage 多點移動、連發、職技、閃避與自動瞄準 ───────────────────
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /home/agent/.cache/ms-playwright/webkit-2370/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=8867
+    [pid=8867][err] /home/agent/.cache/ms-playwright/webkit-2370/minibrowser-wpe/bin/MiniBrowser: error while loading shared libraries: libharfbuzz-icu.so.0: cannot open shared object file: No such file or directory
+    Call log:
+      - <launching> /home/agent/.cache/ms-playwright/webkit-2370/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=8867
+      - [pid=8867][err] /home/agent/.cache/ms-playwright/webkit-2370/minibrowser-wpe/bin/MiniBrowser: error while loading shared libraries: libharfbuzz-icu.so.0: cannot open shared object file: No such file or directory
+      - [pid=8867] <gracefully close start>
+      - [pid=8867] <kill>
+      - [pid=8867] <will force kill>
+      - [pid=8867] exception while trying to kill process: Error: kill ESRCH
+      - [pid=8867] <process did exit: exitCode=127, signal=null>
+      - [pid=8867] starting temporary directories cleanup
+      - [pid=8867] finished temporary directories cleanup
+      - [pid=8867] <gracefully close end>
+
+
+    Error Context: test-results/mobile/mobile-手機三職-mage-多點移動、連發、職技、閃避與自動瞄準-iphone/error-context.md
+
+  1 failed
+    [iphone] › tests/browser/mobile.spec.ts:77:3 › 手機三職 mage 多點移動、連發、職技、閃避與自動瞄準 ────────────────────

@@ -46,6 +46,13 @@ export class SoundController {
       /* Audio support and gesture refusal cannot block a journey. */
     }
   }
+  suspend() {
+    if (this.context?.state === "running")
+      void this.context.suspend().catch(() => {});
+  }
+  inspect() {
+    return { state: this.context?.state ?? "locked", volume: this.volume };
+  }
   setVolume(v: number) {
     this.volume = Number.isFinite(v) ? Math.max(0, Math.min(1, v)) : 0.25;
     if (this.volume > 0) this.remembered = this.volume;

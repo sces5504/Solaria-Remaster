@@ -1,0 +1,10 @@
+[WebServer] (node:9434) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:9453) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [iphone] › tests/browser/mobile.spec.ts:82:3 › 手機三職 mage 多點移動、連發、職技、閃避與自動瞄準 (12.3s)
+
+  1 passed (15.4s)

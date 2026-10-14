@@ -1,0 +1,50 @@
+
+Running 12 tests using 1 worker
+
+(node:11463) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [android] › tests/browser/mobile.spec.ts:120:3 › 手機完整戰場 sword 8:5、三選一、背包換裝／拾取／出口／重玩 (1.2m)
+  ✘   2 [android] › tests/browser/mobile.spec.ts:120:3 › 手機完整戰場 bow 8:5、三選一、背包換裝／拾取／出口／重玩 (1.5m)
+(node:12028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 [android] › tests/browser/mobile.spec.ts:120:3 › 手機完整戰場 mage 8:5、三選一、背包換裝／拾取／出口／重玩 (54.7s)
+  ✓   4 [android] › tests/browser/mobile.spec.ts:194:1 › 手機遮擋優先、目標死亡切換、無敵人方向與法師落雷落點 (23.8s)
+  -   5 [android] › tests/browser/mobile.spec.ts:298:1 › 桌面維持原鍵鼠、無手機控制與自動瞄準
+  ✓   6 [android] › tests/browser/mobile.spec.ts:325:1 › Android原生多指捕捉、滑出釋放、接上滑鼠鍵盤改用手動瞄準 (17.1s)
+(node:12236) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -   7 [desktop] › tests/browser/mobile.spec.ts:120:3 › 手機完整戰場 sword 8:5、三選一、背包換裝／拾取／出口／重玩
+  -   8 [desktop] › tests/browser/mobile.spec.ts:120:3 › 手機完整戰場 bow 8:5、三選一、背包換裝／拾取／出口／重玩
+  -   9 [desktop] › tests/browser/mobile.spec.ts:120:3 › 手機完整戰場 mage 8:5、三選一、背包換裝／拾取／出口／重玩
+  -  10 [desktop] › tests/browser/mobile.spec.ts:194:1 › 手機遮擋優先、目標死亡切換、無敵人方向與法師落雷落點
+  ✓  11 [desktop] › tests/browser/mobile.spec.ts:298:1 › 桌面維持原鍵鼠、無手機控制與自動瞄準 (11.1s)
+  -  12 [desktop] › tests/browser/mobile.spec.ts:325:1 › Android原生多指捕捉、滑出釋放、接上滑鼠鍵盤改用手動瞄準
+
+
+  1) [android] › tests/browser/mobile.spec.ts:120:3 › 手機完整戰場 bow 8:5、三選一、背包換裝／拾取／出口／重玩 ─────────────
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.tap: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '再踏旅途', exact: true })
+        - locator resolved to <button data-action="new">再踏旅途</button>
+      - attempting tap action
+        - waiting for element to be visible, enabled and stable
+
+
+      177 |     dead.phase = "DEAD";
+      178 |     dead.player.hp = 0;
+    > 179 |     await load(page, dead);
+          |                            ^
+      180 |     await page.getByRole("button", { name: "再踏旅途", exact: true }).tap();
+      181 |     await page.getByRole("button", { name: "確認新局", exact: true }).tap();
+      182 |     await expect(page.locator("#overlay")).toHaveAttribute(
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:179:67
+
+    Error Context: test-results/mobile/mobile-手機完整戰場-bow-8-5、三選一、背包換裝／拾取／出口／重玩-android/error-context.md
+
+  1 failed
+    [android] › tests/browser/mobile.spec.ts:120:3 › 手機完整戰場 bow 8:5、三選一、背包換裝／拾取／出口／重玩 ──────────────
+  6 skipped
+  5 passed (4.5m)

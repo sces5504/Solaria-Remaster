@@ -1,0 +1,55 @@
+[WebServer] (node:7483) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:7502) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [android] › tests/browser/mobile.spec.ts:78:3 › 手機三職 mage 多點移動、連發、職技、閃避與自動瞄準 (13.9s)
+  ✘  2 [android] › tests/browser/mobile.spec.ts:115:1 › 手機完整戰場8:5、按鈕不遮戰場、三選一與背包換裝／拾取／出口／重玩 (12.5s)
+(node:7627) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -  3 [android] › tests/browser/mobile.spec.ts:272:1 › 桌面維持原鍵鼠、無手機控制與自動瞄準
+
+
+  1) [android] › tests/browser/mobile.spec.ts:115:1 › 手機完整戰場8:5、按鈕不遮戰場、三選一與背包換裝／拾取／出口／重玩 ───────────
+
+    Error: dialog.accept: Cannot accept dialog which is already handled!
+
+      22 | }
+      23 | async function load(page: Page, r: Run) {
+    > 24 |   page.on("dialog", (d) => d.accept());
+         |                              ^
+      25 |   await page.goto("./");
+      26 |   await page.getByRole("button", { name: "匯入存檔", exact: true }).click();
+      27 |   await page
+        at _Page.<anonymous> (/workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:24:30)
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('status')
+    Expected substring: "匯入成功"
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" getByRole('status') with timeout 15000ms
+      - waiting for getByRole('status')
+      - Test ended.
+
+
+      34 |       ),
+      35 |     });
+    > 36 |   await expect(page.getByRole("status")).toContainText("匯入成功");
+         |                                          ^
+      37 |   await page.getByRole("button", { name: "繼續旅程", exact: true }).click();
+      38 |   await expect(page.locator("#overlay")).toHaveAttribute("data-screen", "game");
+      39 | }
+        at load (/workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:36:42)
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:138:3
+
+    Error Context: test-results/mobile/mobile-手機完整戰場8-5、按鈕不遮戰場、三選一與背包換裝／拾取／出口／重玩-android/error-context.md
+
+  1 failed
+    [android] › tests/browser/mobile.spec.ts:115:1 › 手機完整戰場8:5、按鈕不遮戰場、三選一與背包換裝／拾取／出口／重玩 ────────────
+  1 skipped
+  1 passed (29.6s)

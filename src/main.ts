@@ -11,6 +11,7 @@ import { Stage } from "./render/stage";
 import { TestingSequence } from "./input/testing-sequence";
 import { jumpToRoom, grantTestEquipment } from "./game/core/testing";
 import { Input } from "./input/keyboard";
+import { MobileUI } from "./input/mobile-ui";
 import { AudioMixer } from "./audio/mixer";
 import { Checkpoints, validate } from "./game/persistence/checkpoint";
 import { FixedClock, clone } from "./game/core/primitives";
@@ -31,9 +32,14 @@ const root = document.querySelector<HTMLDivElement>("#app")!;
 root.innerHTML =
   '<header><a class="brand" href="#">SOLARIA <span>REMASTER</span></a><span>日蝕之後 · 尋回日光</span><div class="sound"><button id="fullscreen" title="Esc 離開全螢幕">全螢幕</button><button id="testing" hidden>測試</button><label for="volume">音量</label><input id="volume" type="range" min="0" max="1" step="0.05" aria-label="音效音量"><button id="mute">音效</button></div></header><main><div class="game-layout"><div id="viewport"><div id="stage"></div><div id="hud"></div><div id="world-hints" aria-live="polite"></div><div id="event-arrival" aria-live="polite" aria-atomic="true" hidden></div><div id="overlay"></div><div id="toast" role="status"></div></div><aside id="sidebar" aria-label="角色屬性與裝備"></aside></div><footer>WASD 移動 · 左鍵普攻 · 右鍵職技 · 空白閃避 · E 拾取／進門 · Esc 暫停</footer></main><input type="file" id="import-file" accept="application/json,.json" hidden>';
 if (playtestBuild) {
-  document.title = "Solaria Remaster · 1.3.0 待確認測試版";
+  document.title =
+    import.meta.env.VITE_PLAYTEST === "mobile"
+      ? "Solaria Remaster · 手機功能測試版"
+      : "Solaria Remaster · 1.3.0 待確認測試版";
   document.querySelector("header > span")!.textContent =
-    "1.3.0 測試版 · 存檔獨立";
+    import.meta.env.VITE_PLAYTEST === "mobile"
+      ? "手機功能測試版 · 存檔獨立"
+      : "1.3.0 測試版 · 存檔獨立";
 }
 const stage = new Stage(),
   saves = new Checkpoints(),
@@ -45,6 +51,7 @@ const overlay = document.querySelector<HTMLDivElement>("#overlay")!,
 let run: Run | null = null,
   saved: Run | null = null,
   input: Input,
+  mobile: MobileUI,
   screen = "loading",
   selected = 0,
   lastSignature = "",
@@ -58,7 +65,8 @@ let run: Run | null = null,
   lastTime = 0,
   lastHud = 0,
   warningId = 0,
-  wasSkillReady = false;
+  wasSkillReady = false,
+  mobileDrawKey = "";
 const testingSequence = new TestingSequence();
 let testingUnlocked = false;
 window.addEventListener("keydown", (event) => {
@@ -226,7 +234,7 @@ function refresh(force = false) {
   else if (screen === "saveError")
     html = `<section class="panel"><h2>存檔需要處理</h2><p>上一份有效存檔仍保留。請先匯出目前資料；若另一分頁已更新，回主選單讀取最新版本。</p>${view.button("匯出備份", "exportRaw", saves.ready ? "" : "disabled")}${view.button("匯入備份", "import")}${view.button("重新讀取", "reloadSave")}</section>`;
   else if (screen === "error")
-    html = `<section class="panel"><h2>無法載入遊戲</h2><p>畫面或美術資源載入失敗。請檢查網路，並使用支援 WebGL 的桌面瀏覽器；既有存檔保留。</p>${view.button("重試", "reload")}</section>`;
+    html = `<section class="panel"><h2>無法載入遊戲</h2><p>畫面或美術資源載入失敗。請檢查網路，並使用支援 WebGL 的瀏覽器；既有存檔保留。</p>${view.button("重試", "reload")}</section>`;
   else if (run) {
     if (run.phase === "ROOM_INTRO")
       html = `<section class="panel"><div class="eyebrow">${run.event ? eventDefinitions[run.event.id].name : currentBiome(run).name} · 第 ${run.room} / 31 房 · 第 ${run.loop ?? 1} 周目</div><h2>${roomTitle(run)}</h2><p>${roomStory(run)}</p><p class="fine">${zh.controls}</p>${!saves.profile.tutorialSeen ? `<aside class="first-tip"><strong>第一次啟程</strong><p>WASD 走位，滑鼠瞄準；左右鍵可同時使用。空白閃避，靠近物品與右門按 E。</p>${view.button("略過導引", "skipTutorial")}${view.button("查看旅人手冊", "tutorial")}</aside>` : ""}${view.button("進入戰鬥", "start", saveBusy ? "disabled" : "")}</section>`;
@@ -243,6 +251,26 @@ function refresh(force = false) {
         (performance.now() - endingStarted) / 1000,
       );
   }
+  if (mobile?.platform.enabled)
+    html = html
+      .replaceAll(
+        zh.controls,
+        "左側搖桿移動 · 右側普攻／職技／閃避 · 目標自動瞄準",
+      )
+      .replaceAll(
+        "WASD 移動、滑鼠瞄準。左鍵普攻與右鍵職技，兩者可同時使用。空白鍵閃避沒有無敵",
+        "左側搖桿移動，右側按鈕施放普攻、職業技能與閃避；普攻可按住連發，多指可同時操作。自動瞄準優先選擇通道暢通的近敵，仍須主動按下招式。閃避沒有無敵",
+      )
+      .replaceAll(
+        "左右鍵選擇 · Enter 確認 · 滑鼠點擊",
+        "點擊卡片，選擇下一份力量",
+      )
+      .replaceAll(
+        "WASD 走位，滑鼠瞄準；左右鍵可同時使用。空白閃避，靠近物品與右門按 E。",
+        "左側搖桿移動；右側可同時按住普攻、施技與閃避。靠近物品或出口後，點擊「拾取／出口」。",
+      )
+      .replaceAll("按 E", "點「拾取／出口」")
+      .replaceAll("I 開背包、C 看構築", "點「背包」整備、點「構築」查看力量");
   const wasModal = !overlay.classList.contains("hidden");
   overlay.innerHTML = html;
   overlay.classList.toggle("hidden", !html);
@@ -262,7 +290,12 @@ function refresh(force = false) {
   if (wasModal !== Boolean(html)) input?.clear();
 }
 async function action(value: string) {
-  if (actionBusy) return;
+  if (
+    actionBusy ||
+    (mobile?.platform.blocked &&
+      ["start", "resume", "nextLoop"].includes(value.split(":")[0]))
+  )
+    return;
   actionBusy = true;
   const [act, arg] = value.split(":");
   try {
@@ -506,6 +539,17 @@ document.querySelector<HTMLButtonElement>("#fullscreen")!.onclick =
         await document
           .querySelector<HTMLElement>(".game-layout")!
           .requestFullscreen();
+      if (mobile?.platform.enabled && document.fullscreenElement) {
+        try {
+          await (
+            window.screen.orientation as ScreenOrientation & {
+              lock?: (value: string) => Promise<void>;
+            }
+          ).lock?.("landscape");
+        } catch {
+          /* Fullscreen and orientation lock are optional. */
+        }
+      }
     } catch {
       notify("這個瀏覽器尚未開放全螢幕；旅程仍可繼續。");
     }
@@ -586,6 +630,35 @@ async function boot() {
   try {
     await stage.init(document.querySelector("#stage")!);
     input = new Input(stage.app.canvas, key, pause);
+    mobile = new MobileUI(
+      input,
+      () => {
+        input.clear();
+        audio.suspend();
+        pause();
+      },
+      () => {
+        if (screen === "pause") void action("resume");
+      },
+      (value) => {
+        if (value === "inventory") key("KeyI");
+        else if (value === "stats") key("KeyC");
+        else if (value === "pause") pause();
+        else document.querySelector<HTMLButtonElement>(`#${value}`)?.click();
+      },
+      () => audio.unlock(),
+    );
+    input.touchAim = mobile.platform.enabled;
+    document.addEventListener("pointerdown", () => audio.unlock(), {
+      capture: true,
+    });
+    document.addEventListener("keydown", () => audio.unlock(), {
+      capture: true,
+    });
+    window.addEventListener("blur", () => audio.suspend());
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) audio.suspend();
+    });
     try {
       await saves.open();
       saved = await saves.load();
@@ -614,9 +687,18 @@ function frame(ms: number) {
       items = run.items.length,
       bag = run.bag.length;
     const cmd = input.command(run);
+    if (mobile?.platform.enabled && input.touchAim)
+      cmd.pointerWorld = mobile.aim.select(
+        run,
+        cmd.skill && run.classId === "mage"
+          ? Math.min(720, 450 * run.stats.range)
+          : undefined,
+      );
+    else if (mobile?.platform.enabled) mobile.aim.manual(run, cmd.pointerWorld);
     clock.advance(
       seconds,
       screen !== "game" ||
+        mobile?.platform.blocked ||
         saveBusy ||
         !["COMBAT", "SETTLEMENT", "POST_CLEAR"].includes(run.phase),
       () => {
@@ -677,21 +759,45 @@ function frame(ms: number) {
     if (ready && !wasSkillReady && screen === "game") audio.play("ready");
     wasSkillReady = ready;
   }
-  stage.draw(
-    run,
-    screen === "game" && !saveBusy,
-    cosmetics[saves.profile.cosmetic].color,
-  );
+  const mobileActive =
+    screen === "game" &&
+    !saveBusy &&
+    !mobile?.platform.blocked &&
+    Boolean(run && ["COMBAT", "SETTLEMENT", "POST_CLEAR"].includes(run.phase));
+  const drawKey = `${lastSignature}|${screen}|${run?.phase}|${saves.profile.cosmetic}|${innerWidth}x${innerHeight}`;
+  // A paused mobile scene is unchanged; keep its canvas instead of redrawing it every RAF.
+  if (!mobile?.platform.enabled || mobileActive || drawKey !== mobileDrawKey) {
+    stage.draw(
+      run,
+      screen === "game" && !saveBusy,
+      cosmetics[saves.profile.cosmetic].color,
+    );
+    mobileDrawKey = drawKey;
+  }
   if (ms - lastHud > 80) {
-    hud.innerHTML = run ? view.hud(run) : "";
-    document.querySelector("#world-hints")!.innerHTML = run
-      ? view.worldHints(run)
+    hud.innerHTML = run
+      ? view
+          .hud(run)
+          .replaceAll(
+            mobile?.platform.enabled ? "E 拾取／進門" : "\u0000",
+            "點拾取／出口",
+          )
       : "";
-    document.querySelector("#sidebar")!.innerHTML = run
-      ? view.sidebar(run)
-      : view.sidebarIntro();
+    document.querySelector("#world-hints")!.innerHTML = run
+      ? mobile?.platform.enabled
+        ? view
+            .worldHints(run)
+            .replaceAll("<kbd>E</kbd>", "點拾取")
+            .replaceAll("按 E", "點拾取／出口")
+        : view.worldHints(run)
+      : "";
+    if (!mobile?.platform.enabled)
+      document.querySelector("#sidebar")!.innerHTML = run
+        ? view.sidebar(run)
+        : view.sidebarIntro();
     lastHud = ms;
   }
+  mobile?.update(run, input, screen, saveBusy, audio.volume);
   presentation(ms);
   refresh();
   requestAnimationFrame(frame);
@@ -708,6 +814,16 @@ window.addEventListener("beforeunload", (event) => {
 
 Object.defineProperty(window, "solariaDiagnostics", {
   value: () => ({
+    mobile: mobile
+      ? {
+          enabled: mobile.platform.enabled,
+          blocked: mobile.platform.blocked,
+          target: mobile.aim.targetId,
+          touchAim: input.touchAim,
+          controls: mobile.controls.inspect(),
+        }
+      : null,
+    audio: audio.inspect(),
     render: stage.inspect(),
     core: run
       ? {

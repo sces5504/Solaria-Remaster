@@ -1,0 +1,37 @@
+[WebServer] (node:10219) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 20 tests using 1 worker
+
+(node:10238) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [android] › tests/browser/mobile.spec.ts:82:3 › 手機三職 sword 多點移動、連發、職技、閃避與自動瞄準 (18.5s)
+  ✓   2 [android] › tests/browser/mobile.spec.ts:82:3 › 手機三職 bow 多點移動、連發、職技、閃避與自動瞄準 (16.5s)
+  ✘   3 [android] › tests/browser/mobile.spec.ts:82:3 › 手機三職 mage 多點移動、連發、職技、閃避與自動瞄準 (13.3s)
+
+
+  1) [android] › tests/browser/mobile.spec.ts:82:3 › 手機三職 mage 多點移動、連發、職技、閃避與自動瞄準 ──────────────────
+
+    Test was interrupted.
+
+    Error: locator.boundingBox: Test ended.
+    Call log:
+      - waiting for locator('[data-touch="dodge"]')
+
+
+      54 | ) {
+      55 |   const element = page.locator(`[data-touch="${control}"]`);
+    > 56 |   const b = (await element.boundingBox()) ?? {
+         |                            ^
+      57 |     x: 0,
+      58 |     y: 0,
+      59 |     width: 0,
+        at pointer (/workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:56:28)
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:104:11
+
+    Error Context: test-results/mobile/mobile-手機三職-mage-多點移動、連發、職技、閃避與自動瞄準-android/error-context.md
+
+  1 interrupted
+    [android] › tests/browser/mobile.spec.ts:82:3 › 手機三職 mage 多點移動、連發、職技、閃避與自動瞄準 ───────────────────
+  17 did not run
+  2 passed (50.4s)

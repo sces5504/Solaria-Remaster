@@ -1,0 +1,132 @@
+
+Running 5 tests using 1 worker
+
+(node:11583) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [iphone] › tests/browser/mobile.spec.ts:120:3 › 手機完整戰場 sword 8:5、三選一、背包換裝／拾取／出口／重玩 (1.5m)
+(node:11775) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [iphone] › tests/browser/mobile.spec.ts:120:3 › 手機完整戰場 bow 8:5、三選一、背包換裝／拾取／出口／重玩 (52.8s)
+
+
+  1) [iphone] › tests/browser/mobile.spec.ts:120:3 › 手機完整戰場 sword 8:5、三選一、背包換裝／拾取／出口／重玩 ────────────
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.tap: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '選擇旅人', exact: true })
+        - locator resolved to <button data-action="back">選擇旅人</button>
+      - attempting tap action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <aside id="install-hint" data-dismissed="false">…</aside> intercepts pointer events
+      - retrying tap action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <p>想從主畫面啟程？若瀏覽器提供，可從分享選單選擇「加入主畫面」。顯示方式依手機與瀏覽器而定。</p> from <aside id="install-hint" data-dismissed="false">…</aside> subtree intercepts pointer events
+      - retrying tap action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <aside id="install-hint" data-dismissed="false">…</aside> intercepts pointer events
+        - retrying tap action
+          - waiting 100ms
+        20 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <aside id="install-hint" data-dismissed="false">…</aside> intercepts pointer events
+         - retrying tap action
+           - waiting 500ms
+           - waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <p>想從主畫面啟程？若瀏覽器提供，可從分享選單選擇「加入主畫面」。顯示方式依手機與瀏覽器而定。</p> from <aside id="install-hint" data-dismissed="false">…</aside> subtree intercepts pointer events
+         - retrying tap action
+           - waiting 500ms
+           - waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <aside id="install-hint" data-dismissed="false">…</aside> intercepts pointer events
+         - retrying tap action
+           - waiting 500ms
+           - waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <aside id="install-hint" data-dismissed="false">…</aside> intercepts pointer events
+         - retrying tap action
+           - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <aside id="install-hint" data-dismissed="false">…</aside> intercepts pointer events
+      - retrying tap action
+        - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <p>想從主畫面啟程？若瀏覽器提供，可從分享選單選擇「加入主畫面」。顯示方式依手機與瀏覽器而定。</p> from <aside id="install-hint" data-dismissed="false">…</aside> subtree intercepts pointer events
+      - retrying tap action
+        - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+
+
+      186 |       await page.getByRole("button", { name: "選擇旅人", exact: true }).count()
+      187 |     )
+    > 188 |       await page.getByRole("button", { name: "選擇旅人", exact: true }).tap();
+          |                                                                     ^
+      189 |     await page.locator(`[data-action="class:${role}"]`).tap();
+      190 |     await expect(
+      191 |       page.getByRole("button", { name: "進入戰鬥", exact: true }),
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:188:69
+
+    Error Context: test-results/mobile/mobile-手機完整戰場-sword-8-5、三選一、背包換裝／拾取／出口／重玩-iphone/error-context.md
+
+  2) [iphone] › tests/browser/mobile.spec.ts:120:3 › 手機完整戰場 bow 8:5、三選一、背包換裝／拾取／出口／重玩 ──────────────
+
+    Test was interrupted.
+
+    Error: locator.tap: Test ended.
+    Call log:
+      - waiting for getByRole('button', { name: '選擇旅人', exact: true })
+        - locator resolved to <button data-action="back">選擇旅人</button>
+      - attempting tap action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <aside id="install-hint" data-dismissed="false">…</aside> intercepts pointer events
+      - retrying tap action
+        - waiting for element to be visible, enabled and stable
+
+
+      186 |     if (
+      187 |       await page.getByRole("button", { name: "選擇旅人", exact: true }).count()
+    > 188 |     )
+          |      ^
+      189 |       await page.getByRole("button", { name: "選擇旅人", exact: true }).tap();
+      190 |     await page.locator(`[data-action="class:${role}"]`).tap();
+      191 |     await expect(
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:188:69
+
+    Error Context: test-results/mobile/mobile-手機完整戰場-bow-8-5、三選一、背包換裝／拾取／出口／重玩-iphone/error-context.md
+
+  1 failed
+    [iphone] › tests/browser/mobile.spec.ts:120:3 › 手機完整戰場 sword 8:5、三選一、背包換裝／拾取／出口／重玩 ─────────────
+  1 interrupted
+    [iphone] › tests/browser/mobile.spec.ts:120:3 › 手機完整戰場 bow 8:5、三選一、背包換裝／拾取／出口／重玩 ───────────────
+  3 did not run

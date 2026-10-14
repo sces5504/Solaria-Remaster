@@ -20,6 +20,7 @@ on:
             save-feedback,
             health-light-feedback,
             health-migration-feedback,
+            mobile-preview,
             release-feedback,
             boss-feedback-preview,
             terrain-preview,
@@ -51,7 +52,9 @@ jobs:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
         run: |
           npm run check
-          if [ "$VALIDATION_SCOPE" = "boss-feedback-preview" ] || [ "$VALIDATION_SCOPE" = "release-feedback" ]; then
+          if [ "$VALIDATION_SCOPE" = "mobile-preview" ]; then
+            npx vitest run tests/unit/auto-aim.test.ts tests/unit/terrain-progression.test.ts tests/unit/health-light.test.ts
+          elif [ "$VALIDATION_SCOPE" = "boss-feedback-preview" ] || [ "$VALIDATION_SCOPE" = "release-feedback" ]; then
             npx vitest run tests/unit/boss-feedback.test.ts tests/unit/biome-bosses.test.ts tests/unit/boss-rework.test.ts tests/unit/health-light.test.ts
           elif [ "$VALIDATION_SCOPE" = "health-migration-feedback" ]; then
             npx vitest run tests/unit/health-light.test.ts
@@ -61,15 +64,25 @@ jobs:
             npm test
           fi
           npm run format:check
-      - run: npx playwright install --with-deps chromium
+      - name: Install related browser engines
+        env:
+          VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
+        run: |
+          if [ "$VALIDATION_SCOPE" = "mobile-preview" ]; then
+            npx playwright install --with-deps chromium webkit
+          else
+            npx playwright install --with-deps chromium
+          fi
       - run: npm run build
         env:
-          VITE_PLAYTEST: ${{ endsWith(inputs.validation, '-preview') && 'terrain-1.3.0' || '' }}
+          VITE_PLAYTEST: ${{ inputs.validation == 'mobile-preview' && 'mobile' || endsWith(inputs.validation, '-preview') && 'terrain-1.3.0' || '' }}
       - name: Browser validation
         env:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
         run: |
-          if [ "$VALIDATION_SCOPE" = "boss-feedback-preview" ] || [ "$VALIDATION_SCOPE" = "release-feedback" ]; then
+          if [ "$VALIDATION_SCOPE" = "mobile-preview" ]; then
+            npx playwright test -c docs/mobile-preview/playwright.config.ts
+          elif [ "$VALIDATION_SCOPE" = "boss-feedback-preview" ] || [ "$VALIDATION_SCOPE" = "release-feedback" ]; then
             npm run test:browser -- tests/browser/boss-feedback.spec.ts tests/browser/health-light.spec.ts --grep "Boss位移|生命曲線"
           elif [ "$VALIDATION_SCOPE" = "art-feedback" ]; then
             npm run test:browser -- tests/browser/adventure-art.spec.ts tests/browser/last-polish.spec.ts --grep '短FX|美術回饋|精雕冒險 (meadow|volcano|castle)：|發光藍雷|扇形噴火'
@@ -122,13 +135,15 @@ jobs:
       - name: Preserve current official game and append isolated preview
         id: official-source
         if: endsWith(inputs.validation, '-preview')
+        env:
+          PREVIEW_FOLDER: ${{ inputs.validation == 'mobile-preview' && 'mobile' || 'terrain-1.3.0' }}
         run: |
           echo "sha=$(git -C official rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           cd official
           npm ci
           SOLARIA_PAGES=1 npm run build
-          mkdir -p dist/preview/terrain-1.3.0
-          cp -R ../preview-dist/. dist/preview/terrain-1.3.0/
+          mkdir -p "dist/preview/$PREVIEW_FOLDER"
+          cp -R ../preview-dist/. "dist/preview/$PREVIEW_FOLDER/"
       - uses: actions/upload-pages-artifact@v3
         if: ${{ !endsWith(inputs.validation, '-preview') }}
         with:

@@ -1,0 +1,54 @@
+[WebServer] (node:8990) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:9009) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [android] › tests/browser/mobile.spec.ts:114:1 › 手機完整戰場8:5、按鈕不遮戰場、三選一與背包換裝／拾取／出口／重玩 (46.0s)
+(node:9154) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [android] › tests/browser/mobile.spec.ts:176:1 › 手機遮擋優先、目標死亡切換、無敵人方向與法師落雷落點 (17.0s)
+(node:9268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [android] › tests/browser/mobile.spec.ts:298:1 › Android原生多指捕捉、滑出釋放、接上滑鼠鍵盤改用手動瞄準 (20.9s)
+
+
+  1) [android] › tests/browser/mobile.spec.ts:114:1 › 手機完整戰場8:5、按鈕不遮戰場、三選一與背包換裝／拾取／出口／重玩 ───────────
+
+    TypeError: Cannot read properties of null (reading 'x')
+
+      58 |     pointerId: id,
+      59 |     pointerType: "touch",
+    > 60 |     clientX: b.x + b.width / 2 + dx,
+         |                ^
+      61 |     clientY: b.y + b.height / 2 + dy,
+      62 |     bubbles: true,
+      63 |   });
+        at pointer (/workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:60:16)
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:164:3
+
+    Error Context: test-results/mobile/mobile-手機完整戰場8-5、按鈕不遮戰場、三選一與背包換裝／拾取／出口／重玩-android/error-context.md
+
+  2) [android] › tests/browser/mobile.spec.ts:176:1 › 手機遮擋優先、目標死亡切換、無敵人方向與法師落雷落點 ───────────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      214 |       (a: any) => Math.abs(a.x - far.x) < 5 && Math.abs(a.y - far.y) < 30,
+      215 |     ) || Boolean(area && Math.abs(area.x - far.x) < 5),
+    > 216 |   ).toBe(true);
+          |     ^
+      217 |   const no = arena("mage");
+      218 |   no.enemies = [];
+      219 |   no.phase = "POST_CLEAR";
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:216:5
+
+    Error Context: test-results/mobile/mobile-手機遮擋優先、目標死亡切換、無敵人方向與法師落雷落點-android/error-context.md
+
+  2 failed
+    [android] › tests/browser/mobile.spec.ts:114:1 › 手機完整戰場8:5、按鈕不遮戰場、三選一與背包換裝／拾取／出口／重玩 ────────────
+    [android] › tests/browser/mobile.spec.ts:176:1 › 手機遮擋優先、目標死亡切換、無敵人方向與法師落雷落點 ────────────────────
+  1 passed (1.5m)

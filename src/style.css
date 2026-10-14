@@ -1792,3 +1792,419 @@ button {
     mask-image: none;
   }
 }
+
+/* Mobile controls occupy side rails; the complete 1024×640 field remains visible. */
+#touch-controls,
+#mobile-system,
+#install-hint {
+  display: none;
+}
+#orientation-gate[hidden],
+#touch-target[hidden],
+#install-hint[hidden] {
+  display: none;
+}
+#touch-target {
+  position: absolute;
+  z-index: 9;
+  pointer-events: none;
+  min-width: 16px;
+  border: 1.5px dashed #a8ebcd;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 1px #10242b;
+}
+#orientation-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+  background: #0b1b26fa;
+  text-align: center;
+}
+#orientation-gate section {
+  max-width: 420px;
+}
+#orientation-gate button {
+  min-height: 48px;
+}
+body.mobile {
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: max(10px, env(safe-area-inset-left, 0px));
+  --safe-r: max(10px, env(safe-area-inset-right, 0px));
+  height: var(--mobile-height, 100dvh);
+  min-height: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+body.mobile header,
+body.mobile footer,
+body.mobile #sidebar {
+  display: none;
+}
+body.mobile main {
+  position: fixed;
+  inset: 0;
+  height: 100%;
+  padding: 0;
+}
+body.mobile .game-layout,
+body.mobile .game-layout:fullscreen {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: clamp(96px, 14vw, 128px) minmax(0, 1fr) clamp(
+      144px,
+      20vw,
+      184px
+    );
+  grid-template-rows: 92px minmax(0, 1fr);
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  height: 100%;
+  padding: var(--safe-t) var(--safe-r) max(12px, var(--safe-b)) var(--safe-l);
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  background: #10202a;
+}
+body.mobile #viewport,
+body.mobile .game-layout:fullscreen #viewport {
+  grid-column: 2;
+  grid-row: 2;
+  position: relative;
+  width: min(
+    100%,
+    calc(
+      (
+          var(--mobile-height, 100dvh) - var(--safe-t) -
+            max(12px, var(--safe-b)) - 92px
+        ) *
+        1.6
+    )
+  );
+  height: auto;
+  aspect-ratio: 8/5;
+  overflow: visible;
+}
+body.mobile canvas {
+  cursor: default;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+body.mobile #hud {
+  position: fixed;
+  inset: calc(var(--safe-t) + 42px) var(--safe-r) auto var(--safe-l);
+  height: 50px;
+  z-index: 12;
+  padding: 0;
+  grid-template-columns: 30% 48% 22%;
+  font-size: 12px;
+  gap: 4px;
+}
+body.mobile #hud .status,
+body.mobile #hud .room,
+body.mobile #hud .score {
+  padding: 2px 5px;
+  border: 0;
+  font-size: 12px;
+}
+body.mobile #hud .hp {
+  height: 15px;
+  margin: 1px 0;
+}
+body.mobile #hud .status > small,
+body.mobile #hud .score > strong,
+body.mobile #hud .score > small:first-child {
+  display: none;
+}
+body.mobile #hud .room > strong {
+  display: none;
+}
+body.mobile #hud .room > small {
+  font-size: 11px;
+}
+body.mobile #hud .boss {
+  font-size: 11px;
+  margin-top: 2px;
+}
+body.mobile #hud .boss > div {
+  height: 5px;
+}
+body.mobile #overlay {
+  position: fixed;
+  inset: calc(var(--safe-t) + 42px) var(--safe-r) max(8px, var(--safe-b))
+    var(--safe-l);
+  z-index: 40;
+  padding: 8px;
+  align-items: center;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+body.mobile .panel,
+body.mobile .panel.wide {
+  width: min(920px, 100%);
+  padding: 12px;
+  max-height: 100%;
+  font-size: 14px;
+  line-height: 1.45;
+}
+body.mobile .panel h2 {
+  font-size: 21px;
+  margin-bottom: 8px;
+}
+body.mobile .panel p,
+body.mobile .panel small,
+body.mobile .card p {
+  font-size: 13px;
+  line-height: 1.45;
+}
+body.mobile button,
+body.mobile select,
+body.mobile summary {
+  min-height: 44px;
+  font-size: 14px;
+  touch-action: manipulation;
+}
+body.mobile .cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 8px 0;
+}
+body.mobile .card,
+body.mobile .class-card {
+  padding: 10px;
+  min-height: 0;
+}
+body.mobile .card h3 {
+  font-size: 17px;
+  margin: 6px 0;
+}
+body.mobile .class-card img {
+  width: 54px;
+  height: 54px;
+}
+body.mobile .card-art {
+  max-height: 44px;
+}
+body.mobile .bag,
+body.mobile .equipment {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+body.mobile .item {
+  min-width: 0;
+  padding: 8px;
+}
+body.mobile .item button {
+  margin: 3px;
+}
+body.mobile .pause-emblem,
+body.mobile .pause-story,
+body.mobile .pause-panel > .fine {
+  display: none;
+}
+body.mobile .pause-record {
+  margin: 8px 0;
+}
+body.mobile .pause-actions {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+body.mobile .tutorial-steps {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+body.mobile .tutorial-steps article {
+  padding: 8px;
+}
+body.mobile #toast {
+  position: fixed;
+  left: 50%;
+  top: calc(var(--safe-t) + 46px);
+  bottom: auto;
+  z-index: 70;
+  max-width: 70vw;
+  font-size: 13px;
+}
+body.mobile #world-hints {
+  font-size: 12px;
+}
+body.mobile #touch-controls:not([hidden]) {
+  display: contents;
+}
+#touch-controls {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+.touch-left,
+.touch-right {
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 4px;
+}
+.touch-left {
+  grid-column: 1;
+  grid-row: 2;
+}
+.touch-right {
+  grid-column: 3;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 72px 84px;
+  align-content: end;
+  gap: 8px;
+}
+#touch-controls button {
+  width: 100%;
+  border-radius: 14px;
+  background: #19383eea;
+  border: 1px solid #8fba9b;
+  color: #e8e9d4;
+  margin: 0;
+  padding: 6px;
+  touch-action: none;
+  font-size: 14px;
+}
+#touch-controls button small {
+  display: block;
+  font-size: 12px;
+  pointer-events: none;
+}
+#touch-controls button b {
+  pointer-events: none;
+}
+#touch-controls .held {
+  background: #426a58;
+  border-color: #e7d1a2;
+}
+#touch-controls[data-enabled="false"] {
+  opacity: 0.55;
+}
+#touch-controls [data-touch="attack"] {
+  grid-column: 1/3;
+  width: 84px;
+  height: 84px;
+  justify-self: center;
+  border-radius: 50%;
+  background: #354d3b;
+}
+.touch-tools {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  gap: 6px;
+}
+#touch-controls .touch-tools button {
+  font-size: 12px;
+  border-radius: 8px;
+  min-height: 44px;
+  padding: 2px;
+}
+#touch-controls [data-touch="interact"] {
+  font-size: 11px;
+}
+#touch-stick {
+  position: relative;
+  flex: none;
+  width: min(96px, 100%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid #8baa947a;
+  background: #18353bd9;
+  touch-action: none;
+}
+#touch-stick span {
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  left: 30%;
+  top: 30%;
+  border-radius: 50%;
+  background: #b0c5a78c;
+  border: 1px solid #c4d7b3;
+  transform: translate(var(--stick-x, 0px), var(--stick-y, 0px));
+  pointer-events: none;
+}
+#touch-stick small {
+  position: absolute;
+  bottom: 2px;
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  pointer-events: none;
+}
+body.mobile #mobile-system {
+  display: flex;
+  position: fixed;
+  inset: var(--safe-t) var(--safe-r) auto var(--safe-l);
+  height: 42px;
+  z-index: 60;
+  align-items: center;
+  justify-content: space-between;
+}
+#mobile-system > span {
+  font-family: Georgia, serif;
+  color: #dcc89c;
+  font-size: 18px;
+}
+#mobile-system small {
+  font: 11px system-ui;
+  color: #a4baa9;
+  margin-left: 8px;
+}
+#mobile-system button {
+  padding: 4px 12px;
+  min-height: 40px;
+  margin: 0 0 0 6px;
+}
+body.mobile #install-hint:not([hidden]) {
+  display: flex;
+  position: fixed;
+  z-index: 65;
+  bottom: max(8px, var(--safe-b));
+  left: var(--safe-l);
+  right: var(--safe-r);
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: #123038f5;
+  border: 1px solid #718e7b;
+  border-radius: 8px;
+  font-size: 12px;
+}
+#install-hint p {
+  margin: 0;
+}
+#install-hint button {
+  flex: none;
+}
+@media (max-width: 620px) {
+  body.mobile .panel .bag,
+  body.mobile .equipment {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  body.mobile .panel p {
+    font-size: 12px;
+  }
+}
+body.mobile .touch-right button {
+  height: 100%;
+}
+body.mobile.install-tip #overlay[data-screen="menu"] {
+  bottom: calc(max(8px, var(--safe-b)) + 76px);
+}
