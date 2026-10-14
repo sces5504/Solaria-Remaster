@@ -1,42 +1,44 @@
 # Solaria Remaster
 
-正式版本1.1.2，美術已定稿；後續機制／數值／Bug更新從main接續。固定備份：[v1.1.2 Release](https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.1.2)。交接入口：[完整prompt](docs/handoff/GAMEPLAY_NEW_CHAT_PROMPT.md)及[備份說明](docs/handoff/BASELINE_1.1.2.md)。
+> 日蝕吞沒了天空，秘境卻沒有迎來長夜的寧靜。\
+> 草木仍在生長，群星仍在墜落，而失落的日光，正沉睡於旅途的盡頭。
 
-日蝕之後，穿越秘境尋回日光。三職業、九地形、29普通怪、18地形王、索拉里斯三血四柱、85卡、17特殊裝備與六事件。30＋1關完成後可保留構築進入下一周目。製作者：Mori Fang。v1發布狀態與實際驗證以PROJECT_STATUS為準。
+**[開始遊玩](https://sces5504.github.io/Solaria-Remaster/) · [下載遊戲](https://github.com/sces5504/Solaria-Remaster/releases/latest) · [版本歷程](CHANGELOG.md)**
 
-正式需求見 GAME_SPEC.md、ARCHITECTURE.md、DEVELOPMENT_PLAN.md、DECISIONS.md、UI_UX_SPEC.md、TEST_PLAN.md、AGENTS.md、PROJECT_STATUS.md。第一次／第二次交付規則見 CLOUD_START_PROMPT.md。
+Solaria Remaster 是一款像素風格的俯視角動作 Roguelike。你將扮演踏入暮光的旅人，在怪潮、彈幕與領主的追擊之間尋找生路，沿途拾取裝備、選擇卡片，逐漸磨出屬於自己的戰鬥方式。
 
-## 雲端開發
+## 踏上尋光之旅
 
-Node24、npm lockfile、PixiJS v8 WebGL、TypeScript、Vite、Vitest、Playwright Chromium。原作 sces5504/Solaria 僅只讀參考。
+每次出發，九種地形中將有六種串起這趟旅程。穿過林庭、雪原與熔岩之地，完成三十道試煉，再向索拉里斯神發起挑戰。同名秘境也會呈現不同的景致與路徑；節慶災厄、血月與天外來客，則可能讓熟悉的旅途生出變數。
 
-```sh
-bash scripts/cloud-setup.sh
-npm run dev -- --port 5173 --strictPort
-```
+三種職業，各有立足於險境的方法：
 
-```sh
-npm run check
-npm run build
-npm test
-npm run test:browser
-npm run format:check
-```
+- **劍士**：體魄堅韌，以精準格擋迎住攻勢，在反擊的片刻斬開重圍。
+- **弓箭手**：擅長密集而迅捷的射擊，在走位之間持續壓制敵人。
+- **法師**：以強勁、頻繁的職業法術掌控戰局，讓追兵止步於咒光之中。
 
-預設 build 使用相對資源路徑。Pages build：`SOLARIA_PAGES=1 npm run build`。測試和開發不需要主人電腦常開。
+升級時，從三張卡片中選擇下一份力量。普攻、職業技能與裝備可以彼此呼應，元素也會改變戰鬥的節奏。**通常最多只能覺醒兩種元素**；選擇的不只是力量，也決定了這趟旅程將捨棄什麼。
+
+領主們各有擅長的殺招。留意地面的預警、善用掩體，別把閃避當成無敵。若能奪回日光，便可保留這身力量踏入下一周目，迎戰更加兇險的秘境。
 
 ## 操作
 
-WASD 移動，滑鼠瞄準；按住左鍵普攻、右鍵職技、空白閃避（無無敵）、E 拾取／進門、I 清關整備、C 構築資訊、Esc 暫停。戰鬥中也可 E 拾取，穿戴需清關。清完房間後靠近右門按 E。每段四個普通房和一位領主，經六段分支秘境抵達索拉里斯；每地形六種主題與專屬王房依種子生成，事件會替換合格普通房。清算先吸收地面經驗／補給再選卡；地面裝備有光柱及靠近 E 提示。每次三選一可免費刷新一次，取得過的卡片會留在「光的記憶」圖鑑。
+建議使用電腦、鍵盤與滑鼠遊玩。首次啟程會開啟旅人手冊，旅途中也能隨時查閱。
 
-戰鬥讀檔回入口，選卡與清關裝備操作自動保存在 IndexedDB。主選單可匯入，暫停／清關可匯出備份。失焦需手動繼續。保存於IndexedDB，清關與選卡自動提交；保存中暫停選擇並保護離頁，衝突或損壞提供復原／備份。星典、成就與外觀只收藏，不提供永久戰鬥成長。
+| 操作       | 按鍵     |
+| ---------- | -------- |
+| 移動       | WASD     |
+| 瞄準       | 滑鼠     |
+| 普通攻擊   | 滑鼠左鍵 |
+| 職業技能   | 滑鼠右鍵 |
+| 閃避       | 空白鍵   |
+| 拾取／進門 | E        |
+| 裝備整備   | I        |
+| 查看構築   | C        |
+| 暫停       | Esc      |
 
-原創像素素材與合成音效來源在 public/assets/manifest.json。已執行／未執行的測試與託管狀態見 PROJECT_STATUS.md，headless 不代表實體 GPU 60FPS。
+進度會自動保存，也可匯出存檔備份，再於主選單匯入。下載版與線上版之間，同樣可以透過存檔接續旅程。
 
-GitHub Pages：https://sces5504.github.io/Solaria-Remaster/ 。由 `.github/workflows/pages.yml` 在 `main` 推送通過驗證後部署；已發布修正版與線上驗證紀錄見 PROJECT_STATUS.md。
+---
 
-## 專案長期記憶
-
-入口：[AI_HANDOFF_MASTER](docs/ai-memory/AI_HANDOFF_MASTER.md)，最新工作斷點：[CURRENT_STATE](docs/ai-memory/CURRENT_STATE.md)。其餘索引涵蓋完整規格快照、決策演變、使用者偏好與開發／Bug 歷史。這是持久化上下文備份，不代表現在正式交接或重新啟動；重大決策與里程碑應增量更新。
-
-內容逐項索引：[地形](docs/validation/TERRAIN_MATRIX.md)、[Boss](docs/validation/BOSS_MATRIX.md)、[85卡](docs/validation/CARD_MATRIX.md)、[裝備](docs/validation/EQUIPMENT_MATRIX.md)、[六事件](docs/validation/EVENT_MATRIX.md)、[平衡與效能](docs/validation/BALANCE_PERFORMANCE.md)。Cloud軟體WebGL的密集場景未達60FPS；真GPU、Firefox／Safari與完整人工平衡仍NOT_RUN，不將功能測試當硬體驗收。
+製作者：**Mori Fang**

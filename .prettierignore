@@ -6,3 +6,8 @@ test-results
 .agents/skills/grilling
 
 public/art-review/index.html
+
+release
+
+# Maintained by the owner; future updates belong in CHANGELOG.md.
+README.md

@@ -1,0 +1,8 @@
+
+Running 1 test using 1 worker
+
+(node:4515) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/download.spec.ts:21:1 › 下載版：file離線啟動、三職肖像、戰鬥與存檔重載 (11.0s)
+
+  1 passed (12.1s)

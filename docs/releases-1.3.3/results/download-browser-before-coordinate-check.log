@@ -1,0 +1,27 @@
+
+Running 2 tests using 1 worker
+
+(node:4226) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/browser/download.spec.ts:17:1 › 下載版：file離線啟動、三職肖像、戰鬥與存檔重載 (11.7s)
+(node:4338) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/browser/download.spec.ts:79:1 › 下載版：匯入舊目標、Boss連續瞬移血量保持 (12.1s)
+
+
+  1) tests/browser/download.spec.ts:17:1 › 下載版：file離線啟動、三職肖像、戰鬥與存檔重載 ───────────────────────────────
+
+    Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'x')
+        at eval (eval at evaluate (:370:30), <anonymous>:1:46)
+        at UtilityScript.evaluate (<anonymous>:372:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at eval (eval at evaluate (:370:30), <anonymous>:1:46)
+        at UtilityScript.evaluate (<anonymous>:372:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at /workspace/Solaria-Remaster/tests/browser/download.spec.ts:53:29
+
+    Error Context: test-results/download/download-下載版：file離線啟動、三職肖像、戰鬥與存檔重載/error-context.md
+
+  1 failed
+    tests/browser/download.spec.ts:17:1 › 下載版：file離線啟動、三職肖像、戰鬥與存檔重載 ────────────────────────────────
+  1 passed (25.5s)
