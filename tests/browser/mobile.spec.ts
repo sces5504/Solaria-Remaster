@@ -163,7 +163,10 @@ for (const role of ["sword", "bow", "mage"] as const)
     expect(b.y + b.height).toBeLessThanOrEqual(page.viewportSize()!.height + 1);
     for (const c of ["move", "attack", "skill", "dodge"]) {
       const a = (await page.locator(`[data-touch="${c}"]`).boundingBox())!;
-      expect(a.x + a.width <= b.x + 1 || a.x >= b.x + b.width - 1).toBe(true);
+      expect(a.x).toBeGreaterThanOrEqual(24);
+      expect(a.x + a.width).toBeLessThanOrEqual(
+        page.viewportSize()!.width - 24,
+      );
     }
     await page.screenshot({ path: info.outputPath("landscape.png") });
     const moveStarts = (await diag(page)).core.time;
@@ -441,3 +444,119 @@ test("寬幅觸控全螢幕仍隱藏桌面側欄，戰場完整且保留邊緣�
     }
   }
 });
+
+for (const size of [
+  { width: 844, height: 390 },
+  { width: 780, height: 360 },
+  { width: 932, height: 430 },
+])
+  test(`手機版面 ${size.width}：放大完整戰場、透明操作與主要選單免捲動`, async ({
+    page,
+  }, info) => {
+    test.skip(info.project.name === "desktop");
+    test.setTimeout(180000);
+    await page.addInitScript(() => localStorage.clear());
+    async function fits(label: string) {
+      const measure = () =>
+        page.locator("#overlay").evaluate((overlay) => {
+          const panel = overlay.querySelector<HTMLElement>(".panel, .menu")!;
+          const o = overlay.getBoundingClientRect(),
+            b = panel.getBoundingClientRect();
+          return {
+            scroll: panel.scrollHeight - panel.clientHeight,
+            top: b.top - o.top,
+            bottom: o.bottom - b.bottom,
+            width: panel.scrollWidth - panel.clientWidth,
+          };
+        });
+      await expect
+        .poll(
+          async () => {
+            const m = await measure();
+            return Math.max(m.scroll, m.width, -m.top, -m.bottom);
+          },
+          { message: label },
+        )
+        .toBeLessThanOrEqual(1);
+      const sizes = await measure();
+      if (label.endsWith("844"))
+        await page.screenshot({
+          path: info.outputPath(`${label.replaceAll(" ", "-")}.png`),
+        });
+      expect(sizes.scroll, label).toBeLessThanOrEqual(1);
+      expect(sizes.width, label).toBeLessThanOrEqual(1);
+      expect(sizes.top, label).toBeGreaterThanOrEqual(0);
+      expect(sizes.bottom, label).toBeGreaterThanOrEqual(0);
+    }
+    await page.setViewportSize(size);
+    await page.goto("./");
+    const dismiss = page.getByRole("button", {
+      name: "關閉加入主畫面提示",
+      exact: true,
+    });
+    await expect(page.locator("#overlay")).toHaveAttribute(
+      "data-screen",
+      "menu",
+    );
+    if (await dismiss.isVisible()) {
+      await fits(`menu-with-install-hint ${size.width}`);
+      await dismiss.tap();
+    }
+    await expect(page.locator("#overlay")).toHaveAttribute(
+      "data-screen",
+      "menu",
+    );
+    await fits(`menu ${size.width}`);
+    await page.getByRole("button", { name: "旅人手冊", exact: true }).tap();
+    await fits(`tutorial ${size.width}`);
+    await page.getByRole("button", { name: "返回", exact: true }).tap();
+    await page.getByRole("button", { name: "開始新局", exact: true }).tap();
+    const confirm = page.getByRole("button", { name: "確認新局", exact: true });
+    if (await confirm.isVisible()) await confirm.tap();
+
+    if (
+      await page.getByRole("button", { name: "選擇旅人", exact: true }).count()
+    )
+      await page.getByRole("button", { name: "選擇旅人", exact: true }).tap();
+    await expect(page.locator("#overlay")).toHaveAttribute(
+      "data-screen",
+      "classes",
+    );
+    await fits(`classes ${size.width}`);
+    await page.locator('[data-action="class:mage"]').tap();
+    await expect(
+      page.getByRole("button", { name: "進入戰鬥", exact: true }),
+    ).toBeVisible();
+    await fits(`intro ${size.width}`);
+    const r = arena("mage");
+    r.phase = "UPGRADE_CHOICE";
+    r.level = 10;
+    r.pendingLevels = 1;
+    // Long existing card descriptions and the upgrade note must remain readable.
+    r.cards[54] = 1;
+    r.choices = [54, 79, 85];
+    await load(page, r);
+    await fits(`choice ${size.width}`);
+    if (size.width === 844)
+      await page.screenshot({ path: info.outputPath("compact-choices.png") });
+    await page.locator('[data-action="choose:54"]').tap();
+    await expect(page.locator("#overlay")).toHaveClass(/hidden/);
+    const b = (await page.getByLabel("Solaria 遊戲畫布").boundingBox())!;
+    expect(b.width / b.height).toBeCloseTo(1.6, 2);
+    expect(b.height).toBeGreaterThanOrEqual(size.height * 0.8);
+    expect(b.y + b.height).toBeLessThanOrEqual(size.height + 1);
+    for (const control of ["move", "attack", "skill", "dodge"]) {
+      const el = page.locator(`[data-touch="${control}"]`),
+        c = (await el.boundingBox())!;
+      expect(c.x).toBeGreaterThanOrEqual(24);
+      expect(c.x + c.width).toBeLessThanOrEqual(size.width - 24);
+      const alpha = await el.evaluate((e) =>
+        Number(getComputedStyle(e).backgroundColor.match(/[\d.]+/g)?.[3] ?? 1),
+      );
+      expect(alpha).toBeLessThan(0.7);
+    }
+    if (size.width === 844)
+      await page.screenshot({
+        path: info.outputPath("expanded-battlefield.png"),
+      });
+  });

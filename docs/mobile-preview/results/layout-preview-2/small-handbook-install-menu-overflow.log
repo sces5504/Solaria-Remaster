@@ -1,0 +1,62 @@
+
+Running 3 tests using 1 worker
+
+(node:18644) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✘  1 [android] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 (1.3m)
+(node:18964) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [iphone] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 (28.5s)
+(node:19162) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  -  3 [desktop] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動
+
+
+  1) [android] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 ─────────────────────
+
+    Error: tutorial 568
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    4
+
+      468 |         path: info.outputPath(`${label.replaceAll(" ", "-")}.png`),
+      469 |       });
+    > 470 |     expect(sizes.scroll, label).toBeLessThanOrEqual(1);
+          |                                 ^
+      471 |     expect(sizes.width, label).toBeLessThanOrEqual(1);
+      472 |     expect(sizes.top, label).toBeGreaterThanOrEqual(0);
+      473 |     expect(sizes.bottom, label).toBeGreaterThanOrEqual(0);
+        at fits (/workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:470:33)
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:500:5
+
+    Error Context: test-results/mobile/mobile-手機版面：放大完整戰場、透明操作與主要選單免捲動-android/error-context.md
+
+  2) [iphone] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 ──────────────────────
+
+    Error: menu-with-install-hint 667
+
+    expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 0
+    Received:    -5.4375
+
+      470 |     expect(sizes.scroll, label).toBeLessThanOrEqual(1);
+      471 |     expect(sizes.width, label).toBeLessThanOrEqual(1);
+    > 472 |     expect(sizes.top, label).toBeGreaterThanOrEqual(0);
+          |                              ^
+      473 |     expect(sizes.bottom, label).toBeGreaterThanOrEqual(0);
+      474 |   }
+      475 |   for (const size of [
+        at fits (/workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:472:30)
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:491:7
+
+    Error Context: test-results/mobile/mobile-手機版面：放大完整戰場、透明操作與主要選單免捲動-iphone/error-context.md
+
+  2 failed
+    [android] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 ──────────────────────
+    [iphone] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 ───────────────────────
+  1 skipped

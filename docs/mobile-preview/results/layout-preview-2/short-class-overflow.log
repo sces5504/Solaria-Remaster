@@ -1,0 +1,85 @@
+
+Running 15 tests using 1 worker
+
+(node:19394) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✓   1 [android] › tests/browser/mobile.spec.ts:262:1 › 手機旋轉、取消觸控與失焦清輸入，回橫屏手動繼續，音效與滿版回退 (29.4s)
+  -   2 [android] › tests/browser/mobile.spec.ts:314:1 › 桌面維持原鍵鼠、無手機控制與自動瞄準
+  ✓   3 [android] › tests/browser/mobile.spec.ts:341:1 › Android原生多指捕捉、滑出釋放、接上滑鼠鍵盤改用手動瞄準 (19.1s)
+  ✓   4 [android] › tests/browser/mobile.spec.ts:416:1 › 寬幅觸控全螢幕仍隱藏桌面側欄，戰場完整且保留邊緣空間 (18.6s)
+  ✘   5 [android] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 (2.0m)
+(node:19805) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [iphone] › tests/browser/mobile.spec.ts:262:1 › 手機旋轉、取消觸控與失焦清輸入，回橫屏手動繼續，音效與滿版回退 (6.1s)
+  -   7 [iphone] › tests/browser/mobile.spec.ts:314:1 › 桌面維持原鍵鼠、無手機控制與自動瞄準
+  -   8 [iphone] › tests/browser/mobile.spec.ts:341:1 › Android原生多指捕捉、滑出釋放、接上滑鼠鍵盤改用手動瞄準
+  -   9 [iphone] › tests/browser/mobile.spec.ts:416:1 › 寬幅觸控全螢幕仍隱藏桌面側欄，戰場完整且保留邊緣空間
+  ✘  10 [iphone] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 (28.7s)
+(node:20178) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  -  11 [desktop] › tests/browser/mobile.spec.ts:262:1 › 手機旋轉、取消觸控與失焦清輸入，回橫屏手動繼續，音效與滿版回退
+  ✓  12 [desktop] › tests/browser/mobile.spec.ts:314:1 › 桌面維持原鍵鼠、無手機控制與自動瞄準 (8.1s)
+  -  13 [desktop] › tests/browser/mobile.spec.ts:341:1 › Android原生多指捕捉、滑出釋放、接上滑鼠鍵盤改用手動瞄準
+  -  14 [desktop] › tests/browser/mobile.spec.ts:416:1 › 寬幅觸控全螢幕仍隱藏桌面側欄，戰場完整且保留邊緣空間
+  -  15 [desktop] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動
+
+
+  1) [android] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 ─────────────────────
+
+    Error: classes 568
+
+    classes 568
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    15
+
+    Call Log:
+    - Timeout 15000ms exceeded while waiting on the predicate
+
+      473 |         { message: label },
+      474 |       )
+    > 475 |       .toBeLessThanOrEqual(1);
+          |        ^
+      476 |     const sizes = await measure();
+      477 |     if (label.endsWith("844"))
+      478 |       await page.screenshot({
+        at fits (/workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:475:8)
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:525:11
+
+    Error Context: test-results/mobile/mobile-手機版面：放大完整戰場、透明操作與主要選單免捲動-android/error-context.md
+
+  2) [iphone] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 ──────────────────────
+
+    Error: classes 568
+
+    classes 568
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    15
+
+    Call Log:
+    - Timeout 15000ms exceeded while waiting on the predicate
+
+      473 |         { message: label },
+      474 |       )
+    > 475 |       .toBeLessThanOrEqual(1);
+          |        ^
+      476 |     const sizes = await measure();
+      477 |     if (label.endsWith("844"))
+      478 |       await page.screenshot({
+        at fits (/workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:475:8)
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:525:11
+
+    Error Context: test-results/mobile/mobile-手機版面：放大完整戰場、透明操作與主要選單免捲動-iphone/error-context.md
+
+  2 failed
+    [android] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 ──────────────────────
+    [iphone] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 ───────────────────────
+  8 skipped
+  5 passed (3.9m)

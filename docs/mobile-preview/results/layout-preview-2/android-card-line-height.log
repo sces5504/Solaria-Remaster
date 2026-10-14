@@ -1,0 +1,46 @@
+
+Running 3 tests using 1 worker
+
+(node:20468) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  ✘  1 [android] › tests/browser/mobile.spec.ts:453:3 › 手機版面 568：放大完整戰場、透明操作與主要選單免捲動 (30.2s)
+(node:20625) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [iphone] › tests/browser/mobile.spec.ts:453:3 › 手機版面 568：放大完整戰場、透明操作與主要選單免捲動 (6.0s)
+(node:20750) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Skipping host requirements validation logic because `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS` env variable is set.
+  -  3 [desktop] › tests/browser/mobile.spec.ts:453:3 › 手機版面 568：放大完整戰場、透明操作與主要選單免捲動
+
+
+  1) [android] › tests/browser/mobile.spec.ts:453:3 › 手機版面 568：放大完整戰場、透明操作與主要選單免捲動 ─────────────────
+
+    Error: choice 568
+
+    choice 568
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    15
+
+    Call Log:
+    - Timeout 15000ms exceeded while waiting on the predicate
+
+      478 |           { message: label },
+      479 |         )
+    > 480 |         .toBeLessThanOrEqual(1);
+          |          ^
+      481 |       const sizes = await measure();
+      482 |       if (label.endsWith("844"))
+      483 |         await page.screenshot({
+        at fits (/workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:480:10)
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:539:11
+
+    Error Context: test-results/mobile/mobile-手機版面-568：放大完整戰場、透明操作與主要選單免捲動-android/error-context.md
+
+  1 failed
+    [android] › tests/browser/mobile.spec.ts:453:3 › 手機版面 568：放大完整戰場、透明操作與主要選單免捲動 ──────────────────
+  1 skipped
+  1 passed (38.7s)

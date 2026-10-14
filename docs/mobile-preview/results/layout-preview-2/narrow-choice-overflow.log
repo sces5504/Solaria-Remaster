@@ -1,0 +1,31 @@
+
+Running 1 test using 1 worker
+
+(node:17065) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [android] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 (56.4s)
+
+
+  1) [android] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 ─────────────────────
+
+    Error: choice 667
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 1
+    Received:    6
+
+      463 |       };
+      464 |     });
+    > 465 |     expect(sizes.scroll, label).toBeLessThanOrEqual(1);
+          |                                 ^
+      466 |     expect(sizes.width, label).toBeLessThanOrEqual(1);
+      467 |     expect(sizes.top, label).toBeGreaterThanOrEqual(0);
+      468 |     expect(sizes.bottom, label).toBeGreaterThanOrEqual(0);
+        at fits (/workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:465:33)
+        at /workspace/Solaria-Remaster/tests/browser/mobile.spec.ts:516:5
+
+    Error Context: test-results/mobile/mobile-手機版面：放大完整戰場、透明操作與主要選單免捲動-android/error-context.md
+
+  1 failed
+    [android] › tests/browser/mobile.spec.ts:448:1 › 手機版面：放大完整戰場、透明操作與主要選單免捲動 ──────────────────────

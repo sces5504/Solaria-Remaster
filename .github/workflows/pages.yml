@@ -84,7 +84,7 @@ jobs:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
         run: |
           if [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ]; then
-            npx playwright test -c docs/mobile-preview/playwright.config.ts --grep '寬幅觸控|旋轉|桌面維持'
+            npx playwright test -c docs/mobile-preview/playwright.config.ts --grep '手機版面|桌面維持'
           elif [ "$VALIDATION_SCOPE" = "mobile-preview" ]; then
             npx playwright test -c docs/mobile-preview/playwright.config.ts
           elif [ "$VALIDATION_SCOPE" = "boss-feedback-preview" ] || [ "$VALIDATION_SCOPE" = "release-feedback" ]; then
