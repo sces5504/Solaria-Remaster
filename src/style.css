@@ -2208,3 +2208,11 @@ body.mobile .touch-right button {
 body.mobile.install-tip #overlay[data-screen="menu"] {
   bottom: calc(max(8px, var(--safe-b)) + 76px);
 }
+/* Fullscreen desktop sidebar must not reappear on wide touch devices. */
+body.mobile .game-layout:fullscreen #sidebar {
+  display: none;
+}
+body.mobile {
+  --safe-l: max(24px, env(safe-area-inset-left, 0px));
+  --safe-r: max(24px, env(safe-area-inset-right, 0px));
+}

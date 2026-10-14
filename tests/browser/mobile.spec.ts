@@ -409,3 +409,35 @@ test("Android原生多指捕捉、滑出釋放、接上滑鼠鍵盤改用手動�
   );
   expect((await diag(page)).mobile.controls.attack).toBe(false);
 });
+
+test("寬幅觸控全螢幕仍隱藏桌面側欄，戰場完整且保留邊緣空間", async ({
+  page,
+}, info) => {
+  test.skip(info.project.name !== "android");
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await fight(page, arena("bow"));
+  await page.locator('[data-system="fullscreen"]').tap();
+  await page.waitForTimeout(150);
+  if (!(await page.evaluate(() => Boolean(document.fullscreenElement))))
+    test.skip(
+      true,
+      "Engine did not grant fullscreen; rejection fallback is covered separately",
+    );
+  if (await page.locator("#orientation-gate").isVisible())
+    await page.locator("#orientation-gate button").tap();
+  if ((await page.locator("#overlay").getAttribute("data-screen")) === "pause")
+    await page.getByRole("button", { name: "繼續旅程", exact: true }).tap();
+  await expect(page.locator("#sidebar")).toBeHidden();
+  const b = (await page.getByLabel("Solaria 遊戲畫布").boundingBox())!;
+  expect(b.width / b.height).toBeCloseTo(1.6, 2);
+  for (const control of ["move", "attack", "skill", "dodge"]) {
+    const p = await page.locator(`[data-touch="${control}"]`).boundingBox();
+    expect(p).not.toBeNull();
+    if (p) {
+      expect(p.x).toBeGreaterThanOrEqual(24);
+      expect(p.x + p.width).toBeLessThanOrEqual(
+        page.viewportSize()!.width - 24,
+      );
+    }
+  }
+});

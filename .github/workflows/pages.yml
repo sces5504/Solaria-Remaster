@@ -20,6 +20,7 @@ on:
             save-feedback,
             health-light-feedback,
             health-migration-feedback,
+            mobile-layout-preview,
             mobile-preview,
             release-feedback,
             boss-feedback-preview,
@@ -52,7 +53,9 @@ jobs:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
         run: |
           npm run check
-          if [ "$VALIDATION_SCOPE" = "mobile-preview" ]; then
+          if [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ]; then
+            npx vitest run tests/unit/auto-aim.test.ts
+          elif [ "$VALIDATION_SCOPE" = "mobile-preview" ]; then
             npx vitest run tests/unit/auto-aim.test.ts tests/unit/terrain-progression.test.ts tests/unit/health-light.test.ts
           elif [ "$VALIDATION_SCOPE" = "boss-feedback-preview" ] || [ "$VALIDATION_SCOPE" = "release-feedback" ]; then
             npx vitest run tests/unit/boss-feedback.test.ts tests/unit/biome-bosses.test.ts tests/unit/boss-rework.test.ts tests/unit/health-light.test.ts
@@ -68,19 +71,21 @@ jobs:
         env:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
         run: |
-          if [ "$VALIDATION_SCOPE" = "mobile-preview" ]; then
+          if [ "$VALIDATION_SCOPE" = "mobile-preview" ] || [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ]; then
             npx playwright install --with-deps chromium webkit
           else
             npx playwright install --with-deps chromium
           fi
       - run: npm run build
         env:
-          VITE_PLAYTEST: ${{ inputs.validation == 'mobile-preview' && 'mobile' || endsWith(inputs.validation, '-preview') && 'terrain-1.3.0' || '' }}
+          VITE_PLAYTEST: ${{ startsWith(inputs.validation, 'mobile-') && 'mobile' || endsWith(inputs.validation, '-preview') && 'terrain-1.3.0' || '' }}
       - name: Browser validation
         env:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
         run: |
-          if [ "$VALIDATION_SCOPE" = "mobile-preview" ]; then
+          if [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ]; then
+            npx playwright test -c docs/mobile-preview/playwright.config.ts --grep '寬幅觸控|旋轉|桌面維持'
+          elif [ "$VALIDATION_SCOPE" = "mobile-preview" ]; then
             npx playwright test -c docs/mobile-preview/playwright.config.ts
           elif [ "$VALIDATION_SCOPE" = "boss-feedback-preview" ] || [ "$VALIDATION_SCOPE" = "release-feedback" ]; then
             npm run test:browser -- tests/browser/boss-feedback.spec.ts tests/browser/health-light.spec.ts --grep "Boss位移|生命曲線"
@@ -136,7 +141,7 @@ jobs:
         id: official-source
         if: endsWith(inputs.validation, '-preview')
         env:
-          PREVIEW_FOLDER: ${{ inputs.validation == 'mobile-preview' && 'mobile' || 'terrain-1.3.0' }}
+          PREVIEW_FOLDER: ${{ startsWith(inputs.validation, 'mobile-') && 'mobile' || 'terrain-1.3.0' }}
         run: |
           echo "sha=$(git -C official rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           cd official

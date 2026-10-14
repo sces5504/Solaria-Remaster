@@ -1,0 +1,8 @@
+
+Running 1 test using 1 worker
+
+(node:14087) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [android] › tests/browser/mobile.spec.ts:413:1 › 寬幅觸控全螢幕仍隱藏桌面側欄，戰場完整且保留邊緣空間 (14.3s)
+
+  1 passed (16.0s)
