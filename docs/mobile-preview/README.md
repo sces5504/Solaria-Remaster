@@ -17,3 +17,15 @@ WebKit主機無系統安裝權限，已將所需套件解壓至/tmp並用獨立w
 最後兩引擎生命週期補驗2PASS：包含音效suspend／手勢resume／靜音，以及未提供與Promise拒絕兩種全螢幕回退。CI／預覽仍待發布，真機界線不變。
 
 主體790633e／Pages38515453830已成功：check、32相關unit、format、build、Android Chromium／iPhone WebKit／桌面18相關案例與部署通過。追加寬幅觸控全螢幕檢查，確診原桌面fullscreen sidebar規則在>1000px可能覆蓋手機隱藏，補高優先手機規則；兩側最低留白提升24px。新寬幅實際全螢幕本地1PASS。最後將只跑8選敵unit與4相關瀏覽器（寬幅全螢幕／兩引擎方向音效回退／桌面鍵鼠），不能把主體18項冒稱最後來源整輪。
+
+CI畫面artifact下載服務回403，已保留去除簽名查詢參數的錯誤記錄，不繞過限制；最後以公開試玩頁自行擷取畫面核對。
+
+## 試玩交付（2026-10-14 05:26:16 UTC）
+
+[手機／電腦獨立試玩](https://sces5504.github.io/Solaria-Remaster/preview/mobile/?v=1.4.0-preview.1)，不推main。主體790633e的[CI38515453830](https://github.com/sces5504/Solaria-Remaster/actions/runs/38515453830) 32unit／18browser 3.7分鐘通過；最後30a07b0的[CI38516029619](https://github.com/sces5504/Solaria-Remaster/actions/runs/38516029619) check／8unit／format／build／4相關browser58.1秒／部署通過。無重試；主體與最後來源分開，沒有將兩輪18＋4標成最後完整22項。
+
+公開頁100檔HTML／JS／CSS／PNG逐檔SHA一致（正式50＋試玩50），manifest HTTP200／standalone／相對start與scope通過。初次本地比對資料夾混有舊bundle導致404，保留live-integrity-stale-bundles.log；重建本任務暫存建置副本後通過live-integrity.json。真正載入手機頁的獨立DB名稱為solaria-remaster-playtest-mobile；同origin測試正式DB標記在重載手機頁後保持，live-isolation.json通過，沒有接觸玩家真存檔。
+
+線上Android Chromium模擬：法師移動／普攻連發／職技／閃避／選敵24.6秒與CDP原生四指、滑出釋放、接鍵鼠、visibility中斷20.0秒，合計2項46.2秒通過，pageerror空。combat-target畫面與iPhone WebKit布局畫面已目檢，screenshots保存。這不是實體Android或iPhone，也不是三職自然完整31關／完整全瀏覽器測試。
+
+正式main ea7b1a55e22342c6cb8fc6b08ed69cb9663ef60f、v1.1.2 tag／兩archive refs已核對不變。無新正式tag或Release、固定備份與PNG素材不改。後續先接主人手機試玩回饋，待明確確認才整合main；README由主人維護，不主動讀／比較／改動，版本歷程維護CHANGELOG。

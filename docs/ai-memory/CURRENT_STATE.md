@@ -6,7 +6,7 @@
 
 輸入透過原Command接入，射線寬通道為20世界單位的長方形SAT，先排除實體障礙再選最近720內目標，法師職技依既有450×range射程篩選；鎖定0.3秒、候選至少近20%才主動換，死亡／越界／遮擋立即換。旋轉／失焦／取消／App中斷清輸入並暫停，回橫向手動續；全螢幕／鎖向可失敗回退，iOS主畫面引導與manifest沒有強制相容承諾。完整8:5戰場與兩側獨立操作列，詳細構築／背包仍可開。
 
-31相關unit與build已通過，Android／WebKit三職多指戰鬥通過；完整UI流程補驗與CI／獨立預覽尚待。原始腳本與環境FAIL保留docs/mobile-preview/results。所有手機測試是模擬，**Android Chrome／iPhone Safari與Chrome真機、瀏海與手勢／硬體聲音／實際App切換／安裝與效能未驗證**，不能冒稱真機PASS。
+手機試玩已交付（2026-10-14 05:26:16 UTC）：https://sces5504.github.io/Solaria-Remaster/preview/mobile/?v=1.4.0-preview.1 。主體790633e／Pages38515453830：check、32相關unit、format、build、18相關Chromium／WebKit／桌面案例3.7分鐘及部署通過；補寬幅全螢幕隱藏側欄與24px邊緣留白，最終遊戲30a07b0a7c675857b7bfe794265173ecb8061edb／Pages38516029619：8相關unit＋4相關瀏覽器58.1秒與部署通過，兩來源分開、不是最終整輪22項。正式50檔／預覽50檔逐檔SHA符合各自來源，manifest／存檔獨立DB與正式標記保持、線上法師＋原生四指／鍵鼠2案例46.2秒通過，pageerror空；截圖已目檢。正式main仍ea7b1a5、1.1.2 refs不變，**等待主人確認才推main**，不建立正式tag／Release。FAIL與403紀錄保留docs/mobile-preview。所有手機測試是模擬，**Android Chrome／iPhone Safari與Chrome真機、瀏海／系統手勢／硬體聲音／實際App切換／主畫面安裝與效能未驗證**，不能冒稱真機PASS。
 
 ## 1.3.3 已獲正式整合授權；README後續由主人接手（2026-10-14 04:07:11 UTC）
 

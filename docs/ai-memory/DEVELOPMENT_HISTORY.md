@@ -1,5 +1,9 @@
 # DEVELOPMENT_HISTORY — 開發、Bug 與技術記錄
 
+## 2026-10-14 05:26:16 UTC 手機雙輸入試玩交付，main保持1.3.3
+
+保留原核心／鍵鼠，新增多指虛擬搖桿與按鈕、20寬矩形遮擋自動瞄準、完整8:5側操作列、方向／App中斷保護、音效手勢恢復與iOS主畫面引導。主體790633e／38515453830的32unit與18模擬browser，最後30a07b0／38516029619的8unit與4補驗browser分別通過；100檔線上SHA、獨立DB、線上2觸控案例通過。修正iOS提示覆蓋手冊按鈕與寬幅fullscreen側欄重現，手機靜態畫面避免重複渲染。403artifact下載與原FAIL保留，改公開頁擷取畫面，不繞過限制。Android／iPhone真機、物理音效／效能／手勢／實際安裝未測，不能稱真機PASS。main ea7b1a5不動，等待主人確認；獨立preview/mobile，無正式tag／Release，README不讀／比較／修改，不開Chat或agent。
+
 ## 2026-10-14 04:13:00 UTC 1.3.3正式整合與單檔下載交付
 
 主人確認後正常快進main，遊戲來源aac24fb／annotated tag v1.3.3；Pages38509818835的113相關unit、4網頁與2離線Chromium、部署及Release附件全通過。正式50檔與發布建置SHA一致，線上刺客修正通過。Release HTML公開下載與實測離線檔逐位元一致，可雙擊瀏覽器遊玩，無安裝／伺服器。README改遊戲介紹後交主人維護，後續只增量CHANGELOG。初輪腳本FAIL保留，真設備與完整跨瀏覽器未測界線維持。1.1.2 refs／備份不變，不開Chat或agent。證據docs/releases-1.3.3。

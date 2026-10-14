@@ -1,0 +1,21 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: https://sces5504.github.io/Solaria-Remaster/preview/mobile/assets/game-BI3QiePy.js
+
+404 !== 200
+
+    at file:///workspace/Solaria-Remaster/docs/mobile-preview/verify-integrity.mjs:45:18
+    at async Promise.all (index 0)
+    at async compare (file:///workspace/Solaria-Remaster/docs/mobile-preview/verify-integrity.mjs:36:7)
+    at async file:///workspace/Solaria-Remaster/docs/mobile-preview/verify-integrity.mjs:56:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 404,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
