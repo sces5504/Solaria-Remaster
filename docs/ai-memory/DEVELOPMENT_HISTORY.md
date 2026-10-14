@@ -1,5 +1,9 @@
 # DEVELOPMENT_HISTORY — 開發、Bug 與技術記錄
 
+## 2026-10-14 04:13:00 UTC 1.3.3正式整合與單檔下載交付
+
+主人確認後正常快進main，遊戲來源aac24fb／annotated tag v1.3.3；Pages38509818835的113相關unit、4網頁與2離線Chromium、部署及Release附件全通過。正式50檔與發布建置SHA一致，線上刺客修正通過。Release HTML公開下載與實測離線檔逐位元一致，可雙擊瀏覽器遊玩，無安裝／伺服器。README改遊戲介紹後交主人維護，後續只增量CHANGELOG。初輪腳本FAIL保留，真設備與完整跨瀏覽器未測界線維持。1.1.2 refs／備份不變，不開Chat或agent。證據docs/releases-1.3.3。
+
 ## 2026-10-14 02:30:19 UTC Boss 位移狀態污染修復與預覽
 
 瞬移／跳躍／鑽地helper展開完整玩家目標導致Boss HP與半徑被覆蓋，修為只保留座標且兼容舊目標快照；9項失敗先重現，再113相關unit／4CI瀏覽器與線上刺客通過。落雷預警+0.5秒。本輪只推gameplay/v1.3.3-boss-feedback，main維持b2d3df3，等待主人試玩確認；來源411c8a4／Pages38501066427／100檔SHA證據見docs/gameplay-1.3.3-boss-feedback。不開Chat／agent、封存不改，未宣稱完整回歸。

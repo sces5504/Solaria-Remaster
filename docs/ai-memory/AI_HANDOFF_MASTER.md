@@ -4,7 +4,7 @@
 
 主人已確認Boss試玩版，明示推main，取代上一節等待確認限制。整合生命曲線／曝光／死亡保護／Boss位移修復及落雷+0.5秒，版本1.3.3。此次重寫README僅作遊戲介紹／玩法／lore／遊玩與下載連結；交付後由主人維護，**後續不要主動讀取、比較或修改README.md，更新只維護CHANGELOG.md**。格式工具亦忽略README，避免自動更動主人文本。
 
-新增scripts/build-download.mjs以同一程式及素材建立單一HTML，沒有新增伺服器或改玩法；file://已可離線啟動。下载版Boss匯入／瞬移案例通過，新局／肖像／戰鬥／保存重載補驗通過；初次腳本用錯按鈕名、第二次讀不存在診斷座標的失敗均保留。Pages正式部署及Release附件尚待，未提前標PASS。1.1.2封存與旁支不改，不開Chat／agent；詳docs/releases-1.3.3。
+1.3.3正式發布完成（2026-10-14 04:13:00 UTC）：遊戲／annotated tag來源aac24fb3d2f8567af06eb30cbafc070e954d6a47，Release https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.3.3 。Pages38509818835 check／113相關unit／format／build／4相關Chromium1.1分鐘＋2離線HTML Chromium25.3秒／部署／Release附件全部通過，無重試。線上正式50檔SHA一致，實際刺客瞬移／匯出14.3秒通過，pageerror空。HTML附件35,953,088 bytes，公開下載後逐位元符合本地實測檔與校驗碼，SHA c92defa8ca2e02d67157015ac84afe58d3c75146ea9a17937d014735ba49e0eb。可直接file://離線啟動，沒有伺服器／安裝需求；不是Windows／macOS真設備或完整跨瀏覽器驗收。初次測試腳本失敗保留。1.1.2 tag／兩archive核對保持，不動備份與旁支，不開Chat／agent；詳docs/releases-1.3.3。下一步接新回饋，README已交主人維護，只增量維護CHANGELOG。
 
 ## Boss 殘血／落雷修正：先試玩、等待主人確認（2026-10-14 02:26:00 UTC）
 

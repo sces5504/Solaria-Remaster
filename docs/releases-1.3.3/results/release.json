@@ -1,0 +1,32 @@
+{
+  "assets": [
+    {
+      "apiUrl": "https://api.github.com/repos/sces5504/Solaria-Remaster/releases/assets/639176885",
+      "contentType": "text/plain; charset=utf-8",
+      "createdAt": "2026-10-14T04:11:10Z",
+      "downloadCount": 0,
+      "id": "RA_kwDOVEY5Bc4mGRC1",
+      "label": "",
+      "name": "SHA256SUMS.txt",
+      "size": 95,
+      "state": "uploaded",
+      "updatedAt": "2026-10-14T04:11:11Z",
+      "url": "https://github.com/sces5504/Solaria-Remaster/releases/download/v1.3.3/SHA256SUMS.txt"
+    },
+    {
+      "apiUrl": "https://api.github.com/repos/sces5504/Solaria-Remaster/releases/assets/639176884",
+      "contentType": "text/html; charset=utf-8",
+      "createdAt": "2026-10-14T04:11:10Z",
+      "downloadCount": 0,
+      "id": "RA_kwDOVEY5Bc4mGRC0",
+      "label": "",
+      "name": "Solaria-Remaster-v1.3.3.html",
+      "size": 35953088,
+      "state": "uploaded",
+      "updatedAt": "2026-10-14T04:11:12Z",
+      "url": "https://github.com/sces5504/Solaria-Remaster/releases/download/v1.3.3/Solaria-Remaster-v1.3.3.html"
+    }
+  ],
+  "publishedAt": "2026-10-14T04:11:12Z",
+  "url": "https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.3.3"
+}
