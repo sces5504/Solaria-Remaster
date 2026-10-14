@@ -195,7 +195,8 @@ for (const role of ["sword", "bow", "mage"] as const)
       /tutorial|classes/,
     );
     if (
-      await page.getByRole("button", { name: "選擇旅人", exact: true }).count()
+      (await page.locator("#overlay").getAttribute("data-screen")) ===
+      "tutorial"
     )
       await page.getByRole("button", { name: "選擇旅人", exact: true }).tap();
     await page.locator(`[data-action="class:${role}"]`).tap();
@@ -520,8 +521,13 @@ for (const size of [
     const confirm = page.getByRole("button", { name: "確認新局", exact: true });
     if (await confirm.isVisible()) await confirm.tap();
 
+    await expect(page.locator("#overlay")).toHaveAttribute(
+      "data-screen",
+      /tutorial|classes/,
+    );
     if (
-      await page.getByRole("button", { name: "選擇旅人", exact: true }).count()
+      (await page.locator("#overlay").getAttribute("data-screen")) ===
+      "tutorial"
     )
       await page.getByRole("button", { name: "選擇旅人", exact: true }).tap();
     await expect(page.locator("#overlay")).toHaveAttribute(

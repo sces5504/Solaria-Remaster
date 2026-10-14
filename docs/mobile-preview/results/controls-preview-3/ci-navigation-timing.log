@@ -1,0 +1,74 @@
+build	Browser validation	﻿2026-10-14T07:19:19.4642560Z ##[group]Run if [ "$VALIDATION_SCOPE" = "mobile-controls-preview" ]; then
+build	Browser validation	2026-10-14T07:19:19.4642914Z [36;1mif [ "$VALIDATION_SCOPE" = "mobile-controls-preview" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4643554Z [36;1m  npx playwright test -c docs/mobile-preview/playwright.config.ts --grep '手機新|手機縮放|桌面維持|原生多指|旋轉|手機版面 844'[0m
+build	Browser validation	2026-10-14T07:19:19.4644072Z [36;1melif [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4644379Z [36;1m  npx playwright test -c docs/mobile-preview/playwright.config.ts --grep '手機版面|桌面維持'[0m
+build	Browser validation	2026-10-14T07:19:19.4644672Z [36;1melif [ "$VALIDATION_SCOPE" = "mobile-preview" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4644930Z [36;1m  npx playwright test -c docs/mobile-preview/playwright.config.ts[0m
+build	Browser validation	2026-10-14T07:19:19.4645379Z [36;1melif [ "$VALIDATION_SCOPE" = "boss-feedback-preview" ] || [ "$VALIDATION_SCOPE" = "release-feedback" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4645851Z [36;1m  npm run test:browser -- tests/browser/boss-feedback.spec.ts tests/browser/health-light.spec.ts --grep "Boss位移|生命曲線"[0m
+build	Browser validation	2026-10-14T07:19:19.4646244Z [36;1melif [ "$VALIDATION_SCOPE" = "art-feedback" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4646679Z [36;1m  npm run test:browser -- tests/browser/adventure-art.spec.ts tests/browser/last-polish.spec.ts --grep '短FX|美術回饋|精雕冒險 (meadow|volcano|castle)：|發光藍雷|扇形噴火'[0m
+build	Browser validation	2026-10-14T07:19:19.4647097Z [36;1melif [ "$VALIDATION_SCOPE" = "visibility-feedback" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4647358Z [36;1m  npm run test:browser -- tests/browser/visibility-feedback.spec.ts[0m
+build	Browser validation	2026-10-14T07:19:19.4647629Z [36;1melif [ "$VALIDATION_SCOPE" = "health-migration-feedback" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4647904Z [36;1m  npm run test:browser -- tests/browser/health-light.spec.ts --grep '生命曲線'[0m
+build	Browser validation	2026-10-14T07:19:19.4648199Z [36;1melif [ "$VALIDATION_SCOPE" = "health-light-feedback" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4648445Z [36;1m  npm run test:browser -- tests/browser/health-light.spec.ts[0m
+build	Browser validation	2026-10-14T07:19:19.4648674Z [36;1melif [ "$VALIDATION_SCOPE" = "save-feedback" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4648937Z [36;1m  npm run test:browser -- tests/browser/feedback-132.spec.ts --grep '嚴格密碼|舊命運'[0m
+build	Browser validation	2026-10-14T07:19:19.4649212Z [36;1melif [ "$VALIDATION_SCOPE" = "maintenance-feedback" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4649532Z [36;1m  npm run test:browser -- tests/browser/feedback-132.spec.ts tests/browser/boss-cover-balance.spec.ts[0m
+build	Browser validation	2026-10-14T07:19:19.4649852Z [36;1melif [ "$VALIDATION_SCOPE" = "balance-feedback" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4650158Z [36;1m  npm run test:browser -- tests/browser/boss-cover-balance.spec.ts tests/browser/boss-rework.spec.ts[0m
+build	Browser validation	2026-10-14T07:19:19.4650473Z [36;1melif [ "$VALIDATION_SCOPE" = "gameplay-feedback" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4650764Z [36;1m  npm run test:browser -- tests/browser/boss-rework.spec.ts tests/browser/recovery.spec.ts[0m
+build	Browser validation	2026-10-14T07:19:19.4651062Z [36;1melif [ "$VALIDATION_SCOPE" = "variety-preview" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4651395Z [36;1m  npm run test:browser -- tests/browser/named-room-themes.spec.ts --grep '月牙林灣|層階砂臺|雙島霜澤|噴岩扇丘|交織巨根|岔隙幽門|赤弦血灣|交織星軌|分岔門庭|保存重載'[0m
+build	Browser validation	2026-10-14T07:19:19.4651733Z [36;1melif [ "$VALIDATION_SCOPE" = "theme-preview" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4652061Z [36;1m  npm run test:browser -- tests/browser/named-room-themes.spec.ts tests/browser/journal.spec.ts --grep '房名布局|首局手冊'[0m
+build	Browser validation	2026-10-14T07:19:19.4652398Z [36;1melif [ "$VALIDATION_SCOPE" = "terrain-preview" ]; then[0m
+build	Browser validation	2026-10-14T07:19:19.4652912Z [36;1m  npm run test:browser -- tests/browser/terrain-progression.spec.ts tests/browser/startup.spec.ts tests/browser/journal.spec.ts tests/browser/resonance.spec.ts --grep '首局手冊|WebGL 主選單|測試面板|密碼嚴格|全螢幕在|舊1.2.0|新地形畫面|首局先手冊|獨立存檔'[0m
+build	Browser validation	2026-10-14T07:19:19.4653635Z [36;1melse[0m
+build	Browser validation	2026-10-14T07:19:19.4653758Z [36;1m  npm run test:browser[0m
+build	Browser validation	2026-10-14T07:19:19.4653894Z [36;1mfi[0m
+build	Browser validation	2026-10-14T07:19:19.4706512Z shell: /usr/bin/bash -e {0}
+build	Browser validation	2026-10-14T07:19:19.4706665Z env:
+build	Browser validation	2026-10-14T07:19:19.4706804Z   VALIDATION_SCOPE: mobile-controls-preview
+build	Browser validation	2026-10-14T07:19:19.4707161Z ##[endgroup]
+build	Browser validation	2026-10-14T07:19:21.0616274Z 
+build	Browser validation	2026-10-14T07:19:21.0616954Z Running 21 tests using 1 worker
+build	Browser validation	2026-10-14T07:21:07.7261479Z ·°······°°F···°·°°°°°
+build	Browser validation	2026-10-14T07:21:07.7265950Z 
+build	Browser validation	2026-10-14T07:21:07.7271135Z   1) [iphone] › tests/browser/mobile.spec.ts:459:3 › 手機版面 844：放大完整戰場、透明操作與主要選單免捲動 ──────────────────
+build	Browser validation	2026-10-14T07:21:07.7271903Z 
+build	Browser validation	2026-10-14T07:21:07.7272105Z     Error: expect(locator).toHaveAttribute(expected) failed
+build	Browser validation	2026-10-14T07:21:07.7272333Z 
+build	Browser validation	2026-10-14T07:21:07.7272445Z     Locator:  locator('#overlay')
+build	Browser validation	2026-10-14T07:21:07.7272673Z     Expected: "classes"
+build	Browser validation	2026-10-14T07:21:07.7272875Z     Received: "tutorial"
+build	Browser validation	2026-10-14T07:21:07.7273071Z     Timeout:  15000ms
+build	Browser validation	2026-10-14T07:21:07.7273382Z 
+build	Browser validation	2026-10-14T07:21:07.7273459Z     Call log:
+build	Browser validation	2026-10-14T07:21:07.7273781Z       - Expect "toHaveAttribute" locator('#overlay') with timeout 15000ms
+build	Browser validation	2026-10-14T07:21:07.7274154Z       - waiting for locator('#overlay')
+build	Browser validation	2026-10-14T07:21:07.7274634Z         34 × locator resolved to <div id="overlay" data-screen="tutorial">…</div>
+build	Browser validation	2026-10-14T07:21:07.7275041Z            - unexpected value "tutorial"
+build	Browser validation	2026-10-14T07:21:07.7275208Z 
+build	Browser validation	2026-10-14T07:21:07.7275213Z 
+build	Browser validation	2026-10-14T07:21:07.7275288Z       525 |     )
+build	Browser validation	2026-10-14T07:21:07.7275708Z       526 |       await page.getByRole("button", { name: "選擇旅人", exact: true }).tap();
+build	Browser validation	2026-10-14T07:21:07.7276127Z     > 527 |     await expect(page.locator("#overlay")).toHaveAttribute(
+build	Browser validation	2026-10-14T07:21:07.7276354Z           |                                            ^
+build	Browser validation	2026-10-14T07:21:07.7276533Z       528 |       "data-screen",
+build	Browser validation	2026-10-14T07:21:07.7276675Z       529 |       "classes",
+build	Browser validation	2026-10-14T07:21:07.7276806Z       530 |     );
+build	Browser validation	2026-10-14T07:21:07.7277059Z         at /home/runner/work/Solaria-Remaster/Solaria-Remaster/tests/browser/mobile.spec.ts:527:44
+build	Browser validation	2026-10-14T07:21:07.7277268Z 
+build	Browser validation	2026-10-14T07:21:07.7277919Z     Error Context: test-results/mobile/mobile-手機版面-844：放大完整戰場、透明操作與主要選單免捲動-iphone/error-context.md
+build	Browser validation	2026-10-14T07:21:07.7278219Z 
+build	Browser validation	2026-10-14T07:21:07.7278293Z   1 failed
+build	Browser validation	2026-10-14T07:21:07.7278787Z     [iphone] › tests/browser/mobile.spec.ts:459:3 › 手機版面 844：放大完整戰場、透明操作與主要選單免捲動 ───────────────────
+build	Browser validation	2026-10-14T07:21:07.7279172Z   9 skipped
+build	Browser validation	2026-10-14T07:21:07.7279288Z   11 passed (1.8m)
+build	Browser validation	2026-10-14T07:21:07.7624799Z ##[error]Process completed with exit code 1.
