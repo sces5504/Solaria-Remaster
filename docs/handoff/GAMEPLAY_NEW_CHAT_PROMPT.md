@@ -1,5 +1,15 @@
 # Solaria Remaster：遊戲機制、數值與 Bug 接續 prompt
 
+## 1.4.0 已正式發布與核驗（2026-10-16 11:45:11 UTC）
+
+主人已明示手機推main；本輪發布完成，此授權取代下方所有手機preview「待確認／不可推main」。正式[遊玩1.4.0](https://sces5504.github.io/Solaria-Remaster/?v=1.4.0)，[Release／雙擊HTML下載](https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.4.0)。固定annotated tag v1.4.0／遊戲來源afc24ed2e061576d5874a1d847842d3acc745e29，正常保留main6a588c5的README與社群預覽內容。後續證據文件提交不改遊戲；接新回饋，不重做手機。
+
+CI [38895160628](https://github.com/sces5504/Solaria-Remaster/actions/runs/38895160628)：check、192相關unit、format、build、2核心Chromium14.3秒、12相關手機Chromium／WebKit／桌面1.6分鐘（9不適用project跳過，無重試）、2離線HTML Chromium15.1秒、Pages與Release全部通過。線上54份HTML／JS／CSS／PNG／manifest與Pages建置逐檔SHA一致；實際第三周目舊保存／巨量XP只升一級／重載1項18.1秒通過，pageerror空。舊preview/mobile入口轉正式版與手機選單載入亦通過。公開HTML35,990,011 bytes與本地建置逐位元一致，SHA3246e612c234a75f9118a04774f90857106aee3fd23ea494b3ded97fd64946a2。
+
+現行規則：每次整房清關固定+1級／一次選卡，XP僅保留掉落／吸附／數字、不換級；#8求知退役、84現役卡且其餘ID不改，舊卡／圖鑑／待選安全移轉；1～32級生命原曲線，33級起F(32)+.3×ln(1+(L−32)/30)，healthGrowthVersion=2舊高等按HP比例一次移轉、死亡不復活；南瓜125HP／20秒（清關仍復甦），舊倒地+10秒一次。精確規格／曲線／全部FAIL與證據見[1.4.0交接](../releases-1.4.0/HANDOFF.md)與GAME_SPEC最新章。
+
+README由主人維護，不讀／比較／修改；已更新CHANGELOG與六記憶／新AI入口。1.1.2 tag及兩archive refs核對未變，備份檔不碰；不reset／force、不開Chat／agent。手機真機（Android Chrome、iPhone Safari／Chrome）、實際瀏海／系統手勢／音效中斷／主畫面安裝與效能未驗證；核心93房fixture不是自然打三周目，原S13硬體／人工未測界線保持。下一任從遠端最新main接續，先讀本節與本次交接，不因歷史等待條文停工。
+
 ## 1.4.0 正式整合已授權，實作及發布核驗中（2026-10-16 11:35:57 UTC）
 
 主人明示手機推main，並要求每次清關固定一級（無視XP）、移除經驗卡、32等後生命大幅遞減、南瓜125HP／倒地20秒；README不動、交接持續維護。此授權取代以下所有手機preview「不可推main」。工作gameplay/v1.4.0-release正常合併最新main6a588c5，保留主人README與社群預覽圖，版本1.4.0。新規格與精確遷移／驗證見[本次交接](../releases-1.4.0/HANDOFF.md)及GAME_SPEC最新章。發布仍進行中，不提前標PASS。

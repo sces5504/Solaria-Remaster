@@ -82,3 +82,7 @@ Firefox／Safari桌面功能煙測，viewport縮放與fullscreen檢查指針準�
 boss-rework.test.ts實際執行V收攏／全周／同步十字／逐條雷射，死後自然旋轉／掩體來源、多段衝刺鎖向／距離／碰牆、反彈合法位置、每類及高周目召喚HP／能力／無XP、舊檔比例／死怪／RNG、遠端雷擊／地雷、旋斬傷害、花瓣速度／波形保存、交錯模式來源與.9／.75格擋精確邊界。boss-rework.spec.ts以正式RAF、真實右鍵／export／import驗旋轉、召喚與格擋，等核心時間、不用牆鐘當模擬時序。版本改動較廣，發布CI完整core／browser一次；小修後僅補失敗／受影響case。保留失敗與未測，詳docs/gameplay-1.2.0。
 
 1.2.0舊掃射補正：精確角速度用正式累加DT，新光束不能雙轉；真RAF匯入無beamMotion實驗快照後匯出核對旋轉。Pages gameplay-feedback明確限定boss-rework與recovery共5browser，與主體完整107來源分開紀錄。
+
+## 1.4.0 正式整合增量
+
+release-140核心驗證三周目93次逐房清算（零／巨量XP）、六事件整房只給一級、33級後增量遞減、三職舊高等生命比例與死亡、求知退役／待選替換／現役圖鑑成就、南瓜20秒／舊倒地一次移轉。實際Chromium保存／匯入匯出／重載與手機正式build操作另驗；發布scope release-mobile含Chromium／WebKit／桌面相關手機回歸及file://HTML。詳細來源與結果見docs/releases-1.4.0/HANDOFF.md，核心fixture不是自然93關，WebKit不是iPhone Safari／Chrome真機。既有S13硬體／聲音／效能NOT_RUN保持。

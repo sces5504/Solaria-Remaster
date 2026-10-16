@@ -1,0 +1,13 @@
+{
+  "source": "afc24ed2e061576d5874a1d847842d3acc745e29",
+  "release": "https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.4.0",
+  "bytes": 35990011,
+  "sha256": "3246e612c234a75f9118a04774f90857106aee3fd23ea494b3ded97fd64946a2",
+  "publicDownloadMatchesLocalBuild": true,
+  "offlineBrowserEvidence": "CI38895160628: 2 Chromium file:// tests passed, 15.1s",
+  "protectedRefs": {
+    "v1.1.2-tag-object": "b5e2bb7d451292e052e8e606b14783603d34af12",
+    "archive/v1.1.2": "9abc6d8ce90bcde5ef292f0db6202dd38d993e05",
+    "archive/v1.1.2-files": "0400546bc23cd7f3d176fa2f739ebfc705ba0ad2"
+  }
+}

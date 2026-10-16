@@ -4,7 +4,7 @@
 
 2026-10-16 主人明示將手機功能推 main，並一併調整經驗、32等後生命與南瓜。此授權取代所有手機 preview 的「等待確認／不可推main」條文。版本1.4.0，工作分支 gameplay/v1.4.0-release；以手機preview.3的9787749為基礎，正常合併最新main 6a588c5，保留主人README／社群預覽圖。README不讀、不比較、不修改；不開Chat／agent，不reset／force，1.1.2三個保護refs及下載不動。
 
-發布、CI及線上核驗尚待，完成後更新本節；不得將下方本地範圍當全面驗收。
+發布完成：2026-10-16 11:45:11 UTC。正式遊戲／annotated tag v1.4.0來源afc24ed2e061576d5874a1d847842d3acc745e29，後續文件提交不改遊戲。Pages／Release Actions38895160628成功：[正式遊戲](https://sces5504.github.io/Solaria-Remaster/?v=1.4.0)、[Release](https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.4.0)。主人的最新main內容正常保留，README未由本輪編輯。原1.1.2 tag物件b5e2bb7／兩archive 9abc6d8與0400546核對保持。
 
 ## 規則與實作
 
@@ -24,7 +24,10 @@
 - 修正後相關34unit通過：新13項（含93次跨三周目結算、六事件整房結算、生命遞減、三職舊高等移轉、退役卡、南瓜）＋advanced／polish回歸。check、build通過。其他40unit檔案508初輪通過不能冒稱全511項最終同輪PASS。
 - 本地Chromium2項20.5秒通過：舊Lv30→31生命／保存；第三周目巨量經驗只升一級、健康與南瓜移轉、求知消失、保存重載不重複。fixture不等於自然打完整三周目。
 - 正式相對路徑建置的Android Chromium模擬2項45.9秒通過：844橫屏主要選單免捲動、頂部返回／構築／點裝備及門。
-- CI／正式線上／下載驗證待補；手機真機、硬體手勢／音效／效能／主畫面安裝未測，Android／WebKit模擬不冒稱真機Safari或iOS Chrome PASS。歷史S13未測界線不變。
+- CI38895160628：check、192相關unit（13檔）、format、build、2核心Chromium14.3秒、12手機／桌面相關Chromium與WebKit1.6分鐘（9不適用project跳過，無重試）、2離線HTML Chromium15.1秒、Pages與Release通過。同一來源afc24ed，不是完整511unit或完整browser全部重跑。
+- 正式54檔HTML／JS／CSS／PNG／manifest逐檔SHA符合本地SOLARIA_PAGES=1建置；實際公開頁多周目／保存案例1項18.1秒通過，pageerror空。舊手機URL轉正式且六觸控鍵／主選單載入、無資源HTTP錯誤亦通過；實圖live-mobile.png已目檢。
+- Release HTML公開下載35,990,011 bytes，逐位元符合本地同源建置，SHA256 `3246e612c234a75f9118a04774f90857106aee3fd23ea494b3ded97fd64946a2`。CI的file://兩項測過該相同檔，不是Windows／macOS或手機實機驗收。
+- 手機真機、硬體手勢／音效／效能／主畫面安裝未測，Android／WebKit模擬不冒稱真機Safari或iOS Chrome PASS。歷史S13未測界線不變。
 
 ## 曲線與重現
 
