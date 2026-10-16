@@ -1,0 +1,15 @@
+
+> solaria-remaster@1.4.0 test:browser
+> playwright test tests/browser/release-140.spec.ts tests/browser/health-light.spec.ts --grep 1.4.0 正式保存|生命曲線 --workers=1 --retries=0
+
+[WebServer] (node:2749) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:2768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/health-light.spec.ts:32:1 › 生命曲線：舊Lv30保存實際升至31、加血、匯出重載不再次回血 (10.2s)
+  ✓  2 tests/browser/release-140.spec.ts:7:1 › 1.4.0 正式保存：多周目巨量經驗僅升一級、舊卡替換、高等生命及南瓜移轉重載 (8.4s)
+
+  2 passed (20.5s)

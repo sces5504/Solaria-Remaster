@@ -1,3 +1,4 @@
+import { cards } from "../data/cards";
 import type { ClassId, Run } from "../core/types";
 export const achievements = {
   firstLord: { name: "暮光守望", description: "擊敗一位地形領主。" },
@@ -8,7 +9,7 @@ export const achievements = {
     description: "以三種職業各尋回一次日光。",
   },
   sixOmens: { name: "災厄見證", description: "完成六種不同災厄事件。" },
-  fullArchive: { name: "星典收藏家", description: "圖鑑收錄全部85份力量。" },
+  fullArchive: { name: "星典收藏家", description: "圖鑑收錄全部84份力量。" },
   secondDawn: { name: "再度黎明", description: "完成第二周目。" },
 } as const;
 export type AchievementId = keyof typeof achievements;
@@ -90,7 +91,8 @@ export function updateProfile(
   }
   if (p.completedClasses.length === 3) unlocked.add("threeTravelers");
   if (p.clearedEvents.length === 6) unlocked.add("sixOmens");
-  if (new Set(discovered).size === 85) unlocked.add("fullArchive");
+  if (cards.every((c) => discovered.includes(c.id)))
+    unlocked.add("fullArchive");
   p.achievements = [...unlocked];
   return p;
 }

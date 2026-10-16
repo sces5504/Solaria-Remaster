@@ -1,5 +1,11 @@
 # USER_PREFERENCES — 有證據的合作偏好
 
+## 1.4.0 正式整合已授權，實作及發布核驗中（2026-10-16 11:35:57 UTC）
+
+主人明示手機推main，並要求每次清關固定一級（無視XP）、移除經驗卡、32等後生命大幅遞減、南瓜125HP／倒地20秒；README不動、交接持續維護。此授權取代以下所有手機preview「不可推main」。工作gameplay/v1.4.0-release正常合併最新main6a588c5，保留主人README與社群預覽圖，版本1.4.0。新規格與精確遷移／驗證見[本次交接](../releases-1.4.0/HANDOFF.md)及GAME_SPEC最新章。發布仍進行中，不提前標PASS。
+
+本地完整unit初輪508通過／3舊fixture失敗，修正後相關34unit、check／build與2個Chromium核心保存案例通過；原FAIL保留。CI、main發布／線上與新下載待核驗。三周目93房與六事件為核心fixture，不代表自然三周目或手機真機驗收。README不讀／比較／修改，不開Chat／agent，1.1.2備份refs／檔案不動，不reset／force。
+
 ## 2026-10-14 README與版本歷程分工
 
 主人要求此次README只介紹遊戲類型、玩法、操作、lore與遊玩連結；可連到獨立版本歷程。交付後README由主人接手，之後不要主動讀取、比較變動或修改README；只更新CHANGELOG.md。Release希望提供可雙擊開啟瀏覽器直接遊玩的遊戲檔。本次採單一HTML離線包，非僅連線捷徑或原始碼ZIP。

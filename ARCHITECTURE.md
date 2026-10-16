@@ -125,3 +125,7 @@ BossAttack追加可選beamAngles／beamTurn／beamStagger、rushSpeed／rushTime
 ## 手機試玩preview.3增量（未合併main）
 
 input/mobile-layout.ts管理獨立本機佈局偏好與暫停編輯器，mobile-interaction.ts只做畫布點中物件的幾何選擇；MobileUI轉成既有Command.interact及可選interactTarget。core/run依具體裝備／門執行，progression.pickup可接受指定ID；未指定時桌面E鍵原規則保持。偏好不進run/checkpoint，storageKey沿用手機試玩命名空間；未知／損毀布局安全回預設。mobile-platform處理整頁觸控縮放攔截，overlay保留單指捲動。不得為佈局調整重寫核心、裁切戰場或修改正式main。
+
+## 1.4.0 固定清關成長與正式手機
+
+finishSettlement在原清算完成點固定level／pendingLevels各+1，不再消耗XP或while換級；命中、掉落、吸附與原結算防重入保持。progression分段生命曲線及healthGrowthVersion=2在checkpoint current／entry一次移轉；retiredCardId(8)僅作舊保存相容，卡片按ID查找不得假定陣列索引。永久圖鑑讀取也接受並剔除退役8，成就按現役集合。手機模組沿既有Command接入，正式不設VITE_PLAYTEST、不另建遊戲核心。public/preview/mobile/index.html是正式入口轉址，不再發布舊預覽包。

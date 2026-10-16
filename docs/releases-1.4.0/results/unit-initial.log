@@ -1,0 +1,75 @@
+
+> solaria-remaster@1.4.0 test
+> vitest run
+
+
+ RUN  v5.0.3 /workspace/Solaria-Remaster
+
+ ❯ tests/unit/polish.test.ts (5 tests | 1 failed) 621ms
+   × 清算先展示 XP／補包飛行，然後才抽卡；保存中途重載不重複給分或 XP 31ms
+ ❯ tests/unit/advanced-cards.test.ts (16 tests | 2 failed) 260ms
+   × 74 原始元素命中同敵一秒一次，追加不循環；抽取需至少兩覺醒 11ms
+   × 84 閃避封印与生命基準加80%／甲60；85先全卸且同時至多一件 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/advanced-cards.test.ts > 74 原始元素命中同敵一秒一次，追加不循環；抽取需至少兩覺醒
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/unit/advanced-cards.test.ts:118:50
+    116| it("74 原始元素命中同敵一秒一次，追加不循環；抽取需至少兩覺醒", () => {
+    117|   const r = setup([74]);
+    118|   expect(eligible(newRun("mage", 1), cards[73])).toBe(false);
+       |                                                  ^
+    119|   r.elements = ["ice", "water"];
+    120|   const e = r.enemies[0];
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/unit/advanced-cards.test.ts > 84 閃避封印与生命基準加80%／甲60；85先全卸且同時至多一件
+TypeError: Cannot read properties of undefined (reading 'id')
+ ❯ eligible src/game/data/cards.ts:509:28
+    507| }
+    508| export function eligible(r: Run, c: Card) {
+    509|   const l = cardLevel(r, c.id);
+       |                            ^
+    510|   if (cardRestriction(r, c.id)) return false;
+    511|   if (c.id >= 70) return !l && (c.id !== 74 || r.elements.length >= 2);
+ ❯ tests/unit/advanced-cards.test.ts:297:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/unit/polish.test.ts > 清算先展示 XP／補包飛行，然後才抽卡；保存中途重載不重複給分或 XP
+AssertionError: expected 75.53836869862735 to be 65 // Object.is equality
+
+- Expected
++ Received
+
+- 65
++ 75.53836869862735
+
+ ❯ tests/unit/polish.test.ts:48:23
+     46|   expect(r.drops).toEqual([]);
+     47|   expect(r.level).toBe(2);
+     48|   expect(r.player.hp).toBe(65);
+       |                       ^
+     49|   expect(saved.choices).toEqual(r.choices);
+     50|   expect(saved.score).toBe(r.score);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  2 failed | 40 passed (42)
+      Tests  3 failed | 508 passed (511)
+   Start at  11:30:57
+   Duration  33.07s (tests 88%, import 9%, transform 3%)
+
+    Isolate  42 workers spawned · ~88ms startup each (spawn + environment, per file)
+             at least ~3.59s faster with isolate: false — reuses workers across files instead of one per file
+

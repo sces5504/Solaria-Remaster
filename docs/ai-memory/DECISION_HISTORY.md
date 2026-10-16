@@ -1,5 +1,11 @@
 # DECISION_HISTORY — 決策與需求演變
 
+## 1.4.0 正式整合已授權，實作及發布核驗中（2026-10-16 11:35:57 UTC）
+
+主人明示手機推main，並要求每次清關固定一級（無視XP）、移除經驗卡、32等後生命大幅遞減、南瓜125HP／倒地20秒；README不動、交接持續維護。此授權取代以下所有手機preview「不可推main」。工作gameplay/v1.4.0-release正常合併最新main6a588c5，保留主人README與社群預覽圖，版本1.4.0。新規格與精確遷移／驗證見[本次交接](../releases-1.4.0/HANDOFF.md)及GAME_SPEC最新章。發布仍進行中，不提前標PASS。
+
+本地完整unit初輪508通過／3舊fixture失敗，修正後相關34unit、check／build與2個Chromium核心保存案例通過；原FAIL保留。CI、main發布／線上與新下載待核驗。三周目93房與六事件為核心fixture，不代表自然三周目或手機真機驗收。README不讀／比較／修改，不開Chat／agent，1.1.2備份refs／檔案不動，不reset／force。
+
 ## 本輪最新授權：先試玩，待確認才合併 main（2026-10-13 09:47:40 UTC）
 
 本輪地形／隱藏測試與跳關／手冊與職業導引／全螢幕／首四關減難／每關升級改版在 gameplay/v1.3.0-terrain-progression。主人明示此次改動較大，先提供測試版，**主人確認後才可正式推 main**，禁止依舊交接自動合併。地形與UI外觀是本輪明確授權例外，其餘美術定稿規則與固定備份保護保持。詳 docs/gameplay-1.3.0/README.md 及 CURRENT_STATE；原正式main仍v1.2.0。本次不建立Chat／agent、不修改旁支美術副本交接。

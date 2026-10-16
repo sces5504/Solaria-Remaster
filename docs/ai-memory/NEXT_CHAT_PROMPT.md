@@ -1,5 +1,11 @@
 # 歷史S06–S14啟動稿，現行入口已更新
 
+## 1.4.0 正式整合已授權，實作及發布核驗中（2026-10-16 11:35:57 UTC）
+
+主人明示手機推main，並要求每次清關固定一級（無視XP）、移除經驗卡、32等後生命大幅遞減、南瓜125HP／倒地20秒；README不動、交接持續維護。此授權取代以下所有手機preview「不可推main」。工作gameplay/v1.4.0-release正常合併最新main6a588c5，保留主人README與社群預覽圖，版本1.4.0。新規格與精確遷移／驗證見[本次交接](../releases-1.4.0/HANDOFF.md)及GAME_SPEC最新章。發布仍進行中，不提前標PASS。
+
+本地完整unit初輪508通過／3舊fixture失敗，修正後相關34unit、check／build與2個Chromium核心保存案例通過；原FAIL保留。CI、main發布／線上與新下載待核驗。三周目93房與六事件為核心fixture，不代表自然三周目或手機真機驗收。README不讀／比較／修改，不開Chat／agent，1.1.2備份refs／檔案不動，不reset／force。
+
 ## 1.3.2 已正式發布與核驗（2026-10-13 15:17:13 UTC）
 
 遊玩：https://sces5504.github.io/Solaria-Remaster/?v=1.3.2 。固定annotated tag v1.3.2／最終遊戲来源1603d7127ca829f741b166942aed1f8a28f27be5，Release https://github.com/sces5504/Solaria-Remaster/releases/tag/v1.3.2 。main已正常整合108房型与本輪全部Bug／戰鬥／22卡更新，舊「房型只留預覽」限制已由本輪主人發布授權取代；下一步接新回饋，不重做已完成內容。

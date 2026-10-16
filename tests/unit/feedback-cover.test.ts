@@ -210,7 +210,7 @@ it("舊掩體遷移保留受損比例與碎裂，不重抽已保存Boss與2秒�
   expect(saved.current.obstacles[0].invulnerableUntil).toBe(1.8);
   expect(saved.current.journey).toEqual(journey);
 });
-it("南瓜250HP不隨職業、生命強化與周目長大；舊南瓜與清關復活也固定", () => {
+it("南瓜125HP不隨職業、生命強化與周目長大；舊南瓜與清關復活也固定", () => {
   for (const classId of ["sword", "bow", "mage"] as const) {
     const r = newRun(classId, 19);
     r.equipment.armor = {
@@ -223,19 +223,19 @@ it("南瓜250HP不隨職業、生命強化與周目長大；舊南瓜與清關�
       y: 0,
     };
     syncPumpkin(r);
-    expect(pumpkin(r)!.hp).toBe(250);
+    expect(pumpkin(r)!.hp).toBe(125);
     r.stats.maxHP = 9000;
     r.loop = 10;
     syncPumpkin(r);
-    expect(pumpkin(r)!.maximum).toBe(250);
+    expect(pumpkin(r)!.maximum).toBe(125);
     pumpkin(r)!.maximum = 27000;
     pumpkin(r)!.hp = 1000;
     syncPumpkin(r);
-    expect(pumpkin(r)!.hp).toBe(250);
+    expect(pumpkin(r)!.hp).toBe(125);
     pumpkin(r)!.hp = 0;
     pumpkin(r)!.maximum = 27000;
     revivePumpkin(r);
-    expect(pumpkin(r)!.hp).toBe(250);
+    expect(pumpkin(r)!.hp).toBe(125);
   }
 });
 
@@ -268,7 +268,7 @@ it("小怪衝撞嘗試跨越實體時傷掩體，不必先穿牆才命中", () =
   updateEnemies(r);
   expect(r.obstacles[0].durability).toBe(16);
 });
-it("舊鬼甲存檔進入房間介紹前已遷移250上限", () => {
+it("舊鬼甲存檔進入房間介紹前已遷移125上限", () => {
   const r = room();
   r.equipment.armor = {
     id: "ghost",
@@ -283,8 +283,8 @@ it("舊鬼甲存檔進入房間介紹前已遷移250上限", () => {
   pumpkin(r)!.maximum = 3000;
   pumpkin(r)!.hp = 3000;
   const s = validate({ version: 1, revision: 0, current: r, entry: r });
-  expect(pumpkin(s.current)!.maximum).toBe(250);
-  expect(pumpkin(s.current)!.hp).toBe(250);
+  expect(pumpkin(s.current)!.maximum).toBe(125);
+  expect(pumpkin(s.current)!.hp).toBe(125);
 });
 
 it("衝撞從貼牆處往外離開不攻擊背後的牆", () => {

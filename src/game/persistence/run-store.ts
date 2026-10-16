@@ -1,6 +1,6 @@
 import { storageKey } from "../../storage-namespace";
 import { validate, type Saved } from "./checkpoint-schema";
-import { cards } from "../data/cards";
+import { cards, retiredCardId } from "../data/cards";
 import { clone } from "../core/primitives";
 import type { Run } from "../core/types";
 import {
@@ -80,11 +80,15 @@ export class RunStore {
     if (
       !Array.isArray(values) ||
       values.some(
-        (id) => !Number.isInteger(id) || !cards.some((c) => c.id === id),
+        (id) =>
+          !Number.isInteger(id) ||
+          (!cards.some((c) => c.id === id) && !retiredCardId(id)),
       )
     )
       throw new Error("旅人圖鑑損壞，原始紀錄仍保留。");
-    return [...new Set(values)].sort((a, b) => a - b) as number[];
+    return [...new Set(values)]
+      .filter((id) => !retiredCardId(id))
+      .sort((a, b) => a - b) as number[];
   }
   private priorOrRestore<T>(
     store: IDBObjectStore,

@@ -2,6 +2,7 @@ import {
   derive,
   finishSpecialChoice,
   normalizeLevelHealth,
+  drawChoices,
 } from "../systems/progression";
 import { normalizeBossProjectileDamage } from "../systems/boss-balance";
 import { normalizeBossMinions } from "../data/world";
@@ -15,7 +16,7 @@ import { biomes } from "../data/biomes";
 import { restoreJourney } from "../data/journey";
 import type { Run } from "../core/types";
 import { clone } from "../core/primitives";
-import { cards, eligible } from "../data/cards";
+import { cards, eligible, retiredCardId } from "../data/cards";
 export interface Saved {
   version: 1;
   revision: number;
@@ -50,7 +51,9 @@ export function validate(value: unknown): Saved {
   if (
     s.discovered !== undefined &&
     (!Array.isArray(s.discovered) ||
-      s.discovered.some((id) => !cards.some((c) => c.id === id)))
+      s.discovered.some(
+        (id) => !cards.some((c) => c.id === id) && !retiredCardId(id),
+      ))
   )
     throw new Error("圖鑑資料損壞");
   if (s.profile !== undefined) parseProfile(s.profile);
@@ -294,7 +297,8 @@ export function validate(value: unknown): Saved {
     }
     for (const [id, l] of Object.entries(r.cards)) {
       if (
-        !cards.some((c) => c.id === Number(id)) ||
+        (!cards.some((c) => c.id === Number(id)) &&
+          !retiredCardId(Number(id))) ||
         !Number.isInteger(l) ||
         l < 1 ||
         (Number(id) >= 70 && l !== 1)
@@ -308,13 +312,24 @@ export function validate(value: unknown): Saved {
         new Set(r.choices).size !== 3 ||
         r.choices.some((id) => {
           const c = cards.find((c) => c.id === id);
-          return !c || !eligible(r, c);
+          return !retiredCardId(id) && (!c || !eligible(r, c));
         }))
     )
       throw new Error("選卡資料損壞");
   }
   const migrated = JSON.parse(JSON.stringify(s)) as Saved;
+  if (migrated.discovered)
+    migrated.discovered = migrated.discovered.filter(
+      (id) => !retiredCardId(id),
+    );
   for (const r of [migrated.current, migrated.entry]) {
+    delete r.cards[8];
+    if (r.phase === "UPGRADE_CHOICE" && r.choices.includes(8)) {
+      const original = [...r.choices];
+      drawChoices(r, false);
+      const replacement = r.choices.find((id) => !original.includes(id))!;
+      r.choices = original.map((id) => (id === 8 ? replacement : id));
+    }
     if (r.cards[85] && r.phase === "EQUIPMENT_SLOT_CHOICE") {
       for (const slot of ["armor", "ring", "amulet"] as const) {
         const item = r.equipment[slot];

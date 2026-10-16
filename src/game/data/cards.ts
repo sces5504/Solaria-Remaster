@@ -52,13 +52,6 @@ export const cards = [
     classId: null,
   },
   {
-    id: 8,
-    name: "求知",
-    rarity: "藍",
-    description: "經驗+10%",
-    classId: null,
-  },
-  {
     id: 9,
     name: "調律",
     rarity: "紫",
@@ -530,3 +523,6 @@ export function eligible(r: Run, c: Card) {
   if (c.id <= 40) return r.fusion === "frostfire";
   return true;
 }
+
+/** Retired IDs stay reserved so old saves never change card identities. */
+export const retiredCardId = (id: number) => id === 8;

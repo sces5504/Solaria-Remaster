@@ -1,5 +1,11 @@
 # PROJECT_MEMORY — 專案長期記憶
 
+## 1.4.0 正式整合已授權，實作及發布核驗中（2026-10-16 11:35:57 UTC）
+
+主人明示手機推main，並要求每次清關固定一級（無視XP）、移除經驗卡、32等後生命大幅遞減、南瓜125HP／倒地20秒；README不動、交接持續維護。此授權取代以下所有手機preview「不可推main」。工作gameplay/v1.4.0-release正常合併最新main6a588c5，保留主人README與社群預覽圖，版本1.4.0。新規格與精確遷移／驗證見[本次交接](../releases-1.4.0/HANDOFF.md)及GAME_SPEC最新章。發布仍進行中，不提前標PASS。
+
+本地完整unit初輪508通過／3舊fixture失敗，修正後相關34unit、check／build與2個Chromium核心保存案例通過；原FAIL保留。CI、main發布／線上與新下載待核驗。三周目93房與六事件為核心fixture，不代表自然三周目或手機真機驗收。README不讀／比較／修改，不開Chat／agent，1.1.2備份refs／檔案不動，不reset／force。
+
 ## 1.3.0-preview.2 已更新測試站，仍待主人確認（2026-10-13 11:57:45 UTC）
 
 新版測試：https://sces5504.github.io/Solaria-Remaster/preview/terrain-1.3.0/?v=1.3.0-preview.2 。部署遊戲來源41f2be65c95024eecdc6696e5dd7c42a8f457edd／CI38392839985，check、403unit、format、build、10相關Chromium1.9分鐘与部署全部PASS，無flaky，不是完整browser套件。54具名配方／兩種尺度可達性／三水域／四群樹／環狀星紋／長廊鋪地／裝飾無碰撞與保存／兩接縫清理都有針對性斷言，八個實圖房型与收藏入口保留等实际Chromium檢查。

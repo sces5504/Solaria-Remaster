@@ -75,7 +75,7 @@ it("體魄複合最大生命包含裝備，其他數值與文字要求落實", (
   const s = derive(r);
   expect(s.basic).toBe(0.15);
   expect(s.speed).toBeCloseTo(220);
-  expect(s.xp).toBe(1.1);
+  expect(s.xp).toBe(1);
   expect(s.crit).toBe(0.2);
   expect(s.range).toBeCloseTo(1.35);
   expect(s.global).toBe(0.15);

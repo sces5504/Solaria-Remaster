@@ -147,7 +147,7 @@ it("31關逐關結算各升一級，選卡後不重複；跳關、舊檔低XP仍
   for (let i = 0; i < 70; i++) step(old, idleCommand(old));
   expect(old.level).toBe(19);
 });
-it("經驗加成保留額外收益，進房後配額固定且跟隨等級，不受換裝重算", () => {
+it("大量經驗不再額外升級，進房後配額固定且跟隨等級，不受換裝重算", () => {
   const r = newRun("sword", 32);
   r.level = 50;
   r.cards[8] = 3;
@@ -170,8 +170,8 @@ it("經驗加成保留額外收益，進房後配額固定且跟隨等級，不�
   ];
   settle(r);
   for (let i = 0; i < 70; i++) step(r, idleCommand(r));
-  expect(r.level).toBe(52);
-  expect(r.xp).toBeCloseTo(214);
+  expect(r.level).toBe(51);
+  expect(r.xp).toBeCloseTo(2070);
 });
 it.each(Object.keys(biomes).filter((id) => id !== "meadow") as BiomeId[])(
   "%s 生態大障礙、不同seed、六房型與兩王房可達",

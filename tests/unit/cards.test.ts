@@ -11,7 +11,7 @@ import {
 } from "../../src/game/systems/skills";
 import { context, hit, hurt } from "../../src/game/systems/combat";
 function setup(id: number) {
-  const c = cards[id - 1];
+  const c = cards.find((c) => c.id === id)!;
   const r = newRun(c.classId ?? "mage", 123);
   startRoom(r);
   r.obstacles = [];
@@ -51,7 +51,6 @@ describe("CARD-01..59 每卡實際條件／無条件对照", () => {
     5: "attackRate",
     6: "speed",
     7: "projectile",
-    8: "xp",
     9: "skillCD",
     10: "crit",
     11: "critMult",
@@ -59,8 +58,8 @@ describe("CARD-01..59 每卡實際條件／無条件对照", () => {
     13: "range",
     14: "global",
   };
-  for (let id = 1; id <= 14; id++)
-    it(`${id} ${cards[id - 1].name} 改变实际数值`, () => {
+  for (const id of Object.keys(stats).map(Number))
+    it(`${id} ${cards.find((c) => c.id === id)!.name} 改变实际数值`, () => {
       const r = setup(id),
         base = newRun("mage", 123).stats;
       r.stats = derive(r);
@@ -70,7 +69,7 @@ describe("CARD-01..59 每卡實際條件／無条件对照", () => {
       ).toBe(true);
     });
   for (const id of [15, 19, 24, 28])
-    it(`${id} ${cards[id - 1].name} 普攻附状态`, () => {
+    it(`${id} ${cards.find((c) => c.id === id)!.name} 普攻附状态`, () => {
       const r = setup(id),
         e = r.enemies[0];
       hit(r, e, 1, context(r, id, "basic", r.elements, true));
@@ -80,7 +79,7 @@ describe("CARD-01..59 每卡實際條件／無条件对照", () => {
       if (id === 28) expect(e.hp).toBeLessThan(9999);
     });
   for (const id of [16, 20, 25, 32, 35, 38])
-    it(`${id} ${cards[id - 1].name} 左触发产生专属来源`, () => {
+    it(`${id} ${cards.find((c) => c.id === id)!.name} 左触发产生专属来源`, () => {
       const r = setup(id);
       for (let i = 0; i < 3; i++) basic(r, idleCommand(r));
       expect([
@@ -98,7 +97,7 @@ describe("CARD-01..59 每卡實際條件／無条件对照", () => {
       }
     });
   for (const id of [17, 18, 21, 22, 26, 30, 31, 33, 34, 36, 37, 39])
-    it(`${id} ${cards[id - 1].name} 右触发一次且遵守职业CD`, () => {
+    it(`${id} ${cards.find((c) => c.id === id)!.name} 右触发一次且遵守职业CD`, () => {
       const r = setup(id);
       r.player.capacitor = 5;
       expect(castSkill(r, idleCommand(r))).toBe(true);
@@ -185,7 +184,7 @@ describe("CARD-01..59 每卡實際條件／無条件对照", () => {
     expect(r.projectiles).toHaveLength(2);
   });
   for (const id of [44, 45, 46])
-    it(`${id} ${cards[id - 1].name} 成功格挡后专属效果`, () => {
+    it(`${id} ${cards.find((c) => c.id === id)!.name} 成功格挡后专属效果`, () => {
       const r = setup(id);
       r.enemies[0].x = 200;
       castSkill(r, idleCommand(r));

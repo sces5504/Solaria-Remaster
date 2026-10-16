@@ -166,25 +166,25 @@ it("隕落星核三秒／.6預警／半徑96、普攻命中代理沒有施放；
   gearBasic(s, 0);
   expect(s.projectiles).toHaveLength(2);
 });
-it("南瓜固定250生命／沿用甲／有效受傷.5秒保護／倒地10秒復活／卸裝消失", () => {
+it("南瓜固定125生命／沿用甲／有效受傷.5秒保護／倒地20秒復活／卸裝消失", () => {
   const r = setup("ghostArmor");
   syncPumpkin(r);
   const c = pumpkin(r)!;
-  expect(c.maximum).toBe(250);
+  expect(c.maximum).toBe(125);
   expect(enemyTarget(r, c)).toBe(c);
   hurtPumpkin(r, 105);
-  expect(c.hp).toBe(150);
+  expect(c.hp).toBe(25);
   hurtPumpkin(r, 105);
-  expect(c.hp).toBe(150);
+  expect(c.hp).toBe(25);
   r.time = 0.5;
   hurtPumpkin(r, 999);
   expect(c.hp).toBe(0);
-  r.time = 10.4;
+  r.time = 20.4;
   updatePumpkin(r);
   expect(c.hp).toBe(0);
-  r.time = 10.5;
+  r.time = 20.5;
   updatePumpkin(r);
-  expect(c.hp).toBe(250);
+  expect(c.hp).toBe(125);
   delete r.equipment.armor;
   syncPumpkin(r);
   expect(pumpkin(r)).toBeUndefined();

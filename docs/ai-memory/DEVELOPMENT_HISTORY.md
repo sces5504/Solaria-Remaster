@@ -1,5 +1,11 @@
 # DEVELOPMENT_HISTORY — 開發、Bug 與技術記錄
 
+## 1.4.0 正式整合已授權，實作及發布核驗中（2026-10-16 11:35:57 UTC）
+
+主人明示手機推main，並要求每次清關固定一級（無視XP）、移除經驗卡、32等後生命大幅遞減、南瓜125HP／倒地20秒；README不動、交接持續維護。此授權取代以下所有手機preview「不可推main」。工作gameplay/v1.4.0-release正常合併最新main6a588c5，保留主人README與社群預覽圖，版本1.4.0。新規格與精確遷移／驗證見[本次交接](../releases-1.4.0/HANDOFF.md)及GAME_SPEC最新章。發布仍進行中，不提前標PASS。
+
+本地完整unit初輪508通過／3舊fixture失敗，修正後相關34unit、check／build與2個Chromium核心保存案例通過；原FAIL保留。CI、main發布／線上與新下載待核驗。三周目93房與六事件為核心fixture，不代表自然三周目或手機真機驗收。README不讀／比較／修改，不開Chat／agent，1.1.2備份refs／檔案不動，不reset／force。
+
 ## 2026-10-14 05:26:16 UTC 手機雙輸入試玩交付，main保持1.3.3
 
 保留原核心／鍵鼠，新增多指虛擬搖桿與按鈕、20寬矩形遮擋自動瞄準、完整8:5側操作列、方向／App中斷保護、音效手勢恢復與iOS主畫面引導。主體790633e／38515453830的32unit與18模擬browser，最後30a07b0／38516029619的8unit與4補驗browser分別通過；100檔線上SHA、獨立DB、線上2觸控案例通過。修正iOS提示覆蓋手冊按鈕與寬幅fullscreen側欄重現，手機靜態畫面避免重複渲染。403artifact下載與原FAIL保留，改公開頁擷取畫面，不繞過限制。Android／iPhone真機、物理音效／效能／手勢／實際安裝未測，不能稱真機PASS。main ea7b1a5不動，等待主人確認；獨立preview/mobile，無正式tag／Release，README不讀／比較／修改，不開Chat或agent。

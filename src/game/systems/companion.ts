@@ -10,8 +10,10 @@ import {
 import { hasEquipment } from "../data/equipment";
 import { move, lineBlocked, coneHit } from "./geometry";
 import { cone, context, visual, hurt } from "./combat";
-export const PUMPKIN_MAX_HP = 250;
+export const PUMPKIN_MAX_HP = 125;
+export const PUMPKIN_REVIVE_SECONDS = 20;
 export interface Pumpkin extends Player {
+  balanceVersion?: 1;
   id: number;
   downUntil: number;
   maximum: number;
@@ -24,6 +26,10 @@ export function pumpkin(run: Run) {
 export function normalizePumpkinHealth(run: Run) {
   const c = pumpkin(run);
   if (c) {
+    if (c.balanceVersion !== 1) {
+      if (c.hp <= 0 && c.downUntil > run.time) c.downUntil += 10;
+      c.balanceVersion = 1;
+    }
     c.maximum = PUMPKIN_MAX_HP;
     c.hp = Math.min(c.hp, c.maximum);
   }
@@ -43,6 +49,7 @@ export function syncPumpkin(run: Run) {
     ...clone(r.player),
     id: r.nextId++,
     maximum: PUMPKIN_MAX_HP,
+    balanceVersion: 1,
     hp: PUMPKIN_MAX_HP,
     equippedId: id,
     radius: 16,
@@ -102,7 +109,7 @@ export function hurtPumpkin(r: Run, base: number, mask: Element[] = []) {
   }
   visual(r, "damage", c, Math.round(value), 0xff9566);
   if (c.hp <= 0) {
-    c.downUntil = r.time + 10;
+    c.downUntil = r.time + PUMPKIN_REVIVE_SECONDS;
     visual(r, "phase", c, 0, 0xffaa58, 36);
   }
   return true;

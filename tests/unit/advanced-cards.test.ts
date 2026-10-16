@@ -115,7 +115,12 @@ it("73 高生命護甲與受傷盾12秒內一次；獻祭扣血觸發受傷盾",
 });
 it("74 原始元素命中同敵一秒一次，追加不循環；抽取需至少兩覺醒", () => {
   const r = setup([74]);
-  expect(eligible(newRun("mage", 1), cards[73])).toBe(false);
+  expect(
+    eligible(
+      newRun("mage", 1),
+      cards.find((c) => c.id === 74)!,
+    ),
+  ).toBe(false);
   r.elements = ["ice", "water"];
   const e = r.enemies[0];
   const hp = e.hp;
@@ -184,11 +189,21 @@ it("78／83互斥與動作禁用即時生效，保留記錄且失效卡不进池
   expect(basic(r, idleCommand(r))).toBe(false);
   expect(dodge(r, idleCommand(r))).toBe(false);
   expect(derive(r).skillCD).toBeCloseTo(1.08);
-  expect(eligible(r, cards[82])).toBe(false);
+  expect(
+    eligible(
+      r,
+      cards.find((c) => c.id === 83)!,
+    ),
+  ).toBe(false);
   expect(grantTestCard(r, 83)).toBe(false);
   const s = setup([83]);
   expect(castSkill(s, idleCommand(s))).toBe(false);
-  expect(eligible(s, cards[16])).toBe(false);
+  expect(
+    eligible(
+      s,
+      cards.find((c) => c.id === 17)!,
+    ),
+  ).toBe(false);
   expect(s.cards[83]).toBe(1);
   expect(derive(s).basic).toBe(1.2);
   expect(derive(s).attackRate).toBe(6);
@@ -250,7 +265,12 @@ it("80 第三觉醒同时形成融合暂停自選且可存读；裝甲滿包落�
   expect(saved.current.fusionChoices).toEqual(["steam", "frostfire"]);
   expect(chooseFusion(r, "frostfire")).toBe(true);
   expect(r.fusion).toBe("frostfire");
-  expect(eligible(r, cards[27])).toBe(false);
+  expect(
+    eligible(
+      r,
+      cards.find((c) => c.id === 28)!,
+    ),
+  ).toBe(false);
 });
 it("81 承傷加倍／一般傷加100%；82每次主動扣8%留1副本不扣", () => {
   const r = setup([81, 82, 71]);
@@ -294,13 +314,18 @@ it("84 閃避封印与生命基準加80%／甲60；85先全卸且同時至多一
   expect(s.equipment.ring!.id).toBe("ring");
   expect(s.bag).toHaveLength(2);
   expect(equip(s, "armor")).toBe(false);
-  expect(eligible(s, cards[84])).toBe(false);
+  expect(
+    eligible(
+      s,
+      cards.find((c) => c.id === 85)!,
+    ),
+  ).toBe(false);
   expect(() =>
     validate({ version: 1, revision: 0, current: s, entry: s }),
   ).not.toThrow();
 });
-it("全部85合格矩陣：前置、職業、一次／上限、紅卡失效；技能十级傷害边际不加機關數", () => {
-  expect(cards).toHaveLength(85);
+it("全部84現役卡合格矩陣：前置、職業、一次／上限、紅卡失效；技能十级傷害边际不加機關數", () => {
+  expect(cards).toHaveLength(84);
   for (const c of cards) {
     const r = newRun(c.classId ?? "mage", (c.id * 2654435761) >>> 0);
     expect(grantTestCard(r, c.id)).toBe(true);

@@ -16,16 +16,23 @@ import type { Run, Item, Slot, Stats } from "../core/types";
 import { cards, eligible, skillFactor } from "../data/cards";
 import { classes } from "../data/world";
 import { random, seedFor, clamp } from "../core/primitives";
-/** Smooth, diminishing growth: Lv1=1, Lv31=2.5; later loops keep growing. */
-export const levelHealthFactor = (level: number) =>
-  1 + 1.5 * (Math.max(0, level - 1) / 30) ** 0.9;
+/** First-loop growth stays intact; later levels add ever smaller amounts. */
+export const levelHealthFactor = (level: number) => {
+  const firstLoop =
+    1 + 1.5 * (Math.max(0, Math.min(32, level) - 1) / 30) ** 0.9;
+  return firstLoop + (level > 32 ? 0.3 * Math.log1p((level - 32) / 30) : 0);
+};
 export function normalizeLevelHealth(r: Run) {
-  if (r.healthGrowthVersion === 1) return;
+  if (r.healthGrowthVersion === 2) return;
   const oldMax = r.stats.maxHP;
   r.stats = derive(r);
-  if (r.player.hp > 0) recoverHP(r, Math.max(0, r.stats.maxHP - oldMax));
-  r.player.hp = Math.min(r.player.hp, r.stats.maxHP);
-  r.healthGrowthVersion = 1;
+  if (r.player.hp > 0) {
+    if (oldMax > r.stats.maxHP)
+      r.player.hp = (r.player.hp / oldMax) * r.stats.maxHP;
+    else recoverHP(r, Math.max(0, r.stats.maxHP - oldMax));
+  }
+  r.player.hp = Math.min(r.player.hp, r.stats.maxHP * (r.cards[79] ? 0.4 : 1));
+  r.healthGrowthVersion = 2;
   r.stats = derive(r);
 }
 export function derive(r: Run): Stats {
@@ -56,7 +63,7 @@ export function derive(r: Run): Stats {
     range: 1.15 + l(13) * 0.2,
     crit: criticalBase + l(10) * 0.05,
     critMult: 1.5 + l(11) * 0.15,
-    xp: 1 + l(8) * 0.1,
+    xp: 1,
     lifesteal: l(79) ? 0.06 : 0,
     reduction: l(27)
       ? Math.min(0.5, 0.1 + (skillFactor(l(27), 1) - 1) * 0.02)

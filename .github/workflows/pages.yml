@@ -12,6 +12,7 @@ on:
         options:
           [
             full,
+            release-mobile,
             art-feedback,
             visibility-feedback,
             gameplay-feedback,
@@ -54,7 +55,9 @@ jobs:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
         run: |
           npm run check
-          if [ "$VALIDATION_SCOPE" = "mobile-controls-preview" ]; then
+          if [ "$VALIDATION_SCOPE" = "release-mobile" ]; then
+            npx vitest run tests/unit/release-140.test.ts tests/unit/terrain-progression.test.ts tests/unit/health-light.test.ts tests/unit/cards.test.ts tests/unit/advanced-cards.test.ts tests/unit/simulation.test.ts tests/unit/feedback-132.test.ts tests/unit/feedback-cover.test.ts tests/unit/equipment-abilities.test.ts tests/unit/polish.test.ts tests/unit/profile.test.ts tests/unit/mobile-interaction.test.ts tests/unit/auto-aim.test.ts
+          elif [ "$VALIDATION_SCOPE" = "mobile-controls-preview" ]; then
             npx vitest run tests/unit/mobile-interaction.test.ts tests/unit/auto-aim.test.ts
           elif [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ]; then
             npx vitest run tests/unit/auto-aim.test.ts
@@ -74,7 +77,7 @@ jobs:
         env:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
         run: |
-          if [ "$VALIDATION_SCOPE" = "mobile-preview" ] || [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ] || [ "$VALIDATION_SCOPE" = "mobile-controls-preview" ]; then
+          if [ "$VALIDATION_SCOPE" = "release-mobile" ] || [ "$VALIDATION_SCOPE" = "mobile-preview" ] || [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ] || [ "$VALIDATION_SCOPE" = "mobile-controls-preview" ]; then
             npx playwright install --with-deps chromium webkit
           else
             npx playwright install --with-deps chromium
@@ -86,7 +89,10 @@ jobs:
         env:
           VALIDATION_SCOPE: ${{ inputs.validation || 'full' }}
         run: |
-          if [ "$VALIDATION_SCOPE" = "mobile-controls-preview" ]; then
+          if [ "$VALIDATION_SCOPE" = "release-mobile" ]; then
+            npm run test:browser -- tests/browser/release-140.spec.ts tests/browser/health-light.spec.ts --grep '1.4.0 正式保存|生命曲線' --workers=1 --retries=0
+            npx playwright test -c docs/mobile-preview/playwright.config.ts --grep '手機新|手機縮放|桌面維持|原生多指|旋轉|手機版面 844'
+          elif [ "$VALIDATION_SCOPE" = "mobile-controls-preview" ]; then
             npx playwright test -c docs/mobile-preview/playwright.config.ts --grep '手機新|手機縮放|桌面維持|原生多指|旋轉|手機版面 844'
           elif [ "$VALIDATION_SCOPE" = "mobile-layout-preview" ]; then
             npx playwright test -c docs/mobile-preview/playwright.config.ts --grep '手機版面|桌面維持'
@@ -120,12 +126,13 @@ jobs:
             npm run test:browser
           fi
       - name: Build and validate double-click download
-        if: inputs.validation == 'release-feedback'
+        if: inputs.validation == 'release-feedback' || inputs.validation == 'release-mobile'
         run: |
           node scripts/build-download.mjs release
-          SOLARIA_DOWNLOAD=release/Solaria-Remaster-v1.3.3.html npx playwright test -c docs/releases-1.3.3/download.config.ts
+          version=$(node -p "JSON.parse(require('fs').readFileSync('package.json','utf8')).version")
+          SOLARIA_DOWNLOAD="release/Solaria-Remaster-v$version.html" npx playwright test -c docs/releases-1.3.3/download.config.ts
       - uses: actions/upload-artifact@v4
-        if: inputs.validation == 'release-feedback'
+        if: inputs.validation == 'release-feedback' || inputs.validation == 'release-mobile'
         with:
           name: solaria-download
           path: release/
@@ -163,7 +170,7 @@ jobs:
         with:
           path: official/dist
       - uses: actions/upload-artifact@v4
-        if: always() && endsWith(inputs.validation, '-preview')
+        if: always() && (endsWith(inputs.validation, '-preview') || inputs.validation == 'release-mobile')
         with:
           name: preview-browser-evidence
           path: test-results/
@@ -195,7 +202,7 @@ jobs:
       - uses: actions/deploy-pages@v4
         id: deployment
   release:
-    if: inputs.validation == 'release-feedback' && github.ref == 'refs/heads/main'
+    if: (inputs.validation == 'release-feedback' || inputs.validation == 'release-mobile') && github.ref == 'refs/heads/main'
     needs: deploy
     runs-on: ubuntu-latest
     permissions:

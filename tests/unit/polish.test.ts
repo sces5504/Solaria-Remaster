@@ -45,7 +45,7 @@ it("清算先展示 XP／補包飛行，然後才抽卡；保存中途重載不�
   expect(r.phase).toBe("UPGRADE_CHOICE");
   expect(r.drops).toEqual([]);
   expect(r.level).toBe(2);
-  expect(r.player.hp).toBe(65);
+  expect(r.stats.maxHP - r.player.hp).toBeCloseTo(85);
   expect(saved.choices).toEqual(r.choices);
   expect(saved.score).toBe(r.score);
   const score = r.score;

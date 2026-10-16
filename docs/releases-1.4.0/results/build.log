@@ -1,0 +1,17 @@
+
+> solaria-remaster@1.4.0 build
+> tsc --noEmit && vite build
+
+tests/unit/advanced-cards.test.ts(95,3): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/unit/advanced-cards.test.ts(95,11): error TS2339: Property 'find' does not exist on type 'Record<number, number>'.
+tests/unit/advanced-cards.test.ts(95,17): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/unit/advanced-cards.test.ts(192,18): error TS2339: Property 'find' does not exist on type 'Record<number, number>'.
+tests/unit/advanced-cards.test.ts(192,24): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/unit/advanced-cards.test.ts(243,3): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/unit/advanced-cards.test.ts(243,11): error TS2339: Property 'find' does not exist on type 'Record<number, number>'.
+tests/unit/advanced-cards.test.ts(243,17): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/unit/advanced-cards.test.ts(244,3): error TS2364: The left-hand side of an assignment expression must be a variable or a property access.
+tests/unit/advanced-cards.test.ts(244,11): error TS2339: Property 'find' does not exist on type 'Record<number, number>'.
+tests/unit/advanced-cards.test.ts(244,17): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/unit/release-140.test.ts(83,21): error TS2339: Property 'completed' does not exist on type 'never'.
+tests/unit/release-140.test.ts(153,28): error TS2367: This comparison appears to be unintentional because the types '1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 40 | 41 | 42 | 43 | 44 | ... 40 more ... | 85' and '8' have no overlap.

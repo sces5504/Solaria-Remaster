@@ -57,7 +57,7 @@ export function newRun(classId: ClassId, seed: number): Run {
     score: 0,
     kills: 0,
     level: 1,
-    healthGrowthVersion: 1,
+    healthGrowthVersion: 2,
     xp: 0,
     pendingLevels: 0,
     cards: {},
@@ -246,16 +246,11 @@ export function settle(r: Run) {
 }
 function finishSettlement(r: Run) {
   consumeDrops(r, true);
-  // Every cleared room grants one base level. Bonuses keep their overflow;
-  // old checkpoints and skipped-room builds also receive a complete reward.
-  r.xp = Math.max(r.xp, 100 + 20 * (r.level - 1));
+  // XP remains collectible scenery/statistics; only clearing a room grants a level.
   const oldMaxHP = r.stats.maxHP;
   const oldLevel = r.level;
-  while (r.xp + 1e-7 >= 100 + 20 * (r.level - 1)) {
-    r.xp = Math.max(0, r.xp - (100 + 20 * (r.level - 1)));
-    r.level++;
-    r.pendingLevels++;
-  }
+  r.level++;
+  r.pendingLevels++;
   if (r.level !== oldLevel) {
     r.stats = derive(r);
     const healed = r.player.hp > 0 ? recoverHP(r, r.stats.maxHP - oldMaxHP) : 0;

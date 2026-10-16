@@ -38,7 +38,7 @@ it.each(["sword", "bow", "mage"] as const)(
     expect(levelHealthFactor(11)).toBeCloseTo(1.558, 2);
   },
 );
-it("真正清算升級立刻增加生命，不等選卡；多級獎勵只補一次且維持受傷差值", () => {
+it("真正清算升級立刻增加生命，不等選卡；大量經驗仍只有一級且維持受傷差值", () => {
   const r = newRun("sword", 13302);
   r.phase = "SETTLEMENT";
   r.settledOnce = true;
@@ -50,8 +50,8 @@ it("真正清算升級立刻增加生命，不等選卡；多級獎勵只補一�
   r.player.hp = 80;
   r.xp = 300;
   step(r, idleCommand(r));
-  expect(r.level).toBe(3);
-  expect(r.stats.maxHP).toBeCloseTo(150 * levelHealthFactor(3));
+  expect(r.level).toBe(2);
+  expect(r.stats.maxHP).toBeCloseTo(150 * levelHealthFactor(2));
   expect(r.stats.maxHP - r.player.hp).toBeCloseTo(70);
   const hp = r.player.hp;
   r.choices = [3];
@@ -67,7 +67,7 @@ it("舊Lv31保存一次移轉、保留受傷生命差，不重抽地圖且重載
   const a = validate({ version: 1, revision: 0, current: r, entry: r });
   expect(a.current.stats.maxHP).toBe(375);
   expect(a.current.player.hp).toBe(295);
-  expect(a.current.healthGrowthVersion).toBe(1);
+  expect(a.current.healthGrowthVersion).toBe(2);
   expect(a.current.obstacles).toEqual(original.obstacles);
   expect(a.current.journey).toEqual(original.journey);
   a.current.player.hp = 200;
